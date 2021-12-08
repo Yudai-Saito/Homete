@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  homete:
-    container_name: homete
+  vue:
+    container_name: vue
     build:
       context: .
       dockerfile: Dockerfile
