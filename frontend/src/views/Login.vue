@@ -30,8 +30,8 @@
 					</v-card-actions>
 					<v-card-actions>
 							<v-btn
-									class="info ml-auto mt-5"
-									@click="submit">
+								class="info ml-auto mt-5"
+								@click="submit">
 							ログイン
 							</v-btn>
 					</v-card-actions>
