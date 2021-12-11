@@ -28,6 +28,11 @@ services:
       - ../:/usr/src/app/
     working_dir: "/usr/src/app"
     tty: true
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      FLASK_APP: run.py
 
 networks:
   homete_network:
