@@ -7,7 +7,7 @@
 			<v-card-text>
 				<v-form>
 					<v-text-field
-						prepend-icon="mdi-account-circle"
+						prepend-icon="mdi-email"
 						label="メールアドレス"
 						v-model="email"
 					/>
