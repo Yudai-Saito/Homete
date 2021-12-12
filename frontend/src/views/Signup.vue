@@ -57,12 +57,12 @@
 		data(){
 			return{
 				showPassword: false,
-                showPasswordConfirmation: false,
+				showPasswordConfirmation: false,
 				email: '',
-                username: '',
-                userid: '',
+				username: '',
+				userid: '',
 				password: '',
-                password_confirmation: '',
+				password_confirmation: '',
 			}
 		},
 		methods:{
