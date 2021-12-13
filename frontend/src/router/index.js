@@ -33,6 +33,11 @@ const routes = [
     name: 'Passreset',
     component: () => import('../views/Passreset.vue')
   },
+  {
+    path: '/passreset_reqmail',
+    name: 'Passreset_reqmail',
+    component: () => import('../views/Passreset_reqmail.vue')
+  },
 ]
 
 const router = new VueRouter({
