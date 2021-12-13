@@ -33,6 +33,10 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}
       FLASK_APP: run.py
+      MAIL_SERVER: ${MAIL_SERVER}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      MAIL_DEFAULT_SENDER: ${MAIL_DEFAULT_SENDER}
 
 networks:
   homete_network:
