@@ -1,5 +1,4 @@
 import os
-import datetime
 
 from flask import Flask
 from flask_migrate import Migrate
