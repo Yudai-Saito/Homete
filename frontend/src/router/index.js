@@ -27,7 +27,17 @@ const routes = [
     path: '/signup',
     name: 'Signup',
     component: () => import('../views/Signup.vue')
-  }
+  },
+  {
+    path: '/passreset',
+    name: 'Passreset',
+    component: () => import('../views/Passreset.vue')
+  },
+  {
+    path: '/passreset_reqmail',
+    name: 'Passreset_reqmail',
+    component: () => import('../views/Passreset_reqmail.vue')
+  },
 ]
 
 const router = new VueRouter({

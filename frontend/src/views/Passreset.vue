@@ -2,15 +2,10 @@
 	<v-app>
 		<v-card width="400px" class="mx-auto my-auto pa-3">
 			<v-card-title>
-				<h1 class="headline">ログイン</h1>
+				<h1 class="headline">パスワード再設定</h1>
 			</v-card-title>
 			<v-card-text>
 				<v-form>
-					<v-text-field
-						prepend-icon="mdi-email"
-						label="メールアドレス"
-						v-model="email"
-					/>
 					<v-text-field
 						v-bind:type="showPassword ? 'text' : 'password'"
 						prepend-icon="mdi-lock"
@@ -19,20 +14,19 @@
 						@click:append="showPassword = !showPassword"
 						v-model="password"
 					/>
-					<v-card-actions>
-						<div class="ic-Login__forgot ml-auto">
-							<a class="ic-Login__link forgot_password_link"
-								id="login_forgot_password"
-								href="passreset_reqmail">
-							パスワードを忘れた場合
-							</a>
-						</div>
-					</v-card-actions>
+					<v-text-field
+						v-bind:type="showPasswordConfirmation ? 'text' : 'password'"
+						prepend-icon="mdi-lock"
+						v-bind:append-icon="showPasswordConfirmation ? 'mdi-eye' : 'mdi-eye-off'"
+						label="パスワード確認"
+						@click:append="showPasswordConfirmation = !showPasswordConfirmation"
+						v-model="password_confirmation"
+					/>
 					<v-card-actions>
 							<v-btn
 								class="info ml-auto mt-5"
 								@click="submit">
-							ログイン
+							パスワードを再設定する
 							</v-btn>
 					</v-card-actions>
 				</v-form>
@@ -44,18 +38,16 @@
 
 <script>
 	export default{
-		name: 'Login',
+		name: 'Passreset',
 		data(){
 			return{
 				showPassword: false,
-				email: '',
+				showPasswordConfirmation: false,
 				password: '',
+				password_confirmation: '',
 			}
 		},
 		methods:{
-			submit(){
-				console.log(this.name,this.password)
-			}
 		},
 	}
 </script>
