@@ -10,21 +10,22 @@ from flask_jwt_extended import JWTManager
 app = Flask(__name__)
 
 #接続先DBMS
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://{}:{}@postgres:5432/{}".format(environ["POSTGRES_USER"], environ["POSTGRES_PASSWORD"], environ["POSTGRES_DB"])
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://{}:{}@postgres:5432/{}"\
+				.format(environ["POSTGRES_USER"], environ["POSTGRES_PASSWORD"], environ["POSTGRES_DB"]) #sqlalchemyのDBMSのURL
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False #警告の無効化
 
 db = SQLAlchemy(app)
 db.init_app(app)
 Migrate(app, db)
 
 #メールクライアント設定
-app.config["MAIL_SERVER"] = environ["MAIL_SERVER"]
-app.config["MAIL_PORT"] = 587
-app.config["MAIL_USE_TLS"] = True
-app.config["MAIL_USE_SSL"] = False
-app.config["MAIL_USERNAME"] = environ["MAIL_USERNAME"]
-app.config["MAIL_PASSWORD"] = environ["MAIL_PASSWORD"]
-app.config["MAIL_DEFAULT_SENDER"] = environ["MAIL_DEFAULT_SENDER"]
+app.config["MAIL_SERVER"] = environ["MAIL_SERVER"] #メールサーバー
+app.config["MAIL_PORT"] = 587 #メールサーバーのポート
+app.config["MAIL_USE_TLS"] = True #TLSの使用
+app.config["MAIL_USE_SSL"] = False #SSLの使用
+app.config["MAIL_USERNAME"] = environ["MAIL_USERNAME"] #メールアドレス
+app.config["MAIL_PASSWORD"] = environ["MAIL_PASSWORD"] #メールパスワード
+app.config["MAIL_DEFAULT_SENDER"] = environ["MAIL_DEFAULT_SENDER"] #送信元メールアドレス
 
 mail = Mail(app)
 
