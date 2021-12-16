@@ -9,8 +9,8 @@
 			<v-card-actions>
 					<v-btn
 						class="info ml-auto mt-5"
-						@click="submit">
-					送信
+						@click="mailsubmit">
+						送信
 					</v-btn>
 			</v-card-actions>
 		</v-form>
@@ -18,12 +18,26 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default{
-		name: 'Requestmail',
-		data(){
-			return{
-				email: '',
-			}
+	name: 'Requestmail',
+	data(){
+		return{
+			email: '',
+		}
+	},
+	methods: {
+		mailsubmit: function() {
+			axios.post("/user/signup/mail", {
+				'user_email':this.email
+			})
+			.then((res) => {
+				console.log(res.status);//res.statusにレスポンスコードが返ってくる
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 		},
+	},
 }
 </script>
