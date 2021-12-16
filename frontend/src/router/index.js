@@ -29,6 +29,11 @@ const routes = [
     component: () => import('../views/Signup.vue')
   },
   {
+    path: '/signup_reqmail',
+    name: 'Signup_reqmail',
+    component: () => import('../views/Signup_reqmail.vue')
+  },
+  {
     path: '/passreset',
     name: 'Passreset',
     component: () => import('../views/Passreset.vue')
