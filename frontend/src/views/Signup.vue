@@ -6,11 +6,6 @@
 			</v-card-title>
 			<v-card-text>
 				<v-form>
-					<v-text-field
-						prepend-icon="mdi-email"
-						label="メールアドレス"
-						v-model="email"
-					/>
                     <v-text-field
 						prepend-icon="mdi-account-circle"
 						label="ユーザー名"
@@ -58,7 +53,6 @@
 			return{
 				showPassword: false,
 				showPasswordConfirmation: false,
-				email: '',
 				username: '',
 				userid: '',
 				password: '',
