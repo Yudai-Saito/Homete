@@ -11,4 +11,6 @@ services:
     volumes:
       - ../:/app
     tty: true
+    environment:
+      VUE_APP_API_ENDPOINT: ${VUE_APP_API_ENDPOINT} 
     
