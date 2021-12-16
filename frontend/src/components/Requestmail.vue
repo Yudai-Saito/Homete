@@ -24,6 +24,7 @@ export default{
 	data(){
 		return{
 			email: '',
+			rescode: true,
 		}
 	},
 	methods: {
@@ -32,6 +33,11 @@ export default{
 				'user_email':this.email
 			})
 			.then((res) => {
+				if(res.status==200){
+					this.rescode=!this.rescode;
+					//通知名'rescode'で親コンポーネントにrescodeを渡す
+					this.$emit('rescode',this.rescode)
+				}
 				console.log(res.status);//res.statusにレスポンスコードが返ってくる
 			})
 			.catch((err) => {
