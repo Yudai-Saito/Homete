@@ -1,7 +1,7 @@
 import datetime
 from app.app import db
 
-class user(db.Model):
+class User(db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.String(15), primary_key=True)
@@ -12,7 +12,7 @@ class user(db.Model):
     updated_at = db.Column(db.DateTime)
     delete_at = db.Column(db.DateTime)
 
-class homete_post(db.Model):
+class Homete_post(db.Model):
     __tablename__ = "homete_posts"
 
     post_id = db.Column(db.String, primary_key=True)
@@ -22,7 +22,7 @@ class homete_post(db.Model):
     updated_at = db.Column(db.DateTime)
     delete_at = db.Column(db.DateTime)
 
-class post_reaction(db.Model):
+class Post_reaction(db.Model):
     __tablename__ = "post_reactions"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
