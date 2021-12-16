@@ -3,9 +3,11 @@ import App from './App.vue'
 import router from './router'
 import vuetify from './plugins/vuetify'
 
-import Axios from 'axios'
-Axios.defaults.baseURL = process.env.VUE_APP_API_ENDPOINT;
-
+import axios from 'axios'
+//axiosを使う際のbaseURLにエンドポイントを設定
+axios.defaults.baseURL = process.env.VUE_APP_API_ENDPOINT;
+//axiosでpostをする際にデフォルトでContent-Typeがutf-8のJSON形式になるよう設定
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8'; 
 Vue.config.productionTip = false
 
 new Vue({
