@@ -6,8 +6,12 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+#CORSに対応
+CORS(app,supports_credentials=True)
 
 #接続先DBMS
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://{}:{}@postgres:5432/{}"\
