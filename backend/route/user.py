@@ -1,12 +1,14 @@
 from re import match
 from os import environ
-from flask import Blueprint, request, jsonify
-from app.app import mail
+from hashlib import sha256
 
+from flask import Blueprint, request, jsonify
 from flask_mail import Message
 from flask_jwt_extended import jwt_required
 
+from app.app import mail, db
 from route.token import create_mail_token
+from models.models import User
 
 user = Blueprint("user", __name__, url_prefix="/user")
 
@@ -31,11 +33,23 @@ def login():
 	else:
 		return jsonify({"status": "error"}), 400
 
-@user.route("/signup/", methods=["POST"])
+@user.route("/signup", methods=["POST"])
 @jwt_required()
 def verify():
 	"""新規登録ユーザ登録情報受け取り
-
+	新規登録時にメールアドレスを受け取り、ユーザ登録情報をDBに保存する
 	"""
+	#JSONからユーザー情報取り出し
+	user_email = request.json["user_email"]
+	user_name = request.json["user_name"]
+	user_id = request.json["user_id"]
+	hashed_password = request.json["hashed_password"]
+
+	#パスワードのハッシュ化
+	hashed_password = sha256((hashed_password + user_id + environ["SALT"]).encode("utf-8")).hexdigest()
+
+	#DBにユーザ登録
+	db.session.add(User(user_email=user_email, user_name=user_name, user_id=user_id, hashed_password=hashed_password))
+	db.session.commit()
 
 	return jsonify({"status": "success"}), 200
