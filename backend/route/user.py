@@ -43,20 +43,23 @@ def verify():
 	"""新規登録ユーザ登録情報受け取り
 	新規登録時にメールアドレスを受け取り、ユーザ登録情報をDBに保存する
 	"""
-	#JSONからユーザー情報取り出し
-	user_email = request.json["user_email"]
-	user_name = request.json["user_name"]
-	user_id = request.json["user_id"]
-	hashed_password = request.json["hashed_password"]
+	try:
+		#JSONからユーザー情報取り出し
+		user_email = request.json["user_email"]
+		user_name = request.json["user_name"]
+		user_id = request.json["user_id"]
+		hashed_password = request.json["hashed_password"]
 
-	#パスワードのハッシュ化
-	hashed_password = sha256((hashed_password + user_id + environ["SALT"]).encode("utf-8")).hexdigest()
+		#パスワードのハッシュ化
+		hashed_password = sha256((hashed_password + user_id + environ["SALT"]).encode("utf-8")).hexdigest()
 
-	#DBにユーザ登録
-	db.session.add(User(user_email=user_email, user_name=user_name, user_id=user_id, hashed_password=hashed_password))
-	db.session.commit()
+		#DBにユーザ登録
+		db.session.add(User(user_email=user_email, user_name=user_name, user_id=user_id, hashed_password=hashed_password))
+		db.session.commit()
 
-	return jsonify({"status": "success"}), 200
+		return jsonify({"status": "success"}), 200
+	except:
+		return jsonify({"status": "error"}), 400
 
 @user.route("/login", methods=["POST"])
 def login():
