@@ -24,14 +24,6 @@
 						@click:append="showPassword = !showPassword"
 						v-model="password"
 					/>
-                    <v-text-field
-						v-bind:type="showPasswordConfirmation ? 'text' : 'password'"
-						prepend-icon="mdi-lock"
-						v-bind:append-icon="showPasswordConfirmation ? 'mdi-eye' : 'mdi-eye-off'"
-						label="パスワード確認"
-						@click:append="showPasswordConfirmation = !showPasswordConfirmation"
-						v-model="password_confirmation"
-					/>
 					<v-card-actions>
 							<v-btn
 								class="info ml-auto mt-5"
@@ -55,12 +47,10 @@
 		data(){
 			return{
 				showPassword: false,
-				showPasswordConfirmation: false,
 				userEmail: '',
 				username: '',
 				userid: '',
 				password: '',
-				password_confirmation: '',
 				jwtString: '',
 			}
 		},
