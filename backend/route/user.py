@@ -5,7 +5,7 @@ from datetime import timedelta
 
 from flask import Blueprint, request, jsonify
 from flask_mail import Message
-from flask_jwt_extended import jwt_required, create_access_token, create_refresh_token
+from flask_jwt_extended import jwt_required, create_access_token, create_refresh_token, get_jwt_identity
 from sqlalchemy import or_
 
 from app.app import mail, db
@@ -51,11 +51,33 @@ def verify():
 		hashed_password = request.json["hashed_password"]
 
 		#パスワードのハッシュ化
-		hashed_password = sha256((hashed_password + user_id + environ["SALT"]).encode("utf-8")).hexdigest()
+		hashed_password = sha256((hashed_password + user_email + environ["SALT"]).encode("utf-8")).hexdigest()
 
 		#DBにユーザ登録
 		db.session.add(User(user_email=user_email, user_name=user_name, user_id=user_id, hashed_password=hashed_password))
 		db.session.commit()
+
+		return jsonify({"status": "success"}), 200
+	except:
+		return jsonify({"status": "error"}), 400
+
+@user.route("/password/reset", methods=["POST"])
+@jwt_required()
+def password_reset():
+	"""パスワード再設定
+	"""
+	try:
+		#JWTからメール取り出し
+		user_email = get_jwt_identity()
+
+		#JSONからパスワード情報取り出し
+		reset_hashed_password = request.json["reset_hashed_password"]
+
+		#パスワードのハッシュ化
+		reset_hashed_password = sha256((reset_hashed_password + user_email + environ["SALT"]).encode("utf-8")).hexdigest()
+
+		#DBにユーザ登録
+		db.session.query(User).filter(User.user_email == user_email).update({"hashed_password": reset_hashed_password})
 
 		return jsonify({"status": "success"}), 200
 	except:
@@ -75,7 +97,7 @@ def login():
 		user = User.query.filter(or_(User.user_id==user_info, User.user_email==user_info)).first()
 
 		#パスワードのハッシュ化
-		hashed_password = sha256((hashed_password + user.user_id + environ["SALT"]).encode("utf-8")).hexdigest()
+		hashed_password = sha256((hashed_password + user.user_email + environ["SALT"]).encode("utf-8")).hexdigest()
 
 		#パスワードが一致しているか確認
 		if user.hashed_password == hashed_password:
