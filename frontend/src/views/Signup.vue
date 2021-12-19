@@ -24,19 +24,11 @@
 						@click:append="showPassword = !showPassword"
 						v-model="password"
 					/>
-                    <v-text-field
-						v-bind:type="showPasswordConfirmation ? 'text' : 'password'"
-						prepend-icon="mdi-lock"
-						v-bind:append-icon="showPasswordConfirmation ? 'mdi-eye' : 'mdi-eye-off'"
-						label="パスワード確認"
-						@click:append="showPasswordConfirmation = !showPasswordConfirmation"
-						v-model="password_confirmation"
-					/>
 					<v-card-actions>
 							<v-btn
 								class="info ml-auto mt-5"
 								@click="submit">
-							登録
+								登録
 							</v-btn>
 					</v-card-actions>
 				</v-form>
@@ -47,19 +39,63 @@
 
 
 <script>
+	import crypto from 'crypto'
+	import axios from 'axios';
+
 	export default{
 		name: 'Signup',
 		data(){
 			return{
 				showPassword: false,
-				showPasswordConfirmation: false,
+				userEmail: '',
 				username: '',
 				userid: '',
 				password: '',
-				password_confirmation: '',
+				jwtString: '',
 			}
 		},
 		methods:{
+			//クエリストリングのjwtをbase64でデコードしてJSON形式にする
+			decodeJwt: function(token){
+				var base64Url = token.split('.')[1];
+				var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+
+				var encodeURI = encodeURIComponent(atob(base64));
+				var decodeString = decodeURIComponent(encodeURI);
+				return JSON.parse(decodeString);
+			},
+			submit: function(){
+				//入力されたパスワードをsha256でハッシュ化する
+				let sha256 = crypto.createHash('sha256')
+				sha256.update(this.password)
+				const hashPass = sha256.digest('base64')
+				//POSTする際のヘッダー情報にjwtを入れる
+				const headers = {
+					'Authorization': this.jwtString
+				}
+				//入力された情報に合わせてjwtに含まれてたメールアドレスとハッシュ化したパスワードをPOST
+				axios.post("/user/signup", {
+					'user_email':this.userEmail,
+					'user_name':this.username,
+					'user_id':this.userid,
+					'hashed_password':hashPass,
+				},{headers}
+				)
+				.then((res) => {
+					console.log(res.status);
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+			}
 		},
+		created: function(){
+			//クエリストリングのjwtを取り出して、定義されてない場合は'hoge'を返す
+			let jwt = this.$route.query.jwt != undefined ? this.$route.query.jwt : 'hoge'
+			var decodeJwtString = this.decodeJwt(jwt)
+			//methods内で使用したいからjwtとメールアドレスを代入
+			this.jwtString = 'Bearer ' + jwt
+			this.userEmail = decodeJwtString.sub
+		}
 	}
 </script>
