@@ -6,37 +6,66 @@ from datetime import timedelta
 from flask import Blueprint, request, jsonify
 from flask_mail import Message
 from flask_jwt_extended import jwt_required, create_access_token, create_refresh_token, get_jwt_identity
-from sqlalchemy import or_
+from sqlalchemy import or_, exists
 
 from app.app import mail, db
 from models.models import User
 
 user = Blueprint("user", __name__, url_prefix="/user")
 
-SIGNUP_URL = "{}/user/signup".format(environ["FRONTEND_URL"])
+SIGNUP_MESSAGE = "Hometeへようこそ!\n5分以内に以下のURLから登録を済ませてください!\n" + "{}/signup".format(environ["FRONTEND_URL"]) 
+PASS_RESET_MESSAGE = "Hometeのパスワード再設定メールです。\n5分以内に以下のURLからパスワードの再設定を行ってください。\n" + "{}/passreset".format(environ["FRONTEND_URL"])
+
+def mail_sender(user_email, title, message):
+	"""メール送信
+	タイトル、送信タイプ、メッセージを受け取り、メール送信を行う。
+	"""
+	#メールバリデーション
+	if match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", user_email):
+		#TOKEN生成
+		access_token = create_access_token(expires_delta=timedelta(seconds=300), identity=user_email)
+		
+		#メール生成・送信
+		msg = Message(title, recipients=[user_email])
+		msg.body = message + access_token
+		mail.send(msg)
+	else:
+		raise Exception("mail format error")
 
 @user.route("/signup/mail", methods=["POST"])
 def signup_mail():
 	"""新規登録用のメールを送信
 	新規登録時にメールアドレスを受け取り、認証URLを送信する
 	"""
-	user_email = request.json["user_email"]
+	try:
+		user_email = request.json["user_email"]
 
-	#メールバリデーション
-	if match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", user_email):
+		#ユーザ登録チェック、Trueで登録済み
+		if db.session.query(User.query.filter(User.user_email == user_email).exists()).scalar() == True:
+			raise Exception("user_email already exists")
 
-		#TOKEN生成
-		access_token = create_access_token(expires_delta=timedelta(seconds=300), identity=user_email)
-
-		msg = Message("Hometeメール認証", recipients=[user_email])
-		msg.body = "Hometeへようこそ!\n5分以内にこのURLから登録を済ませてください!\n" \
-										+ SIGNUP_URL + "?jwt=" + access_token
-		mail.send(msg)
-
+		mail_sender(user_email, "Hometeメール認証", SIGNUP_MESSAGE)
 		return jsonify({"status": "success"}), 200
-	else:
+	except:
 		return jsonify({"status": "error"}), 400
 
+@user.route("/passreset/mail", methods=["POST"])
+def passreset_mail():
+	"""パスワード再設定用メールを送信
+	パスワード再設定時にメールアドレスを受け取り、再設定URLを送信する
+	"""
+	try:
+		user_email = request.json["user_email"]
+
+		#未登録ユーザのチェック, Falseで未登録
+		if db.session.query(User.query.filter(User.user_email == user_email).exists()).scalar() == False:
+			raise Exception("user_email not exists")
+
+		mail_sender(user_email, "Hometeパスワード再設定", PASS_RESET_MESSAGE)
+		return jsonify({"status": "success"}), 200
+	except: 
+		return jsonify({"status": "error"}), 400
+		
 @user.route("/signup", methods=["POST"])
 @jwt_required()
 def verify():
