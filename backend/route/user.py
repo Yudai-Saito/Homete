@@ -13,8 +13,8 @@ from models.models import User
 
 user = Blueprint("user", __name__, url_prefix="/user")
 
-SIGNUP_MESSAGE = "Hometeへようこそ!\n5分以内に以下のURLから登録を済ませてください!\n" + "{}/signup".format(environ["FRONTEND_URL"]) 
-PASS_RESET_MESSAGE = "Hometeのパスワード再設定メールです。\n5分以内に以下のURLからパスワードの再設定を行ってください。\n" + "{}/passreset".format(environ["FRONTEND_URL"])
+SIGNUP_MESSAGE = "Hometeへようこそ!\n5分以内に以下のURLから登録を済ませてください!\n" + "{}/signup?jwt=".format(environ["FRONTEND_URL"]) 
+PASS_RESET_MESSAGE = "Hometeのパスワード再設定メールです。\n5分以内に以下のURLからパスワードの再設定を行ってください。\n" + "{}/passreset?jwt=".format(environ["FRONTEND_URL"])
 
 def mail_sender(user_email, title, message):
 	"""メール送信
