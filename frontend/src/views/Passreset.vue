@@ -14,19 +14,11 @@
 						@click:append="showPassword = !showPassword"
 						v-model="password"
 					/>
-					<v-text-field
-						v-bind:type="showPasswordConfirmation ? 'text' : 'password'"
-						prepend-icon="mdi-lock"
-						v-bind:append-icon="showPasswordConfirmation ? 'mdi-eye' : 'mdi-eye-off'"
-						label="パスワード確認"
-						@click:append="showPasswordConfirmation = !showPasswordConfirmation"
-						v-model="password_confirmation"
-					/>
 					<v-card-actions>
 							<v-btn
 								class="info ml-auto mt-5"
 								@click="submit">
-							パスワードを再設定する
+									パスワードを再設定する
 							</v-btn>
 					</v-card-actions>
 				</v-form>
@@ -42,9 +34,7 @@
 		data(){
 			return{
 				showPassword: false,
-				showPasswordConfirmation: false,
 				password: '',
-				password_confirmation: '',
 			}
 		},
 		methods:{
