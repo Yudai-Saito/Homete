@@ -7,7 +7,7 @@
 				
 			</v-card-title>
 			<!-- Requestmailから'rescode'として渡されてきた表示画面の状態を、渡されたタイミングでnotice_visibleへ引数として渡す -->
-			<Requestmail v-on:rescode='notice_visible'/>
+			<Requestmail v-on:rescode='notice_visible' mailUrl="/user/signup/mail"/>
 		</v-card>
 		<v-card width="400px" class="mx-auto my-auto pa-3" v-else-if="rescode == 200">
 			<p>
@@ -23,11 +23,11 @@
 	export default{
 		name: 'Signup_reqmail',
 		data(){
-		return{
-			rescode: '',
-			resflag: true,
-		}
-	},
+			return{
+				rescode: '',
+				resflag: true,
+			}
+		},
 		components: {
 			Requestmail,
 		},
