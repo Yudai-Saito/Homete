@@ -45,6 +45,8 @@ jwt = JWTManager(app)
 #各種APIをappに登録
 from route.user import user
 from route.token import token
+from route.post import post
 
 app.register_blueprint(user)
 app.register_blueprint(token)
+app.register_blueprint(post)
