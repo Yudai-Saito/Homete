@@ -5,16 +5,25 @@
 				<h1 class="headline">新規登録</h1>
 			</v-card-title>
 			<v-card-text>
-				<v-form>
+				<v-form
+					v-model="isValid"
+					ref="form"
+				>
                     <v-text-field
 						prepend-icon="mdi-account-circle"
 						label="ユーザー名"
 						v-model="username"
+						placeholder="username"
+						:hint="form.userNameMsg"
+						:rules="form.userNameRules"
 					/>
                     <v-text-field
 						prepend-icon="mdi-badge-account-horizontal"
 						label="ユーザーId"
 						v-model="userid"
+						placeholder="userid"
+						:hint="form.userIdMsg"
+						:rules="form.userIdRules"
 					/>
 					<v-text-field
 						v-bind:type="showPassword ? 'text' : 'password'"
@@ -23,13 +32,17 @@
 						label="パスワード"
 						@click:append="showPassword = !showPassword"
 						v-model="password"
+						:hint="form.passwordMsg"
+						:rules="form.passwordRules"
 					/>
 					<v-card-actions>
-							<v-btn
-								class="info ml-auto mt-5"
-								@click="submit">
+						<v-btn
+							:disabled="!isValid || loading"
+							:loading="loading"
+							class="info ml-auto mt-5"
+							@click="submit">
 								登録
-							</v-btn>
+						</v-btn>
 					</v-card-actions>
 				</v-form>
 			</v-card-text>
@@ -46,6 +59,8 @@
 		name: 'Signup',
 		data(){
 			return{
+				isValid: false,
+				loading: false,
 				showPassword: false,
 				userEmail: '',
 				username: '',
@@ -65,6 +80,11 @@
 				return JSON.parse(decodeString);
 			},
 			submit: function(){
+				this.loading = true
+				setTimeout(() => {
+					this.formReset()
+					this.loading = false
+				}, 1500)
 				//入力されたパスワードをsha256でハッシュ化する
 				let sha256 = crypto.createHash('sha256')
 				sha256.update(this.password)
@@ -87,7 +107,11 @@
 				.catch((err) => {
 					console.log(err);
 				})
-			}
+			},
+			formReset () {
+				this.$refs.form.reset()
+				this.params = { email: ''}
+			},
 		},
 		created: function(){
 			//クエリストリングのjwtを取り出して、定義されてない場合は'hoge'を返す
@@ -96,6 +120,25 @@
 			//methods内で使用したいからjwtとメールアドレスを代入
 			this.jwtString = 'Bearer ' + jwt
 			this.userEmail = decodeJwtString.sub
+		},
+		computed:{
+			form () {
+				const userNameMsg = '1文字以上16文字未満'
+				const userIdMsg = '1文字以上16文字未満。半角英数字と_が使えます'
+				const passwordMsg = '8文字以上。半角英数字と記号が使えます'
+				// 入力規則
+				const required = v => !!v || ''
+				const userNameFormat = v => /^[\w\W]{1,15}$/.test(v) || ''
+				const userIdFormat = v => /^[a-zA-Z_0-9]{1,15}$/.test(v) || ''
+				const passwordFormat = v => /^[ -~¥]{8,}$/.test(v) || ''
+
+				const userNameRules = [required,userNameFormat]
+				const userIdRules = [required,userIdFormat]
+				const passwordRules = [required,passwordFormat]
+
+				return { userNameRules, userIdRules, passwordRules, userNameMsg, userIdMsg, passwordMsg }
+			}
 		}
+		
 	}
 </script>
