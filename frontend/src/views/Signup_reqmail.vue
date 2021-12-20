@@ -9,9 +9,9 @@
 			<!-- Requestmailから'rescode'として渡されてきた表示画面の状態を、渡されたタイミングでnotice_visibleへ引数として渡す -->
 			<Requestmail v-on:rescode='notice_visible' mailUrl="/user/signup/mail"/>
 		</v-card>
-		<v-card width="400px" class="mx-auto my-auto pa-3" v-else-if="rescode == 200">
+		<v-card width="400px" class="mx-auto my-auto pa-3" v-else>
 			<p>
-				ご入力いただいたメールアドレスに確認URLをお送りしました。<br>届いていない場合はメールアドレスに間違いがないか確認し、もう一度送信してください。
+				ご入力いただいたメールアドレスに確認URLをお送りしました。<br>届いていない場合はページをリロードしてメールアドレスに間違いがないか確認した上で、もう一度送信してください。
 			</p>
 		</v-card>
 	</v-app>
