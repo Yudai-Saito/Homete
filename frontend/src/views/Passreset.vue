@@ -38,7 +38,6 @@
 			return{
 				showPassword: false,
 				password: '',
-				userEmail: '',
 				jwtString: '',
 			}
 		},
@@ -61,9 +60,8 @@
 				const headers = {
 					'Authorization': this.jwtString
 				}
-				//入力された情報に合わせてjwtに含まれてたメールアドレスとハッシュ化したパスワードをPOST
+				//ハッシュ化したパスワードをPOST
 				axios.post("/passward/reset", {
-					'user_email':this.userEmail,
 					'hashed_password':hashPass,
 				},{headers}
 				)
