@@ -29,15 +29,51 @@
 
 
 <script>
+	import crypto from 'crypto'
+	import axios from 'axios';
+
 	export default{
 		name: 'Passreset',
 		data(){
 			return{
 				showPassword: false,
 				password: '',
+				userEmail: '',
+				jwtString: '',
 			}
 		},
 		methods:{
-		},
+			//クエリストリングのjwtをbase64でデコードしてJSON形式にする
+			decodeJwt: function(token){
+				var base64Url = token.split('.')[1];
+				var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+
+				var encodeURI = encodeURIComponent(atob(base64));
+				var decodeString = decodeURIComponent(encodeURI);
+				return JSON.parse(decodeString);
+			},
+			submit: function(){
+				//入力されたパスワードをsha256でハッシュ化する
+				let sha256 = crypto.createHash('sha256')
+				sha256.update(this.password)
+				const hashPass = sha256.digest('base64')
+				//POSTする際のヘッダー情報にjwtを入れる
+				const headers = {
+					'Authorization': this.jwtString
+				}
+				//入力された情報に合わせてjwtに含まれてたメールアドレスとハッシュ化したパスワードをPOST
+				axios.post("/passward/reset", {
+					'user_email':this.userEmail,
+					'hashed_password':hashPass,
+				},{headers}
+				)
+				.then((res) => {
+					console.log(res.status);
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+			}
+		}
 	}
 </script>
