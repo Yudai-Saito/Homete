@@ -26,9 +26,12 @@ export default{
 			email: '',
 		}
 	},
+	props:[
+		'mailUrl'
+	],
 	methods: {
 		mailsubmit: function() {
-			axios.post("/user/signup/mail", {
+			axios.post(this.mailUrl, {
 				'user_email':this.email
 			})
 			.then((res) => {
