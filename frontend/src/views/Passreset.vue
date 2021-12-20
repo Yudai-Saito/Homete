@@ -5,7 +5,10 @@
 				<h1 class="headline">パスワード再設定</h1>
 			</v-card-title>
 			<v-card-text>
-				<v-form>
+				<v-form
+					v-model="isValid"
+					ref="form"
+				>
 					<v-text-field
 						v-bind:type="showPassword ? 'text' : 'password'"
 						prepend-icon="mdi-lock"
@@ -13,9 +16,13 @@
 						label="パスワード"
 						@click:append="showPassword = !showPassword"
 						v-model="password"
+						:hint="form.passwordMsg"
+						:rules="form.passwordRules"
 					/>
 					<v-card-actions>
 							<v-btn
+								:disabled="!isValid || loading"
+								:loading="loading"
 								class="info ml-auto mt-5"
 								@click="submit">
 									パスワードを再設定する
@@ -36,6 +43,8 @@
 		name: 'Passreset',
 		data(){
 			return{
+				isValid: false,
+				loading: false,
 				showPassword: false,
 				password: '',
 				jwtString: '',
@@ -52,6 +61,11 @@
 				return JSON.parse(decodeString);
 			},
 			submit: function(){
+				this.loading = true
+				setTimeout(() => {
+					this.formReset()
+					this.loading = false
+				}, 1500)
 				//入力されたパスワードをsha256でハッシュ化する
 				let sha256 = crypto.createHash('sha256')
 				sha256.update(this.password)
@@ -71,6 +85,22 @@
 				.catch((err) => {
 					console.log(err);
 				})
+			},
+			formReset () {
+				this.$refs.form.reset()
+				this.params = { email: ''}
+			},
+		},
+		computed:{
+			form () {
+				const passwordMsg = '8文字以上。半角英数字と記号が使えます'
+				// 入力規則
+				const required = v => !!v || ''
+				const passwordFormat = v => /^[ -~¥]{8,}$/.test(v) || ''
+
+				const passwordRules = [required,passwordFormat]
+
+				return { passwordRules, passwordMsg }
 			}
 		}
 	}
