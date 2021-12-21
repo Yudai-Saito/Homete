@@ -1,6 +1,8 @@
 from os import environ
 from datetime import timedelta
 
+from redis import Redis
+
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -41,6 +43,9 @@ app.config["JWT_SECRET_KEY"] = environ["JWT_SECRET_KEY"] #署名キー
 app.config["JWT_DECODE_LEEWAY"] = timedelta(seconds=30) #署名検証時の誤差
 
 jwt = JWTManager(app)
+
+#Redisに接続
+redis = Redis(host="redis", port=6379, password=environ["REDIS_PASSWORD"])
 
 #各種APIをappに登録
 from route.user import user
