@@ -5,7 +5,7 @@
 				<h1 class="headline">パスワード再設定</h1>
 				<p><font size="-1">ご利用中のメールアドレスを入力してください。<br>パスワード再設定のためのURLをお送りします。</font></p>
 			</v-card-title>
-			<RequestMail v-on:resCode='noticeVisible' mailUrl="/passreset/mail"/>
+			<RequestMail v-on:resCode='noticeVisible' mail-url="/passreset/mail"/>
 		</v-card>
 		<v-card width="400px" class="mx-auto my-auto pa-3" v-else>
 			<p>

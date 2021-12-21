@@ -34,14 +34,14 @@ const routes = [
     component: () => import('../views/Signup_reqmail.vue')
   },
   {
-    path: '/passreset',
+    path: '/Passreset',
     name: 'Passreset',
     component: () => import('../views/Passreset.vue')
   },
   {
-    path: '/passreset_reqmail',
-    name: 'Passreset_reqmail',
-    component: () => import('../views/Passreset_reqmail.vue')
+    path: '/PassresetReqmail',
+    name: 'PassresetReqmail',
+    component: () => import('../views/PassresetReqmail.vue')
   },
 ]
 

@@ -69,14 +69,14 @@
 				//入力されたパスワードをsha256でハッシュ化する
 				let sha256 = crypto.createHash('sha256')
 				sha256.update(this.password)
-				const hashPass = sha256.digest('base64')
+				const hashedPassword = sha256.digest('base64')
 				//POSTする際のヘッダー情報にjwtを入れる
 				const headers = {
 					'Authorization': this.jwtString
 				}
 				//ハッシュ化したパスワードをPOST
 				axios.post("/passward/reset", {
-					'hashed_password':hashPass,
+					'hashed_password':hashedPassword,
 				},{headers}
 				)
 				.then((res) => {
@@ -88,7 +88,7 @@
 			},
 			formReset () {
 				this.$refs.form.reset()
-				this.params = { email: ''}
+				this.params = { password: ''}
 			},
 		},
 		computed:{
