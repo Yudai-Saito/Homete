@@ -12,16 +12,16 @@
                     <v-text-field
 						prepend-icon="mdi-account-circle"
 						label="ユーザー名"
-						v-model="username"
-						placeholder="username"
+						v-model="userName"
+						placeholder="UserName"
 						:hint="form.userNameMsg"
 						:rules="form.userNameRules"
 					/>
                     <v-text-field
 						prepend-icon="mdi-badge-account-horizontal"
 						label="ユーザーId"
-						v-model="userid"
-						placeholder="userid"
+						v-model="userId"
+						placeholder="UserId"
 						:hint="form.userIdMsg"
 						:rules="form.userIdRules"
 					/>
@@ -63,8 +63,8 @@
 				loading: false,
 				showPassword: false,
 				userEmail: '',
-				username: '',
-				userid: '',
+				userName: '',
+				userId: '',
 				password: '',
 				jwtString: '',
 			}
@@ -88,17 +88,16 @@
 				//入力されたパスワードをsha256でハッシュ化する
 				let sha256 = crypto.createHash('sha256')
 				sha256.update(this.password)
-				const hashPass = sha256.digest('base64')
+				const hashedPassword = sha256.digest('base64')
 				//POSTする際のヘッダー情報にjwtを入れる
 				const headers = {
 					'Authorization': this.jwtString
 				}
 				//入力された情報に合わせてjwtに含まれてたメールアドレスとハッシュ化したパスワードをPOST
 				axios.post("/user/signup", {
-					'user_email':this.userEmail,
-					'user_name':this.username,
-					'user_id':this.userid,
-					'hashed_password':hashPass,
+					'user_name':this.userName,
+					'user_id':this.userId,
+					'hashed_password':hashedPassword,
 				},{headers}
 				)
 				.then((res) => {
@@ -110,7 +109,12 @@
 			},
 			formReset () {
 				this.$refs.form.reset()
-				this.params = { email: ''}
+				this.params = {
+					userEmail: '',
+					userName: '',
+					userId: '',
+					password: '',
+				}
 			},
 		},
 		created: function(){
