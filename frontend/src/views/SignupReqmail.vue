@@ -1,13 +1,13 @@
 <template>
 	<v-app>
-		<v-card width="400px" class="mx-auto my-auto pa-3"  v-if="resflag"> 
+		<v-card width="400px" class="mx-auto my-auto pa-3"  v-if="resFlag"> 
 			<v-card-title>
 				<h1 class="headline">新規登録</h1>
 				<p><font size="-1">最初に受信可能なメールアドレスを入力してください。</font></p>
 				
 			</v-card-title>
 			<!-- Requestmailから'rescode'として渡されてきた表示画面の状態を、渡されたタイミングでnotice_visibleへ引数として渡す -->
-			<Requestmail v-on:rescode='notice_visible' mailUrl="/user/signup/mail"/>
+			<RequestMail v-on:resCode='noticeVisible' mailUrl="/user/signup/mail"/>
 		</v-card>
 		<v-card width="400px" class="mx-auto my-auto pa-3" v-else>
 			<p>
@@ -19,25 +19,25 @@
 
 
 <script>
-	import Requestmail from '../components/Requestmail'
+	import RequestMail from '../components/RequestMail'
 	export default{
-		name: 'Signup_reqmail',
+		name: 'SignupReqmail',
 		data(){
 			return{
-				rescode: '',
-				resflag: true,
+				resCode: '',
+				resFlag: true,
 			}
 		},
 		components: {
-			Requestmail,
+			RequestMail,
 		},
 		methods: {
-			//Requestmailから渡されたreqcodeを引数'child_rescode'に格納
-			notice_visible: function(child_rescode){
-				//Signup_reqmail内のrescodeにRequestmailのrescodeを代入
-				this.rescode = child_rescode
-				console.log(this.rescode)
-				this.resflag = false
+			//RequestMailから渡されたreqCodeを引数'childRescode'に格納
+			noticeVisible: function(childRescode){
+				//SignupReqmail内のresCodeにRequestMailのresCodeを代入
+				this.resCode = childRescode
+				console.log(this.resCode)
+				this.resFlag = false
 			}
 		},
 	}
