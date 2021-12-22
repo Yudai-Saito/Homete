@@ -7,7 +7,7 @@
 			<v-text-field
 				prepend-icon="mdi-email"
 				label="メールアドレス"
-				v-model="email"
+				v-model="userEmail"
 				:rules="rules"
 				placeholder="username@example.com"
 			/>
@@ -16,7 +16,7 @@
 						:disabled="!isValid || loading"
 						:loading="loading"
 						class="info ml-auto mt-5"
-						@click="mailsubmit">
+						@click="submit">
 							送信
 					</v-btn>
 			</v-card-actions>
@@ -27,12 +27,12 @@
 <script>
 import axios from 'axios';
 export default{
-	name: 'Requestmail',
+	name: 'RequestMail',
 	data(){
 		return{
 			isValid: false,
 			loading: false,
-			email: '',
+			userEmail: '',
 			// 入力規則
 			rules:[
 				v => !!v || '',
@@ -44,28 +44,28 @@ export default{
 		'mailUrl'
 	],
 	methods: {
-		mailsubmit: function() {
+		submit: function() {
 			this.loading = true
 			setTimeout(() => {
 				this.formReset()
 				this.loading = false
 			}, 1500)
 			axios.post(this.mailUrl, {
-				'user_email':this.email
+				'user_email':this.userEmail
 			})
 			.then((res) => {
-				//通知名'rescode'で親コンポーネントにrescodeを渡す
-				this.$emit('rescode',res.status)
+				//通知名'resCode'で親コンポーネントにresCodeを渡す
+				this.$emit('resCode',res.status)
 				console.log(res.status);//res.statusにレスポンスコードが返ってくる
 			})
 			.catch((err) => {
-				this.$emit('rescode',err.response.status)
+				this.$emit('resCode',err.response.status)
 				console.log(err);
 			});
 		},
 		formReset () {
 			this.$refs.form.reset()
-			this.params = { email: ''}
+			this.params = { userEmail: ''}
 		},
 	},
 }
