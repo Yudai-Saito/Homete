@@ -1,3 +1,20 @@
-from flask import Blueprint
+from functools import wraps
+
+from flask import Blueprint, request, jsonify
+
+from app.app import redis
 
 token = Blueprint("token", __name__, url_prefix="/token")
+
+def auth_required(func):
+	"""
+	認証が必要なAPIのデコレータ
+	"""
+	@wraps(func)
+	def decorated(*args, **kwargs):
+		token = request.cookies.get("token")
+		if redis.exists(token) == True:
+			return func(*args, **kwargs)
+		else:
+			return jsonify({"status": "error"}), 401
+	return decorated
