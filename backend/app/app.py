@@ -16,8 +16,8 @@ app = Flask(__name__)
 CORS(app,supports_credentials=True)
 
 #接続先DBMS
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://{}:{}@postgres:5432/{}"\
-				.format(environ["POSTGRES_USER"], environ["POSTGRES_PASSWORD"], environ["POSTGRES_DB"]) #sqlalchemyのDBMSのURL
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://{}:{}@mysql/{}"\
+                .format(environ["MYSQL_USER"], environ["MYSQL_PASSWORD"], environ["MYSQL_DATABASE"]) #sqlalchemyのDBMSのURL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False #警告の無効化
 
 db = SQLAlchemy(app)
@@ -45,7 +45,7 @@ app.config["JWT_DECODE_LEEWAY"] = timedelta(seconds=30) #署名検証時の誤�
 jwt = JWTManager(app)
 
 #Redisに接続
-redis = Redis(host="redis", port=6379, password=environ["REDIS_PASSWORD"])
+redis = Redis(host="redis", port=6379, password=environ["REDIS_PASSWORD"], decode_responses=True)
 
 #各種APIをappに登録
 from route.user import user
