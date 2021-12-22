@@ -1,14 +1,14 @@
 from re import match
 from os import environ
 from hashlib import sha256
-from datetime import timedelta
+from datetime import timedelta, datetime
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, make_response	
 from flask_mail import Message
 from flask_jwt_extended import jwt_required, create_access_token, create_refresh_token, get_jwt_identity
 from sqlalchemy import or_, exists
 
-from app.app import mail, db
+from app.app import mail, db, redis
 from models.models import User
 
 user = Blueprint("user", __name__, url_prefix="/user")
@@ -131,9 +131,16 @@ def login():
 		#パスワードが一致しているか確認
 		if user.hashed_password == hashed_password:
 			#Token生成
-			access_token = create_access_token(identity=user.user_id)
-			refresh_token = create_refresh_token(identity=user.user_id)
-			return jsonify({"status": "success", "access_token": access_token, "refresh_token": refresh_token}), 200
+			token = sha256((user.user_id + environ["SALT"] + str(datetime.now())).encode("utf-8")).hexdigest()
+
+			#TokenをRedisに保存
+			redis.set(token, user.user_id, ex=60*60*24)
+
+			#レスポンス作成	
+			response = make_response(jsonify({"status":"ok"}, 200))
+			response.set_cookie("token", value=token, expires=60*60*24, httponly=True)
+
+			return response
 		else:
 			raise Exception("password error")	
 	except:
