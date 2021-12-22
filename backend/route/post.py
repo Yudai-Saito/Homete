@@ -1,11 +1,10 @@
 from flask import Blueprint, request, jsonify
 
 from app.app import db, redis
-from models.models import Homete_post
+from models.models import Homete_post, Post_reaction
 from route.token import auth_required
 
 post = Blueprint("post", __name__, url_prefix="/post")
-
 
 @post.route("", methods=["POST"])
 @auth_required
@@ -20,6 +19,32 @@ def post_receive():
 
 		db.session.add(Homete_post(user_id = user_id, post_content = post_content))
 		db.session.commit()
+
+		return jsonify({"status": "success"}), 200
+	except:
+		return jsonify({"status": "error"}), 400
+
+@post.route("/reaction", methods=["PUT"])
+@auth_required
+def reaction_count_up():
+	"""投稿のリアクションをインクリメントする
+	jsonからpost_id, reactionを取得する
+	リアクションがある場合は、インクリメントし、ない場合は新規に作成する
+	"""
+	try:
+		post_id = request.json["post_id"]
+		reaction = request.json["reaction"]
+
+		#投稿に既にリアクションがあるか確認
+		if db.session.query(Post_reaction.query.filter(Post_reaction.post_id == post_id, Post_reaction.reaction == reaction).exists()).scalar() == True:
+			#増加するリアクションを取得して、インクリメントする
+			post = db.session.query(Post_reaction).filter(Post_reaction.post_id == post_id, Post_reaction.reaction == reaction).first()
+			post.reaction_count += 1
+			db.session.commit()
+		else:
+			#リアクションがない場合は新規に、post_idとreactionを追加する
+			db.session.add(Post_reaction(post_id = post_id, reaction = reaction, reaction_count = 1))
+			db.session.commit()
 
 		return jsonify({"status": "success"}), 200
 	except:
