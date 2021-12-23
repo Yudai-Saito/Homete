@@ -15,14 +15,28 @@
 			<v-form
 				ref="form"
 			>
+				<v-btn
+					icon
+					plain
+					@click="clearText"
+					class="float-right mt-2 mr-2"
+					v-show="clearVisible"
+					>
+					<v-icon
+						small
+						color="glay"
+						>
+						mdi-close-circle
+					</v-icon>
+				</v-btn>
 				<v-textarea
-					clearable
+					label="なにを褒めてもらう？"
 					solo
 					flat
 					auto-grow
 					rows="3"
-					label="なにを褒めてもらう？"
 					v-model="homete"
+					@input="inputText"
 				></v-textarea>
 				<v-divider class="mx-4"></v-divider>
 				<v-card-actions>
@@ -45,6 +59,8 @@ export default{
 			form: false,
 			loading: false,
 			homete: '',
+			clearVisible: false,
+
 		}
 	},
 	methods: {
@@ -59,6 +75,18 @@ export default{
 			this.$refs.form.reset()
 			this.params = { homete: ''}
 		},
+		inputText: function(){
+			if(this.clearVisible == false){
+				this.clearVisible = true
+			}
+			else if(this.homete == ''){
+				this.clearVisible = false
+			}
+		},
+		clearText: function(){
+			this.homete = ''
+			this.clearVisible = false
+		}
 	},
 }
 </script>
