@@ -5,6 +5,18 @@
 			:disabled="form || loading"
 			outlined
 		>
+			<v-btn
+				icon
+				plain
+				@click="closeCard"
+				class="my-1 ml-1"
+			>
+				<v-icon
+					color="black"
+				>
+					mdi-close
+				</v-icon>
+			</v-btn>
 			<template slot="progress">
 				<v-progress-linear
 					color="deep-purple"
@@ -21,11 +33,11 @@
 					@click="clearText"
 					class="float-right mt-2 mr-2"
 					v-show="clearVisible"
-					>
+				>
 					<v-icon
 						small
 						color="glay"
-						>
+					>
 						mdi-close-circle
 					</v-icon>
 				</v-btn>
@@ -42,7 +54,10 @@
 				<v-card-actions>
 						<v-btn
 							class="info ml-auto"
-							@click="submit">
+							@click="submit"
+							elevation='0'
+							rounded
+						>
 								投稿する
 						</v-btn>
 				</v-card-actions>
@@ -60,7 +75,7 @@ export default{
 			loading: false,
 			homete: '',
 			clearVisible: false,
-
+			cardVisible: false,
 		}
 	},
 	methods: {
@@ -86,6 +101,9 @@ export default{
 		clearText: function(){
 			this.homete = ''
 			this.clearVisible = false
+		},
+		closeCard: function(){
+			this.$emit('cardVisible',this.cardVisible)
 		}
 	},
 }
