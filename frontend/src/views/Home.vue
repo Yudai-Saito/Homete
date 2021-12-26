@@ -2,11 +2,13 @@
 	<v-app>
 		<v-navigation-drawer app>Navigation Lists</v-navigation-drawer>
 		<PostHomete v-on:cardVisible='noticeVisible' v-if="cardVisible"/>
+		<DisplayHomete />
 	</v-app>
 </template>
 
 <script>
 import PostHomete from '../components/PostHomete'
+import DisplayHomete from '../components/DisplayHomete'
 export default {
 	name: "Home",
 	data(){
@@ -16,6 +18,7 @@ export default {
 	},
 	components: {
 		PostHomete,
+		DisplayHomete,
 	},
 	methods: {
 		noticeVisible: function(childCardVisible){
