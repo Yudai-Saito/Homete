@@ -5,11 +5,16 @@
 				<h1>ログイン</h1>
 			</v-card-title>
 			<v-card-text>
-				<v-form>
+				<v-form
+					v-model="isValid"
+					ref="form"
+				>
 					<v-text-field
 						prepend-icon="mdi-email"
-						label="メールアドレス"
+						label="ユーザーIDまたはメールアドレス"
 						v-model="userEmail"
+						:hint="form.userInfoMsg"
+						:rules="form.userInfoRules"
 					/>
 					<v-text-field
 						v-bind:type="showPassword ? 'text' : 'password'"
@@ -18,6 +23,8 @@
 						label="パスワード"
 						@click:append="showPassword = !showPassword"
 						v-model="password"
+						:hint="form.passwordMsg"
+						:rules="form.passwordRules"
 					/>
 					<v-card-actions>
 						<div class="ic-Login__forgot ml-auto">
@@ -30,6 +37,8 @@
 					</v-card-actions>
 					<v-card-actions>
 							<v-btn
+								:disabled="!isValid || loading"
+								:loading="loading"
 								class="info ml-auto mt-5"
 								@click="submit">
 								ログイン
@@ -47,6 +56,8 @@
 		name: 'Login',
 		data(){
 			return{
+				isValid: false,
+				loading: false,
 				showPassword: false,
 				userEmail: '',
 				password: '',
@@ -54,5 +65,18 @@
 		},
 		methods:{
 		},
+		computed:{
+			form(){
+				const userInfoMsg = 'ユーザーIDまたはメールアドレスを入力してください'	
+				const passwordMsg = 'パスワードは8文字以上で入力してください'
+				const required = v => !!v || ''
+				const userInfoFormat = v=>  /^[a-zA-Z_0-9]{1,15}$/.test(v) || /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/.test(v) || ''
+				const passwordFormat = v => /^[ -~¥]{8,}$/.test(v) || ''
+
+				const passwordRules = [required, passwordFormat]
+				const userInfoRules = [required, userInfoFormat]
+				return { userInfoMsg, passwordMsg, passwordRules, userInfoRules }
+			}	
+		}
 	}
 </script>
