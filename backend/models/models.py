@@ -1,5 +1,5 @@
 import datetime
-from app.app import db
+from app.app import db, ma
 
 class User(db.Model):
     __tablename__ = "users"
@@ -30,3 +30,8 @@ class Post_reaction(db.Model):
     post_id = db.Column(db.Integer)
     reaction = db.Column(db.String(10))
     reaction_count = db.Column(db.Integer)
+
+class Post_schema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Homete_post
+        fields = ("post_id", "created_at", "post_content", "reactions")
