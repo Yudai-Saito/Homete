@@ -12,7 +12,7 @@ POST_SCHEMA = Post_schema(many=True)
 @auth_required
 def post_receive():
 	"""投稿を受け取り、DBに保存する
-	jwtからuser_idを取得する
+	redisからuser_idを取得する
 	jsonから投稿内容を取得する
 	"""
 	try:	
@@ -65,7 +65,6 @@ def post_get():
 		return jsonify({"status": "error"}), 400
 
 @post.route("/reaction", methods=["PUT"])
-@auth_required
 def reaction_count_up():
 	"""投稿のリアクションをインクリメントする
 	jsonからpost_id, reactionを取得する
@@ -91,7 +90,6 @@ def reaction_count_up():
 		return jsonify({"status": "error"}), 400
 
 @post.route("/reaction", methods=["DELETE"])
-@auth_required
 def reaction_count_down():
 	"""投稿のリアクションをデクリメントする
 	jsonからpost_id, reactionを取得する
