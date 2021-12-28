@@ -5,6 +5,7 @@
 				small
 				rounded
 				text
+				@click="visibleCard"
 			>
 				<v-icon>
 					mdi-pen-plus
@@ -52,10 +53,13 @@ export default{
 	name: 'SideMenu',
 	data(){
 		return{
+			overlay: true,
 		}
 	},
 	methods: {
-		
+		visibleCard: function(){
+            this.$emit('overlay', this.overlay)
+		}
 	},
 }
 </script>
