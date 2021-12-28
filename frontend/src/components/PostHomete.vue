@@ -25,6 +25,7 @@
 				></v-progress-linear>
 			</template>
 			<v-form
+				v-model="isValid"
 				ref="form"
 			>
 				<v-btn
@@ -49,10 +50,13 @@
 					rows="3"
 					v-model="homete"
 					@input="inputText"
+					counter=100	
+					:rules="forms.inputRules"
 				></v-textarea>
 				<v-divider class="mx-4"></v-divider>
 				<v-card-actions>
 						<v-btn
+							:disabled="!isValid || loading"
 							class="info ml-auto"
 							@click="submit"
 							elevation='0'
@@ -71,6 +75,7 @@ export default{
 	name: 'PostHomete',
 	data(){
 		return{
+			isValid: false,
 			form: false,
 			loading: false,
 			homete: '',
@@ -106,5 +111,15 @@ export default{
 			this.$emit('cardVisible',this.cardVisible)
 		}
 	},
+	computed:{
+		forms(){
+			const required = v => !!v || ''
+			const inputFormat = v => v.length <= 100 || '100文字以下で入力してください！'
+
+			const inputRules = [required, inputFormat]
+
+			return { inputRules }
+		}
+	}
 }
 </script>
