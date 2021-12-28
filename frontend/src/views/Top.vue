@@ -1,21 +1,28 @@
 <template>
 	<v-app>
+		<v-overlay
+			:value="overlay"
+			dark=false
+			light=true
+		>
+			<PostHomete v-on:overlay='noticeVisible' />
+		</v-overlay>
 		<v-container fluid class="mainContainer mx-auto">
-			<v-row>
+			<v-row justify="center" class="mx-auto">
 				<v-col cols="2" class="d-none d-sm-block ma-0 pa-0 leftMenu">
-					<SideMenu />
+					<SideMenu v-on:overlay='overlayCard' />
 				</v-col>
 
 				<v-divider vertical></v-divider>
 
-				<v-col cols="12" sm="8" md="7" class="">
-					<PostHomete v-on:cardVisible='noticeVisible' v-if="cardVisible"/>
+				<v-col cols="12" sm="8" md="8" class="subContainer">
+					
 					<DisplayHomete />
 				</v-col>
 
 				<v-divider vertical></v-divider>
 
-				<v-col md="3" class="hidden-sm-and-down ma-0 pa-0 rightMenu">
+				<v-col md="2" class="hidden-sm-and-down ma-0 pa-0 rightMenu">
 					<h2 align="center">column</h2>
 				</v-col>
 			</v-row>
@@ -33,6 +40,9 @@
 		max-width: 1200px;
 		width: 100%;
 		height: 100%;
+	}
+	.subContainer{
+		width: 100%;
 	}
 	.leftMenu{
 		width: 115pt;
@@ -54,7 +64,7 @@ export default {
 	name: "Top",
 	data(){
 		return{
-			cardVisible: true,
+			overlay: false,
 		}
 	},
 	components: {
@@ -63,9 +73,12 @@ export default {
 		SideMenu,
 	},
 	methods: {
-		noticeVisible: function(childCardVisible){
-			this.cardVisible = childCardVisible
-			console.log(this.cardVisible)
+		noticeVisible: function(childOverlay){
+			this.overlay = childOverlay
+			console.log(this.overlay)
+		},
+		overlayCard: function(childOverlay){
+			this.overlay = childOverlay
 		}
 	},
 	mounted(){
