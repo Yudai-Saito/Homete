@@ -1,9 +1,10 @@
 <template>
-	<v-container fluid>
+	<v-container fluid class="hometeCard">
 		<v-card
 			:loading="loading"
 			:disabled="form || loading"
 			outlined
+			class="hometeCard"
 		>
 			<v-btn
 				icon
@@ -69,6 +70,13 @@
 		</v-card>
 	</v-container>
 </template>
+<style>
+	.hometeCard{
+		position: sticky;
+		width: 500px;
+		bottom: 200px;
+	}
+</style>
 
 <script>
 export default{
@@ -80,7 +88,7 @@ export default{
 			loading: false,
 			homete: '',
 			clearVisible: false,
-			cardVisible: false,
+			overlay: false,
 		}
 	},
 	methods: {
@@ -108,7 +116,7 @@ export default{
 			this.clearVisible = false
 		},
 		closeCard: function(){
-			this.$emit('cardVisible',this.cardVisible)
+			this.$emit('overlay',this.overlay)
 		}
 	},
 	computed:{
