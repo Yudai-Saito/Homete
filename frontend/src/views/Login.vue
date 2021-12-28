@@ -92,7 +92,10 @@
 					}
 				)
 				.then((res) => {
-					console.log(res.status);
+					console.log(res)	
+					if (res.status == 200) {
+						this.$router.push('/')
+					}
 					}
 				).
 				catch((err) => {
