@@ -74,7 +74,7 @@ def verify():
 	"""
 	try:
 		#JSONからユーザー情報取り出し
-		user_email = request.json["user_email"]
+		user_email = get_jwt_identity()
 		user_name = request.json["user_name"]
 		user_id = request.json["user_id"]
 		hashed_password = request.json["hashed_password"]
@@ -136,9 +136,11 @@ def login():
 			#TokenをRedisに保存
 			redis.set(token, user.user_id, ex=60*60*24)
 
+			expires = int(datetime.now().timestamp()) + 60*60*24
+
 			#レスポンス作成	
 			response = make_response(jsonify({"status":"ok"}, 200))
-			response.set_cookie("token", value=token, expires=60*60*24, httponly=True)
+			response.set_cookie("token", value=token, expires=expires, httponly=True, samesite="None", secure=True)
 
 			return response
 		else:
