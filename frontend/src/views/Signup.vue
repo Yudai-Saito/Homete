@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		<v-card width="400px" class="mx-auto my-auto pa-3">
+		<v-card width="400px" class="mx-auto my-auto pa-3" v-if="showCard">
 			<v-card-title>
 				<h1 class="headline">新規登録</h1>
 			</v-card-title>
@@ -47,6 +47,26 @@
 				</v-form>
 			</v-card-text>
 		</v-card>
+		<v-card width="400px" class="mx-auto my-auto pa-3" v-else-if="!isError">
+			<v-card-title>
+				<h1 class="headline">ようこそ</h1>
+			</v-card-title>
+			<v-card-text>
+				<p>
+					アカウントの登録が完了しました。
+					<br>
+					下記のボタンからログインをしてご利用ください。
+				</p>
+				<v-btn
+					block
+					color="secondary"
+					elevation="2"
+					@click="routeLogin"
+				>
+					ログイン
+				</v-btn>
+			</v-card-text>
+		</v-card>
 	</v-app>
 </template>
 
@@ -67,6 +87,8 @@
 				userId: '',
 				password: '',
 				jwtString: '',
+				showCard: true,
+				isError: false,
 			}
 		},
 		methods:{
@@ -102,9 +124,12 @@
 				)
 				.then((res) => {
 					console.log(res.status);
+					this.showCard = false
 				})
 				.catch((err) => {
 					console.log(err);
+					this.showCard = true
+					this.isError = true
 				})
 			},
 			formReset () {
@@ -116,6 +141,9 @@
 					password: '',
 				}
 			},
+			routeLogin: function(){
+				this.$router.push('/Login')
+			}
 		},
 		created: function(){
 			//クエリストリングのjwtを取り出して、定義されてない場合は'hoge'を返す

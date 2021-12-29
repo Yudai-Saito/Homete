@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		<v-card width="400px" class="mx-auto my-auto pa-3">
+		<v-card width="400px" class="mx-auto my-auto pa-3" v-if="showCard">
 			<v-card-title>
 				<h1 class="headline">パスワード再設定</h1>
 			</v-card-title>
@@ -31,6 +31,26 @@
 				</v-form>
 			</v-card-text>
 		</v-card>
+		<v-card width="400px" class="mx-auto my-auto pa-3" v-else-if="!isError">
+			<v-card-title>
+				<h1 class="headline">パスワード再設定</h1>
+			</v-card-title>
+			<v-card-text>
+				<p>
+					パスワードの再設定を完了しました。
+					<br>
+					新しいパスワードで再ログインしてください。
+				</p>
+			</v-card-text>
+			<v-btn
+				block
+				color="secondary"
+				elevation="2"
+				@click="routeLogin"
+			>
+				ログイン
+			</v-btn>
+		</v-card>
 	</v-app>
 </template>
 
@@ -48,6 +68,8 @@
 				showPassword: false,
 				password: '',
 				jwtString: '',
+				showCard: true,
+				isError: false,
 			}
 		},
 		methods:{
@@ -75,21 +97,35 @@
 					'Authorization': this.jwtString
 				}
 				//ハッシュ化したパスワードをPOST
-				axios.post("/passward/reset", {
-					'hashed_password':hashedPassword,
+				axios.post("/user/password/reset", {
+					'reset_hashed_password':hashedPassword,
 				},{headers}
 				)
 				.then((res) => {
 					console.log(res.status);
+					if(res.status == 200){
+						this.showCard = false
+					}
 				})
 				.catch((err) => {
 					console.log(err);
+					this.showCard = false
+					this.isError = true
 				})
 			},
 			formReset () {
 				this.$refs.form.reset()
 				this.params = { password: ''}
 			},
+			routeLogin: function(){
+				this.$router.push('/Login')
+			}
+		},
+		created: function(){
+			//クエリストリングのjwtを取り出して、定義されてない場合は'hoge'を返す
+			let jwt = this.$route.query.jwt != undefined ? this.$route.query.jwt : 'hoge'
+			//methods内で使用したいからjwtとメールアドレスを代入
+			this.jwtString = 'Bearer ' + jwt
 		},
 		computed:{
 			form () {
