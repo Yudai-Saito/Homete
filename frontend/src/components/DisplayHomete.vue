@@ -13,6 +13,8 @@
 						v-for="reaction in reactions"
 						:key="reaction"
 						:reactionIcon=reaction
+						:postReaction=postList.post_reaction
+						:userReaction=postList.user_reaction
 					/>
 			</v-card-actions>
 		</v-card>
@@ -25,21 +27,24 @@ export default{
 	name: 'DisplayHomete',
 	data(){
 		return{
-			homete: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore',
-			reactions:{
-				good: '👍',
-				interesting: '👀',
-				great: '💯',
-				like: '🥰',
-				congratulations: '🎉',
-			},
+			homete: '',
+			reactions: ["👍","👀","💯","🥰","🎉"],
+			reactionFlag: false,
 		}
 	},
+	props:[
+		'postList'
+	],
 	components:{
 		ReactionButton,
 	},
 	methods: {
 		
+	},
+	created() {
+		this.homete=this.postList.post_content,
+		this.reaction=this.postList.post_reaction.reaction
+		this.reactionFlag=(this.postList.user_reaction.contains(this.postList.post_reaction))
 	},
 }
 </script>
