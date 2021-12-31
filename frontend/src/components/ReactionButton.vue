@@ -1,6 +1,6 @@
 <template>
 	<v-btn
-		class="justify-start"
+		class="justify-start grey--text text--darken-3"
 		@click="count"
 		elevation='0'
 		small
@@ -23,7 +23,7 @@
 
 <style>
 	.pushedButton{
-		background-color: "#3949AB,0.5";
+		background-color:rgba(207, 216, 220, 0.5)
 	}
 </style>
 

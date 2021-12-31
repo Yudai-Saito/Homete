@@ -5,21 +5,26 @@
 		>
 			<h4 class="ml-4 mt-2">匿名さん</h4>
 			<v-divider class="mx-4"></v-divider>
-			<v-card-text>
+			<v-card-text class="black--text">
 				{{homete}}
 			</v-card-text>
 			<v-card-actions>
-					<ReactionButton
-						v-for="reaction in reactions"
-						:key="reaction"
-						:reactionIcon=reaction
-						:postReaction=postList.post_reaction
-						:userReaction=postList.user_reaction
-					/>
+				<ReactionButton
+					v-for="reaction in reactions"
+					:key="reaction"
+					:reactionIcon=reaction
+					:postReaction=postList.post_reaction
+					:userReaction=postList.user_reaction
+				/>
 			</v-card-actions>
 		</v-card>
 	</v-container>
 </template>
+<style>
+	.textColor{
+		color: red;
+	}
+</style>
 
 <script>
 import ReactionButton from '../components/ReactionButton'
