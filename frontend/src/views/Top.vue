@@ -22,11 +22,11 @@
 					v-model="drawer"
 					fixed
 					temporary
-					v-bind:width="200"
+					v-bind:width="150"
 				>
 					<SideMenu v-on:overlay='overlayCard' />
 				</v-navigation-drawer>
-				<v-btn elevation=3 fab x-large color="white" icon class="d-block d-sm-none postButton" @click="overlay = true">
+				<v-btn elevation=3 fab color="white" icon class="d-block d-sm-none postButton" @click="overlay = true">
 					<v-icon>
 						mdi-pen-plus
 					</v-icon>
@@ -82,7 +82,7 @@
 	}
 	.postButton{
 		position: fixed;
-		left: 30px;
+		left: 20px;
 		bottom: 30px;
 		background-color: #1DA1F2;
 	}
