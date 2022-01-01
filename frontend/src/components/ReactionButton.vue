@@ -1,6 +1,6 @@
 <template>
 	<v-btn
-		class="justify-start grey--text text--darken-3"
+		class="d-none d-sm-block reactBtnA"
 		@click="count"
 		elevation='0'
 		small
@@ -9,7 +9,7 @@
 		<h2>{{reactionIcon}}</h2>{{reactionCount}}
 	</v-btn>
 	<v-btn
-		class="justify-start pushedButton"
+		class="d-block d-sm-none reactBtnB"
 		@click="count"
 		elevation='0'
 		small
@@ -20,6 +20,21 @@
 		<h2>{{reactionIcon}}</h2>{{reactionCount}}
 	</v-btn>
 </template>
+<style>
+	.btnDiv{
+		margin: 0;
+		padding: 0;
+	}
+	.reactBtnA{
+		margin: 0;
+		margin-right: 9px;
+	}
+	.reactBtnB{
+		margin: 0;
+		min-height: 22px;
+		margin-right: 3px;
+	}
+</style>
 
 <style>
 	.pushedButton{

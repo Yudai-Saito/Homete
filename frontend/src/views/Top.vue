@@ -13,7 +13,26 @@
 					<SideMenu v-on:overlay='overlayCard' />
 				</v-col>
 
-				<v-divider vertical></v-divider>
+				<v-app-bar
+					elevation=0 color=transparent dense class="d-block d-sm-none topMenu"
+				>
+					<v-app-bar-nav-icon @click="drawer = true" x-large class="d-block d-sm-none navButton"></v-app-bar-nav-icon>
+				</v-app-bar>
+				<v-navigation-drawer
+					v-model="drawer"
+					fixed
+					temporary
+					v-bind:width="150"
+				>
+					<SideMenu v-on:overlay='overlayCard' />
+				</v-navigation-drawer>
+				<v-btn elevation=3 fab color="white" icon class="d-block d-sm-none postButton" @click="overlay = true">
+					<v-icon>
+						mdi-pen-plus
+					</v-icon>
+				</v-btn>
+
+				<v-divider vertical class="d-none d-sm-block"></v-divider>
 
 				<v-col cols="12" sm="8" md="8" class="subContainer">
 					
@@ -24,7 +43,7 @@
 					/>
 				</v-col>
 
-				<v-divider vertical></v-divider>
+				<v-divider vertical class="d-none d-sm-block"></v-divider>
 
 				<v-col md="2" class="hidden-sm-and-down ma-0 pa-0 rightMenu">
 					<h2 align="center">column</h2>
@@ -56,6 +75,25 @@
 	}
 	.rightMenu{
 		min-width: 115pt;
+	}
+	.topMenu{
+		width: 100vw;
+		min-width: 100vw;
+		max-width: 100vw;
+		flex: none;
+		margin: 0;
+		padding: 0;
+	}
+	.postButton{
+		position: fixed;
+		left: 20px;
+		bottom: 30px;
+		background-color: #1DA1F2;
+	}
+	.navButton{
+		position: fixed;
+		left: 30px;
+		top: 10px;
 	}
 </style>
 
@@ -112,6 +150,7 @@ export default {
 		},
 		overlayCard: function(childOverlay){
 			this.overlay = childOverlay
+			this.drawer = false
 		}
 	},
 	mounted(){
