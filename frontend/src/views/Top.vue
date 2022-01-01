@@ -36,7 +36,11 @@
 
 				<v-col cols="12" sm="8" md="8" class="subContainer">
 					
-					<DisplayHomete />
+					<DisplayHomete 
+						v-for="post in posts"
+						:key="post"
+						:postList=post
+					/>
 				</v-col>
 
 				<v-divider vertical class="d-none d-sm-block"></v-divider>
@@ -98,12 +102,40 @@
 import PostHomete from '../components/PostHomete'
 import DisplayHomete from '../components/DisplayHomete'
 import SideMenu  from '../components/SideMenu'
+
 export default {
 	name: "Top",
 	data(){
 		return{
 			overlay: false,
-			drawer: false,
+			posts:[{
+				"post_id" : 1,
+				"created_at": "2021-12-25T23:32:19",
+				"post_content": "絵文字を選んだ!",
+				"post_reaction" : [
+					{
+						"reaction" : "👍",
+						"count" : "3"
+					},
+					{
+						"reaction" : "👀",
+						"count" : "5"
+					}
+				],
+				"user_reaction" : ["👍", "👀"]
+			},
+			{
+				"post_id" : 2,
+				"created_at": "2021-12-25T23:32:19",
+				"post_content": "トップ画面ができた!",
+				"post_reaction" : [
+					{
+						"reaction" : "👍",
+						"count" : "4"
+					}
+				],
+				"user_reaction" : []
+			}],
 		}
 	},
 	components: {
@@ -123,6 +155,9 @@ export default {
 	},
 	mounted(){
 		console.log(this.$vuetify.breakpoint)
-	}	
+	},
+	created() {
+		
+	},
 };
 </script>
