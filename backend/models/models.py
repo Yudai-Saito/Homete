@@ -42,4 +42,4 @@ class UserReaction(db.Model):
 class Post_schema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Homete_post
-        fields = ("post_id", "created_at", "post_content", "reactions")
+        fields = ("post_id", "created_at", "post_content")
