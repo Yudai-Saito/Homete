@@ -26,7 +26,7 @@
 				>
 					<SideMenu v-on:overlay='overlayCard' />
 				</v-navigation-drawer>
-				<v-btn elevation=3 fab color="white" icon class="d-block d-sm-none postButton" @click="overlay = true">
+				<v-btn elevation=3 fab x-large color="white" icon class="d-block d-sm-none postButton" @click="overlay = true">
 					<v-icon>
 						mdi-pen-plus
 					</v-icon>
@@ -108,6 +108,7 @@ export default {
 	data(){
 		return{
 			overlay: false,
+			drawer: false,
 			posts:[{
 				"post_id" : 1,
 				"created_at": "2021-12-25T23:32:19",
