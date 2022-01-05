@@ -31,7 +31,15 @@ class Post_reaction(db.Model):
     reaction = db.Column(db.String(10))
     reaction_count = db.Column(db.Integer)
 
+class UserReaction(db.Model):
+    __tablename__ = "user_reactions"
+
+    user_reaction_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    post_id = db.Column(db.Integer)
+    user_id = db.Column(db.String(15))
+    reaction = db.Column(db.String(10))
+
 class Post_schema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Homete_post
-        fields = ("post_id", "created_at", "post_content", "reactions")
+        fields = ("post_id", "created_at", "post_content")

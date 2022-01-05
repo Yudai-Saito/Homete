@@ -107,6 +107,7 @@ def password_reset():
 
 		#DBにユーザ登録
 		db.session.query(User).filter(User.user_email == user_email).update({"hashed_password": reset_hashed_password})
+		db.session.commit()
 
 		return jsonify({"status": "success"}), 200
 	except:
