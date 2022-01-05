@@ -1,12 +1,12 @@
 module.exports = {
-	css: {
-		loaderOptions: {
-		sass: {
-			prependData: `@import "@/scss/_variables.scss";`
-		}
-		}
-	},
-	transpileDependencies: [
-		'vuetify'
-	]
+    css: {
+        loaderOptions: { 
+            sass: {
+                additionalData: `@import "./src/scss/variables.scss"`
+            }
+        }
+    },
+    transpileDependencies: [
+        'vuetify'
+    ]
 }
