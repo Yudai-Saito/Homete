@@ -10,6 +10,7 @@ from sqlalchemy import or_, exists
 
 from app.app import mail, db, redis
 from models.models import User
+from route.token import auth_required
 
 user = Blueprint("user", __name__, url_prefix="/user")
 
@@ -134,8 +135,10 @@ def login():
 			#Token生成
 			token = sha256((user.user_id + environ["SALT"] + str(datetime.now())).encode("utf-8")).hexdigest()
 
+			#既に登録されているTokenを削除
+			redis.delete(user.user_id)
 			#TokenをRedisに保存
-			redis.set(token, user.user_id, ex=60*60*24)
+			redis.set(user.user_id, token, ex=60*60*24)
 
 			expires = int(datetime.now().timestamp()) + 60*60*24
 
@@ -147,4 +150,17 @@ def login():
 		else:
 			raise Exception("password error")	
 	except:
+		return jsonify({"status": "error"}), 400
+
+@user.route("/logout", methods=["POST"])
+@auth_required
+def logout():
+	"""
+	ログアウト
+	"""
+	try:
+		user_id = request.cookies.get("user_id")
+		redis.delete(user_id)
+		return jsonify({"status": "success"}), 200
+	except
 		return jsonify({"status": "error"}), 400
