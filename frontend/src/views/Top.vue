@@ -4,6 +4,7 @@
 			:value="overlay"
 			dark=false
 			light=true
+			:z-index="999"
 		>
 			<PostHomete v-on:overlay='noticeVisible' />
 		</v-overlay>
@@ -14,28 +15,29 @@
 				</v-col>
 
 				<v-app-bar
-					elevation=0 color=transparent dense class="d-block d-sm-none topMenu"
+					elevation=0 color=rgba(255,255,255,0.9) dense class="d-block d-sm-none topMenu" app
 				>
 					<v-app-bar-nav-icon @click="drawer = true" x-large class="d-block d-sm-none navButton"></v-app-bar-nav-icon>
+
+					<v-btn elevation=3 fab color="white" icon class="d-block d-sm-none postButton" @click="overlay = true">
+						<v-icon>
+							mdi-pen-plus
+						</v-icon>
+					</v-btn>
 				</v-app-bar>
 				<v-navigation-drawer
 					v-model="drawer"
-					fixed
-					temporary
+					app
+					touchless
 					v-bind:width="150"
+					class="d-block d-sm-none"
 				>
 					<SideMenu v-on:overlay='overlayCard' />
 				</v-navigation-drawer>
-				<v-btn elevation=3 fab color="white" icon class="d-block d-sm-none postButton" @click="overlay = true">
-					<v-icon>
-						mdi-pen-plus
-					</v-icon>
-				</v-btn>
 
 				<v-divider vertical class="d-none d-sm-block"></v-divider>
 
 				<v-col cols="12" sm="8" md="8" class="subContainer">
-					
 					<DisplayHomete 
 						v-for="post in posts"
 						:key="post"
@@ -85,15 +87,15 @@
 		padding: 0;
 	}
 	.postButton{
-		position: fixed;
-		left: 20px;
-		bottom: 30px;
+		position: absolute;
+		margin-top: 170vh;
+		margin-left: 75vw;
 		background-color: #1DA1F2;
 	}
 	.navButton{
-		position: fixed;
-		left: 30px;
-		top: 10px;
+		margin-right: auto;
+		margin-top: auto;
+		margin-bottom: auto;
 	}
 </style>
 
@@ -108,6 +110,7 @@ export default {
 	data(){
 		return{
 			overlay: false,
+			drawer: false,
 			posts:[{
 				"post_id" : 1,
 				"created_at": "2021-12-25T23:32:19",
@@ -135,7 +138,7 @@ export default {
 					}
 				],
 				"user_reaction" : []
-			}],
+			},],
 		}
 	},
 	components: {

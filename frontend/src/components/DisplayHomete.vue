@@ -9,20 +9,70 @@
 				{{homete}}
 			</v-card-text>
 			<v-card-actions>
-				<ReactionButton
-					v-for="reaction in reactions"
-					:key="reaction"
-					:reactionIcon=reaction
-					:postReaction=postList.post_reaction
-					:userReaction=postList.user_reaction
-				/>
+				<ul class="horizontalListWide d-none d-sm-block">
+					<li
+						v-for="reaction in reactions"
+						:key="reaction"
+					>
+						<ReactionButton
+							:reactionIcon=reaction
+							:postReaction=postList.post_reaction
+							:userReaction=postList.user_reaction
+						/>
+					</li>
+				</ul>
+				<ul class="horizontalList d-block d-sm-none">
+					<li
+						v-for="reaction in reactions"
+						:key="reaction"
+					>
+						<ReactionButton
+							:reactionIcon=reaction
+							:postReaction=postList.post_reaction
+							:userReaction=postList.user_reaction
+						/>
+					</li>
+				</ul>
 			</v-card-actions>
 		</v-card>
 	</v-container>
 </template>
 <style>
-	.textColor{
-		color: red;
+	.horizontalListWide {
+		overflow: auto;
+
+		white-space: pre-line;
+		-webkit-overflow-scrolling: touch;
+		padding: 0;
+		margin: 0;
+	}
+	.horizontalListWide li {
+		/* 横スクロール用 */
+		position: relative;
+		display: inline-block;
+		right: 1em;
+	}
+	.horizontalList {
+		overflow-x: auto;
+		/* IE, Edge 対応 */
+		-ms-overflow-style: none;
+		/* Firefox 対応 */
+		scrollbar-width: none;
+
+		white-space: nowrap;
+		-webkit-overflow-scrolling: touch;
+		padding: 0;
+		margin: 0;
+	}
+	/* Chrome, Safari 対応 */
+	.horizontalList::-webkit-scrollbar {
+		display:none;
+	}
+	.horizontalList li {
+		/* 横スクロール用 */
+		position: relative;
+		display: inline-block;
+		right: 1em;
 	}
 </style>
 
