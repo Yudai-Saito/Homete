@@ -15,7 +15,7 @@
 				</v-col>
 
 				<v-app-bar
-					elevation=0 color=rgba(255,255,255,0.9) dense class="d-block d-sm-none topMenu" fixed app
+					elevation=0 color=rgba(255,255,255,0.9) dense class="d-block d-sm-none topMenu" app
 				>
 					<v-app-bar-nav-icon @click="drawer = true" x-large class="d-block d-sm-none navButton"></v-app-bar-nav-icon>
 
