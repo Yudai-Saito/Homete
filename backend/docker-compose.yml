@@ -20,13 +20,14 @@ services:
     image: mysql
     volumes:
       - mysql_volume:/var/lib/mysql
+      - ./mysql.conf:/etc/mysql/conf.d/mysql.conf
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       TZ: 'Asia/Tokyo'
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin 
 
   python:
     container_name: "python3"
