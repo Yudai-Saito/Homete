@@ -12,8 +12,9 @@ def auth_required(func):
 	"""
 	@wraps(func)
 	def decorated(*args, **kwargs):
+		user_id = request.cookies.get("user_id")
 		token = request.cookies.get("token")
-		if redis.exists(token) == True:
+		if redis.get(user_id) == token:
 			return func(*args, **kwargs)
 		else:
 			return jsonify({"status": "error"}), 401
