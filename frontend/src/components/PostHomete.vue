@@ -186,6 +186,7 @@ export default{
 				console.log(res)
 				this.overlay = false
 				this.closeCard()
+				this.$emit('postAlert',true)
 			}).catch((err) =>{
 				console.log(err)
 			})
