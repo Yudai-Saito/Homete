@@ -73,7 +73,7 @@ export default{
 			).then((res) => {
 				console.log(res)
 				if (res.status == 200) {
-					this.$router.push('/')
+					this.$emit('logout')
 				}
 			}).catch(err => {
 				console.log(err)
