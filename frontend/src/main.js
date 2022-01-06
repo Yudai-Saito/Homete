@@ -4,6 +4,10 @@ import router from './router'
 import vuetify from './plugins/vuetify'
 
 import axios from 'axios'
+
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
+
 //axiosを使う際のbaseURLにエンドポイントを設定
 axios.defaults.baseURL = process.env.VUE_APP_API_ENDPOINT;
 //axiosでpostをする際にデフォルトでContent-Typeがutf-8のJSON形式になるよう設定
