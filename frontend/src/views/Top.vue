@@ -11,7 +11,8 @@
 		<v-container fluid class="mainContainer mx-auto">
 			<v-row justify="center" class="mx-auto">
 				<v-col cols="2" class="d-none d-sm-block ma-0 pa-0 leftMenu">
-					<SideMenu v-on:overlay='overlayCard' />
+					<SideMenu v-on:overlay='overlayCard' v-if="distinctLogin" />
+					<NoLoginSideMenu v-else />
 				</v-col>
 
 				<v-app-bar
@@ -49,7 +50,8 @@
 					v-if="this.$vuetify.breakpoint.width < 555"
 
 				>
-					<SideMenu v-on:overlay='overlayCard' />
+					<SideMenu v-on:overlay='overlayCard' v-if="distinctLogin" />
+					<NoLoginSideMenu v-else />
 				</v-navigation-drawer>
 
 				<v-divider vertical class="d-none d-sm-block"></v-divider>
@@ -131,6 +133,7 @@
 import PostHomete from '../components/PostHomete'
 import DisplayHomete from '../components/DisplayHomete'
 import SideMenu  from '../components/SideMenu'
+import NoLoginSideMenu from '../components/NoLoginSideMenu.vue'
 
 
 var posts = [{
@@ -172,12 +175,14 @@ export default {
 			overlay: false,
 			drawer: false,
 			posts: posts,
+			distinctLogin: false,
 		}
 	},
 	components: {
 		PostHomete,
 		DisplayHomete,
 		SideMenu,
+		NoLoginSideMenu,
 	},
 	methods: {
 		noticeVisible: function(childOverlay){
