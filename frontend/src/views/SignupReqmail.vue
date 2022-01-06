@@ -36,7 +36,6 @@
 			noticeVisible: function(childRescode){
 				//SignupReqmail内のresCodeにRequestMailのresCodeを代入
 				this.resCode = childRescode
-				console.log(this.resCode)
 				this.resFlag = false
 			}
 		},

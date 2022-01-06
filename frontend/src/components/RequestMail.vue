@@ -56,11 +56,9 @@ export default{
 			.then((res) => {
 				//通知名'resCode'で親コンポーネントにresCodeを渡す
 				this.$emit('resCode',res.status)
-				console.log(res.status);//res.statusにレスポンスコードが返ってくる
 			})
 			.catch((err) => {
 				this.$emit('resCode',err.response.status)
-				console.log(err);
 			});
 		},
 		formReset () {

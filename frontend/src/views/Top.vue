@@ -182,7 +182,6 @@ export default {
 	methods: {
 		noticeVisible: function(childOverlay){
 			this.overlay = childOverlay
-			console.log(this.overlay)
 		},
 		overlayCard: function(childOverlay){
 			this.overlay = childOverlay
@@ -190,8 +189,6 @@ export default {
 		}
 	},
 	mounted(){
-		console.log(this.$vuetify.breakpoint)
-		console.log(this.$vuetify.breakpoint.width < 500)
 	},
 	created() {
 		
