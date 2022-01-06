@@ -6,9 +6,24 @@
 			light=true
 			:z-index="999"
 		>
-			<PostHomete v-on:overlay='noticeVisible' />
+			<PostHomete
+				v-on:overlay='noticeVisible'
+				v-on:postAlert='alertVisible'
+			/>
 		</v-overlay>
+		
 		<v-container fluid class="mainContainer mx-auto">
+			<v-expand-transition>
+				<v-alert
+					v-show="alert"
+					color="primary"
+					text
+					type="success"
+					class="alertSucess"
+				>
+					送信しました。
+				</v-alert>
+			</v-expand-transition>
 			<v-row justify="center" class="mx-auto">
 				<v-col cols="2" class="d-none d-sm-block ma-0 pa-0 leftMenu">
 					<SideMenu v-on:overlay='overlayCard' v-if="distinctLogin" />
@@ -125,6 +140,11 @@
 	/* Chrome, Safari 対応 */
 	.virtualScrollBar::-webkit-scrollbar {
 		display:none;
+  }
+	.alertSucess{
+		width: 90%;
+		margin-right: auto;
+		margin-left: auto;
 	}
 </style>
 
@@ -135,8 +155,14 @@ import DisplayHomete from '../components/DisplayHomete'
 import SideMenu  from '../components/SideMenu'
 import NoLoginSideMenu from '../components/NoLoginSideMenu.vue'
 
-
-var posts = [{
+export default {
+	name: "Top",
+	data(){
+		return{
+			overlay: false,
+			drawer: false,
+			alert: false,
+			posts:[{
 				"post_id" : 1,
 				"created_at": "2021-12-25T23:32:19",
 				"post_content": "絵文字を選んだ!",
@@ -191,12 +217,21 @@ export default {
 		overlayCard: function(childOverlay){
 			this.overlay = childOverlay
 			this.drawer = false
+		},
+		alertVisible: function(childrenAlert){
+			this.alert = childrenAlert
 		}
 	},
 	mounted(){
 	},
 	created() {
 		
+	},
+	updated() {
+		setTimeout(() => {
+			this.alert = false}
+			,3000
+		)
 	},
 };
 </script>
