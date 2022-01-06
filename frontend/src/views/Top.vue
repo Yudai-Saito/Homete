@@ -15,11 +15,27 @@
 				</v-col>
 
 				<v-app-bar
-					elevation=0 color=rgba(255,255,255,0.9) dense class="d-block d-sm-none topMenu" app
+					elevation=0
+					color=rgba(255,255,255,0.9)
+					dense
+					app
+					class="topMenu"
+					v-if="this.$vuetify.breakpoint.width < 555"
 				>
-					<v-app-bar-nav-icon @click="drawer = true" x-large class="d-block d-sm-none navButton"></v-app-bar-nav-icon>
+					<v-app-bar-nav-icon
+						@click="drawer = true"
+						x-large
+						class="navButton"
+					></v-app-bar-nav-icon>
 
-					<v-btn elevation=3 fab color="white" icon class="d-block d-sm-none postButton" @click="overlay = true">
+					<v-btn
+						elevation=3
+						fab
+						color="white"
+						icon
+						class="postButton"
+						@click="overlay = true"
+					>
 						<v-icon>
 							mdi-pen-plus
 						</v-icon>
@@ -30,7 +46,8 @@
 					app
 					touchless
 					v-bind:width="150"
-					class="d-block d-sm-none"
+					v-if="this.$vuetify.breakpoint.width < 555"
+
 				>
 					<SideMenu v-on:overlay='overlayCard' />
 				</v-navigation-drawer>
@@ -97,6 +114,16 @@
 		margin-top: auto;
 		margin-bottom: auto;
 	}
+	.virtualScrollBar{
+		/* IE, Edge 対応 */
+		-ms-overflow-style: none;
+		/* Firefox 対応 */
+		scrollbar-width: none;
+	}
+	/* Chrome, Safari 対応 */
+	.virtualScrollBar::-webkit-scrollbar {
+		display:none;
+	}
 </style>
 
 
@@ -105,13 +132,8 @@ import PostHomete from '../components/PostHomete'
 import DisplayHomete from '../components/DisplayHomete'
 import SideMenu  from '../components/SideMenu'
 
-export default {
-	name: "Top",
-	data(){
-		return{
-			overlay: false,
-			drawer: false,
-			posts:[{
+
+var posts = [{
 				"post_id" : 1,
 				"created_at": "2021-12-25T23:32:19",
 				"post_content": "絵文字を選んだ!",
@@ -138,7 +160,18 @@ export default {
 					}
 				],
 				"user_reaction" : []
-			},],
+			},
+		];
+
+
+
+export default {
+	name: "Top",
+	data(){
+		return{
+			overlay: false,
+			drawer: false,
+			posts: posts,
 		}
 	},
 	components: {
@@ -158,6 +191,7 @@ export default {
 	},
 	mounted(){
 		console.log(this.$vuetify.breakpoint)
+		console.log(this.$vuetify.breakpoint.width < 500)
 	},
 	created() {
 		
