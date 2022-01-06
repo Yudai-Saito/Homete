@@ -30,6 +30,7 @@
 				small
 				rounded
 				text
+				@click="logout"
 			>
 				<v-icon>
 					mdi-logout
@@ -49,6 +50,8 @@
 </style>
 
 <script>
+import axios from 'axios';
+
 export default{
 	name: 'SideMenu',
 	data(){
@@ -59,6 +62,22 @@ export default{
 	methods: {
 		visibleCard: function(){
             this.$emit('overlay', this.overlay)
+		},
+		logout: function(){
+			axios.post("/user/logout",
+				{
+					//
+				},{
+					withCredentials: true
+				}
+			).then((res) => {
+				console.log(res)
+				if (res.status == 200) {
+					this.$router.push('/')
+				}
+			}).catch(err => {
+				console.log(err)
+			})
 		}
 	},
 }
