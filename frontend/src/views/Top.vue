@@ -190,19 +190,8 @@ export default {
 				],
 				"user_reaction" : []
 			},
-		];
-
-
-
-export default {
-	name: "Top",
-	data(){
-		return{
-			overlay: false,
-			drawer: false,
-			posts: posts,
-			distinctLogin: false,
-		}
+		]
+	}
 	},
 	components: {
 		PostHomete,
@@ -225,7 +214,12 @@ export default {
 	mounted(){
 	},
 	created() {
-		
+		if(this.$cookies.isKey("expire") == true){
+			this.distinctLogin = true
+		}
+		else{
+			this.distinctLogin = false
+		}
 	},
 	updated() {
 		setTimeout(() => {
