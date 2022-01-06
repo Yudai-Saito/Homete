@@ -1,8 +1,8 @@
 <template>
 	<v-app>
 		<v-card width="400px" class="mx-auto my-auto pa-3">
-			<v-card-title>
-				<h1>ログイン</h1>
+			<v-card-title class="justify-center cardTitle">
+				<h2 class="titleText">Log in</h2>
 			</v-card-title>
 			<v-card-text>
 				<v-form
@@ -35,20 +35,41 @@
 							</a>
 						</div>
 					</v-card-actions>
-					<v-card-actions>
-							<v-btn
-								:disabled="!isValid || loading"
-								:loading="loading"
-								class="info ml-auto mt-5"
-								@click="submit">
-								ログイン
-							</v-btn>
-					</v-card-actions>
 				</v-form>
 			</v-card-text>
+			<v-btn
+				:disabled="!isValid || loading"
+				:loading="loading"
+				class="ml-auto mr-auto mt-auto loginBtn"
+				@click="submit"
+				width="400px"
+				height="60px"
+			>
+				Login
+			</v-btn>
 		</v-card>
 	</v-app>
 </template>
+
+<style>
+.titleText{
+	font-weight: 400;
+}
+.cardTitle{
+	margin-bottom: 10px;
+	width: 95%;
+	margin-right: auto;
+	margin-left: auto;
+	border-bottom: solid thin #CFD8DC;
+}
+.loginBtn{
+	position: relative;
+	right: 12px;
+	top: 12px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+</style>
 
 
 <script>

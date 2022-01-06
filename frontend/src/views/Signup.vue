@@ -1,8 +1,8 @@
 <template>
 	<v-app>
 		<v-card width="400px" class="mx-auto my-auto pa-3" v-if="showCard">
-			<v-card-title>
-				<h1 class="headline">新規登録</h1>
+			<v-card-title class="justify-center cardTitle">
+				<h2 class="titleText">Sign up</h2>
 			</v-card-title>
 			<v-card-text>
 				<v-form
@@ -35,17 +35,18 @@
 						:hint="form.passwordMsg"
 						:rules="form.passwordRules"
 					/>
-					<v-card-actions>
-						<v-btn
-							:disabled="!isValid || loading"
-							:loading="loading"
-							class="info ml-auto mt-5"
-							@click="submit">
-								登録
-						</v-btn>
-					</v-card-actions>
 				</v-form>
 			</v-card-text>
+			<v-btn
+				:disabled="!isValid || loading"
+				:loading="loading"
+				class="ml-auto mr-auto mt-auto signupBtn"
+				@click="submit"
+				width="400px"
+				height="60px"
+			>
+				Sign up
+			</v-btn>
 		</v-card>
 		<v-card width="400px" class="mx-auto my-auto pa-3" v-else-if="!isError">
 			<v-card-title>
@@ -63,13 +64,32 @@
 					elevation="2"
 					@click="routeLogin"
 				>
-					ログイン
+					Log in
 				</v-btn>
 			</v-card-text>
 		</v-card>
 	</v-app>
 </template>
 
+<style>
+.titleText{
+	font-weight: 400;
+}
+.cardTitle{
+	margin-bottom: 10px;
+	width: 95%;
+	margin-right: auto;
+	margin-left: auto;
+	border-bottom: solid thin #CFD8DC;
+}
+.signupBtn{
+	position: relative;
+	right: 12px;
+	top: 12px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+</style>
 
 <script>
 	import crypto from 'crypto'

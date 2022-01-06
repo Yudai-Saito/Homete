@@ -96,7 +96,6 @@ export default{
 	},
 	created() {
 		this.postReaction.forEach(item => {
-			console.log(item)
 			if(item.reaction == this.reactionIcon){
 				this.reactionCount = item.count - 0
 			}
