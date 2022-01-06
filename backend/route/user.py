@@ -146,6 +146,7 @@ def login():
 			response = make_response(jsonify({"status":"ok"}, 200))
 			response.set_cookie("token", value=token, expires=expires, httponly=True, samesite="None", secure=True)
 			response.set_cookie("user_id", value=user.user_id, expires=expires, httponly=True, samesite="None", secure=True)
+			response.set_cookie("expire", expires=expires, samesite="None", secure=True)
 
 			return response
 		else:
@@ -171,7 +172,8 @@ def logout():
 		response = make_response(jsonify({"status":"ok"}, 200))
 		response.set_cookie("token", value="logout_token", expires=expires, httponly=True, samesite="None", secure=True)
 		response.set_cookie("user_id", value="logout_user_id", expires=expires, httponly=True, samesite="None", secure=True)
-
+		response.set_cookie("expire", expires=expires, samesite="None", secure=True) 
+		
 		return response 
 	except:
 		return jsonify({"status": "error"}), 400
