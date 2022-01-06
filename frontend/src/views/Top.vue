@@ -26,7 +26,7 @@
 			</v-expand-transition>
 			<v-row justify="center" class="mx-auto">
 				<v-col cols="2" class="d-none d-sm-block ma-0 pa-0 leftMenu">
-					<SideMenu v-on:overlay='overlayCard' v-if="distinctLogin" />
+					<SideMenu v-on:overlay='overlayCard' v-on:logout="distinctLoginCheck" v-if="distinctLogin" />
 					<NoLoginSideMenu v-else />
 				</v-col>
 
@@ -162,6 +162,7 @@ export default {
 			overlay: false,
 			drawer: false,
 			alert: false,
+			distinctLogin: false,
 			posts:[{
 				"post_id" : 1,
 				"created_at": "2021-12-25T23:32:19",
@@ -190,19 +191,8 @@ export default {
 				],
 				"user_reaction" : []
 			},
-		];
-
-
-
-export default {
-	name: "Top",
-	data(){
-		return{
-			overlay: false,
-			drawer: false,
-			posts: posts,
-			distinctLogin: false,
-		}
+		]
+	}
 	},
 	components: {
 		PostHomete,
@@ -220,12 +210,20 @@ export default {
 		},
 		alertVisible: function(childrenAlert){
 			this.alert = childrenAlert
-		}
+		},
+		distinctLoginCheck: function(){
+			this.distinctLogin = false
+		},
 	},
 	mounted(){
 	},
 	created() {
-		
+		if(this.$cookies.isKey("expire") == true){
+			this.distinctLogin = true
+		}
+		else{
+			this.distinctLogin = false
+		}
 	},
 	updated() {
 		setTimeout(() => {
