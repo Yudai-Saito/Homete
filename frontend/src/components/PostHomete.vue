@@ -20,8 +20,8 @@
 			</v-btn>
 			<template slot="progress">
 				<v-progress-linear
-					color="deep-purple"
-					height="10"
+					color=#4169e1
+					height=5
 					indeterminate
 				></v-progress-linear>
 			</template>
@@ -89,8 +89,8 @@
 			</v-btn>
 			<template slot="progress">
 				<v-progress-linear
-					color="deep-purple"
-					height="10"
+					color=#4169e1
+					height="5"
 					indeterminate
 				></v-progress-linear>
 			</template>
@@ -153,6 +153,8 @@
 </style>
 
 <script>
+import axios from 'axios'
+
 export default{
 	name: 'PostHomete',
 	data(){
@@ -171,7 +173,22 @@ export default{
 			setTimeout(() => {
 				this.formReset()
 				this.loading = false
-			}, 1500)
+			}, 10000)
+
+			axios.post("/post",
+				{
+					"post_content" : this.homete
+				},
+				{
+					withCredentials: true
+				}
+			).then((res) =>{
+				console.log(res)
+				this.overlay = false
+				this.closeCard()
+			}).catch((err) =>{
+				console.log(err)
+			})
 		},
 		formReset () {
 			this.$refs.form.reset()
