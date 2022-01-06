@@ -145,6 +145,7 @@ def login():
 			#レスポンス作成	
 			response = make_response(jsonify({"status":"ok"}, 200))
 			response.set_cookie("token", value=token, expires=expires, httponly=True, samesite="None", secure=True)
+			response.set_cookie("user_id", value=user.user_id, expires=expires, httponly=True, samesite="None", secure=True)
 
 			return response
 		else:
@@ -155,12 +156,22 @@ def login():
 @user.route("/logout", methods=["POST"])
 @auth_required
 def logout():
-	"""
-	ログアウト
+	"""ログアウト
+	サーバのtoken削除
+	削除用cookieの送信	
 	"""
 	try:
 		user_id = request.cookies.get("user_id")
 		redis.delete(user_id)
-		return jsonify({"status": "success"}), 200
-	except
+		
+		#ログアウトした時点の有効期限
+		expires = int(datetime.now().timestamp())
+
+		#クライアントcookie削除用のcookie
+		response = make_response(jsonify({"status":"ok"}, 200))
+		response.set_cookie("token", value="logout_token", expires=expires, httponly=True, samesite="None", secure=True)
+		response.set_cookie("user_id", value="logout_user_id", expires=expires, httponly=True, samesite="None", secure=True)
+
+		return response 
+	except:
 		return jsonify({"status": "error"}), 400
