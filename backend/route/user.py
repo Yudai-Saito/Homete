@@ -10,6 +10,7 @@ from sqlalchemy import or_, exists
 
 from app.app import mail, db, redis
 from models.models import User
+from route.token import auth_required
 
 user = Blueprint("user", __name__, url_prefix="/user")
 
@@ -134,17 +135,43 @@ def login():
 			#Token生成
 			token = sha256((user.user_id + environ["SALT"] + str(datetime.now())).encode("utf-8")).hexdigest()
 
+			#既に登録されているTokenを削除
+			redis.delete(user.user_id)
 			#TokenをRedisに保存
-			redis.set(token, user.user_id, ex=60*60*24)
+			redis.set(user.user_id, token, ex=60*60*24)
 
 			expires = int(datetime.now().timestamp()) + 60*60*24
 
 			#レスポンス作成	
 			response = make_response(jsonify({"status":"ok"}, 200))
 			response.set_cookie("token", value=token, expires=expires, httponly=True, samesite="None", secure=True)
+			response.set_cookie("user_id", value=user.user_id, expires=expires, httponly=True, samesite="None", secure=True)
 
 			return response
 		else:
 			raise Exception("password error")	
+	except:
+		return jsonify({"status": "error"}), 400
+
+@user.route("/logout", methods=["POST"])
+@auth_required
+def logout():
+	"""ログアウト
+	サーバのtoken削除
+	削除用cookieの送信	
+	"""
+	try:
+		user_id = request.cookies.get("user_id")
+		redis.delete(user_id)
+		
+		#ログアウトした時点の有効期限
+		expires = int(datetime.now().timestamp())
+
+		#クライアントcookie削除用のcookie
+		response = make_response(jsonify({"status":"ok"}, 200))
+		response.set_cookie("token", value="logout_token", expires=expires, httponly=True, samesite="None", secure=True)
+		response.set_cookie("user_id", value="logout_user_id", expires=expires, httponly=True, samesite="None", secure=True)
+
+		return response 
 	except:
 		return jsonify({"status": "error"}), 400
