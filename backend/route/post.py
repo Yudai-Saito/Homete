@@ -18,7 +18,7 @@ def post_receive():
 	jsonから投稿内容を取得する
 	"""
 	try:	
-		user_id = redis.get(request.cookies.get("token"))
+		user_id = request.cookies.get("user_id")
 		post_content = request.json["post_content"]
 
 		db.session.add(Homete_post(user_id = user_id, post_content = post_content))
@@ -36,7 +36,7 @@ def post_get():
 	try:
 		#ログインユーザか判定
 		if request.cookies.get("token"):
-			user_id = redis.get(request.cookies.get("token"))
+			user_id = request.cookies.get("user_id")
 			sub_query = db.session.query(UserReaction.post_id, func.json_arrayagg(UserReaction.reaction, type_=JSON)\
 							.label("reactions")).filter(UserReaction.user_id == user_id).group_by(UserReaction.post_id).subquery()
 		else: #未ログインユーザの場合user_idをNoneで代用
@@ -90,7 +90,7 @@ def reaction_count_up():
 	リアクションがある場合は、インクリメントし、ない場合は新規に作成する
 	"""
 	try:
-		user_id = redis.get(request.cookies.get("token"))
+		user_id = request.cookies.get("user_id")
 		post_id = request.json["post_id"]
 		reaction = request.json["reaction"]
 
@@ -119,7 +119,7 @@ def reaction_count_down():
 	リアクションがある場合は、デクリメントし、ない場合は400を返す
 	"""
 	try:
-		user_id = redis.get(request.cookies.get("token"))
+		user_id = request.cookies.get("user_id")
 		post_id = request.json["post_id"]
 		reaction = request.json["reaction"]
 
