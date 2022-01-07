@@ -111,7 +111,7 @@
 				})
 			},
 			routeLogin: function(){
-				this.$router.push('/Login')
+				this.$router.push('/login')
 			}
 		},
 		created: function(){
