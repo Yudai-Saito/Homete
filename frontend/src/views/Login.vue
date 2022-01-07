@@ -92,11 +92,6 @@
 			submit: function(){
 				this.loading = true
 
-				setTimeout(() => {
-					this.formReset()
-					this.loading = false
-				}, 1500)
-
 				//入力されたパスワードをsha256でハッシュ化する
 				let sha256 = crypto.createHash('sha256')
 				sha256.update(this.password)
@@ -123,12 +118,7 @@
 					console.log(err);
 					}
 				)
-			},
-
-			formReset(){
-				this.userInfo = ''
-				this.password = ''	
-			},
+			}
 		},
 		computed:{
 			form(){

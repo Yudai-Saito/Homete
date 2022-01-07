@@ -170,10 +170,6 @@ export default{
 	methods: {
 		submit: function() {
 			this.loading = true
-			setTimeout(() => {
-				this.formReset()
-				this.loading = false
-			}, 10000)
 
 			axios.post("/post",
 				{
@@ -190,10 +186,6 @@ export default{
 			}).catch((err) =>{
 				console.log(err)
 			})
-		},
-		formReset () {
-			this.$refs.form.reset()
-			this.params = { homete: ''}
 		},
 		inputText: function(){
 			if(this.clearVisible == false){
