@@ -8,25 +8,51 @@
 		>
 			<PostHomete
 				v-on:overlay='noticeVisible'
-				v-on:postAlert='alertVisible'
+				v-on:postAlert='alertPostVisible'
 			/>
 		</v-overlay>
 		
 		<v-container fluid class="mainContainer mx-auto">
 			<v-expand-transition>
 				<v-alert
-					v-show="alert"
+					v-show="alertPost"
 					color="primary"
 					text
 					type="success"
 					class="alertSucess"
 				>
-					送信しました。
+					送信しました
+				</v-alert>
+			</v-expand-transition>
+			<v-expand-transition>
+				<v-alert
+					v-show="alertLogin"
+					color="green lighten-2"
+					text
+					type="success"
+					class="alertSucess"
+				>
+					おかえりなさい
+				</v-alert>
+			</v-expand-transition>
+			<v-expand-transition>
+				<v-alert
+					v-show="alertLogout"
+					color="red accent-2"
+					text
+					type="success"
+					class="alertSucess"
+				>
+					ログアウトが完了しました
 				</v-alert>
 			</v-expand-transition>
 			<v-row justify="center" class="mx-auto">
 				<v-col cols="2" class="d-none d-sm-block ma-0 pa-0 leftMenu">
-					<SideMenu v-on:overlay='overlayCard' v-on:logout="distinctLoginCheck" v-if="distinctLogin" />
+					<SideMenu
+						v-on:overlay='overlayCard'
+						v-on:logout="distinctLoginCheck"
+						v-if="distinctLogin"
+					/>
 					<NoLoginSideMenu v-else />
 				</v-col>
 
@@ -65,7 +91,11 @@
 					v-if="this.$vuetify.breakpoint.width < 555"
 
 				>
-					<SideMenu v-on:overlay='overlayCard' v-if="distinctLogin" />
+					<SideMenu
+						v-on:overlay='overlayCard'
+						v-on:logout="distinctLoginCheck"
+						v-if="distinctLogin"
+					/>
 					<NoLoginSideMenu v-else />
 				</v-navigation-drawer>
 
@@ -140,7 +170,7 @@
 	/* Chrome, Safari 対応 */
 	.virtualScrollBar::-webkit-scrollbar {
 		display:none;
-  }
+	}
 	.alertSucess{
 		width: 90%;
 		margin-right: auto;
@@ -155,15 +185,7 @@ import DisplayHomete from '../components/DisplayHomete'
 import SideMenu  from '../components/SideMenu'
 import NoLoginSideMenu from '../components/NoLoginSideMenu.vue'
 
-export default {
-	name: "Top",
-	data(){
-		return{
-			overlay: false,
-			drawer: false,
-			alert: false,
-			distinctLogin: false,
-			posts:[{
+var posts = [{
 				"post_id" : 1,
 				"created_at": "2021-12-25T23:32:19",
 				"post_content": "絵文字を選んだ!",
@@ -192,6 +214,18 @@ export default {
 				"user_reaction" : []
 			},
 		]
+
+export default {
+	name: "Top",
+	data(){
+		return{
+			overlay: false,
+			drawer: false,
+			alertPost: false,
+			alertLogin: false,
+			alertLogout: false,
+			posts:posts,
+			distinctLogin: false,
 	}
 	},
 	components: {
@@ -208,11 +242,24 @@ export default {
 			this.overlay = childOverlay
 			this.drawer = false
 		},
-		alertVisible: function(childrenAlert){
-			this.alert = childrenAlert
+		alertPostVisible: function(childrenAlert){
+			this.alertPost = childrenAlert
+			setTimeout(() => {
+				this.alertPost = false}
+				,3000
+			)
 		},
 		distinctLoginCheck: function(){
 			this.distinctLogin = false
+			localStorage.clear('firstLogin')
+			setTimeout(() => {
+				this.alertLogout = true}
+				,500
+			)
+			setTimeout(() => {
+				this.alertLogout = false}
+				,3000
+			)
 		},
 	},
 	mounted(){
@@ -220,16 +267,25 @@ export default {
 	created() {
 		if(this.$cookies.isKey("expire") == true){
 			this.distinctLogin = true
+			if(!localStorage.getItem('firstLogin')){
+				setTimeout(() => {
+					this.alertLogin = true}
+					,1500
+				)
+				setTimeout(() => {
+					this.alertLogin = false}
+					,3000
+				)
+			}
+			localStorage.setItem('firstLogin',true)
 		}
 		else{
 			this.distinctLogin = false
 		}
 	},
 	updated() {
-		setTimeout(() => {
-			this.alert = false}
-			,3000
-		)
 	},
+	computed:{
+	}
 };
 </script>
