@@ -3,12 +3,10 @@ from flask import Blueprint, request, jsonify
 from sqlalchemy import func, JSON
 
 from app.app import db, redis
-from models.models import Homete_post, Post_reaction, Post_schema, UserReaction
+from models.models import Homete_post, Post_reaction, UserReaction
 from route.token import auth_required
 
 post = Blueprint("post", __name__, url_prefix="/post")
-
-POST_SCHEMA = Post_schema(many=True)
 
 @post.route("", methods=["POST"])
 @auth_required
