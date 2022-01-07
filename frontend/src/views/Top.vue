@@ -82,7 +82,7 @@
 				<v-divider vertical class="d-none d-sm-block"></v-divider>
 
 				<v-col md="2" class="hidden-sm-and-down ma-0 pa-0 rightMenu">
-					<h2 align="center">column</h2>
+					<!-- -->
 				</v-col>
 			</v-row>
 		</v-container>
