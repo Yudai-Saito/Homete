@@ -65,7 +65,7 @@
 					v-if="this.$vuetify.breakpoint.width < 555"
 
 				>
-					<SideMenu v-on:overlay='overlayCard' v-if="distinctLogin" />
+					<SideMenu v-on:overlay='overlayCard' v-on:logout="distinctLoginCheck" v-if="distinctLogin" />
 					<NoLoginSideMenu v-else />
 				</v-navigation-drawer>
 
