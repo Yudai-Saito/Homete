@@ -21,7 +21,7 @@
 					type="success"
 					class="alertSucess"
 				>
-					送信しました。
+					投稿しました!
 				</v-alert>
 			</v-expand-transition>
 			<v-row justify="center" class="mx-auto">
