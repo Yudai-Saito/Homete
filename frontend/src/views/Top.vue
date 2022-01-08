@@ -62,7 +62,7 @@
 					dense
 					app
 					class="topMenu"
-					v-if="this.$vuetify.breakpoint.width < 555"
+					v-if="this.$vuetify.breakpoint.width < 500"
 				>
 					<v-app-bar-nav-icon
 						@click="drawer = true"
@@ -88,7 +88,7 @@
 					app
 					touchless
 					v-bind:width="150"
-					v-if="this.$vuetify.breakpoint.width < 555"
+					v-if="this.$vuetify.breakpoint.width < 500"
 
 				>
 					<SideMenu
@@ -112,8 +112,8 @@
 
 				<v-divider vertical class="d-none d-sm-block"></v-divider>
 
-				<v-col md="2" class="hidden-sm-and-down ma-0 pa-0 rightMenu">
-					<h2 align="center">column</h2>
+				<v-col md="2" class="hidden-sm-and-down ma-0 pa-0 mt-auto mr-1 rightMenu">
+					<p align="end" class="versionText">HOMETE v1.0.0</p>
 				</v-col>
 			</v-row>
 		</v-container>
@@ -177,6 +177,9 @@
 		margin-right: auto;
 		margin-left: auto;
 	}
+	.versionText{
+		font-size: smaller;
+	}
 </style>
 
 
@@ -225,8 +228,8 @@ export default {
 			alertPost: false,
 			alertLogin: false,
 			alertLogout: false,
-			posts:posts,
 			distinctLogin: false,
+			posts:posts,
 	}
 	},
 	components: {
