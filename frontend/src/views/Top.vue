@@ -21,7 +21,7 @@
 					type="success"
 					class="alertSucess"
 				>
-					送信しました。
+					投稿しました!
 				</v-alert>
 			</v-expand-transition>
 			<v-row justify="center" class="mx-auto">
@@ -65,7 +65,7 @@
 					v-if="this.$vuetify.breakpoint.width < 555"
 
 				>
-					<SideMenu v-on:overlay='overlayCard' v-if="distinctLogin" />
+					<SideMenu v-on:overlay='overlayCard' v-on:logout="distinctLoginCheck" v-if="distinctLogin" />
 					<NoLoginSideMenu v-else />
 				</v-navigation-drawer>
 
@@ -82,7 +82,7 @@
 				<v-divider vertical class="d-none d-sm-block"></v-divider>
 
 				<v-col md="2" class="hidden-sm-and-down ma-0 pa-0 rightMenu">
-					<h2 align="center">column</h2>
+					<!-- -->
 				</v-col>
 			</v-row>
 		</v-container>
