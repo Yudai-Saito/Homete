@@ -7,17 +7,18 @@
 			small
 			outlined
 			v-if="!reactionFlag"
+			:disabled="!distinctLogin"
 		>
 			<h2>{{reactionIcon}}</h2>{{reactionCount}}
 		</v-btn>
 		<v-btn
-			class="d-none d-sm-block pushedButton"
+			class="d-none d-sm-block grey--text text--darken-3 pushedButton"
 			@click="count"
 			elevation='0'
 			small
 			outlined
-			color="#3949AB"
 			v-else
+			:disabled="!distinctLogin"
 		>
 			<h2>{{reactionIcon}}</h2>{{reactionCount}}
 		</v-btn>
@@ -31,6 +32,7 @@
 			height="100%"
 			width="40px"
 			v-if="!reactionFlag"
+			:disabled="!distinctLogin"
 		>
 			<h3>{{reactionIcon}}</h3>{{reactionCount}}
 		</v-btn>
@@ -43,6 +45,7 @@
 			height="100%"
 			width="40px"
 			v-else
+			:disabled="!distinctLogin"
 		>
 			<h3>{{reactionIcon}}</h3>{{reactionCount}}
 		</v-btn>
@@ -81,6 +84,7 @@ export default{
 		'reactionIcon',
 		'postReaction',
 		'userReaction',
+		'distinctLogin',
 	],
 	methods: {
 		count: function(){

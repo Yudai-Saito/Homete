@@ -106,6 +106,7 @@
 						v-for="post in posts"
 						:key="post"
 						:postList=post
+						:distinctLogin="distinctLogin"
 					/>
 				</v-col>
 
