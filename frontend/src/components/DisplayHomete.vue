@@ -18,6 +18,7 @@
 							:reactionIcon=reaction
 							:postReaction=postList.post_reaction
 							:userReaction=postList.user_reaction
+							:postId=postList.post_id
 						/>
 					</li>
 				</ul>
@@ -30,6 +31,7 @@
 							:reactionIcon=reaction
 							:postReaction=postList.post_reaction
 							:userReaction=postList.user_reaction
+							:postId=postList.post_id
 						/>
 					</li>
 				</ul>
