@@ -1,6 +1,8 @@
+from json import dumps
+
 from flask import Blueprint, request, jsonify
 
-from sqlalchemy import func, JSON
+from sqlalchemy import func, desc, JSON
 
 from app.app import db, redis
 from models.models import Homete_post, Post_reaction, UserReaction
@@ -32,7 +34,8 @@ def post_get():
 	フロントに表示されている最後の投稿の作成時刻を取得
 	"""
 	try:
-		#ログインユーザか判定
+	#ログインユーザか判定
+
 		if request.cookies.get("token"):
 			user_id = request.cookies.get("user_id")
 			sub_query = db.session.query(UserReaction.post_id, func.json_arrayagg(UserReaction.reaction, type_=JSON)\
@@ -61,25 +64,26 @@ def post_get():
 
 		#新規取得か追記取得か判定
 		if created_at:
-			user_reac = db.session.query(func.json_object("post_id", Homete_post.post_id, "created_at", Homete_post.created_at, "post_reaction",\
+			user_reac = db.session.query(func.json_object("post_id", Homete_post.post_id, "created_at", Homete_post.created_at, "post_content", Homete_post.post_content, "post_reaction",\
 							func.json_arrayagg(func.json_object("reaction", Post_reaction.reaction, "count", Post_reaction.reaction_count), type_=JSON),\
 								"user_reaction", sub_query.c.reactions, type_=JSON))\
 									.outerjoin(Post_reaction, Homete_post.post_id == Post_reaction.post_id)\
 									.outerjoin(sub_query, sub_query.c.post_id == Homete_post.post_id)\
 										.filter(Homete_post.created_at < created_at)\
-											.group_by(Homete_post.post_id, sub_query.c.reactions).limit(30).all()
+											.group_by(Homete_post.post_id, sub_query.c.reactions)\
+												.order_by(desc(Homete_post.created_at)).limit(30).all()
 		else:
-			user_reac = db.session.query(func.json_object("post_id", Homete_post.post_id, "created_at", Homete_post.created_at, "post_reaction",\
+			user_reac = db.session.query(func.json_object("post_id", Homete_post.post_id, "created_at", Homete_post.created_at, "post_content", Homete_post.post_content, "post_reaction",\
 							func.json_arrayagg(func.json_object("reaction", Post_reaction.reaction, "count", Post_reaction.reaction_count), type_=JSON),\
 								"user_reaction", sub_query.c.reactions, type_=JSON))\
 									.outerjoin(Post_reaction, Homete_post.post_id == Post_reaction.post_id)\
 									.outerjoin(sub_query, sub_query.c.post_id == Homete_post.post_id)\
-										.group_by(Homete_post.post_id, sub_query.c.reactions).limit(30).all()
+										.group_by(Homete_post.post_id, sub_query.c.reactions)\
+											.order_by(desc(Homete_post.created_at)).limit(30).all()
 
-		return jsonify({"posts": [row[0] for row in user_reac]}), 200
+		return dumps([row[0] for row in user_reac], ensure_ascii=False, default=str), 200
 	except:
 		return jsonify({"status": "error"}), 400
-	
 @post.route("/reaction", methods=["PUT"])
 @auth_required
 def reaction_count_up():
