@@ -69,6 +69,8 @@
 </style>
 
 <script>
+import axios from 'axios';
+
 export default{
 	name: 'ReactionButton',
 	data(){
@@ -81,16 +83,34 @@ export default{
 		'reactionIcon',
 		'postReaction',
 		'userReaction',
+		'postId'
 	],
 	methods: {
 		count: function(){
 			if(this.reactionFlag){
 				this.reactionCount -= 1
 				this.reactionFlag = false
+
+				axios.post('/post/reaction',{
+						"post_id":this.postId, "reaction":this.reactionIcon
+					},
+					{
+						withCredentials: true
+					
+					}
+				)
 			}
 			else{
 				this.reactionCount += 1
 				this.reactionFlag = true
+
+				axios.put('/post/reaction',{
+						post_id: this.postId,
+						reaction: this.reactionIcon
+					},{
+						withCredentials: true
+					}
+				)
 			}
 		}
 	},
