@@ -113,7 +113,7 @@ def reaction_count_up():
 	except:
 		return jsonify({"status": "error"}), 400
 
-@post.route("/reaction", methods=["DELETE"])
+@post.route("/reaction", methods=["POST"])
 @auth_required
 def reaction_count_down():
 	"""投稿のリアクションをデクリメントする
