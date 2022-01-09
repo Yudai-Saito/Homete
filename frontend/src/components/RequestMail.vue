@@ -46,10 +46,6 @@ export default{
 	methods: {
 		submit: function() {
 			this.loading = true
-			setTimeout(() => {
-				this.formReset()
-				this.loading = false
-			}, 1500)
 			axios.post(this.mailUrl, {
 				'user_email':this.userEmail
 			})
@@ -60,10 +56,6 @@ export default{
 			.catch((err) => {
 				this.$emit('resCode',err.response.status)
 			});
-		},
-		formReset () {
-			this.$refs.form.reset()
-			this.params = { userEmail: ''}
 		},
 	},
 }

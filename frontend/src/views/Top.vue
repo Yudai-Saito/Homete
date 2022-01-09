@@ -21,7 +21,7 @@
 					type="success"
 					class="alertSucess"
 				>
-					送信しました
+					投稿しました!
 				</v-alert>
 			</v-expand-transition>
 			<v-expand-transition>
@@ -91,11 +91,7 @@
 					v-if="this.$vuetify.breakpoint.width < 500"
 
 				>
-					<SideMenu
-						v-on:overlay='overlayCard'
-						v-on:logout="distinctLoginCheck"
-						v-if="distinctLogin"
-					/>
+					<SideMenu v-on:overlay='overlayCard' v-on:logout="distinctLoginCheck" v-if="distinctLogin" />
 					<NoLoginSideMenu v-else />
 				</v-navigation-drawer>
 
@@ -111,7 +107,7 @@
 				</v-col>
 
 				<v-divider vertical class="d-none d-sm-block"></v-divider>
-
+        
 				<v-col md="2" class="hidden-sm-and-down ma-0 pa-0 mt-auto mr-1 rightMenu">
 					<p align="end" class="versionText">HOMETE v1.0.0</p>
 				</v-col>
@@ -188,36 +184,7 @@ import PostHomete from '../components/PostHomete'
 import DisplayHomete from '../components/DisplayHomete'
 import SideMenu  from '../components/SideMenu'
 import NoLoginSideMenu from '../components/NoLoginSideMenu.vue'
-
-var posts = [{
-				"post_id" : 1,
-				"created_at": "2021-12-25T23:32:19",
-				"post_content": "絵文字を選んだ!",
-				"post_reaction" : [
-					{
-						"reaction" : "👍",
-						"count" : "3"
-					},
-					{
-						"reaction" : "👀",
-						"count" : "5"
-					}
-				],
-				"user_reaction" : ["👍", "👀"]
-			},
-			{
-				"post_id" : 2,
-				"created_at": "2021-12-25T23:32:19",
-				"post_content": "トップ画面ができた!",
-				"post_reaction" : [
-					{
-						"reaction" : "👍",
-						"count" : "4"
-					}
-				],
-				"user_reaction" : []
-			},
-		]
+import axios from 'axios'
 
 export default {
 	name: "Top",
@@ -228,8 +195,9 @@ export default {
 			alertPost: false,
 			alertLogin: false,
 			alertLogout: false,
+			alert: false,
 			distinctLogin: false,
-			posts:posts,
+			posts:[]
 	}
 	},
 	components: {
@@ -267,8 +235,6 @@ export default {
 		},
 	},
 	mounted(){
-	},
-	created() {
 		if(this.$cookies.isKey("expire") == true){
 			this.distinctLogin = true
 			if(!localStorage.getItem('firstLogin')){
@@ -286,10 +252,16 @@ export default {
 		else{
 			this.distinctLogin = false
 		}
-	},
-	updated() {
-	},
-	computed:{
+
+		axios.get('/post',{
+				withCredentials: true
+			}
+		).then((res) => {
+			this.posts = res.data
+		}).catch((err) => {
+			console.log(err)
+			}
+		)
 	}
 };
 </script>

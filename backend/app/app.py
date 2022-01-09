@@ -10,8 +10,6 @@ from flask_mail import Mail
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 
-from flask_marshmallow import Marshmallow
-
 app = Flask(__name__)
 
 #CORSに対応
@@ -25,7 +23,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False #警告の無効化
 db = SQLAlchemy(app)
 db.init_app(app)
 Migrate(app, db)
-ma = Marshmallow(app)
 
 #メールクライアント設定
 app.config["MAIL_SERVER"] = environ["MAIL_SERVER"] #メールサーバー

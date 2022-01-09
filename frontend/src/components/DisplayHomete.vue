@@ -19,6 +19,7 @@
 							:postReaction=postList.post_reaction
 							:userReaction=postList.user_reaction
 							:distinctLogin="distinctLogin"
+							:postId=postList.post_id
 						/>
 					</li>
 				</ul>
@@ -32,6 +33,7 @@
 							:postReaction=postList.post_reaction
 							:userReaction=postList.user_reaction
 							:distinctLogin="distinctLogin"
+							:postId=postList.post_id
 						/>
 					</li>
 				</ul>

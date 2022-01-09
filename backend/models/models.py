@@ -1,5 +1,5 @@
 import datetime
-from app.app import db, ma
+from app.app import db
 
 class User(db.Model):
     __tablename__ = "users"
@@ -38,8 +38,3 @@ class UserReaction(db.Model):
     post_id = db.Column(db.Integer)
     user_id = db.Column(db.String(15))
     reaction = db.Column(db.String(10))
-
-class Post_schema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Homete_post
-        fields = ("post_id", "created_at", "post_content")
