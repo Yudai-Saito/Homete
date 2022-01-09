@@ -9,13 +9,21 @@
 					v-model="isValid"
 					ref="form"
 				>
+					<p
+						class="authFaileText"
+						v-show="this.authFaile"
+						:class="{'form-group--error' : animated}"
+					>
+						ユーザ情報またはパスワードが違います
+					</p>
 					<v-text-field
-						prepend-icon="mdi-email"
+						prepend-icon="mdi-account"
 						label="ユーザーIDまたはメールアドレス"
 						v-model="userInfo"
 						:hint="form.userInfoMsg"
 						:rules="form.userInfoRules"
 					/>
+					
 					<v-text-field
 						v-bind:type="showPassword ? 'text' : 'password'"
 						prepend-icon="mdi-lock"
@@ -68,6 +76,28 @@
 	top: 12px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
+	box-shadow: 0px 2px #555;
+}
+.authFaileText{
+	position: relative;
+	margin: 0;
+	padding: 0;
+	top: 12px;
+	color: #F44336;
+}
+.form-group--error {
+	animation-name: shakeError;
+	animation-fill-mode: forwards;
+	animation-duration: .31s;
+	animation-delay: .36s;
+	animation-timing-function: ease-in-out; }
+@keyframes shakeError {
+		0% { transform: translate(1px); }
+		20% { transform: translate(-2px); }
+		40% { transform: translate(2px); }
+		60% { transform: translate(-2px); }
+		80% { transform: translate(0px); }
+		100% { transform: translate(0px); }
 }
 </style>
 
@@ -86,9 +116,18 @@
 				showPassword: false,
 				userInfo: '',
 				password: '',
+				authFaile: false,
+				animated: false,
 			}
 		},
 		methods:{
+			authErr() {
+				const self = this
+				self.animated = true
+				setTimeout(() => {
+					self.animated = false
+				}, 1000)
+			},
 			submit: function(){
 				this.loading = true
 
@@ -108,17 +147,23 @@
 					}
 				)
 				.then((res) => {
-					console.log(res)	
+					this.loading = false
+					this.formReset()
 					if (res.status == 200) {
 						this.$router.push('/')
 					}
-					}
-				).
-				catch((err) => {
-					console.log(err);
-					}
-				)
-			}
+				}).
+				catch(() => {
+					this.loading = false
+					this.formReset()
+					this.authFaile = true
+					this.authErr()
+				})
+			},
+			formReset(){
+				this.userInfo = ''
+				this.password = ''	
+			},
 		},
 		computed:{
 			form(){

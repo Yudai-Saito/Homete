@@ -18,6 +18,7 @@
 							:reactionIcon=reaction
 							:postReaction=postList.post_reaction
 							:userReaction=postList.user_reaction
+							:distinctLogin="distinctLogin"
 							:postId=postList.post_id
 						/>
 					</li>
@@ -31,6 +32,7 @@
 							:reactionIcon=reaction
 							:postReaction=postList.post_reaction
 							:userReaction=postList.user_reaction
+							:distinctLogin="distinctLogin"
 							:postId=postList.post_id
 						/>
 					</li>
@@ -90,7 +92,8 @@ export default{
 		}
 	},
 	props:[
-		'postList'
+		'postList',
+		'distinctLogin'
 	],
 	components:{
 		ReactionButton,

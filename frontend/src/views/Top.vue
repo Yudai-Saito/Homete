@@ -8,14 +8,14 @@
 		>
 			<PostHomete
 				v-on:overlay='noticeVisible'
-				v-on:postAlert='alertVisible'
+				v-on:postAlert='alertPostVisible'
 			/>
 		</v-overlay>
 		
 		<v-container fluid class="mainContainer mx-auto">
 			<v-expand-transition>
 				<v-alert
-					v-show="alert"
+					v-show="alertPost"
 					color="primary"
 					text
 					type="success"
@@ -24,9 +24,35 @@
 					投稿しました!
 				</v-alert>
 			</v-expand-transition>
+			<v-expand-transition>
+				<v-alert
+					v-show="alertLogin"
+					color="green lighten-2"
+					text
+					type="success"
+					class="alertSucess"
+				>
+					おかえりなさい
+				</v-alert>
+			</v-expand-transition>
+			<v-expand-transition>
+				<v-alert
+					v-show="alertLogout"
+					color="red accent-2"
+					text
+					type="success"
+					class="alertSucess"
+				>
+					ログアウトが完了しました
+				</v-alert>
+			</v-expand-transition>
 			<v-row justify="center" class="mx-auto">
 				<v-col cols="2" class="d-none d-sm-block ma-0 pa-0 leftMenu">
-					<SideMenu v-on:overlay='overlayCard' v-on:logout="distinctLoginCheck" v-if="distinctLogin" />
+					<SideMenu
+						v-on:overlay='overlayCard'
+						v-on:logout="distinctLoginCheck"
+						v-if="distinctLogin"
+					/>
 					<NoLoginSideMenu v-else />
 				</v-col>
 
@@ -36,7 +62,7 @@
 					dense
 					app
 					class="topMenu"
-					v-if="this.$vuetify.breakpoint.width < 555"
+					v-if="this.$vuetify.breakpoint.width < 500"
 				>
 					<v-app-bar-nav-icon
 						@click="drawer = true"
@@ -62,7 +88,7 @@
 					app
 					touchless
 					v-bind:width="150"
-					v-if="this.$vuetify.breakpoint.width < 555"
+					v-if="this.$vuetify.breakpoint.width < 500"
 
 				>
 					<SideMenu v-on:overlay='overlayCard' v-on:logout="distinctLoginCheck" v-if="distinctLogin" />
@@ -76,13 +102,14 @@
 						v-for="post in posts"
 						:key="post"
 						:postList=post
+						:distinctLogin="distinctLogin"
 					/>
 				</v-col>
 
 				<v-divider vertical class="d-none d-sm-block"></v-divider>
-
-				<v-col md="2" class="hidden-sm-and-down ma-0 pa-0 rightMenu">
-					<!-- -->
+        
+				<v-col md="2" class="hidden-sm-and-down ma-0 pa-0 mt-auto mr-1 rightMenu">
+					<p align="end" class="versionText">HOMETE v1.0.0</p>
 				</v-col>
 			</v-row>
 		</v-container>
@@ -140,11 +167,14 @@
 	/* Chrome, Safari 対応 */
 	.virtualScrollBar::-webkit-scrollbar {
 		display:none;
-  }
+	}
 	.alertSucess{
 		width: 90%;
 		margin-right: auto;
 		margin-left: auto;
+	}
+	.versionText{
+		font-size: smaller;
 	}
 </style>
 
@@ -162,6 +192,9 @@ export default {
 		return{
 			overlay: false,
 			drawer: false,
+			alertPost: false,
+			alertLogin: false,
+			alertLogout: false,
 			alert: false,
 			distinctLogin: false,
 			posts:[]
@@ -181,23 +214,46 @@ export default {
 			this.overlay = childOverlay
 			this.drawer = false
 		},
-		alertVisible: function(childrenAlert){
-			this.alert = childrenAlert
+		alertPostVisible: function(childrenAlert){
+			this.alertPost = childrenAlert
+			setTimeout(() => {
+				this.alertPost = false}
+				,3000
+			)
 		},
 		distinctLoginCheck: function(){
 			this.distinctLogin = false
+			localStorage.clear('firstLogin')
+			setTimeout(() => {
+				this.alertLogout = true}
+				,500
+			)
+			setTimeout(() => {
+				this.alertLogout = false}
+				,3000
+			)
 		},
 	},
 	mounted(){
 		if(this.$cookies.isKey("expire") == true){
 			this.distinctLogin = true
+			if(!localStorage.getItem('firstLogin')){
+				setTimeout(() => {
+					this.alertLogin = true}
+					,1500
+				)
+				setTimeout(() => {
+					this.alertLogin = false}
+					,3000
+				)
+			}
+			localStorage.setItem('firstLogin',true)
 		}
 		else{
 			this.distinctLogin = false
 		}
 
 		axios.get('/post',{
-			
 				withCredentials: true
 			}
 		).then((res) => {
