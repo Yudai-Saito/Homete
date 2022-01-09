@@ -154,6 +154,7 @@ import PostHomete from '../components/PostHomete'
 import DisplayHomete from '../components/DisplayHomete'
 import SideMenu  from '../components/SideMenu'
 import NoLoginSideMenu from '../components/NoLoginSideMenu.vue'
+import axios from 'axios'
 
 export default {
 	name: "Top",
@@ -163,35 +164,7 @@ export default {
 			drawer: false,
 			alert: false,
 			distinctLogin: false,
-			posts:[{
-				"post_id" : 1,
-				"created_at": "2021-12-25T23:32:19",
-				"post_content": "絵文字を選んだ!",
-				"post_reaction" : [
-					{
-						"reaction" : "👍",
-						"count" : "3"
-					},
-					{
-						"reaction" : "👀",
-						"count" : "5"
-					}
-				],
-				"user_reaction" : ["👍", "👀"]
-			},
-			{
-				"post_id" : 2,
-				"created_at": "2021-12-25T23:32:19",
-				"post_content": "トップ画面ができた!",
-				"post_reaction" : [
-					{
-						"reaction" : "👍",
-						"count" : "4"
-					}
-				],
-				"user_reaction" : []
-			},
-		]
+			posts:[]
 	}
 	},
 	components: {
@@ -216,20 +189,23 @@ export default {
 		},
 	},
 	mounted(){
-	},
-	created() {
 		if(this.$cookies.isKey("expire") == true){
 			this.distinctLogin = true
 		}
 		else{
 			this.distinctLogin = false
 		}
-	},
-	updated() {
-		setTimeout(() => {
-			this.alert = false}
-			,3000
+
+		axios.get('/post',{
+			
+				withCredentials: true
+			}
+		).then((res) => {
+			this.posts = res.data
+		}).catch((err) => {
+			console.log(err)
+			}
 		)
-	},
+	}
 };
 </script>
