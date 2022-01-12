@@ -118,7 +118,7 @@ export default{
 			}
 		}
 	},
-	created() {
+	mounted() {
 		this.postReaction.forEach(item => {
 			if(item.reaction == this.reactionIcon){
 				this.reactionCount = item.count - 0
@@ -127,6 +127,14 @@ export default{
 				this.reactionFlag = true
 			}
 		})
+		if(this.distinctLogin == false){
+			this.reactionFlag = false
+		}
+	},
+	updated() {
+		if(this.distinctLogin == false){
+			this.reactionFlag = false
+		}
 	},
 }
 </script>

@@ -276,7 +276,7 @@ export default {
 			return positionWithAdjustmentValue >= event.target.scrollingElement.scrollHeight
 		}
 	},
-	mounted(){
+	created(){
 		if(this.$cookies.isKey("expire") == true){
 			this.distinctLogin = true
 			if(!localStorage.getItem('firstLogin')){
