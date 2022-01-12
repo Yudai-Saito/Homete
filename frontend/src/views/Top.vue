@@ -116,6 +116,7 @@
 					sm="8"
 					md="8"
 					class="subContainer virtualScrollBar"
+					v-scroll="onScroll"
 				>
 					<DisplayHomete 
 						v-for="post in posts"
@@ -207,6 +208,7 @@ import SideMenu  from '../components/SideMenu'
 import NoLoginSideMenu from '../components/NoLoginSideMenu.vue'
 import axios from 'axios'
 
+
 export default {
 	name: "Top",
 	data(){
@@ -218,7 +220,8 @@ export default {
 			alertLogout: false,
 			alert: false,
 			distinctLogin: false,
-			posts:[]
+			posts:[],
+			scrolledBottom: false,
 	}
 	},
 	components: {
@@ -254,6 +257,24 @@ export default {
 				,3000
 			)
 		},
+		onScroll: function(event) {
+			if (this.isFullScrolled(event)) {
+				// 一番下までスクロールした際の処理
+				if(this.scrolledBottom == false){
+					this.scrolledBottom = true
+					this.posts = this.posts.concat(this.posts)
+					setTimeout(() => {
+						this.scrolledBottom = false}
+						,500
+					)
+				}
+			}
+		},
+		isFullScrolled(event){
+			const adjustmentValue = (event.target.scrollingElement.clientHeight * 1.5)
+			const positionWithAdjustmentValue = event.target.scrollingElement.clientHeight + event.target.scrollingElement.scrollTop + adjustmentValue
+			return positionWithAdjustmentValue >= event.target.scrollingElement.scrollHeight
+		}
 	},
 	mounted(){
 		if(this.$cookies.isKey("expire") == true){
