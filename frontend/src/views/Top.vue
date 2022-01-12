@@ -262,11 +262,22 @@ export default {
 				// 一番下までスクロールした際の処理
 				if(this.scrolledBottom == false){
 					this.scrolledBottom = true
-					this.posts = this.posts.concat(this.posts)
-					setTimeout(() => {
-						this.scrolledBottom = false}
-						,500
-					)
+
+					//最終投稿の投稿時間をパラメーターに投稿取得APIを叩く
+					axios.get('/post', {
+							params:{
+								created_at: this.posts[this.posts.length -1].created_at
+							}
+						},{
+							withCredentials: true
+						}
+					).then((res) => {
+						//投稿の追記
+						this.posts = this.posts.concat(res.data)
+						this.scrolledBottom = false
+					}).catch((err) => {
+						console.log(err)
+					})
 				}
 			}
 		},
