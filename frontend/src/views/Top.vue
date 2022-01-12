@@ -11,7 +11,6 @@
 				v-on:postAlert='alertPostVisible'
 			/>
 		</v-overlay>
-		
 		<v-container fluid class="mainContainer mx-auto">
 			<v-expand-transition>
 				<v-alert
@@ -47,13 +46,20 @@
 				</v-alert>
 			</v-expand-transition>
 			<v-row justify="center" class="mx-auto">
-				<v-col cols="2" class="d-none d-sm-block ma-0 pa-0 leftMenu">
+				<v-col
+					cols="2"
+					class="d-none d-sm-block ma-0 pa-0 leftMenu"
+				>
 					<SideMenu
+						class="leftMenuContent"
 						v-on:overlay='overlayCard'
 						v-on:logout="distinctLoginCheck"
 						v-if="distinctLogin"
 					/>
-					<NoLoginSideMenu v-else />
+					<NoLoginSideMenu
+						class="leftMenuContent"
+						v-else
+					/>
 				</v-col>
 
 				<v-app-bar
@@ -91,13 +97,26 @@
 					v-if="this.$vuetify.breakpoint.width < 500"
 
 				>
-					<SideMenu v-on:overlay='overlayCard' v-on:logout="distinctLoginCheck" v-if="distinctLogin" />
-					<NoLoginSideMenu v-else />
+					<SideMenu
+						class="leftMenuContent"
+						v-on:overlay='overlayCard'
+						v-on:logout="distinctLoginCheck"
+						v-if="distinctLogin"
+					/>
+					<NoLoginSideMenu
+						class="leftMenuContent"
+						v-else
+					/>
 				</v-navigation-drawer>
 
 				<v-divider vertical class="d-none d-sm-block"></v-divider>
 
-				<v-col cols="12" sm="8" md="8" class="subContainer">
+				<v-col
+					cols="12"
+					sm="8"
+					md="8"
+					class="subContainer virtualScrollBar"
+				>
 					<DisplayHomete 
 						v-for="post in posts"
 						:key="post"
@@ -109,7 +128,7 @@
 				<v-divider vertical class="d-none d-sm-block"></v-divider>
         
 				<v-col md="2" class="hidden-sm-and-down ma-0 pa-0 mt-auto mr-1 rightMenu">
-					<p align="end" class="versionText">HOMETE v1.0.0</p>
+					
 				</v-col>
 			</v-row>
 		</v-container>
@@ -136,6 +155,10 @@
 		max-width: 115pt;
 		flex: none;
 	}
+	.leftMenuContent{
+		position: sticky;
+		top: 0px;
+	}
 	.rightMenu{
 		min-width: 115pt;
 	}
@@ -159,6 +182,7 @@
 		margin-bottom: auto;
 	}
 	.virtualScrollBar{
+		overflow: auto;
 		/* IE, Edge 対応 */
 		-ms-overflow-style: none;
 		/* Firefox 対応 */
@@ -172,9 +196,6 @@
 		width: 90%;
 		margin-right: auto;
 		margin-left: auto;
-	}
-	.versionText{
-		font-size: smaller;
 	}
 </style>
 
