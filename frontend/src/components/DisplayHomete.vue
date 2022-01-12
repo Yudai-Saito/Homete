@@ -43,24 +43,26 @@
 </template>
 <style>
 	.horizontalListWide {
+		/* 縦スクロール設定 */
 		overflow: auto;
-
+		
 		white-space: pre-line;
 		-webkit-overflow-scrolling: touch;
 		padding: 0;
 		margin: 0;
 	}
 	.horizontalListWide li {
-		/* 横スクロール用 */
+		/* PC画面時のリアクションボタンの折り返し表示 */
 		position: relative;
 		display: inline-block;
 		right: 1em;
 	}
 	.horizontalList {
+		/* 横スクロール設定 */
 		overflow-x: auto;
-		/* IE, Edge 対応 */
+		/* IE, Edgeにおけるスクロールバーの削除対応 */
 		-ms-overflow-style: none;
-		/* Firefox 対応 */
+		/* Firefoxにおけるスクロールバーの削除対応 */
 		scrollbar-width: none;
 
 		white-space: nowrap;
@@ -68,12 +70,12 @@
 		padding: 0;
 		margin: 0;
 	}
-	/* Chrome, Safari 対応 */
+	/* Chrome, Safariにおけるスクロールバーの削除対応 */
 	.horizontalList::-webkit-scrollbar {
 		display:none;
 	}
 	.horizontalList li {
-		/* 横スクロール用 */
+		/* スマホ画面時のリアクションボタンの横スクロール対応 */
 		position: relative;
 		display: inline-block;
 		right: 1em;
@@ -88,7 +90,6 @@ export default{
 		return{
 			homete: '',
 			reactions: ["👍","👀","💯","🥰","🎉"],
-			reactionFlag: false,
 		}
 	},
 	props:[
@@ -99,12 +100,11 @@ export default{
 		ReactionButton,
 	},
 	methods: {
-		
+
 	},
 	created() {
-		this.homete=this.postList.post_content,
-		this.reaction=this.postList.post_reaction.reaction
-		this.reactionFlag=(this.postList.user_reaction.contains(this.postList.post_reaction))
+		//投稿の本文に親コンポーネントから渡されたデータを設定
+		this.homete=this.postList.post_content
 	},
 }
 </script>
