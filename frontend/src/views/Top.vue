@@ -2,8 +2,6 @@
 	<v-app>
 		<v-overlay
 			:value="overlay"
-			dark=false
-			light=true
 			:z-index="999"
 		>
 			<PostHomete
@@ -120,8 +118,8 @@
 				>
 					<DisplayHomete 
 						v-for="post in posts"
-						:key="post"
-						:postList=post
+						:key="post.post_id"
+						:postList="post"
 						:distinctLogin="distinctLogin"
 					/>
 				</v-col>
