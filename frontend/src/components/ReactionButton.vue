@@ -123,13 +123,13 @@ export default{
 			if(item.reaction == this.reactionIcon){
 				this.reactionCount = item.count - 0
 			}
-			if(this.userReaction.includes(this.reactionIcon)){
-				this.reactionFlag = true
+			//他のユーザーの投稿やログアウト時の投稿の表示の際にuserReactionにはnullが入るため、エラー回避をする
+			if(this.userReaction !== null){
+				if(this.userReaction.includes(this.reactionIcon)){
+					this.reactionFlag = true
+				}
 			}
 		})
-		if(this.distinctLogin == false){
-			this.reactionFlag = false
-		}
 	},
 	updated() {
 		if(this.distinctLogin == false){
