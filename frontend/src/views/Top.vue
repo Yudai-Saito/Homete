@@ -134,12 +134,6 @@
 	</v-app>
 </template>
 <style>
-	.testColorA{
-		background-color: cyan;
-	}
-	.testColorB{
-		background-color: burlywood;
-	}
 	.mainContainer{
 		max-width: 1200px;
 		width: 100%;

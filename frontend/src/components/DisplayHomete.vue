@@ -99,9 +99,6 @@ export default{
 	components:{
 		ReactionButton,
 	},
-	methods: {
-
-	},
 	created() {
 		//投稿の本文に親コンポーネントから渡されたデータを設定
 		this.homete=this.postList.post_content
