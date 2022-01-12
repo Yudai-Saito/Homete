@@ -2,6 +2,8 @@
 	<v-app>
 		<v-overlay
 			:value="overlay"
+			:dark=false
+			:light=true
 			:z-index="999"
 		>
 			<PostHomete
