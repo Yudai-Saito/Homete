@@ -40,7 +40,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - ../:/usr/src/app/
+      - .:/usr/src/app/
     working_dir: "/usr/src/app"
     tty: true
     environment:
@@ -56,6 +56,8 @@ services:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       FRONTEND_URL: ${FRONTEND_URL}
       SALT: ${SALT}
+      DOMAIN: ${DOMAIN}
+    entrypoint: python run.py
 
 networks:
   homete_network:
