@@ -56,6 +56,7 @@ services:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       FRONTEND_URL: ${FRONTEND_URL}
       SALT: ${SALT}
+      DOMAIN: ${DOMAIN}
     entrypoint: python run.py
 
 networks:

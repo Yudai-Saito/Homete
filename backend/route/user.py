@@ -144,9 +144,9 @@ def login():
 
 			#レスポンス作成	
 			response = make_response(jsonify({"status":"ok"}, 200))
-			response.set_cookie("token", value=token, expires=expires, httponly=True, samesite="None", secure=True)
-			response.set_cookie("user_id", value=user.user_id, expires=expires, httponly=True, samesite="None", secure=True)
-			response.set_cookie("expire", expires=expires, samesite="None", secure=True)
+			response.set_cookie("token", value=token, expires=expires, httponly=True, samesite="None", secure=True, domain=environ["DOMAIN"])
+			response.set_cookie("user_id", value=user.user_id, expires=expires, httponly=True, samesite="None", secure=True, domain=environ["DOMAIN"])
+			response.set_cookie("expire", expires=expires, samesite="None", secure=True, domain=environ["DOMAIN"])
 
 			return response
 		else:
@@ -170,9 +170,9 @@ def logout():
 
 		#クライアントcookie削除用のcookie
 		response = make_response(jsonify({"status":"ok"}, 200))
-		response.set_cookie("token", value="logout_token", expires=expires, httponly=True, samesite="None", secure=True)
-		response.set_cookie("user_id", value="logout_user_id", expires=expires, httponly=True, samesite="None", secure=True)
-		response.set_cookie("expire", expires=expires, samesite="None", secure=True) 
+		response.set_cookie("token", value="logout_token", expires=expires, httponly=True, samesite="None", secure=True, domain=environ["DOMAIN"])
+		response.set_cookie("user_id", value="logout_user_id", expires=expires, httponly=True, samesite="None", secure=True, domain=environ["DOMAIN"])
+		response.set_cookie("expire", expires=expires, samesite="None", secure=True, domain=environ["DOMAIN"]) 
 		
 		return response 
 	except:
