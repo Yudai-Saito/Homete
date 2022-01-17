@@ -54,6 +54,7 @@ export default{
 				this.$emit('resCode',res.status)
 			})
 			.catch((err) => {
+				console.log(err)
 				this.$emit('resCode',err.response.status)
 			});
 		},

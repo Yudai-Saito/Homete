@@ -2,8 +2,8 @@
 	<v-app>
 		<v-overlay
 			:value="overlay"
-			dark=false
-			light=true
+			:dark=false
+			:light=true
 			:z-index="999"
 		>
 			<PostHomete
@@ -11,7 +11,6 @@
 				v-on:postAlert='alertPostVisible'
 			/>
 		</v-overlay>
-		
 		<v-container fluid class="mainContainer mx-auto">
 			<v-expand-transition>
 				<v-alert
@@ -47,13 +46,20 @@
 				</v-alert>
 			</v-expand-transition>
 			<v-row justify="center" class="mx-auto">
-				<v-col cols="2" class="d-none d-sm-block ma-0 pa-0 leftMenu">
+				<v-col
+					cols="2"
+					class="d-none d-sm-block ma-0 pa-0 leftMenu"
+				>
 					<SideMenu
+						class="leftMenuContent"
 						v-on:overlay='overlayCard'
 						v-on:logout="distinctLoginCheck"
 						v-if="distinctLogin"
 					/>
-					<NoLoginSideMenu v-else />
+					<NoLoginSideMenu
+						class="leftMenuContent"
+						v-else
+					/>
 				</v-col>
 
 				<v-app-bar
@@ -91,17 +97,31 @@
 					v-if="this.$vuetify.breakpoint.width < 500"
 
 				>
-					<SideMenu v-on:overlay='overlayCard' v-on:logout="distinctLoginCheck" v-if="distinctLogin" />
-					<NoLoginSideMenu v-else />
+					<SideMenu
+						class="leftMenuContent"
+						v-on:overlay='overlayCard'
+						v-on:logout="distinctLoginCheck"
+						v-if="distinctLogin"
+					/>
+					<NoLoginSideMenu
+						class="leftMenuContent"
+						v-else
+					/>
 				</v-navigation-drawer>
 
 				<v-divider vertical class="d-none d-sm-block"></v-divider>
 
-				<v-col cols="12" sm="8" md="8" class="subContainer">
+				<v-col
+					cols="12"
+					sm="8"
+					md="8"
+					class="subContainer virtualScrollBar"
+					v-scroll="onScroll"
+				>
 					<DisplayHomete 
 						v-for="post in posts"
-						:key="post"
-						:postList=post
+						:key="post.post_id"
+						:postList="post"
 						:distinctLogin="distinctLogin"
 					/>
 				</v-col>
@@ -109,19 +129,13 @@
 				<v-divider vertical class="d-none d-sm-block"></v-divider>
         
 				<v-col md="2" class="hidden-sm-and-down ma-0 pa-0 mt-auto mr-1 rightMenu">
-					<p align="end" class="versionText">HOMETE v1.0.0</p>
+					
 				</v-col>
 			</v-row>
 		</v-container>
 	</v-app>
 </template>
 <style>
-	.testColorA{
-		background-color: cyan;
-	}
-	.testColorB{
-		background-color: burlywood;
-	}
 	.mainContainer{
 		max-width: 1200px;
 		width: 100%;
@@ -135,6 +149,10 @@
 		min-width: 115pt;
 		max-width: 115pt;
 		flex: none;
+	}
+	.leftMenuContent{
+		position: sticky;
+		top: 0px;
 	}
 	.rightMenu{
 		min-width: 115pt;
@@ -159,6 +177,7 @@
 		margin-bottom: auto;
 	}
 	.virtualScrollBar{
+		overflow: auto;
 		/* IE, Edge 対応 */
 		-ms-overflow-style: none;
 		/* Firefox 対応 */
@@ -173,9 +192,6 @@
 		margin-right: auto;
 		margin-left: auto;
 	}
-	.versionText{
-		font-size: smaller;
-	}
 </style>
 
 
@@ -185,6 +201,7 @@ import DisplayHomete from '../components/DisplayHomete'
 import SideMenu  from '../components/SideMenu'
 import NoLoginSideMenu from '../components/NoLoginSideMenu.vue'
 import axios from 'axios'
+
 
 export default {
 	name: "Top",
@@ -197,7 +214,8 @@ export default {
 			alertLogout: false,
 			alert: false,
 			distinctLogin: false,
-			posts:[]
+			posts:[],
+			scrolledBottom: false,
 	}
 	},
 	components: {
@@ -233,8 +251,37 @@ export default {
 				,3000
 			)
 		},
+		onScroll: function(event) {
+			if (this.isFullScrolled(event)) {
+				// 一番下までスクロールした際の処理
+				if(this.scrolledBottom == false){
+					this.scrolledBottom = true
+
+					//最終投稿の投稿時間をパラメーターに投稿取得APIを叩く
+					axios.get('/post', {
+							params:{
+								created_at: this.posts[this.posts.length -1].created_at
+							}
+						},{
+							withCredentials: true
+						}
+					).then((res) => {
+						//投稿の追記
+						this.posts = this.posts.concat(res.data)
+						this.scrolledBottom = false
+					}).catch((err) => {
+						console.log(err)
+					})
+				}
+			}
+		},
+		isFullScrolled(event){
+			const adjustmentValue = (event.target.scrollingElement.clientHeight * 1.5)
+			const positionWithAdjustmentValue = event.target.scrollingElement.clientHeight + event.target.scrollingElement.scrollTop + adjustmentValue
+			return positionWithAdjustmentValue >= event.target.scrollingElement.scrollHeight
+		}
 	},
-	mounted(){
+	created(){
 		if(this.$cookies.isKey("expire") == true){
 			this.distinctLogin = true
 			if(!localStorage.getItem('firstLogin')){

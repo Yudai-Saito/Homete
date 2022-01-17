@@ -54,6 +54,12 @@
 				</v-icon>
 				利用規約
 			</v-btn>
+			<p
+				align="end"
+				class="versionText"
+			>
+				HOMETE v1.0.0
+			</p>
 		</v-row>
 	</v-container>
 </template>
@@ -76,6 +82,13 @@
 		padding: 0;
 		margin-bottom: 5pt;
 	}
+	.versionText{
+		font-size: smaller;
+		position: relative;
+		top: auto;
+		bottom: 0;
+		right: 1rem;
+	}
 </style>
 
 <script>
@@ -84,9 +97,6 @@ export default{
 	data(){
 		return{
 		}
-	},
-	methods: {
-
 	},
 }
 </script>
