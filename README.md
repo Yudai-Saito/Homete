@@ -32,6 +32,7 @@ https://www.homete.tk
 * Python 3.10.0
 	* Flask
 	* SQLAlchemy
+	* Gunicorn
 * MySQL 8.0.27
 * Redis 6.2.6
 

@@ -8,7 +8,7 @@ from flask_mail import Message
 from flask_jwt_extended import jwt_required, create_access_token, create_refresh_token, get_jwt_identity
 from sqlalchemy import or_, exists
 
-from app.app import mail, db, redis
+from app import mail, db, redis
 from models.models import User
 from route.token import auth_required
 

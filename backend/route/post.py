@@ -4,7 +4,7 @@ from flask import Blueprint, request, jsonify
 
 from sqlalchemy import func, desc, JSON
 
-from app.app import db, redis
+from app import db, redis
 from models.models import Homete_post, Post_reaction, UserReaction
 from route.token import auth_required
 
