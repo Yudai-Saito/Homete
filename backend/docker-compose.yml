@@ -57,7 +57,7 @@ services:
       FRONTEND_URL: ${FRONTEND_URL}
       SALT: ${SALT}
       DOMAIN: ${DOMAIN}
-    entrypoint: python run.py
+    entrypoint: gunicorn --workers=3 app:app --bind=0.0.0.0:8000
 
 networks:
   homete_network:

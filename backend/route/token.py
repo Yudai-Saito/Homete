@@ -2,7 +2,7 @@ from functools import wraps
 
 from flask import Blueprint, request, jsonify
 
-from app.app import redis
+from app import redis
 
 token = Blueprint("token", __name__, url_prefix="/token")
 
