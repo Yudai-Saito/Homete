@@ -1,24 +1,27 @@
 # frontend
 
-## Project setup
+## イメージの作成・更新
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+make build
 ```
 
-### Compiles and minifies for production
+## コンテナの起動
 ```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
+make up
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## コンテナの停止
+```
+make kill
+```
+
+## コンテナの再起動
+```
+make restart
+```
+
+## コンテナのターミナルに入る
+```
+make exec
+```
+
