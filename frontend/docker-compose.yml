@@ -9,8 +9,9 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ../:/app
+      - .:/app
+    working_dir: "/app"
     tty: true
     environment:
       VUE_APP_API_ENDPOINT: ${VUE_APP_API_ENDPOINT} 
-    
+    entrypoint: npm run serve
