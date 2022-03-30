@@ -1,5 +1,5 @@
 <template>
-	<v-container fluid class="hometeCard">
+	<v-container fluid>
 		<v-card
 			:loading="loading"
 			:disabled="form || loading"
