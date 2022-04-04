@@ -1,4 +1,7 @@
 up:
+	docker-compose --env-file .env.dev up -d
+
+up-prod:
 	docker-compose up -d
 
 kill:
