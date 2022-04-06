@@ -8,7 +8,7 @@ class User(db.Model):
     user_name = db.Column(db.String(15))
     user_email = db.Column(db.String(256), unique=True)
     hashed_password = db.Column(db.String(64))
-    created_at = db.Column(db.DateTime, default=datetime.datetime.now())
+    created_at = db.Column(db.DateTime, default=datetime.datetime.now)
     updated_at = db.Column(db.DateTime)
     deleted_at = db.Column(db.DateTime)
 
@@ -19,7 +19,7 @@ class Homete_post(db.Model):
     user_id = db.Column(db.String(15))
     post_content = db.Column(db.String(100))
     anonymous = db.Column(db.Boolean, default=True)
-    created_at = db.Column(db.DateTime, default=datetime.datetime.now())
+    created_at = db.Column(db.DateTime, default=datetime.datetime.now)
     updated_at = db.Column(db.DateTime)
     deleted_at = db.Column(db.DateTime)
 
