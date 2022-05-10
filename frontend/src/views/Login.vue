@@ -36,11 +36,11 @@
 					/>
 					<v-card-actions>
 						<div class="ic-Login__forgot ml-auto">
-							<a class="ic-Login__link forgot_password_link"
+							<router-link class="ic-Login__link forgot_password_link"
 								id="login_forgot_password"
-								href="/passreset/mail">
+								to="/passreset/mail">
 								パスワードを忘れた場合
-							</a>
+							</router-link>
 						</div>
 					</v-card-actions>
 				</v-form>

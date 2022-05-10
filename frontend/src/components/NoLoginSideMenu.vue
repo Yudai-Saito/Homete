@@ -5,7 +5,7 @@
 				small
 				rounded
 				text
-				href="/signup/mail"
+				to="/signup/mail"
 			>
 				<v-icon>
 					mdi-account-plus
@@ -18,7 +18,7 @@
 				small
 				rounded
 				text
-				href="/login"
+				to="/login"
 			>
 				<v-icon>
 					mdi-login
@@ -35,7 +35,7 @@
 				small
 				rounded
 				text
-				href="About"
+				to="/about"
 				class="underButton"
 			>
 				<v-icon>
