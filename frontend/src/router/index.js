@@ -8,7 +8,8 @@ const routes = [
 	{
 		path: '/',
 		name: 'Top',
-		component: Top
+		component: Top,
+		meta: {title: 'トップ'}
 	},
 	{
 		path: '/about',
@@ -16,32 +17,38 @@ const routes = [
 		// route level code-splitting
 		// this generates a separate chunk (about.[hash].js) for this route
 		// which is lazy-loaded when the route is visited.
-		component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+		component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+		meta: {title: 'HOMETEとは？'}
 	},
 	{
 		path: '/login',
 		name: 'Login',
-		component: () => import('../views/Login.vue')
+		component: () => import('../views/Login.vue'),
+		meta: {title: 'ログイン'}
 	},
 	{
 		path: '/signup',
 		name: 'Signup',
-		component: () => import('../views/Signup.vue')
+		component: () => import('../views/Signup.vue'),
+		meta: {title: '新規登録'}
 	},
 	{
 		path: '/signup/mail',
 		name: 'SignupReqmail',
-		component: () => import('../views/SignupReqmail.vue')
+		component: () => import('../views/SignupReqmail.vue'),
+		meta: {title: '新規登録'}
 	},
 	{
 		path: '/passreset',
 		name: 'Passreset',
-		component: () => import('../views/Passreset.vue')
+		component: () => import('../views/Passreset.vue'),
+		meta : {title: 'パスワード再設定'}
 	},
 	{
 		path: '/passreset/mail',
 		name: 'PassresetReqmail',
-		component: () => import('../views/PassresetReqmail.vue')
+		component: () => import('../views/PassresetReqmail.vue'),
+		meta : {title: 'パスワード再設定用'}
 	},
 ]
 
