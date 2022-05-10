@@ -58,7 +58,7 @@
 				small
 				rounded
 				text
-				href="About"
+				to="/about"
 				class="underButton"
 			>
 				<v-icon>
