@@ -1,10 +1,11 @@
 from json import dumps
+from traceback import format_exc
 
 from flask import Blueprint, request, jsonify
 
 from sqlalchemy import func, desc, JSON
 
-from app import db, redis
+from app import app, db, redis
 from models.models import Homete_post, Post_reaction, UserReaction
 from route.token import auth_required
 
@@ -26,6 +27,7 @@ def post_receive():
 
 		return jsonify({"status": "success"}), 200
 	except:
+		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 
 @post.route("", methods=["GET"])
@@ -83,7 +85,9 @@ def post_get():
 
 		return dumps([row[0] for row in user_reac], ensure_ascii=False, default=str), 200
 	except:
+		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
+
 @post.route("/reaction", methods=["PUT"])
 @auth_required
 def reaction_count_up():
@@ -111,6 +115,7 @@ def reaction_count_up():
 		db.session.commit()
 		return jsonify({"status": "success"}), 200
 	except:
+		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 
 @post.route("/reaction", methods=["POST"])
@@ -145,4 +150,5 @@ def reaction_count_down():
 
 		return jsonify({"status": "success"}), 200
 	except:
+		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
