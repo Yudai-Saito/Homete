@@ -1,6 +1,7 @@
 from re import match
 from os import environ
 from hashlib import sha256
+from traceback import format_exc
 from datetime import timedelta, datetime
 
 from flask import Blueprint, request, jsonify, make_response	
@@ -8,7 +9,7 @@ from flask_mail import Message
 from flask_jwt_extended import jwt_required, create_access_token, create_refresh_token, get_jwt_identity
 from sqlalchemy import or_, exists
 
-from app import mail, db, redis
+from app import app, mail, db, redis
 from models.models import User
 from route.token import auth_required
 
@@ -48,6 +49,7 @@ def signup_mail():
 		mail_sender(user_email, "Hometeメール認証", SIGNUP_MESSAGE)
 		return jsonify({"status": "success"}), 200
 	except:
+		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 
 @user.route("/passreset/mail", methods=["POST"])
@@ -65,6 +67,7 @@ def passreset_mail():
 		mail_sender(user_email, "Hometeパスワード再設定", PASS_RESET_MESSAGE)
 		return jsonify({"status": "success"}), 200
 	except: 
+		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 		
 @user.route("/signup", methods=["POST"])
@@ -89,6 +92,7 @@ def verify():
 
 		return jsonify({"status": "success"}), 200
 	except:
+		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 
 @user.route("/password/reset", methods=["POST"])
@@ -112,6 +116,7 @@ def password_reset():
 
 		return jsonify({"status": "success"}), 200
 	except:
+		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 
 @user.route("/login", methods=["POST"])
@@ -152,6 +157,7 @@ def login():
 		else:
 			raise Exception("password error")	
 	except:
+		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 
 @user.route("/logout", methods=["POST"])
@@ -176,4 +182,6 @@ def logout():
 		
 		return response 
 	except:
+		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
+		
