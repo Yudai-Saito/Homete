@@ -4,7 +4,6 @@ version: "3.8"
 services:
   redis:
     container_name: "redis"
-    restart: always
     networks:
       - homete_network
     image: "redis"
@@ -15,7 +14,6 @@ services:
 
   mysql:
     container_name: "mysql"
-    restart: always
     networks:
       - homete_network
     image: mysql
@@ -32,7 +30,6 @@ services:
 
   python:
     container_name: "python3"
-    restart: always
     networks:
       - homete_network
     build:
