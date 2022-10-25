@@ -7,7 +7,7 @@
       small
       outlined
       v-if="!reactionFlag"
-      :disabled="!distinctLogin"
+      :disabled="!isLogin"
     >
       <h2>{{ reactionIcon }}</h2>
       {{ reactionCount }}
@@ -19,7 +19,7 @@
       small
       outlined
       v-else
-      :disabled="!distinctLogin"
+      :disabled="!isLogin"
     >
       <h2>{{ reactionIcon }}</h2>
       {{ reactionCount }}
@@ -34,7 +34,7 @@
       height="100%"
       width="40px"
       v-if="!reactionFlag"
-      :disabled="!distinctLogin"
+      :disabled="!isLogin"
     >
       <h3>{{ reactionIcon }}</h3>
       {{ reactionCount }}
@@ -48,7 +48,7 @@
       height="100%"
       width="40px"
       v-else
-      :disabled="!distinctLogin"
+      :disabled="!isLogin"
     >
       <h3>{{ reactionIcon }}</h3>
       {{ reactionCount }}
@@ -80,6 +80,11 @@ import axios from "axios";
 
 export default {
   name: "ReactionButton",
+  computed:{
+    isLogin(){
+      return this.$store.getters.isLogin;
+    }
+  },
   data() {
     return {
       reactionCount: 0,
@@ -90,7 +95,6 @@ export default {
     "reactionIcon",
     "postReaction",
     "userReaction",
-    "distinctLogin",
     "postId",
   ],
   methods: {
@@ -140,7 +144,7 @@ export default {
     });
   },
   updated() {
-    if (this.distinctLogin == false) {
+    if (this.isLogin() == false) {
       this.reactionFlag = false;
     }
   },

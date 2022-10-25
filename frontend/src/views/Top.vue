@@ -101,11 +101,11 @@
           class="subContainer virtualScrollBar"
           v-scroll="onScroll"
         >
+          <Counter/>
           <DisplayHomete
             v-for="post in posts"
             :key="post.post_id"
             :postList="post"
-            :distinctLogin="distinctLogin"
           />
         </v-col>
 
@@ -186,6 +186,7 @@ import DisplayHomete from "../components/DisplayHomete";
 import SideMenu from "../components/SideMenu";
 import NoLoginSideMenu from "../components/NoLoginSideMenu.vue";
 import axios from "axios";
+import Counter from '../components/Counter.vue'
 
 export default {
   name: "Top",
@@ -197,7 +198,6 @@ export default {
       alertLogin: false,
       alertLogout: false,
       alert: false,
-      distinctLogin: false,
       posts: [],
       scrolledBottom: false,
     };
@@ -207,6 +207,7 @@ export default {
     DisplayHomete,
     SideMenu,
     NoLoginSideMenu,
+    Counter
   },
   methods: {
     noticeVisible: function (childOverlay) {
@@ -223,7 +224,7 @@ export default {
       }, 3000);
     },
     distinctLoginCheck: function () {
-      this.distinctLogin = false;
+      this.$store.dispatch("toFalse");
       localStorage.clear("firstLogin");
       setTimeout(() => {
         this.alertLogout = true;
@@ -276,7 +277,7 @@ export default {
   },
   created() {
     if (this.$cookies.isKey("expire") == true) {
-      this.distinctLogin = true;
+      this.$store.dispatch("toTrue");
       if (!localStorage.getItem("firstLogin")) {
         setTimeout(() => {
           this.alertLogin = true;
@@ -287,7 +288,7 @@ export default {
       }
       localStorage.setItem("firstLogin", true);
     } else {
-      this.distinctLogin = false;
+      this.$store.dispatch("toFalse");
     }
 
     axios

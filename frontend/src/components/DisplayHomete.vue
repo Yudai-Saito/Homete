@@ -13,7 +13,6 @@
               :reactionIcon="reaction"
               :postReaction="postList.post_reaction"
               :userReaction="postList.user_reaction"
-              :distinctLogin="distinctLogin"
               :postId="postList.post_id"
             />
           </li>
@@ -24,7 +23,6 @@
               :reactionIcon="reaction"
               :postReaction="postList.post_reaction"
               :userReaction="postList.user_reaction"
-              :distinctLogin="distinctLogin"
               :postId="postList.post_id"
             />
           </li>
@@ -78,13 +76,17 @@
 import ReactionButton from "../components/ReactionButton";
 export default {
   name: "DisplayHomete",
+  computed:{
+    reactions(){
+      return this.$store.getters.reactions;
+    }
+  },
   data() {
     return {
       homete: "",
-      reactions: ["👍", "👀", "💯", "🥰", "🎉"],
     };
   },
-  props: ["postList", "distinctLogin"],
+  props: ["postList"],
   components: {
     ReactionButton,
   },
