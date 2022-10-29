@@ -7,10 +7,10 @@ const getters = {
 }
 
 const actions = {
-    toFalse(context){
+    toFalseLogin(context){
         context.commit('updateLogin', false);
     },
-    toTrue(context){
+    toTrueLogin(context){
         context.commit('updateLogin', true);
     }
 }

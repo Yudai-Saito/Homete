@@ -1,8 +1,7 @@
 <template>
   <v-app>
-    <v-overlay :value="overlay" :dark="false" :light="true" :z-index="999">
+    <v-overlay :value="isVisiblePostHomete" :dark="false" :light="true" :z-index="999">
       <PostHomete
-        v-on:overlay="noticeVisible"
         v-on:postAlert="alertPostVisible"
       />
     </v-overlay>
@@ -44,9 +43,8 @@
         <v-col cols="2" class="d-none d-sm-block ma-0 pa-0 leftMenu">
           <SideMenu
             class="leftMenuContent"
-            v-on:overlay="overlayCard"
-            v-on:logout="distinctLoginCheck"
-            v-if="distinctLogin"
+            v-on:logout="isLoginCheck"
+            v-if="isLogin"
           />
           <NoLoginSideMenu class="leftMenuContent" v-else />
         </v-col>
@@ -85,9 +83,8 @@
         >
           <SideMenu
             class="leftMenuContent"
-            v-on:overlay="overlayCard"
-            v-on:logout="distinctLoginCheck"
-            v-if="distinctLogin"
+            v-on:logout="isLoginCheck"
+            v-if="isLogin"
           />
           <NoLoginSideMenu class="leftMenuContent" v-else />
         </v-navigation-drawer>
@@ -190,6 +187,14 @@ import Counter from '../components/Counter.vue'
 
 export default {
   name: "Top",
+  computed: {
+    isVisiblePostHomete(){
+      return this.$store.getters.isVisiblePostHomete;
+    },
+    isLogin(){
+      return this.$store.getters.isLogin;
+    },
+  },
   data() {
     return {
       overlay: false,
@@ -210,21 +215,14 @@ export default {
     Counter
   },
   methods: {
-    noticeVisible: function (childOverlay) {
-      this.overlay = childOverlay;
-    },
-    overlayCard: function (childOverlay) {
-      this.overlay = childOverlay;
-      this.drawer = false;
-    },
     alertPostVisible: function (childrenAlert) {
       this.alertPost = childrenAlert;
       setTimeout(() => {
         this.alertPost = false;
       }, 3000);
     },
-    distinctLoginCheck: function () {
-      this.$store.dispatch("toFalse");
+    isLoginCheck: function () {
+      this.$store.dispatch("toFalseLogin");
       localStorage.clear("firstLogin");
       setTimeout(() => {
         this.alertLogout = true;
@@ -277,7 +275,7 @@ export default {
   },
   created() {
     if (this.$cookies.isKey("expire") == true) {
-      this.$store.dispatch("toTrue");
+      this.$store.dispatch("toTrueLogin");
       if (!localStorage.getItem("firstLogin")) {
         setTimeout(() => {
           this.alertLogin = true;
@@ -288,7 +286,7 @@ export default {
       }
       localStorage.setItem("firstLogin", true);
     } else {
-      this.$store.dispatch("toFalse");
+      this.$store.dispatch("toFalseLogin");
     }
 
     axios

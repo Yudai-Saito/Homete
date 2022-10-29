@@ -87,7 +87,9 @@ export default {
   },
   data() {
     return {
+      //リアクションの押された数
       reactionCount: 0,
+      //リアクションが押せるかどうか
       reactionFlag: false,
     };
   },

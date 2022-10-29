@@ -65,14 +65,18 @@ import axios from "axios";
 
 export default {
   name: "SideMenu",
+  computed: {
+    isVisiblePostHomete(){
+      return this.$store.getters.isVisiblePostHomete;
+    }
+  },
   data() {
     return {
-      overlay: true,
     };
   },
   methods: {
     visibleCard: function () {
-      this.$emit("overlay", this.overlay);
+      this.$store.dispatch("toVisiblePostHomete");
     },
     logout: function () {
       axios

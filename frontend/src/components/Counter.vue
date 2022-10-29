@@ -6,6 +6,7 @@
 </template>
 
 <script>
+//開発環境におけるテスト用コンポーネント
 export default {
   name: "Counter",
   computed: {
@@ -19,6 +20,7 @@ export default {
   methods: {
     increment() {
       this.$store.dispatch("increment");
+      this.$store.dispatch("toTrueLogin");
     },
   },
 };
