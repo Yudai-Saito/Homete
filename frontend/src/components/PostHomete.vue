@@ -148,7 +148,7 @@ export default {
         .then((res) => {
           console.log(res);
           this.$store.dispatch("toInvisiblePostHomete");
-          this.$emit("postAlert", true);
+          this.alertPostVisible();
         })
         .catch((err) => {
           console.log(err);
@@ -167,6 +167,12 @@ export default {
     },
     closeCard: function () {
       this.$store.dispatch("toInvisiblePostHomete");
+    },
+    alertPostVisible: function () {
+      this.$store.dispatch("toTrueAlertPost");
+      setTimeout(() => {
+        this.$store.dispatch("toFalseAlertPost");
+      }, 3000);
     },
   },
   computed: {

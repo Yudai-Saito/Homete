@@ -21,6 +21,13 @@ export default {
     increment() {
       this.$store.dispatch("increment");
       this.$store.dispatch("toTrueLogin");
+      this.alertPostVisible();
+    },
+    alertPostVisible: function () {
+      this.$store.dispatch("toTrueAlertPost");
+      setTimeout(() => {
+        this.$store.dispatch("toFalseAlertPost");
+      }, 3000);
     },
   },
 };

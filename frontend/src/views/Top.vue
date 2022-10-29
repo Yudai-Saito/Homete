@@ -1,14 +1,12 @@
 <template>
   <v-app>
     <v-overlay :value="isVisiblePostHomete" :dark="false" :light="true" :z-index="999">
-      <PostHomete
-        v-on:postAlert="alertPostVisible"
-      />
+      <PostHomete />
     </v-overlay>
     <v-container fluid class="mainContainer mx-auto">
       <v-expand-transition>
         <v-alert
-          v-show="alertPost"
+          v-show="isAlertPost"
           color="primary"
           text
           type="success"
@@ -69,7 +67,7 @@
             color="white"
             icon
             class="postButton"
-            @click="overlay = true"
+            @click="this.$store.dispatch('toTrueVisiblePostHomete')"
           >
             <v-icon> mdi-pen-plus </v-icon>
           </v-btn>
@@ -194,12 +192,13 @@ export default {
     isLogin(){
       return this.$store.getters.isLogin;
     },
+    isAlertPost(){
+      return this.$store.getters.isAlertPost;
+    },
   },
   data() {
     return {
-      overlay: false,
       drawer: false,
-      alertPost: false,
       alertLogin: false,
       alertLogout: false,
       alert: false,
@@ -215,12 +214,6 @@ export default {
     Counter
   },
   methods: {
-    alertPostVisible: function (childrenAlert) {
-      this.alertPost = childrenAlert;
-      setTimeout(() => {
-        this.alertPost = false;
-      }, 3000);
-    },
     isLoginCheck: function () {
       this.$store.dispatch("toFalseLogin");
       localStorage.clear("firstLogin");
@@ -300,5 +293,11 @@ export default {
         console.log(err);
       });
   },
+  mounted() {
+    window.onload = ()=>{
+      this.$store.dispatch("toFalseAlertPost");
+      this.$store.dispatch("toInvisiblePostHomete");
+    }
+}
 };
 </script>
