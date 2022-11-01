@@ -43,58 +43,16 @@
         </v-alert>
       </v-expand-transition>
       <v-row justify="center" class="mx-auto">
-        <v-col cols="2" class="d-none d-sm-block ma-0 pa-0 leftMenu">
+        <v-col class="ma-0 pa-0">
           <SideMenu
             class="leftMenuContent"
             v-on:logout="isLoginCheck"
-            v-if="isLogin"
           />
-          <NoLoginSideMenu class="leftMenuContent" v-else />
         </v-col>
 
-        <v-app-bar
-          elevation="0"
-          color="rgba(255,255,255,0.9)"
-          dense
-          app
-          class="topMenu"
-          v-if="this.$vuetify.breakpoint.width < 500"
-        >
-          <v-app-bar-nav-icon
-            @click="drawer = true"
-            x-large
-            class="navButton"
-          ></v-app-bar-nav-icon>
+        <v-divider vertical></v-divider>
 
-          <v-btn
-            elevation="3"
-            fab
-            color="white"
-            icon
-            class="postButton"
-            @click="this.$store.dispatch('toTrueVisiblePostHomete')"
-          >
-            <v-icon> mdi-pen-plus </v-icon>
-          </v-btn>
-        </v-app-bar>
-        <v-navigation-drawer
-          v-model="drawer"
-          app
-          touchless
-          v-bind:width="150"
-          v-if="this.$vuetify.breakpoint.width < 500"
-        >
-          <SideMenu
-            class="leftMenuContent"
-            v-on:logout="isLoginCheck"
-            v-if="isLogin"
-          />
-          <NoLoginSideMenu class="leftMenuContent" v-else />
-        </v-navigation-drawer>
-
-        <v-divider vertical class="d-none d-sm-block"></v-divider>
         <v-col
-          cols="12"
           sm="8"
           md="8"
           class="subContainer virtualScrollBar"
@@ -106,11 +64,11 @@
             :postList="post"
           />
         </v-col>
-        <v-divider vertical class="d-none d-sm-block"></v-divider>
+
+        <v-divider vertical></v-divider>
 
         <v-col
-          md="2"
-          class="hidden-sm-and-down ma-0 pa-0 mt-auto mr-1 rightMenu"
+          class="ma-0 pa-0 "
         >
         </v-col>
       </v-row>
@@ -127,18 +85,9 @@
 .subContainer {
   width: 100%;
 }
-.leftMenu {
-  width: 115pt;
-  min-width: 115pt;
-  max-width: 115pt;
-  flex: none;
-}
 .leftMenuContent {
   position: sticky;
   top: 0px;
-}
-.rightMenu {
-  min-width: 115pt;
 }
 .topMenu {
   width: 100vw;
@@ -182,7 +131,6 @@
 import PostHomete from "../components/PostHomete";
 import DisplayHomete from "../components/DisplayHomete";
 import SideMenu from "../components/SideMenu";
-import NoLoginSideMenu from "../components/NoLoginSideMenu.vue";
 import axios from "axios";
 
 export default {
@@ -200,10 +148,8 @@ export default {
   },
   data() {
     return {
-      drawer: false,
       alertLogin: false,
       alertLogout: false,
-      alert: false,
       posts: [],
       scrolledBottom: false,
     };
@@ -212,7 +158,6 @@ export default {
     PostHomete,
     DisplayHomete,
     SideMenu,
-    NoLoginSideMenu,
   },
   methods: {
     isLoginCheck: function () {

@@ -1,7 +1,7 @@
 <template>
   <div class="btnDiv">
     <v-btn
-      class="d-none d-sm-block grey--text text--darken-3 reactBtn"
+      class="grey--text text--darken-3 reactBtn"
       @click="count"
       elevation="0"
       small
@@ -13,7 +13,7 @@
       {{ reactionCount }}
     </v-btn>
     <v-btn
-      class="d-none d-sm-block grey--text text--darken-3 pushedButton"
+      class="grey--text text--darken-3 pushedButton"
       @click="count"
       elevation="0"
       small
@@ -22,35 +22,6 @@
       :disabled="!isLogin"
     >
       <h2>{{ reactionIcon }}</h2>
-      {{ reactionCount }}
-    </v-btn>
-
-    <v-btn
-      class="d-block d-sm-none grey--text text--darken-3 reactBtn"
-      @click="count"
-      elevation="0"
-      x-small
-      outlined
-      height="100%"
-      width="40px"
-      v-if="!reactionFlag"
-      :disabled="!isLogin"
-    >
-      <h3>{{ reactionIcon }}</h3>
-      {{ reactionCount }}
-    </v-btn>
-    <v-btn
-      class="d-block d-sm-none grey--text text--darken-3 pushedButton"
-      @click="count"
-      elevation="0"
-      x-small
-      outlined
-      height="100%"
-      width="40px"
-      v-else
-      :disabled="!isLogin"
-    >
-      <h3>{{ reactionIcon }}</h3>
       {{ reactionCount }}
     </v-btn>
   </div>

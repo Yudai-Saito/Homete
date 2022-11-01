@@ -7,17 +7,7 @@
         {{ homete }}
       </v-card-text>
       <v-card-actions>
-        <ul class="horizontalListWide d-none d-sm-block">
-          <li v-for="reaction in reactions" :key="reaction">
-            <ReactionButton
-              :reactionIcon="reaction"
-              :postReaction="postList.post_reaction"
-              :userReaction="postList.user_reaction"
-              :postId="postList.post_id"
-            />
-          </li>
-        </ul>
-        <ul class="horizontalList d-block d-sm-none">
+        <ul class="horizontalListWide">
           <li v-for="reaction in reactions" :key="reaction">
             <ReactionButton
               :reactionIcon="reaction"
@@ -43,29 +33,6 @@
 }
 .horizontalListWide li {
   /* PC画面時のリアクションボタンの折り返し表示 */
-  position: relative;
-  display: inline-block;
-  right: 1em;
-}
-.horizontalList {
-  /* 横スクロール設定 */
-  overflow-x: auto;
-  /* IE, Edgeにおけるスクロールバーの削除対応 */
-  -ms-overflow-style: none;
-  /* Firefoxにおけるスクロールバーの削除対応 */
-  scrollbar-width: none;
-
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-  padding: 0;
-  margin: 0;
-}
-/* Chrome, Safariにおけるスクロールバーの削除対応 */
-.horizontalList::-webkit-scrollbar {
-  display: none;
-}
-.horizontalList li {
-  /* スマホ画面時のリアクションボタンの横スクロール対応 */
   position: relative;
   display: inline-block;
   right: 1em;
