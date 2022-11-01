@@ -1,15 +1,17 @@
 <template>
   <v-app>
-    <v-overlay :value="overlay" :dark="false" :light="true" :z-index="999">
-      <PostHomete
-        v-on:overlay="noticeVisible"
-        v-on:postAlert="alertPostVisible"
-      />
+    <v-overlay
+      :value="isVisiblePostHomete"
+      :dark="false"
+      :light="true"
+      :z-index="999"
+    >
+      <PostHomete />
     </v-overlay>
     <v-container fluid class="mainContainer mx-auto">
       <v-expand-transition>
         <v-alert
-          v-show="alertPost"
+          v-show="isAlertPost"
           color="primary"
           text
           type="success"
@@ -44,9 +46,8 @@
         <v-col cols="2" class="d-none d-sm-block ma-0 pa-0 leftMenu">
           <SideMenu
             class="leftMenuContent"
-            v-on:overlay="overlayCard"
-            v-on:logout="distinctLoginCheck"
-            v-if="distinctLogin"
+            v-on:logout="isLoginCheck"
+            v-if="isLogin"
           />
           <NoLoginSideMenu class="leftMenuContent" v-else />
         </v-col>
@@ -71,7 +72,7 @@
             color="white"
             icon
             class="postButton"
-            @click="overlay = true"
+            @click="this.$store.dispatch('toTrueVisiblePostHomete')"
           >
             <v-icon> mdi-pen-plus </v-icon>
           </v-btn>
@@ -85,9 +86,8 @@
         >
           <SideMenu
             class="leftMenuContent"
-            v-on:overlay="overlayCard"
-            v-on:logout="distinctLoginCheck"
-            v-if="distinctLogin"
+            v-on:logout="isLoginCheck"
+            v-if="isLogin"
           />
           <NoLoginSideMenu class="leftMenuContent" v-else />
         </v-navigation-drawer>
@@ -104,7 +104,6 @@
             v-for="post in posts"
             :key="post.post_id"
             :postList="post"
-            :distinctLogin="distinctLogin"
           />
         </v-col>
         <v-divider vertical class="d-none d-sm-block"></v-divider>
@@ -188,15 +187,23 @@ import axios from "axios";
 
 export default {
   name: "Top",
+  computed: {
+    isVisiblePostHomete() {
+      return this.$store.getters.isVisiblePostHomete;
+    },
+    isLogin() {
+      return this.$store.getters.isLogin;
+    },
+    isAlertPost() {
+      return this.$store.getters.isAlertPost;
+    },
+  },
   data() {
     return {
-      overlay: false,
       drawer: false,
-      alertPost: false,
       alertLogin: false,
       alertLogout: false,
       alert: false,
-      distinctLogin: false,
       posts: [],
       scrolledBottom: false,
     };
@@ -208,22 +215,8 @@ export default {
     NoLoginSideMenu,
   },
   methods: {
-    
-    noticeVisible: function (childOverlay) {
-      this.overlay = childOverlay;
-    },
-    overlayCard: function (childOverlay) {
-      this.overlay = childOverlay;
-      this.drawer = false;
-    },
-    alertPostVisible: function (childrenAlert) {
-      this.alertPost = childrenAlert;
-      setTimeout(() => {
-        this.alertPost = false;
-      }, 3000);
-    },
-    distinctLoginCheck: function () {
-      this.distinctLogin = false;
+    isLoginCheck: function () {
+      this.$store.dispatch("toFalseLogin");
       localStorage.clear("firstLogin");
       setTimeout(() => {
         this.alertLogout = true;
@@ -231,27 +224,11 @@ export default {
       setTimeout(() => {
         this.alertLogout = false;
       }, 3000);
-    },
-    onScroll: function (event) {
-      if (this.isFullScrolled(event)) {
-        // 一番下までスクロールした際の処理
-      }
-    },
-    isFullScrolled(event) {
-      const adjustmentValue = event.target.scrollingElement.clientHeight * 1.5;
-      const positionWithAdjustmentValue =
-        event.target.scrollingElement.clientHeight +
-        event.target.scrollingElement.scrollTop +
-        adjustmentValue;
-      return (
-        positionWithAdjustmentValue >=
-        event.target.scrollingElement.scrollHeight
-      );
-    },
+    }
   },
   created() {
     if (this.$cookies.isKey("expire") == true) {
-      this.distinctLogin = true;
+      this.$store.dispatch("toTrueLogin");
       if (!localStorage.getItem("firstLogin")) {
         setTimeout(() => {
           this.alertLogin = true;
@@ -262,7 +239,7 @@ export default {
       }
       localStorage.setItem("firstLogin", true);
     } else {
-      this.distinctLogin = false;
+      this.$store.dispatch("toFalseLogin");
     }
 
     axios
@@ -277,33 +254,38 @@ export default {
       });
   },
   mounted() {
-    this.observer = new IntersectionObserver(entries => {
-        const entry = entries[0]
-        if (entry && entry.isIntersecting) {
-          axios
-            .get(
-              "/post",
-              {
-                params: {
-                  created_at: this.posts[this.posts.length - 1].created_at,
-                },
+    this.observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (entry && entry.isIntersecting) {
+        axios
+          .get(
+            "/post",
+            {
+              params: {
+                created_at: this.posts[this.posts.length - 1].created_at,
               },
-              {
-                withCredentials: true,
-              }
-            )
-            .then((res) => {
-              //投稿の追記
-              this.posts = this.posts.concat(res.data);
-              this.scrolledBottom = false;
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-    })
-    const observe_element = this.$refs.observe_element
-    this.observer.observe(observe_element)
-  }
+            },
+            {
+              withCredentials: true,
+            }
+          )
+          .then((res) => {
+            //投稿の追記
+            this.posts = this.posts.concat(res.data);
+            this.scrolledBottom = false;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
+    const observe_element = this.$refs.observe_element;
+    this.observer.observe(observe_element);
+
+    window.onload = () => {
+      this.$store.dispatch("toFalseAlertPost");
+      this.$store.dispatch("toInvisiblePostHomete");
+    };
+  },
 };
 </script>

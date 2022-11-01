@@ -22,7 +22,7 @@
           plain
           @click="clearText"
           class="float-right mt-2 mr-2"
-          v-show="clearVisible"
+          v-show="isInputHomete"
         >
           <v-icon small color="glay"> mdi-close-circle </v-icon>
         </v-btn>
@@ -74,7 +74,7 @@
           plain
           @click="clearText"
           class="float-right mt-2 mr-2"
-          v-show="clearVisible"
+          v-show="isInputHomete"
         >
           <v-icon small color="glay"> mdi-close-circle </v-icon>
         </v-btn>
@@ -129,8 +129,6 @@ export default {
       form: false,
       loading: false,
       homete: "",
-      clearVisible: false,
-      overlay: false,
     };
   },
   methods: {
@@ -149,27 +147,32 @@ export default {
         )
         .then((res) => {
           console.log(res);
-          this.overlay = false;
-          this.closeCard();
-          this.$emit("postAlert", true);
+          this.$store.dispatch("toInvisiblePostHomete");
+          this.alertPostVisible();
         })
         .catch((err) => {
           console.log(err);
         });
     },
     inputText: function () {
-      if (this.clearVisible == false) {
-        this.clearVisible = true;
-      } else if (this.homete == "") {
-        this.clearVisible = false;
+      if (this.homete == "") {
+        this.$store.dispatch("toFalseInputHomete");
+      }else{
+        this.$store.dispatch("toTrueInputHomete");
       }
     },
     clearText: function () {
       this.homete = "";
-      this.clearVisible = false;
+      this.$store.dispatch("toFalseInputHomete");
     },
     closeCard: function () {
-      this.$emit("overlay", this.overlay);
+      this.$store.dispatch("toInvisiblePostHomete");
+    },
+    alertPostVisible: function () {
+      this.$store.dispatch("toTrueAlertPost");
+      setTimeout(() => {
+        this.$store.dispatch("toFalseAlertPost");
+      }, 3000);
     },
   },
   computed: {
@@ -181,6 +184,12 @@ export default {
       const inputRules = [required, inputFormat];
 
       return { inputRules };
+    },
+    isVisiblePostHomete(){
+      return this.$store.getters.isVisiblePostHomete;
+    },
+    isInputHomete(){
+      return this.$store.getters.isInputHomete;
     },
   },
 };
