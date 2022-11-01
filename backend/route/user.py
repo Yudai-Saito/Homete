@@ -15,24 +15,6 @@ from route.token import auth_required
 
 user = Blueprint("user", __name__, url_prefix="/user")
 
-@user.route("/signup/mail", methods=["POST"])
-def signup_mail():
-	"""新規登録用のメールを送信
-	新規登録時にメールアドレスを受け取り、認証URLを送信する
-	"""
-	try:
-		user_email = request.json["user_email"]
-
-		#ユーザ登録チェック、Trueで登録済み
-		if db.session.query(User.query.filter(User.user_email == user_email).exists()).scalar() == True:
-			raise Exception("user_email already exists")
-
-		mail_sender(user_email, "Hometeメール認証", SIGNUP_MESSAGE)
-		return jsonify({"status": "success"}), 200
-	except:
-		app.logger.error(format_exc())
-		return jsonify({"status": "error"}), 400
-
 @user.route("/passreset/mail", methods=["POST"])
 def passreset_mail():
 	"""パスワード再設定用メールを送信
