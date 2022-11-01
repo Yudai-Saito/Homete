@@ -1,6 +1,11 @@
 <template>
   <v-app>
-    <v-overlay :value="isVisiblePostHomete" :dark="false" :light="true" :z-index="999">
+    <v-overlay
+      :value="isVisiblePostHomete"
+      :dark="false"
+      :light="true"
+      :z-index="999"
+    >
       <PostHomete />
     </v-overlay>
     <v-container fluid class="mainContainer mx-auto">
@@ -95,7 +100,6 @@
           class="subContainer virtualScrollBar"
           v-scroll="onScroll"
         >
-          <Counter/>
           <DisplayHomete
             v-for="post in posts"
             :key="post.post_id"
@@ -180,18 +184,17 @@ import DisplayHomete from "../components/DisplayHomete";
 import SideMenu from "../components/SideMenu";
 import NoLoginSideMenu from "../components/NoLoginSideMenu.vue";
 import axios from "axios";
-import Counter from '../components/Counter.vue'
 
 export default {
   name: "Top",
   computed: {
-    isVisiblePostHomete(){
+    isVisiblePostHomete() {
       return this.$store.getters.isVisiblePostHomete;
     },
-    isLogin(){
+    isLogin() {
       return this.$store.getters.isLogin;
     },
-    isAlertPost(){
+    isAlertPost() {
       return this.$store.getters.isAlertPost;
     },
   },
@@ -210,7 +213,6 @@ export default {
     DisplayHomete,
     SideMenu,
     NoLoginSideMenu,
-    Counter
   },
   methods: {
     isLoginCheck: function () {
@@ -222,23 +224,7 @@ export default {
       setTimeout(() => {
         this.alertLogout = false;
       }, 3000);
-    },
-    onScroll: function (event) {
-      if (this.isFullScrolled(event)) {
-        // 一番下までスクロールした際の処理
-      }
-    },
-    isFullScrolled(event) {
-      const adjustmentValue = event.target.scrollingElement.clientHeight * 1.5;
-      const positionWithAdjustmentValue =
-        event.target.scrollingElement.clientHeight +
-        event.target.scrollingElement.scrollTop +
-        adjustmentValue;
-      return (
-        positionWithAdjustmentValue >=
-        event.target.scrollingElement.scrollHeight
-      );
-    },
+    }
   },
   created() {
     if (this.$cookies.isKey("expire") == true) {
@@ -268,37 +254,38 @@ export default {
       });
   },
   mounted() {
-    window.onload = ()=>{
+    this.observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (entry && entry.isIntersecting) {
+        axios
+          .get(
+            "/post",
+            {
+              params: {
+                created_at: this.posts[this.posts.length - 1].created_at,
+              },
+            },
+            {
+              withCredentials: true,
+            }
+          )
+          .then((res) => {
+            //投稿の追記
+            this.posts = this.posts.concat(res.data);
+            this.scrolledBottom = false;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
+    const observe_element = this.$refs.observe_element;
+    this.observer.observe(observe_element);
+
+    window.onload = () => {
       this.$store.dispatch("toFalseAlertPost");
       this.$store.dispatch("toInvisiblePostHomete");
-    },
-    this.observer = new IntersectionObserver(entries => {
-        const entry = entries[0]
-        if (entry && entry.isIntersecting) {
-          axios
-            .get(
-              "/post",
-              {
-                params: {
-                  created_at: this.posts[this.posts.length - 1].created_at,
-                },
-              },
-              {
-                withCredentials: true,
-              }
-            )
-            .then((res) => {
-              //投稿の追記
-              this.posts = this.posts.concat(res.data);
-              this.scrolledBottom = false;
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-    })
-    const observe_element = this.$refs.observe_element
-    this.observer.observe(observe_element)
-  }
+    };
+  },
 };
 </script>
