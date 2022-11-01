@@ -9,39 +9,7 @@
       <PostHomete />
     </v-overlay>
     <v-container fluid class="mainContainer mx-auto">
-      <v-expand-transition>
-        <v-alert
-          v-show="isAlertPost"
-          color="primary"
-          text
-          type="success"
-          class="alertSucess"
-        >
-          投稿しました!
-        </v-alert>
-      </v-expand-transition>
-      <v-expand-transition>
-        <v-alert
-          v-show="alertLogin"
-          color="green lighten-2"
-          text
-          type="success"
-          class="alertSucess"
-        >
-          おかえりなさい
-        </v-alert>
-      </v-expand-transition>
-      <v-expand-transition>
-        <v-alert
-          v-show="alertLogout"
-          color="red accent-2"
-          text
-          type="success"
-          class="alertSucess"
-        >
-          ログアウトが完了しました
-        </v-alert>
-      </v-expand-transition>
+      <Alert />
       <v-row justify="center" class="mx-auto">
         <v-col class="ma-0 pa-0">
           <SideMenu
@@ -119,11 +87,6 @@
 .virtualScrollBar::-webkit-scrollbar {
   display: none;
 }
-.alertSucess {
-  width: 90%;
-  margin-right: auto;
-  margin-left: auto;
-}
 </style>
 
 
@@ -131,6 +94,7 @@
 import PostHomete from "../components/PostHomete";
 import DisplayHomete from "../components/DisplayHomete";
 import SideMenu from "../components/SideMenu";
+import Alert from "../components/Alert";
 import axios from "axios";
 
 export default {
@@ -141,9 +105,6 @@ export default {
     },
     isLogin() {
       return this.$store.getters.isLogin;
-    },
-    isAlertPost() {
-      return this.$store.getters.isAlertPost;
     },
   },
   data() {
@@ -158,6 +119,7 @@ export default {
     PostHomete,
     DisplayHomete,
     SideMenu,
+    Alert,
   },
   methods: {
     isLoginCheck: function () {
