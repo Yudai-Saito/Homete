@@ -15,24 +15,6 @@ from route.token import auth_required
 
 user = Blueprint("user", __name__, url_prefix="/user")
 
-@user.route("/passreset/mail", methods=["POST"])
-def passreset_mail():
-	"""パスワード再設定用メールを送信
-	パスワード再設定時にメールアドレスを受け取り、再設定URLを送信する
-	"""
-	try:
-		user_email = request.json["user_email"]
-
-		#未登録ユーザのチェック, Falseで未登録
-		if db.session.query(User.query.filter(User.user_email == user_email).exists()).scalar() == False:
-			raise Exception("user_email not exists")
-
-		mail_sender(user_email, "Hometeパスワード再設定", PASS_RESET_MESSAGE)
-		return jsonify({"status": "success"}), 200
-	except: 
-		app.logger.error(format_exc())
-		return jsonify({"status": "error"}), 400
-		
 @user.route("/signup", methods=["POST"])
 @jwt_required()
 def verify():
