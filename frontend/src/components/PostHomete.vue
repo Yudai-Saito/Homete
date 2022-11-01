@@ -112,10 +112,7 @@ export default {
       this.$store.dispatch("toInvisiblePostHomete");
     },
     alertPostVisible: function () {
-      this.$store.dispatch("toTrueAlertPost");
-      setTimeout(() => {
-        this.$store.dispatch("toFalseAlertPost");
-      }, 3000);
+      this.$store.dispatch("alertPost");
     },
   },
   computed: {

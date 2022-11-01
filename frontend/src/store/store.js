@@ -6,7 +6,7 @@ import reactions from './modules/reactions';
 import isLogin from './modules/isLogin';
 import isVisiblePostHomete from './modules/isVisiblePostHomete';
 import isInputHomete from './modules/isInputHomete';
-import isAlertPost from './modules/isAlertPost';
+import isAlert from './modules/isAlert';
 
 Vue.use(Vuex);
 
@@ -19,7 +19,7 @@ export default new Vuex.Store({
     isLogin,
     isVisiblePostHomete,
     isInputHomete,
-    isAlertPost,
+    isAlert,
   },
   state: {
 

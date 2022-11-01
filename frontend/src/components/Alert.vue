@@ -1,8 +1,8 @@
 <template>
   <v-expand-transition>
     <v-alert
-      v-show="isAlertPost"
-      :color=alertColor[alertState]
+      v-show="isAlert"
+      :color="alertColor[alertState]"
       text
       type="success"
       class="alertSucess"
@@ -25,7 +25,6 @@ export default {
   data() {
     return {
       //[投稿、ログイン、ログアウト]
-      alertState: 0,
       alertColor: ["primary", "green lighten-2", "red accent-2"],
       alertText: [
         "投稿しました!",
@@ -35,8 +34,11 @@ export default {
     };
   },
   computed: {
-    isAlertPost() {
-      return this.$store.getters.isAlertPost;
+    alertState() {
+      return this.$store.getters.alertState;
+    },
+    isAlert() {
+      return this.$store.getters.isAlert;
     },
   },
 };
