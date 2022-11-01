@@ -88,7 +88,6 @@
         </v-navigation-drawer>
 
         <v-divider vertical class="d-none d-sm-block"></v-divider>
-
         <v-col
           cols="12"
           sm="8"
@@ -103,7 +102,6 @@
             :postList="post"
           />
         </v-col>
-
         <v-divider vertical class="d-none d-sm-block"></v-divider>
 
         <v-col
@@ -113,6 +111,7 @@
         </v-col>
       </v-row>
     </v-container>
+    <div ref="observe_element"></div>
   </v-app>
 </template>
 <style>
@@ -227,31 +226,6 @@ export default {
     onScroll: function (event) {
       if (this.isFullScrolled(event)) {
         // 一番下までスクロールした際の処理
-        if (this.scrolledBottom == false) {
-          this.scrolledBottom = true;
-
-          //最終投稿の投稿時間をパラメーターに投稿取得APIを叩く
-          axios
-            .get(
-              "/post",
-              {
-                params: {
-                  created_at: this.posts[this.posts.length - 1].created_at,
-                },
-              },
-              {
-                withCredentials: true,
-              }
-            )
-            .then((res) => {
-              //投稿の追記
-              this.posts = this.posts.concat(res.data);
-              this.scrolledBottom = false;
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
       }
     },
     isFullScrolled(event) {
@@ -297,7 +271,34 @@ export default {
     window.onload = ()=>{
       this.$store.dispatch("toFalseAlertPost");
       this.$store.dispatch("toInvisiblePostHomete");
-    }
-}
+    },
+    this.observer = new IntersectionObserver(entries => {
+        const entry = entries[0]
+        if (entry && entry.isIntersecting) {
+          axios
+            .get(
+              "/post",
+              {
+                params: {
+                  created_at: this.posts[this.posts.length - 1].created_at,
+                },
+              },
+              {
+                withCredentials: true,
+              }
+            )
+            .then((res) => {
+              //投稿の追記
+              this.posts = this.posts.concat(res.data);
+              this.scrolledBottom = false;
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+    })
+    const observe_element = this.$refs.observe_element
+    this.observer.observe(observe_element)
+  }
 };
 </script>
