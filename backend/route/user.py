@@ -15,25 +15,6 @@ from route.token import auth_required
 
 user = Blueprint("user", __name__, url_prefix="/user")
 
-SIGNUP_MESSAGE = "Hometeへようこそ!\n5分以内に以下のURLから登録を済ませてください!\n" + "{}/signup?jwt=".format(environ["FRONTEND_URL"]) 
-PASS_RESET_MESSAGE = "Hometeのパスワード再設定メールです。\n5分以内に以下のURLからパスワードの再設定を行ってください。\n" + "{}/passreset?jwt=".format(environ["FRONTEND_URL"])
-
-def mail_sender(user_email, title, message):
-	"""メール送信
-	タイトル、送信タイプ、メッセージを受け取り、メール送信を行う。
-	"""
-	#メールバリデーション
-	if match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", user_email):
-		#TOKEN生成
-		access_token = create_access_token(expires_delta=timedelta(seconds=300), identity=user_email)
-		
-		#メール生成・送信
-		msg = Message(title, recipients=[user_email])
-		msg.body = message + access_token
-		mail.send(msg)
-	else:
-		raise Exception("mail format error")
-
 @user.route("/signup/mail", methods=["POST"])
 def signup_mail():
 	"""新規登録用のメールを送信
