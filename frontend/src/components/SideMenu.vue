@@ -1,7 +1,18 @@
 <template>
   <v-container class="sideContainer">
+    <LeftMenuButton
+      usage="alertPost"
+      btnText="タイムライン"
+      btnIcon="mdi-home"
+    />
+    <LeftMenuButton
+      usage="alertLogin"
+      btnText="ヒストリー"
+      btnIcon="mdi-history"
+    />
+
     <v-row justify="start" class="mt-7 sideMenuButton">
-      <v-btn small rounded text @click="visibleCard">
+      <v-btn small rounded text v-on:click="visibleCard">
         <v-icon> mdi-pen-plus </v-icon>
         投稿する
       </v-btn>
@@ -62,20 +73,29 @@
 
 <script>
 import axios from "axios";
+import LeftMenuButton from "./LeftMenuButton";
 
 export default {
   name: "SideMenu",
   computed: {
-    isVisiblePostHomete(){
+    isVisiblePostHomete() {
       return this.$store.getters.isVisiblePostHomete;
-    }
+    },
   },
   data() {
     return {
+      t: ["alertLogin", "a"],
     };
   },
+  components: {
+    LeftMenuButton,
+  },
   methods: {
+    alertPostVisible: function () {
+      this.$store.dispatch(this.t[0]);
+    },
     visibleCard: function () {
+      this.alertPostVisible();
       this.$store.dispatch("toVisiblePostHomete");
     },
     logout: function () {
