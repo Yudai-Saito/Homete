@@ -12,10 +12,7 @@
       <Alert />
       <v-row justify="center" class="mx-auto">
         <v-col class="ma-0 pa-0">
-          <SideMenu
-            class="leftMenuContent"
-            v-on:logout="isLoginCheck"
-          />
+          <SideMenu class="leftMenuContent" v-on:logout="isLoginCheck" />
         </v-col>
 
         <v-divider vertical></v-divider>
@@ -35,10 +32,7 @@
 
         <v-divider vertical></v-divider>
 
-        <v-col
-          class="ma-0 pa-0 "
-        >
-        </v-col>
+        <v-col class="ma-0 pa-0"> </v-col>
       </v-row>
     </v-container>
     <div ref="observe_element"></div>
@@ -56,25 +50,6 @@
 .leftMenuContent {
   position: sticky;
   top: 0px;
-}
-.topMenu {
-  width: 100vw;
-  min-width: 100vw;
-  max-width: 100vw;
-  flex: none;
-  margin: 0;
-  padding: 0;
-}
-.postButton {
-  position: absolute;
-  margin-top: 170vh;
-  margin-left: 75vw;
-  background-color: #1da1f2;
-}
-.navButton {
-  margin-right: auto;
-  margin-top: auto;
-  margin-bottom: auto;
 }
 .virtualScrollBar {
   overflow: auto;
@@ -131,7 +106,7 @@ export default {
       setTimeout(() => {
         this.alertLogout = false;
       }, 3000);
-    }
+    },
   },
   created() {
     if (this.$cookies.isKey("expire") == true) {
