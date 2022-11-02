@@ -84,8 +84,6 @@ export default {
   },
   data() {
     return {
-      alertLogin: false,
-      alertLogout: false,
       posts: [],
       scrolledBottom: false,
     };
@@ -101,11 +99,8 @@ export default {
       this.$store.dispatch("toFalseLogin");
       localStorage.clear("firstLogin");
       setTimeout(() => {
-        this.alertLogout = true;
+        this.$store.dispatch("alertLogout");
       }, 500);
-      setTimeout(() => {
-        this.alertLogout = false;
-      }, 3000);
     },
   },
   created() {
@@ -113,11 +108,8 @@ export default {
       this.$store.dispatch("toTrueLogin");
       if (!localStorage.getItem("firstLogin")) {
         setTimeout(() => {
-          this.alertLogin = true;
+          this.$store.dispatch("alertLogin");
         }, 1500);
-        setTimeout(() => {
-          this.alertLogin = false;
-        }, 3000);
       }
       localStorage.setItem("firstLogin", true);
     } else {
