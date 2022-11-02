@@ -40,7 +40,7 @@
 </style>
 
 <script>
-import ReactionButton from "../components/ReactionButton";
+import ReactionButton from "./ReactionButton.vue";
 export default {
   name: "DisplayHomete",
   computed: {

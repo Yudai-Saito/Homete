@@ -27,7 +27,7 @@
 
 <script>
 import axios from "axios";
-import LeftMenuButton from "./LeftMenuButton";
+import LeftMenuButton from "./LeftMenuButton.vue";
 
 export default {
   name: "SideMenu",

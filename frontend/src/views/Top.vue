@@ -66,10 +66,10 @@
 
 
 <script>
-import PostHomete from "../components/PostHomete";
-import DisplayHomete from "../components/DisplayHomete";
-import SideMenu from "../components/SideMenu";
-import Alert from "../components/Alert";
+import SideMenu from "../components/leftMenu/SideMenu.vue"
+import DisplayHomete from "../components/mainMenu/DisplayHomete.vue";
+import Alert from "../components/util/Alert.vue";
+import PostHomete from "../components/util/PostHomete.vue";
 import axios from "axios";
 
 export default {
