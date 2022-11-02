@@ -12,7 +12,7 @@
       <Alert />
       <v-row justify="center" class="mx-auto">
         <v-col class="ma-0 pa-0">
-          <SideMenu class="leftMenuContent" v-on:logout="isLoginCheck" />
+          <LeftMenu class="leftMenuContent" v-on:logout="isLoginCheck" />
         </v-col>
 
         <v-divider vertical></v-divider>
@@ -66,8 +66,8 @@
 
 
 <script>
-import SideMenu from "../components/leftMenu/SideMenu.vue"
-import DisplayHomete from "../components/mainMenu/DisplayHomete.vue";
+import LeftMenu from "../components/leftMenu/LeftMenu.vue"
+import DisplayHomete from "../components/mainContents/DisplayHomete.vue";
 import Alert from "../components/util/Alert.vue";
 import PostHomete from "../components/util/PostHomete.vue";
 import axios from "axios";
@@ -89,10 +89,10 @@ export default {
     };
   },
   components: {
-    PostHomete,
+    LeftMenu,
     DisplayHomete,
-    SideMenu,
     Alert,
+    PostHomete,
   },
   methods: {
     isLoginCheck: function () {
