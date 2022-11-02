@@ -43,10 +43,10 @@
 import ReactionButton from "../components/ReactionButton";
 export default {
   name: "DisplayHomete",
-  computed:{
-    reactions(){
+  computed: {
+    reactions() {
       return this.$store.getters.reactions;
-    }
+    },
   },
   data() {
     return {

@@ -1,5 +1,5 @@
 const state = {
-    isInputHomete:false,
+    isInputHomete: false,
 }
 
 const getters = {
@@ -7,16 +7,16 @@ const getters = {
 }
 
 const actions = {
-    toFalseInputHomete(context){
+    toFalseInputHomete(context) {
         context.commit('updateInputHomete', false);
     },
-    toTrueInputHomete(context){
+    toTrueInputHomete(context) {
         context.commit('updateInputHomete', true);
     }
 }
 
 const mutations = {
-    updateInputHomete(state, bool){
+    updateInputHomete(state, bool) {
         state.isInputHomete = bool;
     }
 }

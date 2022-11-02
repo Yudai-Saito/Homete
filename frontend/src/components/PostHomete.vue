@@ -100,7 +100,7 @@ export default {
     inputText: function () {
       if (this.homete == "") {
         this.$store.dispatch("toFalseInputHomete");
-      }else{
+      } else {
         this.$store.dispatch("toTrueInputHomete");
       }
     },
@@ -125,10 +125,10 @@ export default {
 
       return { inputRules };
     },
-    isVisiblePostHomete(){
+    isVisiblePostHomete() {
       return this.$store.getters.isVisiblePostHomete;
     },
-    isInputHomete(){
+    isInputHomete() {
       return this.$store.getters.isInputHomete;
     },
   },
