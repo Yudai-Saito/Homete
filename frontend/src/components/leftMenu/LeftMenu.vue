@@ -38,11 +38,6 @@ export default {
       return this.$store.getters.isVisiblePostHomete;
     },
   },
-  data() {
-    return {
-      t: ["alertLogin", "a"],
-    };
-  },
   components: {
     LeftMenuButton,
   },
