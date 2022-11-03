@@ -14,28 +14,12 @@
         <v-col class="ma-0 pa-0">
           <LeftMenu class="leftMenuContent" v-on:logout="isLoginCheck" />
         </v-col>
-
-        <v-divider vertical></v-divider>
-
-        <v-col
-          sm="8"
-          md="8"
-          class="subContainer virtualScrollBar"
-          v-scroll="onScroll"
-        >
-          <DisplayHomete
-            v-for="post in posts"
-            :key="post.post_id"
-            :postList="post"
-          />
-        </v-col>
-
-        <v-divider vertical></v-divider>
-
+        <v-divider vertical />
+        <TimeLine />
+        <v-divider vertical />
         <v-col class="ma-0 pa-0"> </v-col>
       </v-row>
     </v-container>
-    <div ref="observe_element"></div>
   </v-app>
 </template>
 <style>
@@ -44,33 +28,18 @@
   width: 100%;
   height: 100%;
 }
-.subContainer {
-  width: 100%;
-}
 .leftMenuContent {
   position: sticky;
   top: 0px;
-}
-.virtualScrollBar {
-  overflow: auto;
-  /* IE, Edge 対応 */
-  -ms-overflow-style: none;
-  /* Firefox 対応 */
-  scrollbar-width: none;
-}
-/* Chrome, Safari 対応 */
-.virtualScrollBar::-webkit-scrollbar {
-  display: none;
 }
 </style>
 
 
 <script>
-import LeftMenu from "../components/leftMenu/LeftMenu.vue"
-import DisplayHomete from "../components/mainContents/DisplayHomete.vue";
+import LeftMenu from "../components/leftMenu/LeftMenu.vue";
+import TimeLine from "../components/mainContents/TimeLine.vue";
 import Alert from "../components/util/Alert.vue";
 import PostHomete from "../components/util/PostHomete.vue";
-import axios from "axios";
 
 export default {
   name: "Top",
@@ -82,15 +51,9 @@ export default {
       return this.$store.getters.isLogin;
     },
   },
-  data() {
-    return {
-      posts: [],
-      scrolledBottom: false,
-    };
-  },
   components: {
     LeftMenu,
-    DisplayHomete,
+    TimeLine,
     Alert,
     PostHomete,
   },
@@ -115,47 +78,8 @@ export default {
     } else {
       this.$store.dispatch("toFalseLogin");
     }
-
-    axios
-      .get("/post", {
-        withCredentials: true,
-      })
-      .then((res) => {
-        this.posts = res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   },
   mounted() {
-    this.observer = new IntersectionObserver((entries) => {
-      const entry = entries[0];
-      if (entry && entry.isIntersecting) {
-        axios
-          .get(
-            "/post",
-            {
-              params: {
-                created_at: this.posts[this.posts.length - 1].created_at,
-              },
-            },
-            {
-              withCredentials: true,
-            }
-          )
-          .then((res) => {
-            //投稿の追記
-            this.posts = this.posts.concat(res.data);
-            this.scrolledBottom = false;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    });
-    const observe_element = this.$refs.observe_element;
-    this.observer.observe(observe_element);
-
     window.onload = () => {
       this.$store.dispatch("toFalseAlertPost");
       this.$store.dispatch("toInvisiblePostHomete");
