@@ -11,9 +11,7 @@
     <v-container fluid class="mainContainer mx-auto">
       <Alert />
       <v-row justify="center" class="mx-auto">
-        <v-col class="ma-0 pa-0">
-          <LeftMenu class="leftMenuContent" v-on:logout="isLoginCheck" />
-        </v-col>
+        <LeftMenu class="leftMenuContent" v-on:logout="isLoginCheck" />
         <v-divider vertical />
         <TimeLine />
         <v-divider vertical />
