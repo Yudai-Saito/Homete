@@ -6,6 +6,8 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
+from firebase_admin import credentials, initialize_app
+
 app = Flask(__name__)
 
 #CORSに対応
@@ -20,11 +22,12 @@ db = SQLAlchemy(app)
 db.init_app(app)
 Migrate(app, db)
 
-#各種APIをappに登録
-from route.user import user
-from route.token import token
-from route.post import post
+cred = credentials.Certificate("firebase_account_key.json")
+firebase_app = initialize_app(cred)
 
-app.register_blueprint(user)
-app.register_blueprint(token)
+#各種APIをappに登録
+from route.post import post
+from route.account import account
+
 app.register_blueprint(post)
+app.register_blueprint(account)
