@@ -58,21 +58,18 @@ export default {
   methods: {
     isLoginCheck: function () {
       this.$store.dispatch("toFalseLogin");
-      localStorage.clear("firstLogin");
       setTimeout(() => {
         this.$store.dispatch("alertLogout");
       }, 500);
     },
   },
   created() {
+    //ログイン判定
     if (this.$cookies.isKey("expire") == true) {
       this.$store.dispatch("toTrueLogin");
-      if (!localStorage.getItem("firstLogin")) {
-        setTimeout(() => {
+      setTimeout(() => {
           this.$store.dispatch("alertLogin");
         }, 1500);
-      }
-      localStorage.setItem("firstLogin", true);
     } else {
       this.$store.dispatch("toFalseLogin");
     }
