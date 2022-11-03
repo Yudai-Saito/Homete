@@ -4,6 +4,9 @@ up:
 up-prod:
 	docker-compose up -d
 
+down:
+	docker-compose down
+
 kill:
 	docker-compose kill
 
