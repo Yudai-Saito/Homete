@@ -9,71 +9,15 @@
       <PostHomete />
     </v-overlay>
     <v-container fluid class="mainContainer mx-auto">
-      <v-expand-transition>
-        <v-alert
-          v-show="isAlertPost"
-          color="primary"
-          text
-          type="success"
-          class="alertSucess"
-        >
-          投稿しました!
-        </v-alert>
-      </v-expand-transition>
-      <v-expand-transition>
-        <v-alert
-          v-show="alertLogin"
-          color="green lighten-2"
-          text
-          type="success"
-          class="alertSucess"
-        >
-          おかえりなさい
-        </v-alert>
-      </v-expand-transition>
-      <v-expand-transition>
-        <v-alert
-          v-show="alertLogout"
-          color="red accent-2"
-          text
-          type="success"
-          class="alertSucess"
-        >
-          ログアウトが完了しました
-        </v-alert>
-      </v-expand-transition>
+      <Alert />
       <v-row justify="center" class="mx-auto">
-        <v-col class="ma-0 pa-0">
-          <SideMenu
-            class="leftMenuContent"
-            v-on:logout="isLoginCheck"
-          />
-        </v-col>
-
-        <v-divider vertical></v-divider>
-
-        <v-col
-          sm="8"
-          md="8"
-          class="subContainer virtualScrollBar"
-          v-scroll="onScroll"
-        >
-          <DisplayHomete
-            v-for="post in posts"
-            :key="post.post_id"
-            :postList="post"
-          />
-        </v-col>
-
-        <v-divider vertical></v-divider>
-
-        <v-col
-          class="ma-0 pa-0 "
-        >
-        </v-col>
+        <LeftMenu class="leftMenuContent" v-on:logout="isLoginCheck" />
+        <v-divider vertical />
+        <TimeLine />
+        <v-divider vertical />
+        <v-col class="ma-0 pa-0"> </v-col>
       </v-row>
     </v-container>
-    <div ref="observe_element"></div>
   </v-app>
 </template>
 <style>
@@ -82,56 +26,18 @@
   width: 100%;
   height: 100%;
 }
-.subContainer {
-  width: 100%;
-}
 .leftMenuContent {
   position: sticky;
   top: 0px;
-}
-.topMenu {
-  width: 100vw;
-  min-width: 100vw;
-  max-width: 100vw;
-  flex: none;
-  margin: 0;
-  padding: 0;
-}
-.postButton {
-  position: absolute;
-  margin-top: 170vh;
-  margin-left: 75vw;
-  background-color: #1da1f2;
-}
-.navButton {
-  margin-right: auto;
-  margin-top: auto;
-  margin-bottom: auto;
-}
-.virtualScrollBar {
-  overflow: auto;
-  /* IE, Edge 対応 */
-  -ms-overflow-style: none;
-  /* Firefox 対応 */
-  scrollbar-width: none;
-}
-/* Chrome, Safari 対応 */
-.virtualScrollBar::-webkit-scrollbar {
-  display: none;
-}
-.alertSucess {
-  width: 90%;
-  margin-right: auto;
-  margin-left: auto;
 }
 </style>
 
 
 <script>
-import PostHomete from "../components/PostHomete";
-import DisplayHomete from "../components/DisplayHomete";
-import SideMenu from "../components/SideMenu";
-import axios from "axios";
+import LeftMenu from "../components/leftMenu/LeftMenu.vue";
+import TimeLine from "../components/mainContents/TimeLine.vue";
+import Alert from "../components/util/Alert.vue";
+import PostHomete from "../components/util/PostHomete.vue";
 
 export default {
   name: "Top",
@@ -142,91 +48,33 @@ export default {
     isLogin() {
       return this.$store.getters.isLogin;
     },
-    isAlertPost() {
-      return this.$store.getters.isAlertPost;
-    },
-  },
-  data() {
-    return {
-      alertLogin: false,
-      alertLogout: false,
-      posts: [],
-      scrolledBottom: false,
-    };
   },
   components: {
+    LeftMenu,
+    TimeLine,
+    Alert,
     PostHomete,
-    DisplayHomete,
-    SideMenu,
   },
   methods: {
     isLoginCheck: function () {
       this.$store.dispatch("toFalseLogin");
-      localStorage.clear("firstLogin");
       setTimeout(() => {
-        this.alertLogout = true;
+        this.$store.dispatch("alertLogout");
       }, 500);
-      setTimeout(() => {
-        this.alertLogout = false;
-      }, 3000);
-    }
+    },
   },
   created() {
+    //ログイン判定
     if (this.$cookies.isKey("expire") == true) {
       this.$store.dispatch("toTrueLogin");
-      if (!localStorage.getItem("firstLogin")) {
-        setTimeout(() => {
-          this.alertLogin = true;
+      setTimeout(() => {
+          this.$store.dispatch("alertLogin");
         }, 1500);
-        setTimeout(() => {
-          this.alertLogin = false;
-        }, 3000);
-      }
-      localStorage.setItem("firstLogin", true);
     } else {
       this.$store.dispatch("toFalseLogin");
     }
-
-    axios
-      .get("/post", {
-        withCredentials: true,
-      })
-      .then((res) => {
-        this.posts = res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   },
   mounted() {
-    this.observer = new IntersectionObserver((entries) => {
-      const entry = entries[0];
-      if (entry && entry.isIntersecting) {
-        axios
-          .get(
-            "/post",
-            {
-              params: {
-                created_at: this.posts[this.posts.length - 1].created_at,
-              },
-            },
-            {
-              withCredentials: true,
-            }
-          )
-          .then((res) => {
-            //投稿の追記
-            this.posts = this.posts.concat(res.data);
-            this.scrolledBottom = false;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    });
-    const observe_element = this.$refs.observe_element;
-    this.observer.observe(observe_element);
-
     window.onload = () => {
       this.$store.dispatch("toFalseAlertPost");
       this.$store.dispatch("toInvisiblePostHomete");

@@ -1,5 +1,5 @@
 const state = {
-    isLogin:false,
+    isLogin: false,
 }
 
 const getters = {
@@ -7,16 +7,16 @@ const getters = {
 }
 
 const actions = {
-    toFalseLogin(context){
+    toFalseLogin(context) {
         context.commit('updateLogin', false);
     },
-    toTrueLogin(context){
+    toTrueLogin(context) {
         context.commit('updateLogin', true);
     }
 }
 
 const mutations = {
-    updateLogin(state, bool){
+    updateLogin(state, bool) {
         state.isLogin = bool;
     }
 }

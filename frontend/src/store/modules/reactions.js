@@ -1,5 +1,5 @@
 const state = {
-    reactions:["👍", "👀", "💯", "🥰", "🎉"],
+    reactions: ["👍", "👀", "💯", "🥰", "🎉"],
 }
 
 const getters = {

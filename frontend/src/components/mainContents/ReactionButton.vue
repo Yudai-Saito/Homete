@@ -51,10 +51,10 @@ import axios from "axios";
 
 export default {
   name: "ReactionButton",
-  computed:{
-    isLogin(){
+  computed: {
+    isLogin() {
       return this.$store.getters.isLogin;
-    }
+    },
   },
   data() {
     return {
@@ -64,12 +64,7 @@ export default {
       reactionFlag: false,
     };
   },
-  props: [
-    "reactionIcon",
-    "postReaction",
-    "userReaction",
-    "postId",
-  ],
+  props: ["reactionIcon", "postReaction", "userReaction", "postId"],
   methods: {
     count: function () {
       if (this.reactionFlag) {

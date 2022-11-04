@@ -1,5 +1,5 @@
 const state = {
-    isVisiblePostHomete:false,
+    isVisiblePostHomete: false,
 }
 
 const getters = {
@@ -7,16 +7,16 @@ const getters = {
 }
 
 const actions = {
-    toInvisiblePostHomete(context){
+    toInvisiblePostHomete(context) {
         context.commit('updateVisiblePostHomete', false);
     },
-    toVisiblePostHomete(context){
+    toVisiblePostHomete(context) {
         context.commit('updateVisiblePostHomete', true);
     }
 }
 
 const mutations = {
-    updateVisiblePostHomete(state, bool){
+    updateVisiblePostHomete(state, bool) {
         state.isVisiblePostHomete = bool;
     }
 }
