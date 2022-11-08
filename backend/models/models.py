@@ -4,37 +4,47 @@ from app import db
 class User(db.Model):
     __tablename__ = "users"
 
-    user_id = db.Column(db.String(15), primary_key=True)
-    user_name = db.Column(db.String(15))
-    user_email = db.Column(db.String(256), unique=True)
-    hashed_password = db.Column(db.String(64))
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(256), unique=True)
     created_at = db.Column(db.DateTime, default=datetime.datetime.now)
-    updated_at = db.Column(db.DateTime)
     deleted_at = db.Column(db.DateTime)
 
-class Homete_post(db.Model):
-    __tablename__ = "homete_posts"
+class Posts(db.Model):
+    __tablename__ = "posts"
 
-    post_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.String(15))
-    post_content = db.Column(db.String(100))
-    anonymous = db.Column(db.Boolean, default=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer)
+    face_id = db.Column(db.Integer)
+    name = db.Column(db.String(15))
+    contents = db.Column(db.String(400))
+    private = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.datetime.now)
-    updated_at = db.Column(db.DateTime)
     deleted_at = db.Column(db.DateTime)
 
-class Post_reaction(db.Model):
+class PostReactions(db.Model):
     __tablename__ = "post_reactions"
 
-    reaction_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     post_id = db.Column(db.Integer)
     reaction = db.Column(db.String(10))
     reaction_count = db.Column(db.Integer)
 
-class UserReaction(db.Model):
+class UserReactions(db.Model):
     __tablename__ = "user_reactions"
 
-    user_reaction_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer)
+    reaction_id = db.Column(db.Integer)
     post_id = db.Column(db.Integer)
-    user_id = db.Column(db.String(15))
-    reaction = db.Column(db.String(10))
+
+class PostFaces(db.Model):
+    __tablename__ = "post_faces"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    head = db.Column(db.String(15))
+    face = db.Column(db.String(15))
+    facialHair = db.Column(db.String(15))
+    accessories = db.Column(db.String(15))
+    skinColor = db.Column(db.String(15))
+    clothingColor = db.Column(db.String(15))
+    hairColor = db.Column(db.String(15))
