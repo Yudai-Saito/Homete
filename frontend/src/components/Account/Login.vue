@@ -21,7 +21,7 @@
           class="text-transform ma-0 pa-0 rounded-lg"
           color="white"
         >
-          <img src="@/assets/btn_google_light_normal_ios.svg" @click="logIn" />
+          <img src="@/assets/google-login-btn.svg" @click="logIn" />
           <div class="logInBtnTxt">Googleでログイン</div>
         </v-btn>
       </v-card-actions>
