@@ -10,6 +10,12 @@ import axios from "axios";
 import VueCookies from "vue-cookies";
 Vue.use(VueCookies);
 
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from './firebase-config.js'
+
+const firebaseApp = initializeApp(firebaseConfig)
+export {firebaseApp}
+
 //axiosを使う際のbaseURLにエンドポイントを設定
 axios.defaults.baseURL = process.env.VUE_APP_API_ENDPOINT;
 //axiosでpostをする際にデフォルトでContent-Typeがutf-8のJSON形式になるよう設定

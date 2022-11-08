@@ -1,17 +1,6 @@
 version: "3.8"
 
 services:
-  redis:
-    container_name: "redis"
-    restart: always
-    networks:
-      - homete_network
-    image: "redis"
-    volumes:
-      - redis_volume:/data
-    command:
-      redis-server --requirepass ${REDIS_PASSWORD}
-
   mysql:
     container_name: "mysql"
     restart: always
@@ -48,12 +37,6 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       FLASK_APP: run.py
-      MAIL_SERVER: ${MAIL_SERVER}
-      MAIL_USERNAME: ${MAIL_USERNAME}
-      MAIL_PASSWORD: ${MAIL_PASSWORD}
-      MAIL_DEFAULT_SENDER: ${MAIL_DEFAULT_SENDER}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
       FRONTEND_URL: ${FRONTEND_URL}
       SALT: ${SALT}
       DOMAIN: ${DOMAIN}
@@ -64,4 +47,3 @@ networks:
 
 volumes:
   mysql_volume:
-  redis_volume:

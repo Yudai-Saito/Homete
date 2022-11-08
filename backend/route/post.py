@@ -5,12 +5,11 @@ from flask import Blueprint, request, jsonify
 
 from sqlalchemy import func, desc, JSON
 
-from app import app, db, redis
 from models.models import Homete_post, Post_reaction, UserReaction
-from route.token import auth_required
 
 post = Blueprint("post", __name__, url_prefix="/post")
 
+'''
 @post.route("", methods=["POST"])
 @auth_required
 def post_receive():
@@ -152,3 +151,4 @@ def reaction_count_down():
 	except:
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
+'''
