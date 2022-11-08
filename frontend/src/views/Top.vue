@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <Header />
     <v-overlay
       :value="isVisiblePostHomete"
       :dark="false"
@@ -18,6 +19,7 @@
         <v-col class="ma-0 pa-0"> </v-col>
       </v-row>
     </v-container>
+    <Footer />
   </v-app>
 </template>
 <style>
@@ -37,6 +39,8 @@
 import LeftMenu from "../components/leftMenu/LeftMenu.vue";
 import TimeLine from "../components/mainContents/TimeLine.vue";
 import Alert from "../components/util/Alert.vue";
+import Footer from "../components/util/Footer.vue";
+import Header from "../components/util/Header.vue";
 import PostHomete from "../components/util/PostHomete.vue";
 
 export default {
@@ -53,6 +57,8 @@ export default {
     LeftMenu,
     TimeLine,
     Alert,
+    Footer,
+    Header,
     PostHomete,
   },
   methods: {
