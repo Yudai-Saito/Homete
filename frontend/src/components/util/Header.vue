@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar absolute dense elevation="0" color="#BABDBE">
+  <v-app-bar style="border-bottom: solid #00000080 2px" color="#BABDBE" absolute dense elevation="0" >
     <v-toolbar-title class="text-h5 font-weight-bold title">
       homete…
     </v-toolbar-title>
