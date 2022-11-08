@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <Header />
     <v-overlay
       :value="isVisiblePostHomete"
       :dark="false"
@@ -37,6 +38,7 @@
 import LeftMenu from "../components/leftMenu/LeftMenu.vue";
 import TimeLine from "../components/mainContents/TimeLine.vue";
 import Alert from "../components/util/Alert.vue";
+import Header from "../components/util/Header.vue";
 import PostHomete from "../components/util/PostHomete.vue";
 
 export default {
@@ -53,6 +55,7 @@ export default {
     LeftMenu,
     TimeLine,
     Alert,
+    Header,
     PostHomete,
   },
   methods: {
