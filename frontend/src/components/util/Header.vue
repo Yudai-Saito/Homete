@@ -6,6 +6,9 @@
     <v-btn class="accountBtn" color="#CFD8DC" rounded>
       <v-icon color="#494854">mdi-account-cog</v-icon>
     </v-btn>
+    <v-btn class="loginBtn" color="#CFD8DC" rounded>
+      <v-icon color="#494854">mdi-login-variant</v-icon>
+    </v-btn>
   </v-app-bar>
 </template>
 
@@ -16,5 +19,9 @@
 }
 .accountBtn {
   margin-left: auto;
+}
+.loginBtn {
+  margin-left: 16px;
+  margin-right: 5%;
 }
 </style>
