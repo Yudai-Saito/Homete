@@ -10,19 +10,16 @@
       homete…
     </v-toolbar-title>
     <v-btn class="accountBtn" color="#CFD8DC" rounded v-if="isLogin">
-      <v-icon color="#494854">mdi-account-cog</v-icon>
+      <v-icon color="#494854">mdi-account-cog</v-icon><div>アカウント</div>
     </v-btn>
     <v-btn
       class="loginBtn"
       color="#CFD8DC"
       rounded
       @click="login"
-      v-if="!isLogin"
+      v-else
     >
-      <v-icon color="#494854">mdi-login-variant</v-icon>
-    </v-btn>
-    <v-btn class="logoutBtn" color="#CFD8DC" rounded @click="logout" v-else>
-      <v-icon color="#494854">mdi-logout-variant</v-icon>
+      <v-icon color="#494854">mdi-login-variant</v-icon><div>ログイン</div>
     </v-btn>
   </v-app-bar>
 </template>
@@ -34,13 +31,10 @@
 }
 .accountBtn {
   margin-left: auto;
+  margin-right: 5%;
 }
 .loginBtn {
   margin-left: auto;
-  margin-right: 5%;
-}
-.logoutBtn {
-  margin-left: 16px;
   margin-right: 5%;
 }
 </style>
