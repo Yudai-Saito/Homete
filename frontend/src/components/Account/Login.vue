@@ -1,20 +1,20 @@
 <template>
-  <v-card width="400px" class="mx-auto mt-5 pa-2 rounded-xl">
-    <v-btn
-      icon
-      plain
-      text
-      class="closeCardBtn"
-      @click="closeCard"
-    >
-      <v-icon color="#23282F">mdi-close</v-icon>
-    </v-btn>
-    <v-card-title class="justify-center">Homete</v-card-title>
-    <v-card-text>
-      <div>ここに適当なサービスの説明とようこそ的な文章</div>
-    </v-card-text>
-    <v-card-actions class="justify-center">
-      <div v-if="loginState">
+  <v-card width="400px" height="250px" class="mx-auto mt-5 pa-2 rounded-xl">
+    <div v-if="loginState">
+      <v-btn
+        icon
+        plain
+        text
+        class="closeCardBtn"
+        @click="closeCard"
+      >
+        <v-icon color="#23282F">mdi-close</v-icon>
+      </v-btn>
+      <v-card-title class="justify-center">Homete</v-card-title>
+      <v-card-text>
+        <div>ここに適当なサービスの説明とようこそ的な文章</div>
+      </v-card-text>
+      <v-card-actions class="justify-center">
         <v-btn
           large
           @click="logIn"
@@ -24,14 +24,15 @@
           <img src="@/assets/btn_google_light_normal_ios.svg" @click="logIn" />
           <div class="logInBtnTxt">Googleでログイン</div>
         </v-btn>
-      </div>
-      <div v-else>
-        <v-progress-linear indeterminate color="cyan"></v-progress-linear>
-      </div>
-    </v-card-actions>
-    <v-card-text>
-      <div>ここに注意事項的な文章</div>
-    </v-card-text>
+      </v-card-actions>
+      <v-card-text>
+        <div>ここに注意事項的な文章</div>
+      </v-card-text>
+    </div>
+    <div v-else>
+      <v-progress-linear indeterminate color="cyan"></v-progress-linear>
+      <div class="loadingTxt">ログイン中…</div>
+    </div>
   </v-card>
 </template>
 
@@ -49,6 +50,13 @@
   color: #494854;
   margin-right: 8px;
   margin-left: 8px;
+}
+.loadingTxt{
+  font-size: 20px;
+  font-weight: bold;
+  position: relative;
+  text-align: center;
+  top: 100px;
 }
 </style>
 
@@ -70,7 +78,6 @@ export default {
     };
   },
   methods: {
-    closeCard: {},
     logIn: () => {
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
