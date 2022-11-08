@@ -6,8 +6,11 @@
     <v-btn class="accountBtn" color="#CFD8DC" rounded>
       <v-icon color="#494854">mdi-account-cog</v-icon>
     </v-btn>
-    <v-btn class="loginBtn" color="#CFD8DC" rounded>
+    <v-btn class="loginBtn" color="#CFD8DC" rounded @click="login" v-if="!isLogin">
       <v-icon color="#494854">mdi-login-variant</v-icon>
+    </v-btn>
+    <v-btn class="loginBtn" color="#CFD8DC" rounded @click="logout" v-else>
+      <v-icon color="#494854">mdi-logout-variant</v-icon>
     </v-btn>
   </v-app-bar>
 </template>
@@ -25,3 +28,26 @@
   margin-right: 5%;
 }
 </style>
+
+<script>
+export default {
+  name: "Header",
+  computed: {
+    isLogin() {
+      return this.$store.getters.isLogin;
+    },
+  },
+  data() {
+    return {
+    };
+  },
+  methods: {
+    login: function(){
+      this.$store.dispatch("toTrueLogin")
+    },
+    logout: function(){
+      this.$store.dispatch("toFalseLogin")
+    },
+  },
+}
+</script>
