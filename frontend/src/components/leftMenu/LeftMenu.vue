@@ -16,17 +16,17 @@
 </template>
 <style>
 .leftMenu{
-  position: fixed;
   width: 100%;
-  height: 100vh;
+  height: 80vh;
+  min-height: 80vh;
+  max-height: 80vh;
   margin: 0;
   padding: 0;
 }
 .sideMenuButton {
-  position: relative;
-  z-index: 100;
   display: flex;
   flex-flow: column;
+  z-index: 100;
 }
 </style>
 

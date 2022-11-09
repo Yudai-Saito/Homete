@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="artBoard">
     <Header />
     <v-overlay
       :value="isVisiblePostHomete"
@@ -9,10 +9,10 @@
     >
       <PostHomete />
     </v-overlay>
-    <v-container fluid class="mainContainer mx-auto">
+    <v-container class="contents mx-auto">
       <Alert />
-      <v-row justify="center" class="mx-auto">
-        <LeftMenu class="leftMenuContent" v-on:logout="isLoginCheck" />
+      <v-row justify="center" class="mx-auto my-auto wrapper">
+        <LeftMenu class="widget--sticky" v-on:logout="isLoginCheck" />
         <v-divider vertical />
         <TimeLine />
         <v-divider vertical />
@@ -23,14 +23,28 @@
   </v-app>
 </template>
 <style>
-.mainContainer {
-  max-width: 1200px;
+.artBoard {
   width: 100%;
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
-.leftMenuContent {
+.contents{
+  width: 1000px;
+  border: solid black 3px;
+  margin: 0;
+  padding: 0;
+  margin-top: 47px;
+  margin-bottom: 20px;
+}
+.wrapper {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+}
+.widget--sticky {
   position: sticky;
-  top: 0px;
+  top: 50px;
 }
 </style>
 
