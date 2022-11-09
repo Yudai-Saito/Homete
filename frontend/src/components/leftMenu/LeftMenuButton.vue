@@ -1,10 +1,8 @@
 <template>
-  <v-col>
-    <v-btn rounded text v-on:click="onClick">
-      <v-icon> {{ btnIcon }} </v-icon>
-      {{ btnText }}
-    </v-btn>
-  </v-col>
+  <v-btn  class="ma-0 pa-0" rounded text v-on:click="onClick">
+    <v-icon> {{ btnIcon }} </v-icon>
+    {{ btnText }}
+  </v-btn>
 </template>
 
 <script>

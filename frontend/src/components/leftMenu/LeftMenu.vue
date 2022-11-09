@@ -1,29 +1,32 @@
 <template>
-  <v-col class="ma-0 pa-0">
-    <v-container class="sideContainer">
-      <v-row justify="start" class="mt-7 sideMenuButton">
-        <LeftMenuButton
-          usage="alertPost"
-          btnText="タイムライン"
-          btnIcon="mdi-home"
-        />
-        <LeftMenuButton
-          usage="alertLogin"
-          btnText="ヒストリー"
-          btnIcon="mdi-history"
-        />
-      </v-row>
-    </v-container>
+  <v-col class="leftMenu">
+    <div class="sideMenuButton">
+      <LeftMenuButton
+        usage="alertPost"
+        btnText="タイムライン"
+        btnIcon="mdi-home"
+      />
+      <LeftMenuButton
+        usage="alertLogin"
+        btnText="ヒストリー"
+        btnIcon="mdi-history"
+      />
+    </div>
   </v-col>
 </template>
 <style>
-.sideContainer {
+.leftMenu{
+  position: fixed;
+  width: 100%;
   height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 .sideMenuButton {
   position: relative;
   z-index: 100;
-  margin-bottom: 5pt;
+  display: flex;
+  flex-flow: column;
 }
 </style>
 
