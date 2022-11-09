@@ -2,7 +2,7 @@
   <v-app-bar
     style="border-bottom: solid #00000080 2px"
     color="#BABDBE"
-    absolute
+    fixed
     dense
     elevation="0"
   >
