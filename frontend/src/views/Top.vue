@@ -11,8 +11,8 @@
     </v-overlay>
     <v-container class="contents mx-auto">
       <Alert />
-      <v-row justify="center" class="mx-auto my-auto wrapper">
-        <LeftMenu class="widget--sticky" v-on:logout="isLoginCheck" />
+      <v-row justify="center" class="contentsFlex mx-auto my-auto">
+        <LeftMenu class="SideMenuSticky" v-on:logout="isLoginCheck" />
         <v-divider vertical />
         <TimeLine />
         <v-divider vertical />
@@ -37,14 +37,12 @@
   margin-top: 47px;
   margin-bottom: 20px;
 }
-.wrapper {
-  margin: 0;
+.contentsFlex {
   display: flex;
-  justify-content: space-between;
 }
-.widget--sticky {
+.SideMenuSticky {
   position: sticky;
-  top: 50px;
+  top: 47px;
 }
 </style>
 
