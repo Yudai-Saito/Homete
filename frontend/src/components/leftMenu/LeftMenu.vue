@@ -32,48 +32,12 @@
 </style>
 
 <script>
-import axios from "axios";
 import LeftMenuButton from "./LeftMenuButton.vue";
 
 export default {
-  name: "SideMenu",
-  computed: {
-    isVisiblePostHomete() {
-      return this.$store.getters.isVisiblePostHomete;
-    },
-  },
+  name: "LeftMenu",
   components: {
     LeftMenuButton,
-  },
-  methods: {
-    alertPostVisible: function () {
-      this.$store.dispatch(this.t[0]);
-    },
-    visibleCard: function () {
-      this.alertPostVisible();
-      this.$store.dispatch("toVisiblePostHomete");
-    },
-    logout: function () {
-      axios
-        .post(
-          "/user/logout",
-          {
-            //
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((res) => {
-          console.log(res);
-          if (res.status == 200) {
-            this.$emit("logout");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
   },
 };
 </script>
