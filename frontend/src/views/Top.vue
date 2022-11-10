@@ -12,9 +12,9 @@
     <v-container class="contents mx-auto">
       <Alert />
       <v-row justify="center" class="contentsFlex mx-auto my-auto">
-        <LeftMenu class="SideMenuSticky" v-on:logout="isLoginCheck" />
+        <LeftMenu class="SideMenuSticky" />
         <TimeLine />
-        <v-col class="ma-0 pa-0"> </v-col>
+        <RightMenu class="SideMenuSticky" />
       </v-row>
     </v-container>
     <Footer />
@@ -27,7 +27,7 @@
   margin: 0;
   padding: 0;
 }
-.contents{
+.contents {
   width: 1000px;
   margin: 0;
   padding: 0;
@@ -43,12 +43,13 @@
 
 
 <script>
-import LeftMenu from "../components/leftMenu/LeftMenu.vue";
-import TimeLine from "../components/mainContents/TimeLine.vue";
-import Alert from "../components/util/Alert.vue";
-import Footer from "../components/util/Footer.vue";
-import Header from "../components/util/Header.vue";
-import PostHomete from "../components/util/PostHomete.vue";
+import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
+import TimeLine from "@/components/mainContents/TimeLine.vue";
+import RightMenu from "@/components/rightMenu/RightMenu.vue";
+import Alert from "@/components/util/Alert.vue";
+import Footer from "@/components/util/Footer.vue";
+import Header from "@/components/util/Header.vue";
+import PostHomete from "@/components/util/PostHomete.vue";
 
 export default {
   name: "Top",
@@ -63,6 +64,7 @@ export default {
   components: {
     LeftMenu,
     TimeLine,
+    RightMenu,
     Alert,
     Footer,
     Header,
@@ -81,8 +83,8 @@ export default {
     if (this.$cookies.isKey("expire") == true) {
       this.$store.dispatch("toTrueLogin");
       setTimeout(() => {
-          this.$store.dispatch("alertLogin");
-        }, 1500);
+        this.$store.dispatch("alertLogin");
+      }, 1500);
     } else {
       this.$store.dispatch("toFalseLogin");
     }
