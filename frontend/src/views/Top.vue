@@ -13,9 +13,7 @@
       <Alert />
       <v-row justify="center" class="contentsFlex mx-auto my-auto">
         <LeftMenu class="SideMenuSticky" v-on:logout="isLoginCheck" />
-        <v-divider vertical />
         <TimeLine />
-        <v-divider vertical />
         <v-col class="ma-0 pa-0"> </v-col>
       </v-row>
     </v-container>
@@ -31,18 +29,15 @@
 }
 .contents{
   width: 1000px;
-  border: solid black 3px;
   margin: 0;
   padding: 0;
-  margin-top: 47px;
-  margin-bottom: 20px;
 }
 .contentsFlex {
   display: flex;
 }
 .SideMenuSticky {
   position: sticky;
-  top: 47px;
+  top: 0;
 }
 </style>
 

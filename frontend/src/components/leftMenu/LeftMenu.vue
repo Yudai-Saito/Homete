@@ -1,6 +1,6 @@
 <template>
   <v-col class="leftMenu">
-    <div class="sideMenuButton">
+    <div class="leftMenuFlex">
       <LeftMenuButton
         usage="alertPost"
         btnText="タイムライン"
@@ -15,18 +15,19 @@
   </v-col>
 </template>
 <style>
-.leftMenu{
-  width: 100%;
-  height: 80vh;
-  min-height: 80vh;
-  max-height: 80vh;
+.leftMenu {
+  display: flex;
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
   margin: 0;
   padding: 0;
 }
-.sideMenuButton {
+.leftMenuFlex {
   display: flex;
   flex-flow: column;
-  z-index: 100;
+  gap: 40px;
+  margin: auto 0;
 }
 </style>
 
