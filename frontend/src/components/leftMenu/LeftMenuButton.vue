@@ -1,11 +1,22 @@
 <template>
-  <v-col>
-    <v-btn rounded text v-on:click="onClick">
-      <v-icon> {{ btnIcon }} </v-icon>
-      {{ btnText }}
-    </v-btn>
-  </v-col>
+  <v-btn
+    class="ma-0 pa-0 leftMenuBtn"
+    color="#CFD8DC"
+    rounded
+    x-large
+    :elevation="3"
+    v-on:click="onClick"
+  >
+    <v-icon> {{ btnIcon }} </v-icon>
+    {{ btnText }}
+  </v-btn>
 </template>
+
+<style>
+.leftMenuBtn {
+  width: 175px;
+}
+</style>
 
 <script>
 export default {

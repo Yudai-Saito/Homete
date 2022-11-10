@@ -1,75 +1,43 @@
 <template>
-  <v-col class="ma-0 pa-0">
-    <v-container class="sideContainer">
-      <v-row justify="start" class="mt-7 sideMenuButton">
-        <LeftMenuButton
-          usage="alertPost"
-          btnText="タイムライン"
-          btnIcon="mdi-home"
-        />
-        <LeftMenuButton
-          usage="alertLogin"
-          btnText="ヒストリー"
-          btnIcon="mdi-history"
-        />
-      </v-row>
-    </v-container>
+  <v-col class="leftMenu">
+    <div class="leftMenuFlex">
+      <LeftMenuButton
+        usage=""
+        btnText="タイムライン"
+        btnIcon="mdi-home"
+      />
+      <LeftMenuButton
+        usage=""
+        btnText="ヒストリー"
+        btnIcon="mdi-history"
+      />
+    </div>
   </v-col>
 </template>
 <style>
-.sideContainer {
+.leftMenu {
+  display: flex;
   height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
-.sideMenuButton {
-  position: relative;
-  z-index: 100;
-  margin-bottom: 5pt;
+.leftMenuFlex {
+  display: flex;
+  flex-flow: column;
+  gap: 40px;
+  margin: auto 0;
 }
 </style>
 
 <script>
-import axios from "axios";
 import LeftMenuButton from "./LeftMenuButton.vue";
 
 export default {
-  name: "SideMenu",
-  computed: {
-    isVisiblePostHomete() {
-      return this.$store.getters.isVisiblePostHomete;
-    },
-  },
+  name: "LeftMenu",
   components: {
     LeftMenuButton,
-  },
-  methods: {
-    alertPostVisible: function () {
-      this.$store.dispatch(this.t[0]);
-    },
-    visibleCard: function () {
-      this.alertPostVisible();
-      this.$store.dispatch("toVisiblePostHomete");
-    },
-    logout: function () {
-      axios
-        .post(
-          "/user/logout",
-          {
-            //
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((res) => {
-          console.log(res);
-          if (res.status == 200) {
-            this.$emit("logout");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
   },
 };
 </script>

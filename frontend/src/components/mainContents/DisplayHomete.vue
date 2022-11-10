@@ -1,9 +1,8 @@
 <template>
   <v-container fluid>
-    <v-card outlined>
-      <h4 class="ml-4 mt-2">匿名さん</h4>
-      <v-divider class="mx-4"></v-divider>
-      <v-card-text class="black--text">
+    <v-card class="hometeCard rounded-xl" :elevation="3">
+      <h3 class="ml-4 mt-2">とくめいさん</h3>
+      <v-card-text class="cardText black--text font-weight-light">
         {{ homete }}
       </v-card-text>
       <v-card-actions>
@@ -22,6 +21,19 @@
   </v-container>
 </template>
 <style>
+.hometeCard{
+  margin: 0;
+  width: 100%;
+  min-width: 520px;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+}
+.cardText{
+  font-size: 18px;
+  line-height: 26px;
+}
 .horizontalListWide {
   /* 縦スクロール設定 */
   overflow: auto;

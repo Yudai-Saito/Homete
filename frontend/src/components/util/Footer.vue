@@ -3,7 +3,7 @@
     style="border-top: solid #00000080 2px"
     class="footer"
     color="#BABDBE"
-    absolute
+    fixed
     padless
   >
     <v-col class="text-center ftTxt" cols="12">

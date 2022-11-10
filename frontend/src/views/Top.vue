@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="artBoard">
     <Header />
     <v-overlay
       :value="isVisiblePostHomete"
@@ -9,39 +9,47 @@
     >
       <PostHomete />
     </v-overlay>
-    <v-container fluid class="mainContainer mx-auto">
+    <v-container class="contents mx-auto">
       <Alert />
-      <v-row justify="center" class="mx-auto">
-        <LeftMenu class="leftMenuContent" v-on:logout="isLoginCheck" />
-        <v-divider vertical />
+      <v-row justify="center" class="contentsFlex mx-auto my-auto">
+        <LeftMenu class="SideMenuSticky" />
         <TimeLine />
-        <v-divider vertical />
-        <v-col class="ma-0 pa-0"> </v-col>
+        <RightMenu class="SideMenuSticky" />
       </v-row>
     </v-container>
     <Footer />
   </v-app>
 </template>
 <style>
-.mainContainer {
-  max-width: 1200px;
+.artBoard {
   width: 100%;
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
-.leftMenuContent {
+.contents {
+  width: 1000px;
+  margin: 0;
+  padding: 0;
+}
+.contentsFlex {
+  display: flex;
+}
+.SideMenuSticky {
   position: sticky;
-  top: 0px;
+  top: 0;
 }
 </style>
 
 
 <script>
-import LeftMenu from "../components/leftMenu/LeftMenu.vue";
-import TimeLine from "../components/mainContents/TimeLine.vue";
-import Alert from "../components/util/Alert.vue";
-import Footer from "../components/util/Footer.vue";
-import Header from "../components/util/Header.vue";
-import PostHomete from "../components/util/PostHomete.vue";
+import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
+import TimeLine from "@/components/mainContents/TimeLine.vue";
+import RightMenu from "@/components/rightMenu/RightMenu.vue";
+import Alert from "@/components/util/Alert.vue";
+import Footer from "@/components/util/Footer.vue";
+import Header from "@/components/util/Header.vue";
+import PostHomete from "@/components/util/PostHomete.vue";
 
 export default {
   name: "Top",
@@ -56,6 +64,7 @@ export default {
   components: {
     LeftMenu,
     TimeLine,
+    RightMenu,
     Alert,
     Footer,
     Header,
@@ -74,8 +83,8 @@ export default {
     if (this.$cookies.isKey("expire") == true) {
       this.$store.dispatch("toTrueLogin");
       setTimeout(() => {
-          this.$store.dispatch("alertLogin");
-        }, 1500);
+        this.$store.dispatch("alertLogin");
+      }, 1500);
     } else {
       this.$store.dispatch("toFalseLogin");
     }
