@@ -1,6 +1,7 @@
 <template>
   <v-app-bar
-    style="border-bottom: solid #00000080 2px"
+    style="border-bottom: solid #00000080 2px;"
+    :height="50"
     color="#BABDBE"
     fixed
     dense
@@ -9,11 +10,11 @@
     <v-toolbar-title class="text-h5 font-weight-bold title">
       homete…
     </v-toolbar-title>
-    <v-btn class="accountBtn" color="#CFD8DC" rounded v-if="isLogin">
+    <v-btn class="headerBtn" color="#CFD8DC" rounded v-if="isLogin">
       <v-icon color="#494854">mdi-account-cog</v-icon><div>アカウント</div>
     </v-btn>
     <v-btn
-      class="loginBtn"
+      class="headerBtn"
       color="#CFD8DC"
       rounded
       @click="login"
@@ -29,11 +30,7 @@
   margin-left: 5%;
   color: #494854;
 }
-.accountBtn {
-  margin-left: auto;
-  margin-right: 5%;
-}
-.loginBtn {
+.headerBtn {
   margin-left: auto;
   margin-right: 5%;
 }
