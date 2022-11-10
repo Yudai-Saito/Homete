@@ -1,8 +1,6 @@
 <template>
   <v-col
-    sm="8"
-    md="8"
-    class="subContainer virtualScrollBar"
+    class="mainContents virtualScrollBar"
     v-scroll="onScroll"
   >
     <DisplayHomete v-for="post in posts" :key="post.post_id" :postList="post" />
@@ -11,8 +9,14 @@
 </template>
 
 <style>
-.subContainer {
-  width: 100%;
+.mainContents {
+  margin: 0 auto;
+  margin-top: 47px;
+  margin-bottom: 20px;
+  padding: 0;
+  width: 550px;
+  min-width: 550px;
+  max-width: 550px;
 }
 .virtualScrollBar {
   overflow: auto;
