@@ -2,11 +2,12 @@ import Vue from "vue";
 import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 
-import reactions from './modules/reactions';
+import isAlert from './modules/isAlert';
+import isInputHomete from './modules/isInputHomete';
 import isLogin from './modules/isLogin';
 import isVisiblePostHomete from './modules/isVisiblePostHomete';
-import isInputHomete from './modules/isInputHomete';
-import isAlert from './modules/isAlert';
+import reactions from './modules/reactions';
+import visibleLoginWindow from './modules/visibleLoginWindow';
 
 Vue.use(Vuex);
 
@@ -14,11 +15,12 @@ export default new Vuex.Store({
   plugins: [createPersistedState()],
   strict: process.env.NODE_ENV !== 'production',
   modules: {
-    reactions,
+    isAlert,
+    isInputHomete,
     isLogin,
     isVisiblePostHomete,
-    isInputHomete,
-    isAlert,
+    reactions,
+    visibleLoginWindow
   },
   state: {
 
