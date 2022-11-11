@@ -1,12 +1,12 @@
 <template>
   <v-card width="400px" height="250px" class="mx-auto mt-5 pa-2 rounded-xl">
-    <div v-if="loginState">
+    <div v-if="visibleLoginBtn">
       <v-btn
         icon
         plain
         text
         class="closeCardBtn"
-        @click="closeCard"
+        @click="closeLoginCard"
       >
         <v-icon color="#23282F">mdi-close</v-icon>
       </v-btn>
@@ -22,7 +22,7 @@
           color="white"
         >
           <img src="@/assets/google-login-btn.svg" @click="logIn" />
-          <div class="logInBtnTxt">Googleでログイン</div>
+          <div class="loginBtnTxt">Googleでログイン</div>
         </v-btn>
       </v-card-actions>
       <v-card-text>
@@ -31,7 +31,7 @@
     </div>
     <div v-else>
       <v-progress-linear indeterminate color="cyan"></v-progress-linear>
-      <div class="loadingTxt">ログイン中…</div>
+      <div class="loadingTxt">処理中…</div>
     </div>
   </v-card>
 </template>
@@ -42,11 +42,7 @@
   position: absolute;
   left: 350px;
 }
-.logInBtn {
-  margin-right: 8px;
-  margin-left: 8px;
-}
-.logInBtnTxt {
+.loginBtnTxt {
   color: #494854;
   margin-right: 8px;
   margin-left: 8px;
@@ -72,12 +68,20 @@ import {
 import axios from "axios";
 
 export default {
+  computed: {
+    visibleLoginWindow(){
+      return this.$store.getter.visibleLoginWindow;
+    }
+  },
   data() {
     return {
-      loginState: false,
+      visibleLoginBtn: false,
     };
   },
   methods: {
+    closeLoginCard: function(){
+      this.$store.dispatch("toInvisibleLoginWindow")
+    },
     logIn: () => {
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
@@ -122,7 +126,7 @@ export default {
               }
             )
             .then(() => {
-              //this.$router.push("/");
+              this.$store.dispatch("toInvisibleLoginWindow");
             })
             .catch(() => {
               //エラー画面処理へ
@@ -130,7 +134,7 @@ export default {
         });
       } else {
         //ログインしてなければログインボタン出したいのでtrueにする
-        this.loginState = true;
+        this.visibleLoginBtn = true;
       }
     });
   },
