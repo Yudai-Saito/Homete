@@ -1,13 +1,7 @@
 <template>
   <v-card width="400px" height="250px" class="mx-auto mt-5 pa-2 rounded-xl">
-    <div v-if="visibleLoginBtn">
-      <v-btn
-        icon
-        plain
-        text
-        class="closeCardBtn"
-        @click="closeLoginCard"
-      >
+    <div>
+      <v-btn icon plain text class="closeCardBtn" @click="closeLoginCard">
         <v-icon color="#23282F">mdi-close</v-icon>
       </v-btn>
       <v-card-title class="justify-center">Homete</v-card-title>
@@ -29,10 +23,6 @@
         <div>ここに注意事項的な文章</div>
       </v-card-text>
     </div>
-    <div v-else>
-      <v-progress-linear indeterminate color="cyan"></v-progress-linear>
-      <div class="loadingTxt">処理中…</div>
-    </div>
   </v-card>
 </template>
 
@@ -47,7 +37,7 @@
   margin-right: 8px;
   margin-left: 8px;
 }
-.loadingTxt{
+.loadingTxt {
   font-size: 20px;
   font-weight: bold;
   position: relative;
@@ -59,19 +49,17 @@
 <script>
 import {
   getAuth,
-  GoogleAuthProvider,
-  signInWithRedirect,
   onAuthStateChanged,
-  getIdToken,
+  //getIdToken,
 } from "firebase/auth";
 
 import axios from "axios";
 
 export default {
   computed: {
-    visibleLoginWindow(){
+    visibleLoginWindow() {
       return this.$store.getter.visibleLoginWindow;
-    }
+    },
   },
   data() {
     return {
@@ -79,20 +67,13 @@ export default {
     };
   },
   methods: {
-    closeLoginCard: function(){
-      this.$store.dispatch("toInvisibleLoginWindow")
+    closeLoginCard: function () {
+      this.$store.dispatch("toInvisibleLoginWindow");
     },
-    logIn: () => {
-      const auth = getAuth();
-      const provider = new GoogleAuthProvider();
-
-      provider.setCustomParameters({
-        prompt: "select_account",
-      });
-
-      signInWithRedirect(auth, provider);
+    logIn: function () {
+      this.$router.push("/login");
     },
-
+    //ログアウトだから後で使う。nevermind
     logOut: () => {
       const auth = getAuth();
 
@@ -104,39 +85,6 @@ export default {
         });
       });
     },
-  },
-  beforeCreate() {
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const { currentUser } = getAuth();
-        getIdToken(currentUser, true).then((token) => {
-          axios
-            .post(
-              "/account/login",
-              {
-                email: user.email,
-              },
-              {
-                headers: {
-                  Authorization: `${token}`,
-                },
-                withCredentials: true,
-              }
-            )
-            .then(() => {
-              this.$store.dispatch("toInvisibleLoginWindow");
-            })
-            .catch(() => {
-              //エラー画面処理へ
-            });
-        });
-      } else {
-        //ログインしてなければログインボタン出したいのでtrueにする
-        this.visibleLoginBtn = true;
-      }
-    });
   },
 };
 </script>
