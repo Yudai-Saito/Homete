@@ -2,6 +2,14 @@
   <v-app class="artBoard">
     <Header />
     <v-overlay
+      :value="visibleLoginWindow"
+      :light="true"
+      :dark="false"
+      :z-index="999"
+    >
+      <Login />
+    </v-overlay>
+    <v-overlay
       :value="isVisiblePostHomete"
       :dark="false"
       :light="true"
@@ -43,6 +51,7 @@
 
 
 <script>
+import Login from "@/components/Account/Login.vue";
 import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
 import TimeLine from "@/components/mainContents/TimeLine.vue";
 import RightMenu from "@/components/rightMenu/RightMenu.vue";
@@ -60,8 +69,12 @@ export default {
     isLogin() {
       return this.$store.getters.isLogin;
     },
+    visibleLoginWindow() {
+      return this.$store.getters.visibleLoginWindow;
+    },
   },
   components: {
+    Login,
     LeftMenu,
     TimeLine,
     RightMenu,
@@ -70,29 +83,11 @@ export default {
     Header,
     PostHomete,
   },
-  methods: {
-    isLoginCheck: function () {
-      this.$store.dispatch("toFalseLogin");
-      setTimeout(() => {
-        this.$store.dispatch("alertLogout");
-      }, 500);
-    },
-  },
-  created() {
-    //ログイン判定
-    if (this.$cookies.isKey("expire") == true) {
-      this.$store.dispatch("toTrueLogin");
-      setTimeout(() => {
-        this.$store.dispatch("alertLogin");
-      }, 1500);
-    } else {
-      this.$store.dispatch("toFalseLogin");
-    }
-  },
   mounted() {
     window.onload = () => {
       this.$store.dispatch("toFalseAlertPost");
       this.$store.dispatch("toInvisiblePostHomete");
+      this.$store.dispatch("toInvisibleLoginWindow");
     };
   },
 };
