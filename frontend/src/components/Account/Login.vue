@@ -53,7 +53,6 @@
 import {
   getAuth,
   onAuthStateChanged,
-  //getIdToken,
 } from "firebase/auth";
 
 import axios from "axios";
