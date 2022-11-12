@@ -1,5 +1,5 @@
 <template>
-  <v-card width="400px" height="250px" class="mx-auto mt-5 pa-2 rounded-xl">
+  <v-card width="400px" height="250px" class="mx-auto mt-5 pa-2 rounded-xl" v-cloak>
     <div>
       <v-btn icon plain text class="closeCardBtn" @click="closeLoginCard">
         <v-icon color="#23282F">mdi-close</v-icon>
@@ -15,7 +15,7 @@
           class="text-transform ma-0 pa-0 rounded-lg"
           color="white"
         >
-          <img src="@/assets/google-login-btn.svg" @click="logIn" />
+          <img class="svg" src="/assets/google-login-btn.svg" @click="logIn" />
           <div class="loginBtnTxt">Googleでログイン</div>
         </v-btn>
       </v-card-actions>
@@ -43,6 +43,9 @@
   position: relative;
   text-align: center;
   top: 100px;
+}
+.svg{
+  background-image: url("/assets/google-login-btn.svg");
 }
 </style>
 
