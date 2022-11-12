@@ -1,6 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Top from "../views/Top.vue";
+
+import Top from "@/views/Top.vue";
+import About from "@/views/About.vue"
+import Loginloading from "@/views/LoginLoading.vue"
 
 Vue.use(VueRouter);
 
@@ -14,21 +17,13 @@ const routes = [
   {
     path: "/about",
     name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    component: About,
     meta: { title: "HOMETEとは？" },
   },
   {
     path: "/login",
     name: "Login",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/LoginLoading.vue"),
+    component: Loginloading,
     meta: { title: "HOMETEとは？" },
   },
 ];
