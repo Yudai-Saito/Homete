@@ -83,25 +83,6 @@ export default {
     Header,
     PostHomete,
   },
-  methods: {
-    isLoginCheck: function () {
-      this.$store.dispatch("toFalseLogin");
-      setTimeout(() => {
-        this.$store.dispatch("alertLogout");
-      }, 500);
-    },
-  },
-  created() {
-    //ログイン判定
-    if (this.$cookies.isKey("expire") == true) {
-      this.$store.dispatch("toTrueLogin");
-      setTimeout(() => {
-        this.$store.dispatch("alertLogin");
-      }, 1500);
-    } else {
-      this.$store.dispatch("toFalseLogin");
-    }
-  },
   mounted() {
     window.onload = () => {
       this.$store.dispatch("toFalseAlertPost");
