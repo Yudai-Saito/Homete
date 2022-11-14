@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-
 import Top from "@/views/Top.vue";
 import About from "@/views/About.vue"
 import Loginloading from "@/views/LoginLoading.vue"
+import NotFound from "@/views/NotFound.vue";
 
 Vue.use(VueRouter);
 
@@ -25,6 +25,12 @@ const routes = [
     name: "Login",
     component: Loginloading,
     meta: { title: "HOMETEとは？" },
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "NotFound",
+    component: NotFound,
+    meta: { title: "404NotFound" },
   },
 ];
 
