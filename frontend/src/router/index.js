@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Top from "../views/Top.vue";
+import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,11 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
     meta: { title: "HOMETEとは？" },
+  },{
+    path: "/notfound",
+    name: "NotFound",
+    component: NotFound,
+    meta: { title: "404NotFound" },
   },
 ];
 
