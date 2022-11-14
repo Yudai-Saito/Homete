@@ -18,15 +18,15 @@ account = Blueprint("accout", __name__, url_prefix="/account")
 @account.route("/login", methods=["GET"])
 def login():
 	try:
-		token = request.headers.get("Authorization")
+		jwt = request.headers.get("Authorization")
 
-		token_request = requests.Request()
-		id_token.verify_firebase_token(token, token_request, clock_skew_in_seconds=10)
+		jwt_request = requests.Request()
+		id_token.verify_firebase_token(jwt, jwt_request, clock_skew_in_seconds=10)
 
 		#JWTとの時差でエラーになるため使用できない、修正PRがマージされるのを待つ
 		#auth.verify_id_token(token)
 
-		email = get_email_from_cookie(token)
+		email = get_email_from_cookie(jwt)
 
 		if db.session.query(User.query.filter(User.email == email).exists()).scalar() == False:
 			db.session.add(User(email = email))
@@ -35,7 +35,7 @@ def login():
 		expires_session = timedelta(days=5)
 		expires_cookie = datetime.now() + expires_session
 
-		session = auth.create_session_cookie(token, expires_in=expires_session)
+		session = auth.create_session_cookie(jwt, expires_in=expires_session)
 
 		response = make_response(jsonify({"status": "success"}), 200)
 		response.set_cookie("__session", value=session, expires=expires_cookie, httponly=True, samesite="None", secure=True, domain=environ["DOMAIN"])
