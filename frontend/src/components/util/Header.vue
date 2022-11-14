@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     login: function () {
-      this.$store.dispatch("toTrueLogin");
+      this.$store.dispatch("toVisibleLoginWindow");
     },
     logout: function () {
       this.$store.dispatch("toFalseLogin");
