@@ -6,7 +6,7 @@ services:
     container_name: "mysql"
     networks:
       - homete_network
-    image: mysql
+    image: mysql:8.0.27
     volumes:
       - mysql_volume:/var/lib/mysql
       - ./mysql.conf:/etc/mysql/conf.d/mysql.conf

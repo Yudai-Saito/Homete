@@ -1,11 +1,11 @@
 import json
 import base64
 
-def get_email_from_cookie(session):
-	session = session.split(".")
+def get_email_from_cookie(jwt):
+	jwt = jwt.split(".")
 
-	session_optimize = token[1] + "=" * (len(session[1]) % 4)
+	jwt_optimize = jwt[1] + "=" * (len(jwt[1]) % 4)
 
-	session_json = json.loads(base64.urlsafe_b64decode(session_optimize))
+	jwt_json = json.loads(base64.urlsafe_b64decode(jwt_optimize))
 
-	return session_json["email"]
+	return jwt_json["email"]

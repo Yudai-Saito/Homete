@@ -29,19 +29,12 @@ export default {
         const { currentUser } = getAuth();
         getIdToken(currentUser, true).then((token) => {
           axios
-            .post(
-              "/account/login",
-              {
-                //ここJWTからとれるからGETでいいと思う
-                email: user.email,
+            .get("/account/login", {
+              headers: {
+                Authorization: `${token}`,
               },
-              {
-                headers: {
-                  Authorization: `${token}`,
-                },
-                withCredentials: true,
-              }
-            )
+              withCredentials: true,
+            })
             .then(() => {
               this.$store.dispatch("toTrueLogin");
               this.$store.dispatch("toInvisibleLoginWindow");
