@@ -27,7 +27,7 @@ const routes = [
     meta: { title: "HOMETEとは？" },
   },
   {
-    path: "/notfound",
+    path: "/:catchAll(.*)",
     name: "NotFound",
     component: NotFound,
     meta: { title: "404NotFound" },
