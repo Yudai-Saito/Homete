@@ -1,10 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Top from "../views/Top.vue";
+import Top from "@/views/Top.vue";
 import About from "@/views/About.vue"
 import Loginloading from "@/views/LoginLoading.vue"
-import NotFound from "../views/NotFound.vue";
-import Top from "@/views/Top.vue";
+import NotFound from "@/views/NotFound.vue";
 
 Vue.use(VueRouter);
 
