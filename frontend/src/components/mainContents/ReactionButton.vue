@@ -7,7 +7,7 @@
       small
       outlined
       v-if="!reactionFlag"
-      :disabled="!isLogin"
+      :disabled="!logged"
     >
       <h2>{{ reactionIcon }}</h2>
       {{ reactionCount }}
@@ -19,7 +19,7 @@
       small
       outlined
       v-else
-      :disabled="!isLogin"
+      :disabled="!logged"
     >
       <h2>{{ reactionIcon }}</h2>
       {{ reactionCount }}
@@ -52,8 +52,8 @@ import axios from "axios";
 export default {
   name: "ReactionButton",
   computed: {
-    isLogin() {
-      return this.$store.getters.isLogin;
+    logged() {
+      return this.$store.getters.logged;
     },
   },
   data() {
@@ -112,7 +112,7 @@ export default {
     });
   },
   updated() {
-    if (this.isLogin() == false) {
+    if (this.logged() == false) {
       this.reactionFlag = false;
     }
   },

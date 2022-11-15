@@ -10,7 +10,7 @@
     <v-toolbar-title class="text-h5 font-weight-bold title">
       homete…
     </v-toolbar-title>
-    <v-btn class="headerBtn" color="#CFD8DC" rounded v-if="isLogin">
+    <v-btn class="headerBtn" color="#CFD8DC" rounded v-if="logged">
       <v-icon color="#494854">mdi-account-cog</v-icon><div>アカウント</div>
     </v-btn>
     <v-btn
@@ -40,8 +40,8 @@
 export default {
   name: "Header",
   computed: {
-    isLogin() {
-      return this.$store.getters.isLogin;
+    logged() {
+      return this.$store.getters.logged;
     },
   },
   data() {
@@ -49,10 +49,10 @@ export default {
   },
   methods: {
     login: function () {
-      this.$store.dispatch("toVisibleLoginWindow");
+      this.$store.dispatch("visibleLogin");
     },
     logout: function () {
-      this.$store.dispatch("toFalseLogin");
+      this.$store.dispatch("loggedOut");
     },
   },
 };

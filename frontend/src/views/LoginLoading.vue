@@ -16,6 +16,12 @@ import {
 import axios from "axios";
 
 export default {
+  name: "LoginLoading",
+  computed: {
+    logged() {
+      return this.$store.getters.logged;
+    },
+  },
   data() {
     return {
       message: "Login",
@@ -36,12 +42,12 @@ export default {
               withCredentials: true,
             })
             .then(() => {
-              this.$store.dispatch("toTrueLogin");
-              this.$store.dispatch("toInvisibleLoginWindow");
+              this.$store.dispatch("loggedIn");
+              this.$store.dispatch("invisibleLogin");
               this.message = "Success!";
             })
             .catch(() => {
-              this.$store.dispatch("toFalseLogin");
+              this.$store.dispatch("loggedOut");
               this.message = "Error!";
             });
         });
@@ -51,9 +57,10 @@ export default {
     });
   },
   updated() {
-    if (this.$store.getters.isLogin) {
+    if (this.logged) {
       this.$router.push("/");
-    } else {
+    }
+    else {
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
 

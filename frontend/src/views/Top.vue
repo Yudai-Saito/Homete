@@ -2,7 +2,7 @@
   <v-app class="artBoard">
     <Header />
     <v-overlay
-      :value="visibleLoginWindow"
+      :value="displayLogin"
       :light="true"
       :dark="false"
       :z-index="999"
@@ -10,7 +10,7 @@
       <Login />
     </v-overlay>
     <v-overlay
-      :value="isVisiblePostHomete"
+      :value="displayPostForm"
       :dark="false"
       :light="true"
       :z-index="999"
@@ -63,14 +63,14 @@ import PostHomete from "@/components/util/PostHomete.vue";
 export default {
   name: "Top",
   computed: {
-    isVisiblePostHomete() {
-      return this.$store.getters.isVisiblePostHomete;
+    displayPostForm() {
+      return this.$store.getters.displayPostForm;
     },
-    isLogin() {
-      return this.$store.getters.isLogin;
+    logged() {
+      return this.$store.getters.logged;
     },
-    visibleLoginWindow() {
-      return this.$store.getters.visibleLoginWindow;
+    displayLogin() {
+      return this.$store.getters.displayLogin;
     },
   },
   components: {
@@ -85,9 +85,9 @@ export default {
   },
   mounted() {
     window.onload = () => {
-      this.$store.dispatch("toFalseAlertPost");
-      this.$store.dispatch("toInvisiblePostHomete");
-      this.$store.dispatch("toInvisibleLoginWindow");
+      this.$store.dispatch("toFalseAlert");
+      this.$store.dispatch("invisiblePostForm");
+      this.$store.dispatch("invisibleLogin");
     };
   },
 };
