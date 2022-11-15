@@ -85,7 +85,6 @@ export default {
   },
   mounted() {
     window.onload = () => {
-      this.$store.dispatch("toFalseAlert");
       this.$store.dispatch("invisiblePostForm");
       this.$store.dispatch("invisibleLogin");
     };
