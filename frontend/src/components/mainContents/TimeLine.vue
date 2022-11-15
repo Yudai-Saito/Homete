@@ -3,7 +3,7 @@
     class="mainContents virtualScrollBar"
     v-scroll="onScroll"
   >
-    <DisplayHomete v-for="post in posts" :key="post.post_id" :postList="post" />
+    <DisplayPosts v-for="post in posts" :key="post.post_id" :postList="post" />
     <div ref="observe_element"></div>
   </v-col>
 </template>
@@ -32,7 +32,7 @@
 </style>
 
 <script>
-import DisplayHomete from "./DisplayHomete.vue";
+import DisplayPosts from "./DisplayPosts.vue";
 import axios from "axios";
 
 export default {
@@ -44,7 +44,7 @@ export default {
     };
   },
   components: {
-    DisplayHomete,
+    DisplayPosts,
   },
   created() {
     axios

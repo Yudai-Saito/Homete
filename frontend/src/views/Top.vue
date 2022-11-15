@@ -15,7 +15,7 @@
       :light="true"
       :z-index="999"
     >
-      <PostHomete />
+      <PostForm />
     </v-overlay>
     <v-container class="contents mx-auto">
       <Alert />
@@ -58,7 +58,7 @@ import RightMenu from "@/components/rightMenu/RightMenu.vue";
 import Alert from "@/components/util/Alert.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
-import PostHomete from "@/components/util/PostHomete.vue";
+import PostForm from "@/components/util/PostForm.vue";
 
 export default {
   name: "Top",
@@ -81,7 +81,7 @@ export default {
     Alert,
     Footer,
     Header,
-    PostHomete,
+    PostForm,
   },
   mounted() {
     window.onload = () => {
