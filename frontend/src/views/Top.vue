@@ -2,7 +2,7 @@
   <v-app class="artBoard">
     <Header />
     <v-overlay
-      :value="visibleLoginWindow"
+      :value="displayLogin"
       :light="true"
       :dark="false"
       :z-index="999"
@@ -10,12 +10,12 @@
       <Login />
     </v-overlay>
     <v-overlay
-      :value="isVisiblePostHomete"
+      :value="displayPostForm"
       :dark="false"
       :light="true"
       :z-index="999"
     >
-      <PostHomete />
+      <PostForm />
     </v-overlay>
     <v-container class="contents mx-auto">
       <Alert />
@@ -58,19 +58,19 @@ import RightMenu from "@/components/rightMenu/RightMenu.vue";
 import Alert from "@/components/util/Alert.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
-import PostHomete from "@/components/util/PostHomete.vue";
+import PostForm from "@/components/util/PostForm.vue";
 
 export default {
   name: "Top",
   computed: {
-    isVisiblePostHomete() {
-      return this.$store.getters.isVisiblePostHomete;
+    displayPostForm() {
+      return this.$store.getters.displayPostForm;
     },
-    isLogin() {
-      return this.$store.getters.isLogin;
+    logged() {
+      return this.$store.getters.logged;
     },
-    visibleLoginWindow() {
-      return this.$store.getters.visibleLoginWindow;
+    displayLogin() {
+      return this.$store.getters.displayLogin;
     },
   },
   components: {
@@ -81,13 +81,12 @@ export default {
     Alert,
     Footer,
     Header,
-    PostHomete,
+    PostForm,
   },
   mounted() {
     window.onload = () => {
-      this.$store.dispatch("toFalseAlertPost");
-      this.$store.dispatch("toInvisiblePostHomete");
-      this.$store.dispatch("toInvisibleLoginWindow");
+      this.$store.dispatch("invisiblePostForm");
+      this.$store.dispatch("invisibleLogin");
     };
   },
 };

@@ -55,14 +55,10 @@
 import ReactionButton from "./ReactionButton.vue";
 export default {
   name: "DisplayHomete",
-  computed: {
-    reactions() {
-      return this.$store.getters.reactions;
-    },
-  },
   data() {
     return {
       homete: "",
+      reactions:["👍", "👀", "💯", "🥰", "🎉"],
     };
   },
   props: ["postList"],

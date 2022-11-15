@@ -1,7 +1,7 @@
 <template>
   <v-expand-transition>
     <v-alert
-      v-show="isAlert"
+      v-show="displayAlert"
       :color="alertColor[alertState]"
       text
       type="success"
@@ -37,8 +37,8 @@ export default {
     alertState() {
       return this.$store.getters.alertState;
     },
-    isAlert() {
-      return this.$store.getters.isAlert;
+    displayAlert() {
+      return this.$store.getters.displayAlert;
     },
   },
 };

@@ -4,7 +4,7 @@
       :loading="loading"
       :disabled="form || loading"
       outlined
-      class="hometeCard"
+      class="formTxtCard"
     >
       <v-btn icon plain @click="closeCard" class="my-1 ml-1">
         <v-icon color="black"> mdi-close </v-icon>
@@ -22,7 +22,7 @@
           plain
           @click="clearText"
           class="float-right mt-2 mr-2"
-          v-show="isInputHomete"
+          v-show="detectInput"
         >
           <v-icon small color="glay"> mdi-close-circle </v-icon>
         </v-btn>
@@ -32,7 +32,7 @@
           flat
           auto-grow
           rows="3"
-          v-model="homete"
+          v-model="formTxt"
           @input="inputText"
           counter="100"
           :rules="forms.inputRules"
@@ -54,7 +54,7 @@
   </v-container>
 </template>
 <style>
-.hometeCard {
+.formTxtCard {
   position: sticky;
   width: 500px;
   bottom: 200px;
@@ -65,13 +65,13 @@
 import axios from "axios";
 
 export default {
-  name: "PostHomete",
+  name: "PostForm",
   data() {
     return {
       isValid: false,
-      form: false,
       loading: false,
-      homete: "",
+      formTxt: "",
+      detectInput: false,
     };
   },
   methods: {
@@ -82,7 +82,7 @@ export default {
         .post(
           "/post",
           {
-            post_content: this.homete,
+            post_content: this.formTxt,
           },
           {
             withCredentials: true,
@@ -90,28 +90,28 @@ export default {
         )
         .then((res) => {
           console.log(res);
-          this.$store.dispatch("toInvisiblePostHomete");
-          this.alertPostVisible();
+          this.$store.dispatch("invisiblePostForm");
+          this.alertPost();
         })
         .catch((err) => {
           console.log(err);
         });
     },
     inputText: function () {
-      if (this.homete == "") {
-        this.$store.dispatch("toFalseInputHomete");
+      if (this.formTxt == "") {
+        this.detectInput = false;
       } else {
-        this.$store.dispatch("toTrueInputHomete");
+        this.detectInput = true;
       }
     },
     clearText: function () {
-      this.homete = "";
-      this.$store.dispatch("toFalseInputHomete");
+      this.formTxt = "";
+      this.detectInput = false;
     },
     closeCard: function () {
-      this.$store.dispatch("toInvisiblePostHomete");
+      this.$store.dispatch("invisiblePostForm");
     },
-    alertPostVisible: function () {
+    alertPost: function () {
       this.$store.dispatch("alertPost");
     },
   },
@@ -125,11 +125,8 @@ export default {
 
       return { inputRules };
     },
-    isVisiblePostHomete() {
-      return this.$store.getters.isVisiblePostHomete;
-    },
-    isInputHomete() {
-      return this.$store.getters.isInputHomete;
+    displayPostForm() {
+      return this.$store.getters.displayPostForm;
     },
   },
 };

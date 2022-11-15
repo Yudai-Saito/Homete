@@ -58,11 +58,6 @@ import {
 import axios from "axios";
 
 export default {
-  computed: {
-    visibleLoginWindow() {
-      return this.$store.getter.visibleLoginWindow;
-    },
-  },
   data() {
     return {
       visibleLoginBtn: false,
@@ -70,7 +65,7 @@ export default {
   },
   methods: {
     closeLoginCard: function () {
-      this.$store.dispatch("toInvisibleLoginWindow");
+      this.$store.dispatch("invisibleLogin");
     },
     logIn: function () {
       this.$router.push("/login");

@@ -1,6 +1,6 @@
 <template>
   <v-col class="rightMenu">
-    <div class="postBtn">
+    <div class="postBtn" @click="clickPost">
       <button class="postBtnTxt"><v-icon>mdi-pen-plus</v-icon>投稿する</button>
     </div>
     <div class="ruleBtn">
@@ -52,8 +52,21 @@
 export default {
   name: "RightMenu",
   computed: {
-    isVisiblePostHomete() {
-      return this.$store.getters.isVisiblePostHomete;
+    displayPostForm() {
+      return this.$store.getters.displayPostForm;
+    },
+    logged() {
+      return this.$store.getters.logged;
+    },
+  },
+  methods: {
+    clickPost: function(){
+      if(this.logged){
+        this.$store.dispatch("visiblePostForm");
+      }
+      else{
+        //ログインを促すポップアップやオーバーレイ
+      }
     },
   },
 };
