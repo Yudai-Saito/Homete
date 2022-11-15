@@ -1,4 +1,5 @@
 from functools import wraps
+from traceback import format_exc
 
 from flask import request, jsonify
 
@@ -23,6 +24,6 @@ def auth_required(func):
 			return jsonify({"status": "success"}), 200
 		except:
 			app.logger.error(format_exc())
-			return jsonify({"status": "error"}), 401
+			return jsonify({"status": "auth error"}), 401
 
 	return decorated

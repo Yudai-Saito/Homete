@@ -26,8 +26,8 @@ cred = credentials.Certificate("firebase_account_key.json")
 firebase_app = initialize_app(cred)
 
 #各種APIをappに登録
-#from route.post import post
+from route.posts import posts
 from route.account import account
 
-#app.register_blueprint(post)
+app.register_blueprint(posts)
 app.register_blueprint(account)

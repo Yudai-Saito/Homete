@@ -5,30 +5,40 @@ from flask import Blueprint, request, jsonify
 
 from sqlalchemy import func, desc, JSON
 
-from models.models import Homete_post, Post_reaction, UserReaction
+from app import app, db
+from models.models import Posts
+from util.auth_decorator import auth_required
+from util.jwt_decoder import get_email_from_cookie
+from util.icon_generator import open_peeps_icon
 
-post = Blueprint("post", __name__, url_prefix="/post")
+posts = Blueprint("posts", __name__, url_prefix="/posts")
 
-'''
-@post.route("", methods=["POST"])
+@posts.route("", methods=["POST"])
 @auth_required
 def post_receive():
-	"""投稿を受け取り、DBに保存する
-	redisからuser_idを取得する
-	jsonから投稿内容を取得する
-	"""
 	try:	
-		user_id = request.cookies.get("user_id")
-		post_content = request.json["post_content"]
+		jwt = request.cookies.get("__session")
+		contents = request.json["contents"]
+		private = request.json["private"]
 
-		db.session.add(Homete_post(user_id = user_id, post_content = post_content))
+		email = get_email_from_cookie(jwt)
+
+		name = "TEST_NAME"
+		# TODO_名前DBから取得するようにする
+
+		icon = open_peeps_icon()
+
+		db.session.add(Posts(user_email=email, private=private, contents=contents, name=name,
+										head=icon["head"], face=icon["face"], facialhair=icon["facial_hair"], accessories=icon["accessories"],
+											skincolor=icon["skin_color"], clothingcolor=icon["clothing_color"], haircolor=icon["hair_color"]))
 		db.session.commit()
 
-		return jsonify({"status": "success"}), 200
+		return jsonify({"status": "success", "icon":icon, "name":name}), 200
 	except:
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 
+'''
 @post.route("", methods=["GET"])
 def post_get():
 	"""投稿取得
