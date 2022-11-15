@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     clickPost: function(){
-      if(this.logged() == true){
+      if(this.logged){
         this.$store.dispatch("visiblePostForm");
       }
       else{
