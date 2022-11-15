@@ -1,11 +1,11 @@
 const state = {
   alertState: 0,
-  isAlert: false,
+  displayAlert: false,
 }
 
 const getters = {
   alertState: state => state.alertState,
-  isAlert: state => state.isAlert,
+  displayAlert: state => state.displayAlert,
 }
 
 const actions = {
@@ -37,7 +37,7 @@ const mutations = {
     state.alertState = num;
   },
   updateAlert(state, bool) {
-    state.isAlert = bool;
+    state.displayAlert = bool;
   },
 }
 
