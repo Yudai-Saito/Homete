@@ -2,6 +2,7 @@
   <v-col
     class="mainContents virtualScrollBar"
     v-scroll="onScroll"
+    cols="6"
   >
     <DisplayPosts v-for="post in posts" :key="post.post_id" :postList="post" />
     <div ref="observe_element"></div>
@@ -10,7 +11,7 @@
 
 <style>
 .mainContents {
-  margin: 0 auto;
+  margin: 0;
   margin-top: 47px;
   margin-bottom: 20px;
   padding: 0;

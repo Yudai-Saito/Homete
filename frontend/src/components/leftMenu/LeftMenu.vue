@@ -1,5 +1,5 @@
 <template>
-  <v-col class="leftMenu">
+  <v-col class="leftMenu" cols="3">
     <div class="leftMenuFlex">
       <LeftMenuButton
         usage=""
@@ -26,8 +26,8 @@
 .leftMenuFlex {
   display: flex;
   flex-flow: column;
+  margin: auto;
   gap: 40px;
-  margin: auto 0;
 }
 </style>
 
