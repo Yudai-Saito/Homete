@@ -1,5 +1,5 @@
 <template>
-  <v-app class="artBoard">
+  <v-app class="artBoard blue-grey lighten-5">
     <Header />
     <v-overlay
       :value="displayLogin"
