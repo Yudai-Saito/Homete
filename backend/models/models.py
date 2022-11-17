@@ -1,4 +1,7 @@
 import datetime
+
+from sqlalchemy.schema import ForeignKey
+
 from app import db
 
 class User(db.Model):
@@ -12,7 +15,7 @@ class Posts(db.Model):
     __tablename__ = "posts"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_email = db.Column(db.String(256))
+    user_email = db.Column(db.String(256), ForeignKey("users.email", name="fk_posts_user_email"))
     private = db.Column(db.Boolean, default=True)
     contents = db.Column(db.String(400))
     name = db.Column(db.String(15))
@@ -30,7 +33,7 @@ class PostReactions(db.Model):
     __tablename__ = "post_reactions"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    post_id = db.Column(db.Integer)
+    post_id = db.Column(db.Integer, ForeignKey("posts.id", name='fk_post_reaction_posts_id'))
     reaction = db.Column(db.String(10))
     reaction_count = db.Column(db.Integer)
 
@@ -38,6 +41,6 @@ class UserReactions(db.Model):
     __tablename__ = "user_reactions"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_email = db.Column(db.String(256))
-    reaction_id = db.Column(db.Integer)
-    post_id = db.Column(db.Integer)
+    user_email = db.Column(db.String(256), ForeignKey("users.email", name="fk_user_reaction_posts_user_email"))
+    reaction = db.Column(db.String(10))
+    post_id = db.Column(db.Integer, ForeignKey("posts.id", name='fk_user_reasction_posts_id'))
