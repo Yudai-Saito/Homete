@@ -123,7 +123,7 @@
   min-height: 16px;
   border: solid 2px #888888;
   background: #FFFFFF;
-border-radius: 4px;
+  border-radius: 4px;
 }
 .ECM_CheckboxInput-LabelText {
   margin-left: 8px;
