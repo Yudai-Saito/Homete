@@ -6,7 +6,11 @@ from flask import Blueprint, request, jsonify
 from sqlalchemy import func, desc, JSON
 
 from app import app, db
-from models.models import Posts
+
+from validator.post_reaction_validator import posts_reaction_count_validate
+
+from models.models import Posts, PostReactions, UserReactions
+
 from util.auth_decorator import auth_required
 from util.jwt_decoder import get_email_from_cookie
 from util.icon_generator import open_peeps_icon
@@ -23,14 +27,14 @@ def post_receive():
 
 		email = get_email_from_cookie(jwt)
 
-		name = "TEST_NAME"
 		# TODO_名前DBから取得するようにする
+		name = "TEST_NAME"
 
 		icon = open_peeps_icon()
 
-		db.session.add(Posts(user_email=email, private=private, contents=contents, name=name,
-										head=icon["head"], face=icon["face"], facialhair=icon["facial_hair"], accessories=icon["accessories"],
-											skincolor=icon["skin_color"], clothingcolor=icon["clothing_color"], haircolor=icon["hair_color"]))
+		db.session.add(Posts(user_email = email, private = private, contents = contents, name = name,
+													head = icon["head"], face = icon["face"], facialhair = icon["facial_hair"], accessories = icon["accessories"],
+														skincolor = icon["skin_color"], clothingcolor = icon["clothing_color"], haircolor = icon["hair_color"]))
 		db.session.commit()
 
 		return jsonify({"status": "success", "icon":icon, "name":name}), 200
@@ -96,37 +100,37 @@ def post_get():
 	except:
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
+'''
 
-@post.route("/reaction", methods=["PUT"])
+@posts.route("/reaction", methods=["PUT"])
 @auth_required
 def reaction_count_up():
-	"""投稿のリアクションをインクリメントする
-	jsonからpost_id, reactionを取得する
-	リアクションがある場合は、インクリメントし、ない場合は新規に作成する
-	"""
 	try:
-		user_id = request.cookies.get("user_id")
+		jwt = request.cookies.get("__session")
 		post_id = request.json["post_id"]
 		reaction = request.json["reaction"]
-
-		#投稿に既にリアクションがあるか確認
-		if db.session.query(Post_reaction.query.filter(Post_reaction.post_id == post_id, Post_reaction.reaction == reaction).exists()).scalar() == True:
-			#増加するリアクションを取得して、インクリメントする
-			post = db.session.query(Post_reaction).filter(Post_reaction.post_id == post_id, Post_reaction.reaction == reaction).first()
-			post.reaction_count += 1
-		else:
-			#リアクションがない場合は新規に、post_idとreactionを追加する
-			db.session.add(Post_reaction(post_id = post_id, reaction = reaction, reaction_count = 1))
 		
-		#ユーザごとのリアクション情報を追加
-		db.session.add(UserReaction(post_id = post_id, user_id = user_id, reaction = reaction))
+		email = get_email_from_cookie(jwt)
 
+		# TODO_upsertにリファクタすると"存在しなかったら絵文字追加、存在したらインクリメント"の条件分岐不用になるはず
+		if db.session.query(PostReactions.query.filter(PostReactions.post_id == post_id, PostReactions.reaction == reaction).exists()).scalar() == True:
+
+			posts_reaction_count_validate(post_id)
+
+			post_reactions = db.session.query(PostReactions).filter(PostReactions.post_id == post_id, PostReactions.reaction == reaction).first()
+			post_reactions.reaction_count += 1
+		else:
+			db.session.add(PostReactions(post_id = post_id, reaction = reaction, reaction_count = 1))
+
+		db.session.add(UserReactions(user_email = email, reaction = reaction, post_id = post_id))
 		db.session.commit()
+
 		return jsonify({"status": "success"}), 200
 	except:
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 
+'''
 @post.route("/reaction", methods=["POST"])
 @auth_required
 def reaction_count_down():
