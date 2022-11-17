@@ -33,7 +33,7 @@
                   plain
                   color="#FFFFFF"
                 >
-                  なにか
+                  通報
                 </v-btn>
               </v-list-item>
             </v-list>
@@ -127,8 +127,8 @@
 import ReactionButton from "./ReactionButton.vue";
 import VueResponsiveText from "vue-responsive-text";
 
-import { createAvatar } from '@dicebear/avatars';
-import * as style from '@dicebear/open-peeps';
+import { createAvatar } from "@dicebear/avatars";
+import * as style from "@dicebear/open-peeps";
 
 export default {
   name: "DisplayHomete",
@@ -151,8 +151,8 @@ export default {
     this.homete = this.postList.post_content;
 
     this.avatorSvg = createAvatar(style, {
-      seed: 'cu',
-    })
+      seed: "custom-seed",
+    });
   },
 };
 </script>
