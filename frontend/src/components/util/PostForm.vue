@@ -1,7 +1,7 @@
 <template>
   <v-card
     :loading="loading"
-    :disabled="form || loading"
+    :disabled="loading"
     outlined
     class="formTxtCard rounded-xl"
   >
@@ -198,7 +198,7 @@ export default {
     forms() {
       const required = (v) => !!v || "";
       const inputFormat = (v) =>
-        v.length <= 400 || "400文字以下で入力してください！";
+        v.length <= 400 || "400文字以下で入力してください!";
 
       const inputRules = [required, inputFormat];
 

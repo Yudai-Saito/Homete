@@ -5,7 +5,7 @@
         <div class="circle">
         
         </div>
-        <div class="nameTxt mt-auto" :style="{ width: divWidth + '%' }">
+        <div class="nameTxt mt-auto">
           <VueResponsiveText>
             {{ userName }}
           </VueResponsiveText>

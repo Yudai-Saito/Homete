@@ -1,7 +1,6 @@
 <template>
   <v-col
     class="mainContents virtualScrollBar"
-    v-scroll="onScroll"
     cols="6"
   >
     <DisplayPosts v-for="post in posts" :key="post.post_id" :postList="post" />
