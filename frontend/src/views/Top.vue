@@ -17,9 +17,9 @@
     >
       <PostForm />
     </v-overlay>
-    <v-container class="contents mx-auto">
+    <v-container class="mx-auto pa-0">
       <Alert />
-      <v-row justify="center" class="contentsFlex mx-auto my-auto">
+      <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
         <LeftMenu class="SideMenuSticky" />
         <TimeLine />
         <RightMenu class="SideMenuSticky" />
@@ -35,17 +35,14 @@
   margin: 0;
   padding: 0;
 }
-.contents {
-  width: 1000px;
-  margin: 0;
-  padding: 0;
-}
 .contentsFlex {
-  display: flex;
+  width: 100%;
+  flex-wrap: nowrap;
 }
 .SideMenuSticky {
   position: sticky;
   top: 0;
+  flex-wrap: nowrap;
 }
 </style>
 
