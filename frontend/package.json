@@ -8,6 +8,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@dicebear/avatars": "^4.10.5",
+    "@dicebear/open-peeps": "^4.10.5",
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
     "firebase": "^9.13.0",
