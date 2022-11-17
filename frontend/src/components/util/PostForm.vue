@@ -1,7 +1,7 @@
 <template>
   <v-card
     :loading="loading"
-		:disabled="form || loading"
+    :disabled="loading"
     outlined
     class="formTxtCard rounded-xl"
   >
@@ -25,32 +25,39 @@
         :rules="forms.inputRules"
       ></v-textarea>
       <v-divider class="mx-4"></v-divider>
-      <label class="ECM_CheckboxInput"><input class="ECM_CheckboxInput-Input" type="checkbox"><span class="ECM_CheckboxInput-DummyInput"></span><span class="ECM_CheckboxInput-LabelText">この投稿についたリアクションをみんなに見せない</span></label>
+      <label class="ECM_CheckboxInput"
+        ><input class="ECM_CheckboxInput-Input" type="checkbox" /><span
+          class="ECM_CheckboxInput-DummyInput"
+        ></span
+        ><span class="ECM_CheckboxInput-LabelText"
+          >この投稿についたリアクションをみんなに見せない</span
+        ></label
+      >
       <v-card-actions>
-      <v-btn
-        class="mx-auto mt-auto mb-1"
-        style="font-size: 8px;"
-        @click="submit"
-        elevation="0"
-        rounded
-        height="20px"
-        color="#CFD8DC"
-      >
-        利用規約
-      </v-btn>
-      <v-btn
-        class="mx-auto mt-auto mb-1"
-        style="font-size: 16px;"
-        :disabled="!isValid || loading"
-        @click="submit"
-        elevation="0"
-        rounded
-        height="50px"
-        width="100px"
-        color="#CFD8DC"
-      >
-        投稿する
-      </v-btn>
+        <v-btn
+          class="mx-auto mt-auto mb-1"
+          style="font-size: 8px"
+          @click="submit"
+          elevation="0"
+          rounded
+          height="20px"
+          color="#CFD8DC"
+        >
+          利用規約
+        </v-btn>
+        <v-btn
+          class="mx-auto mt-auto mb-1"
+          style="font-size: 16px"
+          :disabled="!isValid || loading"
+          @click="submit"
+          elevation="0"
+          rounded
+          height="50px"
+          width="100px"
+          color="#CFD8DC"
+        >
+          投稿する
+        </v-btn>
       </v-card-actions>
     </v-form>
   </v-card>
@@ -63,7 +70,7 @@
   padding: 0;
   overflow: hidden;
 }
-.formArea{
+.formArea {
   margin: auto 0;
   padding: 0;
   height: 100%;
@@ -90,16 +97,16 @@
   opacity: 0;
 }
 .ECM_CheckboxInput:hover > .ECM_CheckboxInput-DummyInput {
-  background: #DDDDDD !important;
+  background: #dddddd !important;
   border: solid 2px #333333;
 }
 .ECM_CheckboxInput-Input:focus + .ECM_CheckboxInput-DummyInput {
-  background: #DDDDDD !important;
+  background: #dddddd !important;
   border: solid 2px #333333;
 }
 .ECM_CheckboxInput-Input:checked + .ECM_CheckboxInput-DummyInput {
   border: solid 2px #333333;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 .ECM_CheckboxInput-Input:checked + .ECM_CheckboxInput-DummyInput::before {
   content: "";
@@ -109,7 +116,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJmZWF0aGVyIGZlYXRoZXItY2hlY2siPjxwb2x5bGluZSBwb2ludHM9IjIwIDYgOSAxNyA0IDEyIj48L3BvbHlsaW5lPjwvc3ZnPg==") no-repeat center;
+  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJmZWF0aGVyIGZlYXRoZXItY2hlY2siPjxwb2x5bGluZSBwb2ludHM9IjIwIDYgOSAxNyA0IDEyIj48L3BvbHlsaW5lPjwvc3ZnPg==")
+    no-repeat center;
   background-size: contain;
 }
 .ECM_CheckboxInput-DummyInput {
@@ -122,8 +130,8 @@
   height: 16px;
   min-height: 16px;
   border: solid 2px #888888;
-  background: #FFFFFF;
-border-radius: 4px;
+  background: #ffffff;
+  border-radius: 4px;
 }
 .ECM_CheckboxInput-LabelText {
   margin-left: 8px;
@@ -190,7 +198,7 @@ export default {
     forms() {
       const required = (v) => !!v || "";
       const inputFormat = (v) =>
-        v.length <= 400 || "400文字以下で入力してください！";
+        v.length <= 400 || "400文字以下で入力してください!";
 
       const inputRules = [required, inputFormat];
 
@@ -201,7 +209,7 @@ export default {
     },
     logged() {
       return this.$store.getters.logged;
-    }
+    },
   },
 };
 </script>

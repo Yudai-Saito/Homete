@@ -111,10 +111,5 @@ export default {
       }
     });
   },
-  updated() {
-    if (this.logged() == false) {
-      this.reactionFlag = false;
-    }
-  },
 };
 </script>
