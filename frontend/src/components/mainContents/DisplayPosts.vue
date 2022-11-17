@@ -3,7 +3,9 @@
     <v-card class="hometeCard rounded-xl" :elevation="3">
       <v-row class="cardTitle">
         <div class="circle">
-        
+          <v-avatar size="50">
+            <svg v-html="this.avatorSvg"></svg>
+          </v-avatar>
         </div>
         <div class="nameTxt mt-auto">
           <VueResponsiveText>
@@ -92,6 +94,7 @@
   height: 50px;
   background: #cfd8dc;
   border-radius: 50%;
+  overflow: hidden;
 }
 .nameTxt {
   max-width: 280px;
@@ -123,14 +126,19 @@
 <script>
 import ReactionButton from "./ReactionButton.vue";
 import VueResponsiveText from "vue-responsive-text";
+
+import { createAvatar } from '@dicebear/avatars';
+import * as style from '@dicebear/open-peeps';
+
 export default {
   name: "DisplayHomete",
   data() {
     return {
-      homete: "",
-      reactions: ["👍", "👀", "💯", "🥰", "🎉"],
+      avatorSvg: "",
       userName: "とくめいさん",
       postTime: "2022/11/17",
+      homete: "",
+      reactions: ["👍", "👀", "💯", "🥰", "🎉"],
     };
   },
   props: ["postList"],
@@ -141,6 +149,10 @@ export default {
   created() {
     //投稿の本文に親コンポーネントから渡されたデータを設定
     this.homete = this.postList.post_content;
+
+    this.avatorSvg = createAvatar(style, {
+      seed: 'cu',
+    })
   },
 };
 </script>
