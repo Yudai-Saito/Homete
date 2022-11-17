@@ -1,5 +1,11 @@
 <template>
-  <v-card width="400px" height="250px" class="mx-auto mt-5 pa-2 rounded-xl" v-cloak>
+  <v-card
+    width="400px"
+    height="250px"
+    class="mx-auto mt-5 pa-2 rounded-xl"
+    v-cloak
+    v-click-outside="closeLoginCard"
+  >
     <div>
       <v-btn icon plain text class="closeCardBtn" @click="closeLoginCard">
         <v-icon color="#23282F">mdi-close</v-icon>
@@ -44,16 +50,13 @@
   text-align: center;
   top: 100px;
 }
-.svg{
+.svg {
   background-image: url("/assets/google-login-btn.svg");
 }
 </style>
 
 <script>
-import {
-  getAuth,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 import axios from "axios";
 
