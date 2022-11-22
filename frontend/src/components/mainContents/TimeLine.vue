@@ -1,8 +1,5 @@
 <template>
-  <v-col
-    class="mainContents virtualScrollBar"
-    cols="6"
-  >
+  <v-col class="mainContents virtualScrollBar" cols="6">
     <DisplayPosts v-for="post in posts" :key="post.post_id" :postList="post" />
     <div ref="observe_element"></div>
   </v-col>
