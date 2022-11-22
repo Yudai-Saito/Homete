@@ -1,7 +1,7 @@
 <template>
-  <div class="btnDiv">
+  <div class="ma-0 pa-0">
     <v-btn
-      class="grey--text text--darken-3 reactBtn"
+      class="grey--text text--darken-3 reactionBtn ma-0 pa-0"
       @click="count"
       elevation="0"
       small
@@ -9,11 +9,11 @@
       v-if="!reactionFlag"
       :disabled="!logged"
     >
-      <h2>{{ reactionIcon }}</h2>
-      {{ reactionCount }}
+      <div class="btnIcon" v-twemoji>{{ reactionIcon }}</div>
+      <div class="countNum">{{ reactionCount }}</div>
     </v-btn>
     <v-btn
-      class="grey--text text--darken-3 pushedButton"
+      class="grey--text text--darken-3 pushedBtn ma-0 pa-0"
       @click="count"
       elevation="0"
       small
@@ -21,36 +21,68 @@
       v-else
       :disabled="!logged"
     >
-      <h2>{{ reactionIcon }}</h2>
-      {{ reactionCount }}
+      <div class="btnIcon" v-twemoji>{{ reactionIcon }}</div>
+      <div class="countNum">{{ reactionCount }}</div>
     </v-btn>
   </div>
 </template>
 <style>
-.btnDiv {
-  margin: 0;
-  padding: 0;
-  margin-right: 6px;
-}
-.reactBtn {
+.reactionBtn {
   background-color: rgba(207, 216, 220, 0.5);
+  gap: 0;
 }
-.reactBtn.v-btn--outlined {
+.reactionBtn.v-btn--outlined {
   border: thin solid transparent;
 }
-.pushedButton {
+.pushedBtn {
   background-color: rgba(112, 119, 218, 0.5);
 }
-.pushedButton.v-btn--outlined {
+.pushedBtn.v-btn--outlined {
   border: thin solid rgb(112, 119, 218);
+}
+.btnIcon {
+  margin: 5px;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  font-size: 2px;
+}
+.btnIcon img.emoji {
+  margin: 0;
+  padding: 0;
+}
+.countNum {
+  display: flex;
+  flex-flow: column;
+  margin: 0;
+  padding: 0;
+  margin-right: 5px;
+  margin-left: 5px;
+  height: 20px;
+  text-align: center;
+  justify-content: center;
+  font-size: 14px;
 }
 </style>
 
 <script>
 import axios from "axios";
 
+import twemoji from "twemoji";
+
 export default {
   name: "ReactionButton",
+  //v-twemojiプロパティを追加
+  directives: {
+    twemoji: {
+      inserted(el) {
+        el.innerHTML = twemoji.parse(el.innerHTML, {
+          folder: "svg",
+          ext: ".svg",
+        });
+      },
+    },
+  },
   computed: {
     logged() {
       return this.$store.getters.logged;
@@ -60,7 +92,7 @@ export default {
     return {
       //リアクションの押された数
       reactionCount: 0,
-      //リアクションが押せるかどうか
+      //リアクションが押されているかどうか
       reactionFlag: false,
     };
   },
