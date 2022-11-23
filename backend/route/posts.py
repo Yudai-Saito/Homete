@@ -42,42 +42,76 @@ def post_receive():
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 
-'''
-@post.route("", methods=["GET"])
-def post_get():
-	"""投稿取得
-	フロントに表示されている最後の投稿の作成時刻を取得
-	"""
-	try:
-	#ログインユーザか判定
 
+@posts.route("", methods=["GET"])
+def post_get():
+	try:
+		#posts.privateついてるものは、reactionの種類は返すがカウントはNullでかえす
+		#自分の投稿のカウントは返してあげる
 		if request.cookies.get("token"):
 			user_id = request.cookies.get("user_id")
 			sub_query = db.session.query(UserReaction.post_id, func.json_arrayagg(UserReaction.reaction, type_=JSON)\
 							.label("reactions")).filter(UserReaction.user_id == user_id).group_by(UserReaction.post_id).subquery()
-		else: #未ログインユーザの場合user_idをNoneで代用
+		#ここって何もかえってこないんなんじゃないの？
+		#未ログインユーザの場合user_idをNoneで代用
+		else: 
 			sub_query = db.session.query(UserReaction.post_id, func.json_arrayagg(UserReaction.reaction, type_=JSON)\
 							.label("reactions")).filter(UserReaction.user_id == None).group_by(UserReaction.post_id).subquery()
 		
 		#表示されている最後の投稿の作成時刻を取得
 		created_at = request.args.get("created_at")
 
-		"""	SQL
-		select p.post_id, p.created_at, 
-		json_arrayagg(json_object("reaction", pr.reaction, "count", pr.reaction_count)) as post_reaction, ur.user_reaciton
-		from homete_posts as p
-		left join post_reactions as pr on p.post_id = pr.post_id
-		left join 
-		(select post_id, json_arrayagg(reaction) as user_reaciton 
-			from user_reactions 
-			where user_id = %user_id 
-			group by post_id) as ur
-		on pr.post_id = ur.post_id
-		where p.created_at < %created_at
-		group by post_id, ur.user_reaciton;
+		jwt = request.cookies.get("__session")
+		email = get_email_from_cookie(jwt)
+
+		""" SQL
+		select
+			post.id,
+			json_arrayagg(
+				json_object(
+					"head", post.head,
+					"face", post.face,
+					"facialhair", post.facialhair,
+					"accessories", post.accessories,
+					"skincolor", post.skincolor,
+					"clothingcolor", post.clothingcolor,
+					"haircolor", post.haircolor
+				)
+			) as icon,
+			post.name, post.created_at, post.contents,
+			json_arrayagg(
+				json_object(
+					"reaction", pr.reaction,
+					"count",
+					case
+						post.private
+						when post.user_email = 'test_mail' then pr.reaction_count
+						when post.private = 1 then null
+						else pr.reaction_count
+					end
+				)
+			) as post_reactions,
+			ur.user_reaction
+		from
+			posts as post
+			left join post_reactions as pr on post.id = pr.post_id
+			left join (
+				select
+					post_id, json_arrayagg(reaction) as user_reaction
+				from
+					user_reactions
+				where
+					user_email = 'test_mail'
+				group by
+					post_id
+			) as ur on pr.post_id = ur.post_id
+		group by
+			id, ur.user_reaction;
 		"""
 
 		#新規取得か追記取得か判定
+		#created_atがクエリパラメータにあるかで判定変えてるっぽい
+		#deleted_atが設定されてるものは返さない
 		if created_at:
 			user_reac = db.session.query(func.json_object("post_id", Homete_post.post_id, "created_at", Homete_post.created_at, "post_content", Homete_post.post_content, "post_reaction",\
 							func.json_arrayagg(func.json_object("reaction", Post_reaction.reaction, "count", Post_reaction.reaction_count), type_=JSON),\
@@ -100,7 +134,7 @@ def post_get():
 	except:
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
-'''
+
 
 @posts.route("/reaction", methods=["PUT"])
 @auth_required
@@ -166,3 +200,4 @@ def reaction_count_down():
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 '''
+
