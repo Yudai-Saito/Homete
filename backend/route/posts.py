@@ -41,6 +41,13 @@ def post_receive():
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 
+@posts.route("", methods=["DELETE"])
+def posts_delete():
+	try:
+		return jsonify({"status": "success"}), 200
+	except:
+		app.logger.error(format_exc())
+		return jsonify({"status": "error"}), 400
 
 @posts.route("", methods=["GET"])
 def post_get():
