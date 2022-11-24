@@ -1,12 +1,7 @@
 <template>
   <v-app class="artBoard blue-grey lighten-5">
     <Header />
-    <v-overlay
-      :value="displayLogin"
-      :light="true"
-      :dark="false"
-      :z-index="999"
-    >
+    <v-overlay :value="displayLogin" :light="true" :dark="false" :z-index="999">
       <Login />
     </v-overlay>
     <v-overlay
@@ -17,14 +12,14 @@
     >
       <PostForm />
     </v-overlay>
-    <v-container class="mx-auto pa-0">
+    <div>
       <Alert />
       <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
         <LeftMenu class="SideMenuSticky" />
         <TimeLine />
         <RightMenu class="SideMenuSticky" />
       </v-row>
-    </v-container>
+    </div>
     <Footer />
   </v-app>
 </template>

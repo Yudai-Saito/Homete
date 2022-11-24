@@ -13,14 +13,14 @@
 </template>
 
 <style>
-.footer{
+.footer {
   height: 20px;
   margin: 0;
   padding: 0;
 }
-.ftTxt{
+.ftTxt {
   position: absolute;
-  color:#494854;
+  color: #494854;
   margin: 0;
   padding: 0;
   font-size: 12px;
