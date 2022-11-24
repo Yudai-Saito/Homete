@@ -1,5 +1,5 @@
 <template>
-  <div class="ma-0 pa-0">
+  <div class="ma-0 pa-0 reactionBtnDiv">
     <v-btn
       class="grey--text text--darken-3 reactionBtn ma-0 pa-0"
       @click="count"
@@ -27,6 +27,10 @@
   </div>
 </template>
 <style>
+.reactionBtnDiv {
+  display: flex;
+  justify-content: center;
+}
 .reactionBtn {
   background-color: rgba(207, 216, 220, 0.5);
   gap: 0;
@@ -91,9 +95,9 @@ export default {
   data() {
     return {
       //リアクションの押された数
-      reactionCount: 0,
+      reactionCount: 1,
       //リアクションが押されているかどうか
-      reactionFlag: false,
+      reactionFlag: true,
     };
   },
   props: ["reactionIcon", "postReaction", "userReaction", "postId"],
@@ -102,6 +106,23 @@ export default {
       if (this.reactionFlag) {
         this.reactionCount -= 1;
         this.reactionFlag = false;
+        //カウントが0になったリアクションに対して処理
+        if (this.reactionCount <= 0) {
+          //postReactionから削除
+          var pVal = {
+            reaction: this.reactionIcon,
+            count: 1,
+          };
+          var pIndex = this.postReaction.indexOf(pVal);
+          this.postReaction.splice(pIndex, 1);
+
+          //userReactionから削除
+          var uVal = this.reactionIcon;
+          var uIndex = this.userReaction.indexOf(uVal);
+          this.userReaction.splice(uIndex, 1);
+
+          this.$emit("deleteReaction", this.reactionIcon);
+        }
 
         axios.post(
           "/post/reaction",
@@ -133,13 +154,17 @@ export default {
   mounted() {
     this.postReaction.forEach((item) => {
       if (item.reaction == this.reactionIcon) {
-        this.reactionCount = item.count - 0;
+        this.reactionCount = item.count;
       }
       //他のユーザーの投稿やログアウト時の投稿の表示の際にuserReactionにはnullが入るため、エラー回避をする
       if (this.userReaction !== null) {
         if (this.userReaction.includes(this.reactionIcon)) {
           this.reactionFlag = true;
+        } else {
+          this.reactionFlag = false;
         }
+      } else {
+        this.reactionFlag = false;
       }
     });
   },
