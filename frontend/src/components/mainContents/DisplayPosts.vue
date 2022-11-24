@@ -447,6 +447,8 @@ export default {
       hairColor: [this.postList.icon.hair_color],
     });
 
+    this.postTime = this.postList.created_at.slice(0, 10).replace(/-/g, "/");
+
     this.postList.post_reactions.forEach((reaction) => {
       if (!this.reactions.includes(reaction.reaction)) {
         this.reactions.push(reaction.reaction);
