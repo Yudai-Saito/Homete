@@ -31,10 +31,12 @@ def login():
 
 		email = get_email_from_cookie(jwt)
 
-		user = db.session.query(User).filter(User.email == email, User.deleted_at != None).first()
-		if user:
+		deleted_user = db.session.query(User.query.filter(User.email == email, User.deleted_at != None).exists()).scalar()
+		exists_user =	db.session.query(User.query.filter(User.email == email).exists()).scalar()
+
+		if deleted_user == True:
 			user.deleted_at = None
-		else:
+		elif exists_user == False:
 			db.session.add(User(email = email))
 
 		db.session.commit()
