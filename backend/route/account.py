@@ -31,12 +31,13 @@ def login():
 
 		email = get_email_from_cookie(jwt)
 
-		exists_user = db.session.query(User.query.filter(User.email == email).exists()).scalar()
-		deleted_user = db.session.query(User.query.filter(User.email == email, User.deleted_at != None).exists()).scalar()
-		if exists_user == False | deleted_user == True:
-			# upsertで新規登録とdeleted_atをnullにする処理にする
+		user = db.session.query(User).filter(User.email == email, User.deleted_at != None).first()
+		if user:
+			user.deleted_at = None
+		else:
 			db.session.add(User(email = email))
-			db.session.commit()
+
+		db.session.commit()
 
 		expires_session = timedelta(days=5)
 		expires_cookie = datetime.now() + expires_session
@@ -45,7 +46,6 @@ def login():
 
 		response = make_response(jsonify({"status": "success"}), 200)
 		response.set_cookie("__session", value=session, expires=expires_cookie, httponly=True, samesite="None", secure=True, domain=environ["DOMAIN"])
-
 		return response
 	except:
 		app.logger.error(format_exc())
@@ -63,14 +63,12 @@ def logout():
 		return jsonify({"status": "error"}), 401
 
 @account.route("/delete", methods=["DELETE"])
-#@auth_required
+@auth_required
 def delete():
 	try:
-		#jwt = request.cookies.get("__session")
+		jwt = request.cookies.get("__session")
 
-		#user_email = get_email_from_cookie(jwt)
-		
-		user_email = "hoge_mail"
+		user_email = get_email_from_cookie(jwt)
 
 		user = db.session.query(User).filter(User.email == user_email).first()
 		user.deleted_at = datetime.now() 
