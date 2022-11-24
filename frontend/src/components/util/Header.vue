@@ -1,6 +1,6 @@
 <template>
   <v-app-bar
-    style="border-bottom: solid #00000080 2px; z-index: 2147483647"
+    style="border-bottom: solid #00000080 2px"
     :height="50"
     color="#BABDBE"
     fixed

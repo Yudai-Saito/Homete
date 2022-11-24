@@ -17,7 +17,6 @@
   height: 20px;
   margin: 0;
   padding: 0;
-  z-index: 2147483647 !important;
 }
 .ftTxt {
   position: absolute;
