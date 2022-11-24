@@ -1,3 +1,5 @@
+
+import datetime
 from traceback import format_exc
 
 from flask import Blueprint, request, jsonify
@@ -42,8 +44,18 @@ def post_receive():
 		return jsonify({"status": "error"}), 400
 
 @posts.route("", methods=["DELETE"])
+@auth_required
 def posts_delete():
 	try:
+		jwt = request.cookies.get("__session")
+		post_id = request.json["post_id"]
+
+		user_email = get_email_from_cookie(jwt)
+
+		delete_posts = db.session.query(Posts).filter(Posts.id == post_id, Posts.user_email == user_email).first()
+		delete_posts.deleted_at = datetime.datetime.now()
+		db.session.commit()
+
 		return jsonify({"status": "success"}), 200
 	except:
 		app.logger.error(format_exc())
