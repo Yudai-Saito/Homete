@@ -76,8 +76,8 @@ def delete():
 		db.session.query(UserReactions).filter(UserReactions.user_email == user_email).delete()
 
 		posts_query = db.session.query(Posts.id).filter(Posts.user_email == user_email)
-		q = db.session.query(PostReactions).filter(PostReactions.post_id.in_(posts_query))
-		q.delete(synchronize_session=False)
+		delete_query = db.session.query(PostReactions).filter(PostReactions.post_id.in_(posts_query))
+		delete_query.delete(synchronize_session=False)
 
 		posts = db.session.query(Posts).filter(Posts.user_email == user_email).all()
 
