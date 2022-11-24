@@ -25,12 +25,16 @@ export default {
   data() {
     return {
       //[投稿、ログイン、ログアウト]
-      alertColor: ["primary", "green lighten-2", "red accent-2"],
-      alertText: [
-        "投稿しました!",
-        "おかえりなさい",
-        "ログアウトが完了しました",
-      ],
+      alertColor: {
+        primary: "primary",
+        greenLighten2: "green lighten-2",
+        redAccent2: "red accent-2",
+      },
+      alertText: {
+        postSuccess: "投稿しました!",
+        welcomeBack: "おかえりなさい",
+        logoutSuccess: "ログアウトが完了しました",
+      },
     };
   },
   computed: {

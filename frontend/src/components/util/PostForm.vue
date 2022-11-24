@@ -26,9 +26,12 @@
       ></v-textarea>
       <v-divider class="mx-4"></v-divider>
       <label class="ECM_CheckboxInput"
-        ><input class="ECM_CheckboxInput-Input" type="checkbox" /><span
-          class="ECM_CheckboxInput-DummyInput"
-        ></span
+        ><input
+          class="ECM_CheckboxInput-Input"
+          type="checkbox"
+          value="true"
+          v-model="private_posts"
+        /><span class="ECM_CheckboxInput-DummyInput"></span
         ><span class="ECM_CheckboxInput-LabelText"
           >この投稿についたリアクションをみんなに見せない</span
         ></label
@@ -153,6 +156,7 @@ export default {
       loading: false,
       formTxt: "",
       detectInput: false,
+      private_posts: false,
     };
   },
   methods: {
@@ -161,22 +165,27 @@ export default {
 
       axios
         .post(
-          "/post",
+          "/posts",
           {
-            post_content: this.formTxt,
+            contents: this.formTxt,
+            private: this.private_posts,
           },
           {
             withCredentials: true,
           }
         )
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          //TODO resを受け取TimeLine.vueのposts[]に渡す
+
+          //スマホ用に投稿用コンポーネントの非表示
           this.$store.dispatch("invisiblePostForm");
-          this.alertPost();
+          this.alertPostSuccess();
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          this.alertPostError();
         });
+      this.loading = false;
+      this.formTxt = "";
     },
     inputText: function () {
       if (this.formTxt == "") {
@@ -190,8 +199,12 @@ export default {
       this.detectInput = false;
       this.$store.dispatch("invisiblePostForm");
     },
-    alertPost: function () {
-      this.$store.dispatch("alertPost");
+    alertPostSuccess: function () {
+      //dispatchで表示アラート設定していない？
+      this.$store.dispatch("alertPostSuccess");
+    },
+    alertPostError: function () {
+      this.$store.dispatch("alertPostError");
     },
   },
   computed: {
