@@ -1,9 +1,8 @@
-from json import dumps
 from traceback import format_exc
 
 from flask import Blueprint, request, jsonify
 
-from sqlalchemy import func, desc, JSON
+from sqlalchemy import func, desc, case, and_, JSON
 
 from app import app, db
 
@@ -46,91 +45,41 @@ def post_receive():
 @posts.route("", methods=["GET"])
 def post_get():
 	try:
-		#posts.privateついてるものは、reactionの種類は返すがカウントはNullでかえす
-		#自分の投稿のカウントは返してあげる
-		if request.cookies.get("token"):
-			user_id = request.cookies.get("user_id")
-			sub_query = db.session.query(UserReaction.post_id, func.json_arrayagg(UserReaction.reaction, type_=JSON)\
-							.label("reactions")).filter(UserReaction.user_id == user_id).group_by(UserReaction.post_id).subquery()
-		#ここって何もかえってこないんなんじゃないの？
-		#未ログインユーザの場合user_idをNoneで代用
-		else: 
-			sub_query = db.session.query(UserReaction.post_id, func.json_arrayagg(UserReaction.reaction, type_=JSON)\
-							.label("reactions")).filter(UserReaction.user_id == None).group_by(UserReaction.post_id).subquery()
+		user_email = None
+
+		if request.cookies.get("__session"):
+			jwt = request.cookies.get("__session")
+			user_email = get_email_from_cookie(jwt)
 		
-		#表示されている最後の投稿の作成時刻を取得
 		created_at = request.args.get("created_at")
+		update = request.args.get("update")
 
-		jwt = request.cookies.get("__session")
-		email = get_email_from_cookie(jwt)
-
-		""" SQL
-		select
-			post.id,
-			json_arrayagg(
-				json_object(
-					"head", post.head,
-					"face", post.face,
-					"facialhair", post.facialhair,
-					"accessories", post.accessories,
-					"skincolor", post.skincolor,
-					"clothingcolor", post.clothingcolor,
-					"haircolor", post.haircolor
-				)
-			) as icon,
-			post.name, post.created_at, post.contents,
-			json_arrayagg(
-				json_object(
-					"reaction", pr.reaction,
-					"count",
-					case
-						post.private
-						when post.user_email = 'test_mail' then pr.reaction_count
-						when post.private = 1 then null
-						else pr.reaction_count
-					end
-				)
-			) as post_reactions,
-			ur.user_reaction
-		from
-			posts as post
-			left join post_reactions as pr on post.id = pr.post_id
-			left join (
-				select
-					post_id, json_arrayagg(reaction) as user_reaction
-				from
-					user_reactions
-				where
-					user_email = 'test_mail'
-				group by
-					post_id
-			) as ur on pr.post_id = ur.post_id
-		group by
-			id, ur.user_reaction;
-		"""
-
-		#新規取得か追記取得か判定
-		#created_atがクエリパラメータにあるかで判定変えてるっぽい
-		#deleted_atが設定されてるものは返さない
-		if created_at:
-			user_reac = db.session.query(func.json_object("post_id", Homete_post.post_id, "created_at", Homete_post.created_at, "post_content", Homete_post.post_content, "post_reaction",\
-							func.json_arrayagg(func.json_object("reaction", Post_reaction.reaction, "count", Post_reaction.reaction_count), type_=JSON),\
-								"user_reaction", sub_query.c.reactions, type_=JSON))\
-									.outerjoin(Post_reaction, Homete_post.post_id == Post_reaction.post_id)\
-									.outerjoin(sub_query, sub_query.c.post_id == Homete_post.post_id)\
-										.filter(Homete_post.created_at < created_at)\
-											.group_by(Homete_post.post_id, sub_query.c.reactions)\
-												.order_by(desc(Homete_post.created_at)).limit(30).all()
+		filters = []
+		if update == "new":
+			filters.append(created_at > Posts.created_at)
+		elif update == "old":
+			filters.append(created_at < Posts.created_at)
 		else:
-			user_reac = db.session.query(func.json_object("post_id", Homete_post.post_id, "created_at", Homete_post.created_at, "post_content", Homete_post.post_content, "post_reaction",\
-							func.json_arrayagg(func.json_object("reaction", Post_reaction.reaction, "count", Post_reaction.reaction_count), type_=JSON),\
-								"user_reaction", sub_query.c.reactions, type_=JSON))\
-									.outerjoin(Post_reaction, Homete_post.post_id == Post_reaction.post_id)\
-									.outerjoin(sub_query, sub_query.c.post_id == Homete_post.post_id)\
-										.group_by(Homete_post.post_id, sub_query.c.reactions)\
-											.order_by(desc(Homete_post.created_at)).limit(30).all()
+			filters.append("2000-01-01" < Posts.created_at)
 
-		return dumps([row[0] for row in user_reac], ensure_ascii=False, default=str), 200
+		sub_query = db.session.query(UserReactions.post_id, func.json_arrayagg(UserReactions.reaction, type_=JSON)\
+						.label("reactions")).filter(UserReactions.user_email == user_email).group_by(UserReactions.post_id).subquery()
+
+		posts = db.session.query(func.json_object("post_id", Posts.id, \
+						"icon", func.json_object("head", Posts.head, "face", Posts.face, "facial_hair", Posts.facialhair, "accessories", Posts.accessories,\
+																				"skin_color", Posts.skincolor, "clothing_color", Posts.clothingcolor, "hair_color", Posts.haircolor, type_=JSON),\
+							"name", Posts.name, "created_at", Posts.created_at, "contents", Posts.contents,\
+								"post_reactions", func.json_arrayagg(func.json_object("reaction", PostReactions.reaction,\
+									"count", case([(Posts.user_email == user_email, PostReactions.reaction_count),\
+										(Posts.private == True, None)], else_=PostReactions.reaction_count)), type_=JSON),\
+											"user_reaction", sub_query.c.reactions, type_=JSON))\
+												.outerjoin(PostReactions, Posts.id == PostReactions.post_id)\
+												.outerjoin(sub_query, sub_query.c.post_id == Posts.id)\
+													.filter(and_(*filters, Posts.deleted_at == None))\
+														.group_by(Posts.id, sub_query.c.reactions)\
+															.order_by(desc(Posts.created_at)).limit(30).all()
+  
+		return jsonify({"posts": [row[0] for row in posts]}), 200
 	except:
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
