@@ -1,15 +1,9 @@
 <template>
-  <div class="about">
-    <EmojiPicker />
-  </div>
+  <div></div>
 </template>
 
 <script>
-import EmojiPicker from "@/components/mainContents/EmojiPicker.vue";
-
 export default {
-  components: {
-    EmojiPicker
-  }
-}
+  components: {},
+};
 </script>
