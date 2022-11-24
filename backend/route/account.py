@@ -10,7 +10,10 @@ from google.auth.transport import requests
 from firebase_admin import auth
 
 from app import app, db
-from models.models import User
+
+from models.models import User, Posts, PostReactions, UserReactions
+
+from util.auth_decorator import auth_required
 from util.jwt_decoder import get_email_from_cookie
 
 account = Blueprint("accout", __name__, url_prefix="/account")
@@ -28,9 +31,13 @@ def login():
 
 		email = get_email_from_cookie(jwt)
 
-		if db.session.query(User.query.filter(User.email == email).exists()).scalar() == False:
+		user = db.session.query(User).filter(User.email == email, User.deleted_at != None).first()
+		if user:
+			user.deleted_at = None
+		else:
 			db.session.add(User(email = email))
-			db.session.commit()
+
+		db.session.commit()
 
 		expires_session = timedelta(days=5)
 		expires_cookie = datetime.now() + expires_session
@@ -39,7 +46,6 @@ def login():
 
 		response = make_response(jsonify({"status": "success"}), 200)
 		response.set_cookie("__session", value=session, expires=expires_cookie, httponly=True, samesite="None", secure=True, domain=environ["DOMAIN"])
-
 		return response
 	except:
 		app.logger.error(format_exc())
@@ -55,3 +61,33 @@ def logout():
 	except:
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 401
+
+@account.route("/delete", methods=["DELETE"])
+@auth_required
+def delete():
+	try:
+		jwt = request.cookies.get("__session")
+
+		user_email = get_email_from_cookie(jwt)
+
+		user = db.session.query(User).filter(User.email == user_email).first()
+		user.deleted_at = datetime.now() 
+  
+		db.session.query(UserReactions).filter(UserReactions.user_email == user_email).delete()
+
+		posts_query = db.session.query(Posts.id).filter(Posts.user_email == user_email)
+		delete_query = db.session.query(PostReactions).filter(PostReactions.post_id.in_(posts_query))
+		delete_query.delete(synchronize_session=False)
+
+		posts = db.session.query(Posts).filter(Posts.user_email == user_email).all()
+
+		# N+1になっていそう
+		for post in posts:
+			post.deleted_at = datetime.now()
+
+		db.session.commit()
+
+		return jsonify({"status": "success"}), 200
+	except:
+		app.logger.error(format_exc())
+		return jsonify({"status": "error"}), 400
