@@ -91,9 +91,9 @@
             :pickerCloseOnClickaway="false"
             twemojiPath="https://twemoji.maxcdn.com/v/latest/"
             recentEmojisStorage="local"
-            searchEmojiPlaceholder="Search here."
-            searchEmojiNotFound="Emojis not found."
-            isLoadingLabel="Loading..."
+            searchEmojiPlaceholder="絵文字を検索"
+            searchEmojiNotFound="絵文字が見つかりませんでした😭"
+            isLoadingLabel="検索中...🔍"
             @emojiUnicodeAdded="emojiAdded"
           ></twemoji-picker>
         </div>
@@ -440,6 +440,7 @@ export default {
       face: [this.postList.icon.face],
       facialHair: [this.postList.icon.facial_hair],
       facialHairProbability: this.fhp,
+      maskProbability: 0,
       accessories: [this.postList.icon.accessories],
       accessoriesProbability: this.ap,
       skinColor: [this.postList.icon.skin_color],
