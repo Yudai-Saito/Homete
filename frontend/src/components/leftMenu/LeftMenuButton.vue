@@ -25,6 +25,9 @@ export default {
   methods: {
     onClick: function () {
       this.$store.dispatch(this.usage);
+      if (this.$route.path != "/") {
+        this.$router.push("/");
+      }
     },
   },
 };

@@ -2,12 +2,12 @@
   <v-col class="leftMenu" cols="3">
     <div class="leftMenuFlex">
       <LeftMenuButton
-        usage=""
+        usage="toTimeLine"
         btnText="タイムライン"
         btnIcon="mdi-home"
       />
       <LeftMenuButton
-        usage=""
+        usage="toHistory"
         btnText="ヒストリー"
         btnIcon="mdi-history"
       />
