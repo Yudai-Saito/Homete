@@ -7,7 +7,7 @@
     v-click-outside="closeLoginCard"
   >
     <div>
-      <v-btn icon plain text class="closeCardBtn" @click="closeLoginCard">
+      <v-btn icon plain text class="closeLoginBtn" @click="closeLoginCard">
         <v-icon color="#23282F">mdi-close</v-icon>
       </v-btn>
       <v-card-title class="justify-center">Homete</v-card-title>
@@ -33,10 +33,10 @@
 </template>
 
 <style>
-.closeCardBtn {
+.closeLoginBtn {
   justify-content: center;
-  position: absolute;
-  left: 350px;
+  position: absolute !important;
+  left: 350px !important;
 }
 .loginBtnTxt {
   color: #494854;
