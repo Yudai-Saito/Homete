@@ -1,9 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Top from "@/views/Top.vue";
-import About from "@/views/About.vue"
-import Loginloading from "@/views/LoginLoading.vue"
+import About from "@/views/About.vue";
+import Loginloading from "@/views/LoginLoading.vue";
 import NotFound from "@/views/NotFound.vue";
+import AccountManagement from "@/views/AccountManagement.vue";
 
 Vue.use(VueRouter);
 
@@ -25,6 +26,12 @@ const routes = [
     name: "Login",
     component: Loginloading,
     meta: { title: "HOMETEとは？" },
+  },
+  {
+    path: "/account",
+    name: "account",
+    component: AccountManagement,
+    meta: { title: "アカウント管理" },
   },
   {
     path: "/:catchAll(.*)",
