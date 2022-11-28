@@ -27,7 +27,12 @@
             >アカウント削除</v-card-title
           >
           <v-card-text
-            style="margin-top: 10px; padding: 0 !important; text-align: center"
+            style="
+              margin-top: 10px;
+              padding: 0 !important;
+              text-align: center;
+              font-weight: bold;
+            "
           >
             <div style="text-align: left; margin: 0 auto; width: 330px">
               <div>
@@ -46,9 +51,9 @@
                   value="check2"
                   v-model="checked"
                 />
-                <label for="check2">
-                  あげたリアクションは全て消えてしまいます。
-                </label>
+                <label for="check2"
+                  >あげたリアクションは全て消えてしまいます。</label
+                >
               </div>
               <div>
                 <input
