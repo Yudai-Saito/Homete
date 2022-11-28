@@ -15,7 +15,7 @@
         height="300px"
         class="mx-auto mt-5 pa-2 rounded-xl"
         v-cloak
-        v-click-outside="closeLoginCard"
+        v-click-outside="closeDeleteCard"
       >
         <div>
           <v-btn icon plain text class="closeCardBtn" @click="closeDeleteCard">
@@ -72,7 +72,7 @@
           <v-card-actions class="justify-center">
             <v-btn
               large
-              @click="logIn"
+              @click="deleteAccount"
               class="text-transform ma-0 pa-0"
               color="error"
               :disabled="btnDisable"
@@ -107,7 +107,7 @@
               color="primary"
               x-large
               :elevation="3"
-              v-on:click="onClick"
+              v-on:click="logout"
             >
               <div class="btnTxt">
                 <div v-twemoji style="width: 18px; margin-right: 5px">✈️</div>
@@ -226,7 +226,7 @@ import Header from "@/components/util/Header.vue";
 import twemoji from "twemoji";
 
 export default {
-  name: " AccountManagement",
+  name: "AccountManagement",
   directives: {
     twemoji: {
       inserted(el) {
@@ -266,6 +266,8 @@ export default {
       this.displayDelete = false;
       this.checked = [];
     },
+    deleteAccount() {},
+    logout() {},
   },
   mounted() {
     window.onload = () => {

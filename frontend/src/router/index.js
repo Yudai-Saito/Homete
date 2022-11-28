@@ -29,7 +29,7 @@ const routes = [
   },
   {
     path: "/account",
-    name: "account",
+    name: "Account",
     component: AccountManagement,
     meta: { title: "アカウント管理" },
   },

@@ -1,5 +1,6 @@
 <template>
   <v-app-bar
+    class="header"
     style="border-bottom: solid #00000080 2px"
     :height="50"
     color="#BABDBE"
@@ -7,28 +8,49 @@
     dense
     elevation="0"
   >
-    <v-toolbar-title class="text-h5 font-weight-bold title">
-      homete…
-    </v-toolbar-title>
-    <v-btn class="headerBtn" color="#CFD8DC" rounded v-if="logged">
-      <v-icon color="#494854">mdi-account-cog</v-icon>
-      <div>アカウント</div>
-    </v-btn>
-    <v-btn class="headerBtn" color="#CFD8DC" rounded @click="login" v-else>
-      <v-icon color="#494854">mdi-login-variant</v-icon>
-      <div>ログイン</div>
-    </v-btn>
+    <v-col class="text-h5 font-weight-bold title" cols="3"> homete… </v-col>
+    <v-col class="contentTitle" cols="6">
+      {{ contentName }}
+    </v-col>
+    <v-col class="headerBtn" cols="3">
+      <v-btn color="#CFD8DC" rounded @click="account" v-if="logged">
+        <v-icon color="#494854">mdi-account-cog</v-icon>
+        <div>アカウント</div>
+      </v-btn>
+      <v-btn color="#CFD8DC" rounded @click="login" v-else>
+        <v-icon color="#494854">mdi-login-variant</v-icon>
+        <div>ログイン</div>
+      </v-btn>
+    </v-col>
   </v-app-bar>
 </template>
 
 <style>
+.header div {
+  padding: 0 !important;
+}
 .title {
-  margin-left: 5%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  color: #494854;
+}
+.contentTitle {
+  margin: 0;
+  padding: 0;
+  width: 550px;
+  display: flex;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 900;
   color: #494854;
 }
 .headerBtn {
-  margin-left: auto;
-  margin-right: 5%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
 }
 </style>
 
@@ -38,6 +60,9 @@ export default {
   computed: {
     logged() {
       return this.$store.getters.logged;
+    },
+    contentName() {
+      return this.$store.getters.contentName;
     },
   },
   data() {
@@ -49,6 +74,12 @@ export default {
     },
     logout: function () {
       this.$store.dispatch("loggedOut");
+    },
+    account: function () {
+      this.$store.dispatch("toAccount");
+      if (this.$route.path != "/account") {
+        this.$router.push("/account");
+      }
     },
   },
 };

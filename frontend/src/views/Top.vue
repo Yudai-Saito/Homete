@@ -79,6 +79,7 @@ export default {
     window.onload = () => {
       this.$store.dispatch("invisiblePostForm");
       this.$store.dispatch("invisibleLogin");
+      this.$store.dispatch("toTimeLine");
     };
   },
 };
