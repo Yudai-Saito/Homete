@@ -33,7 +33,7 @@
           v-model="private_posts"
         /><span class="ECM_CheckboxInput-DummyInput"></span
         ><span class="ECM_CheckboxInput-LabelText"
-          >この投稿についたリアクションをみんなに見せない</span
+          >リアクションを見せない</span
         ></label
       >
       <v-card-actions>
@@ -144,7 +144,7 @@
   border-radius: 4px;
 }
 .ECM_CheckboxInput-LabelText {
-  margin-left: 8px;
+  margin-left: 4px;
   display: block;
   font-size: 10px;
   font-weight: bold;
