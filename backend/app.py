@@ -9,6 +9,7 @@ from flask_cors import CORS
 from firebase_admin import credentials, initialize_app
 
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
 
 #CORSに対応
 CORS(app,supports_credentials=True)
