@@ -265,7 +265,7 @@
   z-index: auto;
 }
 .addReactionBtn {
-  background-color: rgba(119, 125, 128, 0.5);
+  background-color: rgba(144, 152, 156, 0.5);
   overflow: hidden;
   height: 24px !important;
   width: 24px;
