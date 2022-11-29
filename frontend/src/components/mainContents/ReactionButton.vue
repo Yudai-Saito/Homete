@@ -154,6 +154,9 @@ export default {
   mounted() {
     this.postReaction.forEach((item) => {
       if (item.reaction == this.reactionIcon) {
+        if (item.count == null) {
+          item.count = 1;
+        }
         this.reactionCount = item.count;
       }
       //他のユーザーの投稿やログアウト時の投稿の表示の際にuserReactionにはnullが入るため、エラー回避をする
