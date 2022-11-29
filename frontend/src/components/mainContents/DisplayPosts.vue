@@ -452,7 +452,9 @@ export default {
 
     this.postList.post_reactions.forEach((reaction) => {
       if (!this.reactions.includes(reaction.reaction)) {
-        this.reactions.push(reaction.reaction);
+        if(reaction.reaction != null){
+          this.reactions.push(reaction.reaction);
+        }
       }
     });
   },
