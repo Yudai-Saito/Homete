@@ -39,17 +39,6 @@
       <v-card-actions>
         <v-btn
           class="mx-auto mt-auto mb-1"
-          style="font-size: 8px"
-          @click="submit"
-          elevation="0"
-          rounded
-          height="20px"
-          color="#CFD8DC"
-        >
-          利用規約
-        </v-btn>
-        <v-btn
-          class="mx-auto mt-auto mb-1"
           style="font-size: 16px"
           :disabled="!isValid || loading"
           @click="submit"
