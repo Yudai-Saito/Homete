@@ -69,7 +69,7 @@
 .formTxtCard {
   display: flex;
   width: 100%;
-  margin: auto;
+  margin: auto 12px;
   padding: 0;
   overflow: hidden;
 }

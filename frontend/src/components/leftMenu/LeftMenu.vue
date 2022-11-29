@@ -1,5 +1,5 @@
 <template>
-  <v-col class="leftMenu" cols="3">
+  <v-col class="leftMenu" cols="12">
     <div class="leftMenuFlex">
       <LeftMenuButton
         usage="toTimeLine"
@@ -26,8 +26,9 @@
 .leftMenuFlex {
   display: flex;
   flex-flow: column;
-  margin: auto;
+  margin: auto 36px;
   gap: 40px;
+  width: 100%;
 }
 </style>
 
