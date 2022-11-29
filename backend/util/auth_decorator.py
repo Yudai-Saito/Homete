@@ -21,7 +21,7 @@ def auth_required(func):
 			#JWTとの時差でエラーになるため使用できない、修正PRがマージされるのを待つ	
 			#auth.verify_session_cookie(session, check_revoked=True)
 
-			return jsonify({"status": "success"}), 200
+			return func(*args, **kwargs)
 		except:
 			app.logger.error(format_exc())
 			return jsonify({"status": "auth error"}), 401
