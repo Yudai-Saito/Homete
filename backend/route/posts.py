@@ -75,9 +75,9 @@ def post_get():
 
 		filters = []
 		if update == "new":
-			filters.append(created_at > Posts.created_at)
-		elif update == "old":
 			filters.append(created_at < Posts.created_at)
+		elif update == "old":
+			filters.append(created_at > Posts.created_at)
 		else:
 			filters.append("2000-01-01" < Posts.created_at)
 
