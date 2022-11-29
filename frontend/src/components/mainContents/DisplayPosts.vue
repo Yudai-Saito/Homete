@@ -41,7 +41,7 @@
         </div>
       </v-row>
       <v-divider />
-      <v-card-text class="cardMainText black--text">
+      <v-card-text class="cardMainText black--text break-line">
         {{ homete }}
       </v-card-text>
       <div class="btns" v-click-outside="closePicker">
@@ -109,6 +109,9 @@
   to {
     opacity: 1;
   }
+}
+.break-line {
+  white-space: pre-wrap;
 }
 #overridePicker {
   position: fixed;
