@@ -34,12 +34,18 @@
 .reactionBtn {
   background-color: rgba(207, 216, 220, 0.5);
   gap: 0;
+  height: 24px !important;
+  width: 45px !important;
+  min-width: 0 !important;
 }
 .reactionBtn.v-btn--outlined {
   border: thin solid transparent;
 }
 .pushedBtn {
   background-color: rgba(112, 119, 218, 0.5);
+  height: 24px !important;
+  width: 45px !important;
+  min-width: 0 !important;
 }
 .pushedBtn.v-btn--outlined {
   border: thin solid rgb(112, 119, 218);
@@ -47,8 +53,8 @@
 .btnIcon {
   margin: 5px;
   padding: 0;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   font-size: 2px;
 }
 .btnIcon img.emoji {
@@ -61,7 +67,6 @@
   margin: 0;
   padding: 0;
   margin-right: 5px;
-  margin-left: 5px;
   height: 20px;
   text-align: center;
   justify-content: center;

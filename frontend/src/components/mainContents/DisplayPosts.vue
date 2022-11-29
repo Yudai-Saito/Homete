@@ -238,6 +238,7 @@
   margin-left: auto;
   margin-right: auto;
   padding: 20px;
+  padding-bottom: 10px;
   z-index: auto !important;
 }
 .hometeCard * {
@@ -266,8 +267,9 @@
 .addReactionBtn {
   background-color: rgba(119, 125, 128, 0.5);
   overflow: hidden;
-  width: 28px;
-  min-width: 28px !important;
+  height: 24px !important;
+  width: 24px;
+  min-width: 24px !important;
   z-index: auto;
   margin-bottom: auto;
 }
@@ -451,7 +453,10 @@ export default {
     this.postTime = this.postList.created_at.slice(0, 10).replace(/-/g, "/");
 
     this.postList.post_reactions.forEach((reaction) => {
-      if (!this.reactions.includes(reaction.reaction)) {
+      if (
+        !this.reactions.includes(reaction.reaction) &&
+        reaction.reaction != null
+      ) {
         this.reactions.push(reaction.reaction);
       }
     });
