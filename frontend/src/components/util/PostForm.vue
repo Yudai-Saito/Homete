@@ -38,12 +38,10 @@
       >
       <v-card-actions>
         <v-btn
-          class="mx-auto mt-auto mb-1"
-          style="font-size: 16px"
+          class="postBtn ml-auto mt-auto mb-1 mr-1"
           :disabled="!isValid || loading"
           @click="submit"
           elevation="0"
-          rounded
           height="50px"
           width="100px"
           color="#CFD8DC"
@@ -86,6 +84,15 @@
   padding: 0 !important;
   height: 40vh !important;
 }
+.postBtn {
+  width: 60% !important;
+  border-radius: 20px !important;
+  font-size: 18px !important;
+}
+.postBtn span {
+  color: #494854 0.75;
+}
+
 /* 以下チェックボックスのスタイル */
 .ECM_CheckboxInput {
   padding: 8px;
