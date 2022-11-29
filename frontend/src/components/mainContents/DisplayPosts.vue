@@ -44,8 +44,8 @@
       <v-card-text class="cardMainText black--text">
         {{ homete }}
       </v-card-text>
-      <div class="btns" v-click-outside="closePicker">
-        <v-card-actions class="reactionBtns">
+      <div class="btns">
+        <v-card-actions class="reactionBtns" v-click-outside="closePicker">
           <div
             class="reactionsDiv"
             v-for="reaction in reactions"
@@ -72,31 +72,31 @@
               <v-icon>mdi-plus</v-icon>
             </div>
           </v-btn>
+          <div>
+            <twemoji-picker
+              id="overridePicker"
+              v-if="displayPicker"
+              :style="{ transform: `translate(${x}px, ${y}px)` }"
+              :emojiPickerDisabled="false"
+              :emojiData="emojiDataAll"
+              :emojiGroups="emojiGroups"
+              :skinsSelection="true"
+              :searchEmojisFeat="true"
+              :pickerWidth="520"
+              :pickerHeight="400"
+              :recentEmojisFeat="true"
+              :randomEmojiArray="['']"
+              :pickerAutoFlip="false"
+              :pickerCloseOnClickaway="false"
+              twemojiPath="https://twemoji.maxcdn.com/v/latest/"
+              recentEmojisStorage="local"
+              searchEmojiPlaceholder="絵文字を検索"
+              searchEmojiNotFound="絵文字が見つかりませんでした😭"
+              isLoadingLabel="検索中...🔍"
+              @emojiUnicodeAdded="emojiAdded"
+            ></twemoji-picker>
+          </div>
         </v-card-actions>
-        <div>
-          <twemoji-picker
-            id="overridePicker"
-            v-if="displayPicker"
-            :style="{ transform: `translate(${x}px, ${y}px)` }"
-            :emojiPickerDisabled="false"
-            :emojiData="emojiDataAll"
-            :emojiGroups="emojiGroups"
-            :skinsSelection="true"
-            :searchEmojisFeat="true"
-            :pickerWidth="520"
-            :pickerHeight="400"
-            :recentEmojisFeat="true"
-            :randomEmojiArray="['']"
-            :pickerAutoFlip="false"
-            :pickerCloseOnClickaway="false"
-            twemojiPath="https://twemoji.maxcdn.com/v/latest/"
-            recentEmojisStorage="local"
-            searchEmojiPlaceholder="絵文字を検索"
-            searchEmojiNotFound="絵文字が見つかりませんでした😭"
-            isLoadingLabel="検索中...🔍"
-            @emojiUnicodeAdded="emojiAdded"
-          ></twemoji-picker>
-        </div>
       </div>
     </v-card>
   </v-container>
