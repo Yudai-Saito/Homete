@@ -79,10 +79,21 @@
   height: 100%;
   width: 100%;
 }
+.v-text-field.v-text-field--enclosed:not(.v-text-field--rounded)
+  > .v-input__control
+  > .v-input__slot {
+  padding: 0 !important;
+}
+.v-application--is-ltr .v-textarea.v-text-field--enclosed .v-text-field__slot {
+  margin: 0 !important;
+}
+.v-textarea label {
+  margin-left: 15px !important;
+}
 .v-textarea textarea {
   margin: 0 !important;
-  margin-top: 10px !important;
-  margin-right: 5px !important;
+  margin: 15px !important;
+  margin-bottom: 0 !important;
   padding: 0 !important;
   height: 40vh !important;
 }
