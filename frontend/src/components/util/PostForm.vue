@@ -59,6 +59,7 @@
   margin: auto 12px;
   padding: 0;
   overflow: hidden;
+  border: solid rgba(0, 0, 0, 0.25) 1px !important;
 }
 .formArea {
   margin: auto 0;
@@ -88,6 +89,7 @@
   width: 60% !important;
   border-radius: 20px !important;
   font-size: 18px !important;
+  border: solid rgba(0, 0, 0, 0.1) 1px !important;
 }
 .postBtn span {
   color: #494854 0.75;
@@ -108,14 +110,14 @@
 }
 .ECM_CheckboxInput:hover > .ECM_CheckboxInput-DummyInput {
   background: #dddddd !important;
-  border: solid 2px #333333;
+  border: solid 1px rgba(0, 0, 0, 0.5);
 }
 .ECM_CheckboxInput-Input:focus + .ECM_CheckboxInput-DummyInput {
   background: #dddddd !important;
-  border: solid 2px #333333;
+  border: solid 1px rgba(0, 0, 0, 0.5);
 }
 .ECM_CheckboxInput-Input:checked + .ECM_CheckboxInput-DummyInput {
-  border: solid 2px #333333;
+  border: solid 1px rgba(0, 0, 0, 0.25);
   background: #ffffff;
 }
 .ECM_CheckboxInput-Input:checked + .ECM_CheckboxInput-DummyInput::before {
@@ -139,7 +141,7 @@
   min-width: 16px;
   height: 16px;
   min-height: 16px;
-  border: solid 2px #888888;
+  border: solid 1px rgba(0, 0, 0, 0.25);
   background: #ffffff;
   border-radius: 4px;
 }

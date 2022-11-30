@@ -240,6 +240,7 @@
   padding: 20px;
   padding-bottom: 10px;
   z-index: auto !important;
+  border: solid rgba(0, 0, 0, 0.25) 1px !important;
 }
 .hometeCard * {
   z-index: 99;
@@ -272,6 +273,7 @@
   min-width: 24px !important;
   z-index: auto;
   margin-bottom: auto;
+  border: solid rgba(0, 0, 0, 0.1) 1px !important;
 }
 .addReactionBtn * {
   z-index: auto;
@@ -295,6 +297,9 @@
   border-radius: 50%;
   overflow: hidden;
   z-index: auto;
+  border: solid rgba(0, 0, 0, 0.1) 1px !important;
+  display: flex;
+  justify-content: flex-end;
 }
 .circle * {
   z-index: auto;

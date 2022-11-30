@@ -30,6 +30,13 @@
   gap: 40px;
   width: 100%;
 }
+.leftMenuFlex button {
+  border: solid rgba(0, 0, 0, 0.25) 1px !important;
+}
+.leftMenuFlex button .v-ripple__container {
+  height: 100%;
+  width: 100%;
+}
 </style>
 
 <script>

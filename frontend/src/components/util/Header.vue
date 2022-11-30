@@ -50,6 +50,9 @@
   display: flex;
   justify-content: center;
 }
+.headerBtn button {
+  border: solid rgba(0, 0, 0, 0.25) 1px !important;
+}
 </style>
 
 <script>

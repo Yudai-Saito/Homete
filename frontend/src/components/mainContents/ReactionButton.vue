@@ -37,6 +37,7 @@
   height: 24px !important;
   width: 45px !important;
   min-width: 0 !important;
+  border: solid rgba(0, 0, 0, 0.1) 1px !important;
 }
 .reactionBtn.v-btn--outlined {
   border: thin solid transparent;
@@ -46,6 +47,7 @@
   height: 24px !important;
   width: 45px !important;
   min-width: 0 !important;
+  border: solid rgba(0, 0, 0, 0.1) 1px !important;
 }
 .pushedBtn.v-btn--outlined {
   border: thin solid rgb(112, 119, 218);
