@@ -7,7 +7,7 @@
 
 <style>
 .mainContents {
-  margin: 0 auto;
+  margin: 0 auto !important;
   margin-top: 10vh !important;
   margin-bottom: 30px !important;
   padding: 0;
