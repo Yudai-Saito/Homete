@@ -1,6 +1,6 @@
 <template>
   <v-btn
-    class="ma-0 pa-0 leftMenuBtn"
+    class="ma-0 pa-0"
     color="#CFD8DC"
     rounded
     x-large
@@ -11,12 +11,6 @@
     {{ btnText }}
   </v-btn>
 </template>
-
-<style>
-.leftMenuBtn {
-  width: 175px;
-}
-</style>
 
 <script>
 export default {

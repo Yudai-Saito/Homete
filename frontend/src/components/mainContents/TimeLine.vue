@@ -1,5 +1,5 @@
 <template>
-  <v-col class="mainContents virtualScrollBar" cols="6">
+  <v-col class="mainContents virtualScrollBar" cols="12">
     <div>
       <DisplayPosts
         v-for="post in posts"
@@ -13,9 +13,9 @@
 
 <style>
 .mainContents {
-  margin: 0;
-  margin-top: 47px;
-  margin-bottom: 20px;
+  margin: 0 auto !important;
+  margin-top: 10vh !important;
+  margin-bottom: 30px !important;
   padding: 0;
   width: 550px;
   min-width: 550px;

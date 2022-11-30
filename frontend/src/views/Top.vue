@@ -15,9 +15,15 @@
     <div>
       <Alert />
       <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
-        <LeftMenu class="SideMenuSticky" />
-        <TimeLine />
-        <RightMenu class="SideMenuSticky" />
+        <v-col cols="3">
+          <LeftMenu class="SideMenuSticky" />
+        </v-col>
+        <v-col cols="6">
+          <TimeLine />
+        </v-col>
+        <v-col cols="3">
+          <RightMenu class="SideMenuSticky" />
+        </v-col>
       </v-row>
     </div>
     <Footer />
@@ -38,6 +44,8 @@
   position: sticky;
   top: 0;
   flex-wrap: nowrap;
+  margin: 0;
+  padding: 0;
 }
 </style>
 

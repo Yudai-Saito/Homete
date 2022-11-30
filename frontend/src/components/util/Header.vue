@@ -1,27 +1,27 @@
 <template>
   <v-app-bar
     class="header"
-    style="border-bottom: solid #00000080 2px"
-    :height="50"
+    style="border-bottom: solid #00000080 1px"
     color="#BABDBE"
     fixed
-    dense
     elevation="0"
   >
-    <v-col class="text-h5 font-weight-bold title" cols="3"> homete… </v-col>
-    <v-col class="contentTitle" cols="6">
-      {{ contentName }}
-    </v-col>
-    <v-col class="headerBtn" cols="3">
-      <v-btn color="#CFD8DC" rounded @click="account" v-if="logged">
-        <v-icon color="#494854">mdi-account-cog</v-icon>
-        <div>アカウント</div>
-      </v-btn>
-      <v-btn color="#CFD8DC" rounded @click="login" v-else>
-        <v-icon color="#494854">mdi-login-variant</v-icon>
-        <div>ログイン</div>
-      </v-btn>
-    </v-col>
+    <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
+      <v-col class="text-h5 font-weight-bold title" cols="3"> homete… </v-col>
+      <v-col class="contentTitle" cols="6">
+        {{ contentName }}
+      </v-col>
+      <v-col class="headerBtn" cols="3">
+        <v-btn color="#CFD8DC" rounded @click="account" v-if="logged">
+          <v-icon color="#494854">mdi-account-cog</v-icon>
+          <div>アカウント</div>
+        </v-btn>
+        <v-btn color="#CFD8DC" rounded @click="login" v-else>
+          <v-icon color="#494854">mdi-login-variant</v-icon>
+          <div>ログイン</div>
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-app-bar>
 </template>
 
@@ -51,6 +51,9 @@
   padding: 0;
   display: flex;
   justify-content: center;
+}
+.headerBtn button {
+  border: solid rgba(0, 0, 0, 0.25) 1px !important;
 }
 </style>
 

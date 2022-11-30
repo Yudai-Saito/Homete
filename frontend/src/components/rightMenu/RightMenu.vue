@@ -1,5 +1,5 @@
 <template>
-  <v-col class="rightMenu" cols="3">
+  <v-col class="rightMenu" cols="12">
     <PostForm />
   </v-col>
 </template>
@@ -31,11 +31,10 @@ export default {
     PostForm,
   },
   methods: {
-    clickPost: function(){
-      if(this.logged){
+    clickPost: function () {
+      if (this.logged) {
         this.$store.dispatch("visiblePostForm");
-      }
-      else{
+      } else {
         //ログインを促すポップアップやオーバーレイ
       }
     },

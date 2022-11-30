@@ -33,28 +33,15 @@
           v-model="private_posts"
         /><span class="ECM_CheckboxInput-DummyInput"></span
         ><span class="ECM_CheckboxInput-LabelText"
-          >この投稿についたリアクションをみんなに見せない</span
+          >リアクションを見せない</span
         ></label
       >
       <v-card-actions>
         <v-btn
-          class="mx-auto mt-auto mb-1"
-          style="font-size: 8px"
-          @click="submit"
-          elevation="0"
-          rounded
-          height="20px"
-          color="#CFD8DC"
-        >
-          利用規約
-        </v-btn>
-        <v-btn
-          class="mx-auto mt-auto mb-1"
-          style="font-size: 16px"
+          class="postBtn ml-auto mt-auto mb-1 mr-1"
           :disabled="!isValid || loading"
           @click="submit"
           elevation="0"
-          rounded
           height="50px"
           width="100px"
           color="#CFD8DC"
@@ -69,9 +56,10 @@
 .formTxtCard {
   display: flex;
   width: 100%;
-  margin: auto;
+  margin: auto 12px;
   padding: 0;
   overflow: hidden;
+  border: solid rgba(0, 0, 0, 0.25) 1px !important;
 }
 .formArea {
   margin: auto 0;
@@ -79,13 +67,34 @@
   height: 100%;
   width: 100%;
 }
+.v-text-field.v-text-field--enclosed:not(.v-text-field--rounded)
+  > .v-input__control
+  > .v-input__slot {
+  padding: 0 !important;
+}
+.v-application--is-ltr .v-textarea.v-text-field--enclosed .v-text-field__slot {
+  margin: 0 !important;
+}
+.v-textarea label {
+  margin-left: 15px !important;
+}
 .v-textarea textarea {
   margin: 0 !important;
-  margin-top: 10px !important;
-  margin-right: 5px !important;
+  margin: 15px !important;
+  margin-bottom: 0 !important;
   padding: 0 !important;
   height: 40vh !important;
 }
+.postBtn {
+  width: 60% !important;
+  border-radius: 20px !important;
+  font-size: 18px !important;
+  border: solid rgba(0, 0, 0, 0.1) 1px !important;
+}
+.postBtn span {
+  color: #494854 0.75;
+}
+
 /* 以下チェックボックスのスタイル */
 .ECM_CheckboxInput {
   padding: 8px;
@@ -101,14 +110,14 @@
 }
 .ECM_CheckboxInput:hover > .ECM_CheckboxInput-DummyInput {
   background: #dddddd !important;
-  border: solid 2px #333333;
+  border: solid 1px rgba(0, 0, 0, 0.5);
 }
 .ECM_CheckboxInput-Input:focus + .ECM_CheckboxInput-DummyInput {
   background: #dddddd !important;
-  border: solid 2px #333333;
+  border: solid 1px rgba(0, 0, 0, 0.5);
 }
 .ECM_CheckboxInput-Input:checked + .ECM_CheckboxInput-DummyInput {
-  border: solid 2px #333333;
+  border: solid 1px rgba(0, 0, 0, 0.25);
   background: #ffffff;
 }
 .ECM_CheckboxInput-Input:checked + .ECM_CheckboxInput-DummyInput::before {
@@ -132,12 +141,12 @@
   min-width: 16px;
   height: 16px;
   min-height: 16px;
-  border: solid 2px #888888;
+  border: solid 1px rgba(0, 0, 0, 0.25);
   background: #ffffff;
   border-radius: 4px;
 }
 .ECM_CheckboxInput-LabelText {
-  margin-left: 8px;
+  margin-left: 4px;
   display: block;
   font-size: 10px;
   font-weight: bold;
