@@ -343,6 +343,8 @@
 </style>
 
 <script>
+import axios from "axios";
+
 import ReactionButton from "./ReactionButton.vue";
 import VueResponsiveText from "vue-responsive-text";
 
@@ -394,7 +396,6 @@ export default {
   },
   methods: {
     emojiAdded(emojiUnicode) {
-      //ここで絵文字選択イベントが発動する
       if (!this.reactions.includes(emojiUnicode)) {
         this.postList.user_reaction.push(emojiUnicode);
         this.postList.post_reactions.push({
@@ -403,9 +404,22 @@ export default {
         });
         this.reactions.push(emojiUnicode);
       }
+
+      axios.put(
+        "/posts/reaction",
+        {
+          post_id: this.postList.post_id,
+          reaction: emojiUnicode,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
       if (this.reactions.length >= 20) {
         this.displayAddBtn = false;
       }
+
       this.displayPicker = false;
     },
     displayEmojiPicker() {
@@ -462,7 +476,7 @@ export default {
 
     this.postList.post_reactions.forEach((reaction) => {
       if (!this.reactions.includes(reaction.reaction)) {
-        if(reaction.reaction != null){
+        if (reaction.reaction != null) {
           this.reactions.push(reaction.reaction);
         }
       }
