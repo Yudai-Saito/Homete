@@ -1,11 +1,9 @@
 <template>
   <v-app-bar
     class="header"
-    style="border-bottom: solid #00000080 2px"
-    :height="50"
+    style="border-bottom: solid #00000080 1px"
     color="#BABDBE"
     fixed
-    dense
     elevation="0"
   >
     <v-col class="text-h5 font-weight-bold title" cols="3"> homete… </v-col>

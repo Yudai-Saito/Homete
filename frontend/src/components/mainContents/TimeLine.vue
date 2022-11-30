@@ -8,8 +8,8 @@
 <style>
 .mainContents {
   margin: 0;
-  margin-top: 47px;
-  margin-bottom: 20px;
+  margin-top: 10vh !important;
+  margin-bottom: 30px !important;
   padding: 0;
   width: 550px;
   min-width: 550px;
