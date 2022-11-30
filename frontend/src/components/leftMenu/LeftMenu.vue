@@ -11,10 +11,31 @@
         btnText="ヒストリー"
         btnIcon="mdi-history"
       />
+      <v-btn
+        class="aboutBtn ma-0 pa-0"
+        color="#CFD8DC"
+        rounded
+        x-large
+        :elevation="3"
+        v-on:click="onClick"
+      >
+        HOMETEについて
+      </v-btn>
     </div>
   </v-col>
 </template>
 <style>
+.aboutBtn {
+  position: absolute;
+  bottom: 50px;
+  height: 30px !important;
+  width: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  font-size: 12px !important;
+}
 .leftMenu {
   display: flex;
   height: 100vh;
@@ -46,6 +67,13 @@ export default {
   name: "LeftMenu",
   components: {
     LeftMenuButton,
+  },
+  methods: {
+    onClick: function () {
+      if (this.$route.path != "/about") {
+        this.$router.push("/about");
+      }
+    },
   },
 };
 </script>
