@@ -1,6 +1,12 @@
 <template>
   <v-col class="mainContents virtualScrollBar" cols="6">
-    <DisplayPosts v-for="post in posts" :key="post.post_id" :postList="post" />
+    <div>
+      <DisplayPosts
+        v-for="post in posts"
+        :key="post.post_id"
+        :postList="post"
+      />
+    </div>
     <div ref="observe_element"></div>
   </v-col>
 </template>
@@ -37,48 +43,53 @@ export default {
   data() {
     return {
       posts: [],
-      scrolledBottom: false,
     };
   },
   components: {
     DisplayPosts,
   },
+  methods: {
+    set_posts: function (res) {
+      var posts = res.data["posts"];
+
+      if (posts.length != 0) {
+        Object.keys(posts).forEach((key) => {
+          if (posts[key]["user_reaction"] == null) {
+            posts[key]["user_reaction"] = [];
+          }
+        });
+
+        if (this.posts.length == 0) {
+          this.posts = posts;
+        } else {
+          posts.forEach((post) => {
+            this.posts.push(post);
+          });
+        }
+      }
+    },
+    get_posts: function (axios_params = {}) {
+      axios
+        .get("/posts", { params: axios_params, withCredentials: true })
+        .then((res) => {
+          this.set_posts(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
   created() {
-    axios
-      .get("/post", {
-        withCredentials: true,
-      })
-      .then((res) => {
-        this.posts = res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.get_posts();
   },
   mounted() {
     this.observer = new IntersectionObserver((entries) => {
       const entry = entries[0];
       if (entry && entry.isIntersecting) {
-        axios
-          .get(
-            "/post",
-            {
-              params: {
-                created_at: this.posts[this.posts.length - 1].created_at,
-              },
-            },
-            {
-              withCredentials: true,
-            }
-          )
-          .then((res) => {
-            //投稿の追記
-            this.posts = this.posts.concat(res.data);
-            this.scrolledBottom = false;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        this.get_posts({
+          created_at: this.posts[this.posts.length - 1].created_at,
+          update: "old",
+        });
       }
     });
     const observe_element = this.$refs.observe_element;

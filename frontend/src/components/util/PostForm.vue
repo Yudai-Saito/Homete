@@ -179,10 +179,10 @@ export default {
 
           //スマホ用に投稿用コンポーネントの非表示
           this.$store.dispatch("invisiblePostForm");
-          this.alertPostSuccess();
+          //this.alertPostSuccess();
         })
         .catch(() => {
-          this.alertPostError();
+          //this.alertPostError();
         });
       this.loading = false;
       this.formTxt = "";
