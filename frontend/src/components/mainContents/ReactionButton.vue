@@ -110,6 +110,7 @@ export default {
   props: ["reactionIcon", "postReaction", "userReaction", "postId"],
   methods: {
     count: function () {
+      //カウントダウン
       if (this.reactionFlag) {
         this.reactionCount -= 1;
         this.reactionFlag = false;
@@ -131,22 +132,20 @@ export default {
           this.$emit("deleteReaction", this.reactionIcon);
         }
 
-        axios.post(
-          "/post/reaction",
-          {
+        axios.delete("/posts/reaction", {
+          params: {
             post_id: this.postId,
             reaction: this.reactionIcon,
           },
-          {
-            withCredentials: true,
-          }
-        );
+          withCredentials: true,
+        });
+        //カウントアップ
       } else {
         this.reactionCount += 1;
         this.reactionFlag = true;
 
         axios.put(
-          "/post/reaction",
+          "/posts/reaction",
           {
             post_id: this.postId,
             reaction: this.reactionIcon,
