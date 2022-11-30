@@ -87,7 +87,9 @@
     </v-overlay>
     <div>
       <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
-        <LeftMenu class="SideMenuSticky" />
+        <v-col cols="3">
+          <LeftMenu class="SideMenuSticky" />
+        </v-col>
         <v-col class="mainContents" cols="6">
           <div class="settingContainer">
             <div class="btnTxt">
