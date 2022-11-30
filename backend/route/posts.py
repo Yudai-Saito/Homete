@@ -75,9 +75,9 @@ def post_get():
 
 		filters = []
 		if update == "new":
-			filters.append(created_at > Posts.created_at)
-		elif update == "old":
 			filters.append(created_at < Posts.created_at)
+		elif update == "old":
+			filters.append(created_at > Posts.created_at)
 		else:
 			filters.append("2000-01-01" < Posts.created_at)
 
@@ -102,7 +102,6 @@ def post_get():
 	except:
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
-
 
 @posts.route("/reaction", methods=["PUT"])
 @auth_required
@@ -132,40 +131,28 @@ def reaction_count_up():
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 
-'''
-@post.route("/reaction", methods=["POST"])
+@posts.route("/reaction", methods=["DELETE"])
 @auth_required
 def reaction_count_down():
-	"""投稿のリアクションをデクリメントする
-	jsonからpost_id, reactionを取得する
-	リアクションがある場合は、デクリメントし、ない場合は400を返す
-	"""
 	try:
-		user_id = request.cookies.get("user_id")
+		jwt = request.cookies.get("__session")
 		post_id = request.json["post_id"]
 		reaction = request.json["reaction"]
 
-		#投稿に既にリアクションがあるか確認 
-		if db.session.query(Post_reaction.query.filter(Post_reaction.post_id == post_id, Post_reaction.reaction == reaction).exists()).scalar() == True:
-			#減少するリアクションを習得して、デクリメントする
-			post = db.session.query(Post_reaction).filter(Post_reaction.post_id == post_id, Post_reaction.reaction == reaction).first()
-			post.reaction_count -= 1
+		user_email = get_email_from_cookie(jwt)
 
-			#リアクションが0以下になった場合、レコードを削除
-			if post.reaction_count <= 0:
-				db.session.delete(post)
+		post = db.session.query(PostReactions).filter(PostReactions.post_id == post_id, PostReactions.reaction == reaction).first()
 
-			#ユーザごとのリアクション情報を削除
-			db.session.delete(UserReaction.query.filter(UserReaction.post_id == post_id, UserReaction.user_id == user_id, UserReaction.reaction == reaction).first())
+		post.reaction_count -= 1
 
-			db.session.commit()
-		else:
-			#リアクションが無い場合は400を返す
-			raise("not exist reaction")
+		if post.reaction_count <= 0:
+			db.session.delete(post)
+
+		db.session.delete(UserReactions.query.filter(UserReactions.post_id == post_id, UserReactions.user_email == user_email, UserReactions.reaction == reaction).first())
+
+		db.session.commit()
 
 		return jsonify({"status": "success"}), 200
 	except:
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
-'''
-

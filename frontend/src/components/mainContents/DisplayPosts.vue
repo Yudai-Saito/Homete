@@ -458,11 +458,10 @@ export default {
     this.postTime = this.postList.created_at.slice(0, 10).replace(/-/g, "/");
 
     this.postList.post_reactions.forEach((reaction) => {
-      if (
-        !this.reactions.includes(reaction.reaction) &&
-        reaction.reaction != null
-      ) {
-        this.reactions.push(reaction.reaction);
+      if (!this.reactions.includes(reaction.reaction)) {
+        if(reaction.reaction != null){
+          this.reactions.push(reaction.reaction);
+        }
       }
     });
   },
