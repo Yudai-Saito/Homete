@@ -1,12 +1,7 @@
 <template>
   <div class="artBoard">
     <Header />
-    <v-overlay
-      :value="visibleLoginWindow"
-      :light="true"
-      :dark="false"
-      :z-index="999"
-    >
+    <v-overlay :value="displayLogin" :light="true" :dark="false" :z-index="999">
       <Login />
     </v-overlay>
     <div class="notFoundTxt">
@@ -47,7 +42,7 @@
   flex-flow: column;
   justify-content: center;
 }
-.notFoundTxt{
+.notFoundTxt {
   font-size: 50px;
   text-align: center;
   z-index: 0;
@@ -57,10 +52,10 @@
   margin-left: auto;
   margin-right: auto;
 }
-.notFoundCard{
+.notFoundCard {
   margin-bottom: auto;
 }
-.hometeCard{
+.hometeCard {
   margin: 0;
   width: 100%;
   min-width: 520px;
@@ -70,7 +65,7 @@
   padding: 20px;
   z-index: 0;
 }
-.cardText{
+.cardText {
   font-size: 18px;
   line-height: 26px;
 }
@@ -93,8 +88,8 @@ import Header from "@/components/util/Header.vue";
 export default {
   name: "NotFound",
   computed: {
-    visibleLoginWindow() {
-      return this.$store.getters.visibleLoginWindow;
+    displayLogin() {
+      return this.$store.getters.displayLogin;
     },
   },
   components: {
@@ -103,14 +98,14 @@ export default {
     Header,
   },
   methods: {
-    toTopPage: function(){
-      this.$router.push("/")
-    }
+    toTopPage: function () {
+      this.$router.push("/");
+    },
   },
   mounted() {
     window.onload = () => {
       this.$store.dispatch("toInvisibleLoginWindow");
     };
   },
-}
+};
 </script>
