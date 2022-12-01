@@ -49,67 +49,19 @@
           </v-slide-group>
 
           <v-fade-transition :hide-on-leave="true" mode="in-out">
-            <div v-if="currentDisplay == 0" class="aboutContainer">
-              <div class="aboutGroupTitle">
-                <div
-                  v-twemoji
-                  style="width: 20px; margin-right: 5px; margin-top: 12px"
-                >
-                  🔍
-                </div>
-                <h3 v-twemoji class="aboutTitleTxt">HOMETEの使い方</h3>
-              </div>
-              <v-divider />
-              <p class="aboutText">使い方の説明</p>
-            </div>
+            <Explanation v-if="currentDisplay == 0" />
           </v-fade-transition>
 
           <v-fade-transition :hide-on-leave="true" mode="in-out">
-            <div v-if="currentDisplay == 1" class="aboutContainer">
-              <div class="aboutGroupTitle">
-                <div
-                  v-twemoji
-                  style="width: 20px; margin-right: 5px; margin-top: 12px"
-                >
-                  💡
-                </div>
-                <h3 v-twemoji class="aboutTitleTxt">よくある質問</h3>
-              </div>
-              <v-divider />
-              <p class="aboutText">Q：質問</p>
-            </div>
+            <QuestionAnswer v-if="currentDisplay == 1" />
           </v-fade-transition>
 
           <v-fade-transition :hide-on-leave="true" mode="in-out">
-            <div v-if="currentDisplay == 2" class="aboutContainer">
-              <div class="aboutGroupTitle">
-                <div
-                  v-twemoji
-                  style="width: 20px; margin-right: 5px; margin-top: 12px"
-                >
-                  📑
-                </div>
-                <h3 v-twemoji class="aboutTitleTxt">利用規約</h3>
-              </div>
-              <v-divider />
-              <p class="aboutText">規約内容</p>
-            </div>
+            <UserPolicy v-if="currentDisplay == 2" />
           </v-fade-transition>
 
           <v-fade-transition :hide-on-leave="true" mode="in-out">
-            <div v-if="currentDisplay == 3" class="aboutContainer">
-              <div class="aboutGroupTitle">
-                <div
-                  v-twemoji
-                  style="width: 20px; margin-right: 5px; margin-top: 12px"
-                >
-                  🔒
-                </div>
-                <h3 v-twemoji class="aboutTitleTxt">プライバシーポリシー</h3>
-              </div>
-              <v-divider />
-              <p class="aboutText">内容</p>
-            </div>
+            <PrivacyPolicy v-if="currentDisplay == 3" />
           </v-fade-transition>
         </v-col>
         <v-col class="SideMenuSticky rightMenu" cols="3"></v-col>
@@ -210,6 +162,10 @@
 
 
 <script>
+import Explanation from "@/components/abouts/Explanation.vue";
+import PrivacyPolicy from "@/components/abouts/PrivacyPolicy.vue";
+import QuestionAnswer from "@/components/abouts/QuestionAnswer.vue";
+import UserPolicy from "@/components/abouts/UserPolicy.vue";
 import Login from "@/components/Account/Login.vue";
 import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
 import Footer from "@/components/util/Footer.vue";
@@ -247,6 +203,10 @@ export default {
     };
   },
   components: {
+    Explanation,
+    PrivacyPolicy,
+    QuestionAnswer,
+    UserPolicy,
     Login,
     LeftMenu,
     Footer,
