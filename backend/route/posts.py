@@ -10,7 +10,7 @@ from app import app, db
 
 from validator.post_reaction_validator import posts_reaction_count_validate
 
-from models.models import User, Posts, PostReactions
+from models.models import User, Posts, PostReactions, Reactions
 
 from util.auth_decorator import auth_required
 from util.jwt_decoder import get_email_from_cookie
@@ -107,58 +107,33 @@ def post_get():
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 """
-"""
-@posts.route("/reaction", methods=["PUT"])
+
+@posts.route("/reaction", methods=["POST"])
 @auth_required
-def reaction_count_up():
+def reaction():
 	try:
 		jwt = request.cookies.get("__session")
+
+		# post_idはdeleted_atがNoneでないものを受け付けないといけない
 		post_id = request.json["post_id"]
-		reaction = request.json["reaction"]
+		reaction = request.json["reactions"]
 		
-		email = get_email_from_cookie(jwt)
-
-		# TODO_upsertにリファクタすると"存在しなかったら絵文字追加、存在したらインクリメント"の条件分岐不用になるはず
-		if db.session.query(PostReactions.query.filter(PostReactions.post_id == post_id, PostReactions.reaction == reaction).exists()).scalar() == True:
-
-			posts_reaction_count_validate(post_id)
-
-			post_reactions = db.session.query(PostReactions).filter(PostReactions.post_id == post_id, PostReactions.reaction == reaction).first()
-			post_reactions.reaction_count += 1
-		else:
-			db.session.add(PostReactions(post_id = post_id, reaction = reaction, reaction_count = 1))
-
-		db.session.add(UserReactions(user_email = email, reaction = reaction, post_id = post_id))
-		db.session.commit()
-
-		return jsonify({"status": "success"}), 200
-	except:
-		app.logger.error(format_exc())
-		return jsonify({"status": "error"}), 400
-
-@posts.route("/reaction", methods=["DELETE"])
-@auth_required
-def reaction_count_down():
-	try:
-		jwt = request.cookies.get("__session")
-		post_id = request.json["post_id"]
-		reaction = request.json["reaction"]
-
 		user_email = get_email_from_cookie(jwt)
+		user_id = db.session.query(User.id).filter(User.email == user_email).first()[0]
+		
+		reactions = db.session.query(Reactions.id).filter(Reactions.reaction.in_(reaction)).all()
+		posts_reactions = db.session.query(PostReactions.reaction_id).filter(PostReactions.post_id == post_id, PostReactions.user_id == user_id).all()
 
-		post = db.session.query(PostReactions).filter(PostReactions.post_id == post_id, PostReactions.reaction == reaction).first()
+		users = [PostReactions(post_id = post_id, user_id = user_id, reaction_id = reaction[0]) for reaction in set(reactions) - (set(posts_reactions))]
+		db.session.add_all(users)
 
-		post.reaction_count -= 1
-
-		if post.reaction_count <= 0:
-			db.session.delete(post)
-
-		db.session.delete(UserReactions.query.filter(UserReactions.post_id == post_id, UserReactions.user_email == user_email, UserReactions.reaction == reaction).first())
+		delete_reactions = [delete_reaction[0] for delete_reaction in set(posts_reactions) - (set(reactions))]
+		if (len(delete_reactions) != 0)	:
+			db.session.query(PostReactions).filter(PostReactions.reaction_id.in_(delete_reactions), PostReactions.post_id == post_id, PostReactions.user_id == user_id).delete(synchronize_session='fetch')
 
 		db.session.commit()
-
+		
 		return jsonify({"status": "success"}), 200
 	except:
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
-"""
