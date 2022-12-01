@@ -45,6 +45,17 @@ export default {
       posts: [],
     };
   },
+  computed: {
+    post: function () {
+      return this.$store.getters.post;
+    },
+  },
+  watch: {
+    post(newPost) {
+      this.posts.unshift(newPost);
+      this.posts.splice();
+    },
+  },
   components: {
     DisplayPosts,
   },
