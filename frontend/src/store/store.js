@@ -7,6 +7,7 @@ import displayAlert from "./modules/displayAlert";
 import displayLogin from "./modules/displayLogin";
 import displayPostForm from "./modules/displayPostForm";
 import logged from "./modules/logged";
+import posts from "./modules/posts";
 
 Vue.use(Vuex);
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     displayLogin,
     displayPostForm,
     logged,
+    posts,
   },
   state: {},
   mutations: {},
