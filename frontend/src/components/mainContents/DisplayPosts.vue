@@ -233,6 +233,21 @@
   .emoji-list {
   margin: 0 5px !important;
 }
+#emoji-container #emoji-popup #emoji-popover-search #search-header input {
+  z-index: auto;
+}
+#overridePicker
+  div
+  #popper-container
+  #popper-inner
+  #emoji-container
+  #emoji-popup
+  div
+  #popper-skins-container
+  #popper-inner
+  .emoji-popover-inner {
+  height: 100% !important;
+}
 .hometeCard {
   margin: 0;
   width: 100%;
@@ -462,7 +477,7 @@ export default {
 
     this.postList.post_reactions.forEach((reaction) => {
       if (!this.reactions.includes(reaction.reaction)) {
-        if(reaction.reaction != null){
+        if (reaction.reaction != null) {
           this.reactions.push(reaction.reaction);
         }
       }

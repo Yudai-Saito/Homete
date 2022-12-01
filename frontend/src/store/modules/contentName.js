@@ -16,6 +16,9 @@ const actions = {
   toAccount(context) {
     context.commit("updatecontentName", "アカウント");
   },
+  toAbout(context) {
+    context.commit("updatecontentName", "HOMETEについて");
+  },
 };
 
 const mutations = {
