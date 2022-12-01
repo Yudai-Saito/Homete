@@ -169,9 +169,20 @@ export default {
     };
   },
   methods: {
+    formatDate(date) {
+      var y = date.getFullYear();
+      var m = ("00" + (date.getMonth() + 1)).slice(-2);
+      var d = ("00" + date.getDate()).slice(-2);
+      return y + "/" + m + "/" + d;
+    },
+    //投稿を先頭に追記する
+    unshiftPosts(val) {
+      this.$store.commit("unshiftPosts", val);
+    },
     submit: function () {
       this.loading = true;
-
+      this.$store.commit("setFormTxt", this.formTxt);
+      this.$store.commit("setDateTime", this.formatDate(new Date()));
       axios
         .post(
           "/posts",
@@ -183,9 +194,9 @@ export default {
             withCredentials: true,
           }
         )
-        .then(() => {
+        .then((res) => {
           //TODO resを受け取TimeLine.vueのposts[]に渡す
-
+          this.unshiftPosts(res.data);
           //スマホ用に投稿用コンポーネントの非表示
           this.$store.dispatch("invisiblePostForm");
           //this.alertPostSuccess();
