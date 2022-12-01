@@ -11,7 +11,7 @@ from firebase_admin import auth
 
 from app import app, db
 
-from models.models import User, Posts, PostReactions, UserReactions
+from models.models import User, Posts, PostReactions
 
 from util.auth_decorator import auth_required
 from util.jwt_decoder import get_email_from_cookie
@@ -29,15 +29,16 @@ def login():
 		#JWTとの時差でエラーになるため使用できない、修正PRがマージされるのを待つ
 		#auth.verify_id_token(token)
 
-		email = get_email_from_cookie(jwt)
+		user_email = get_email_from_cookie(jwt)
 
-		deleted_user = db.session.query(User.query.filter(User.email == email, User.deleted_at != None).exists()).scalar()
-		exists_user =	db.session.query(User.query.filter(User.email == email).exists()).scalar()
+		deleted_user = db.session.query(User.query.filter(User.email == user_email, User.deleted_at != None).exists()).scalar()
+		exists_user =	db.session.query(User.query.filter(User.email == user_email).exists()).scalar()
 
 		if deleted_user == True:
+			user = db.session.query(User).filter(User.email == user_email).first()
 			user.deleted_at = None
 		elif exists_user == False:
-			db.session.add(User(email = email))
+			db.session.add(User(email = user_email))
 
 		db.session.commit()
 
@@ -72,16 +73,16 @@ def delete():
 
 		user_email = get_email_from_cookie(jwt)
 
-		user = db.session.query(User).filter(User.email == user_email).first()
+		user_id = db.session.query(User.id).filter(User.email == user_email).first()[0]
+
+		user = db.session.query(User).filter(User.id == user_id).first()
 		user.deleted_at = datetime.now() 
   
-		db.session.query(UserReactions).filter(UserReactions.user_email == user_email).delete()
-
-		posts_query = db.session.query(Posts.id).filter(Posts.user_email == user_email)
+		posts_query = db.session.query(Posts.id).filter(Posts.user_id == user_id)
 		delete_query = db.session.query(PostReactions).filter(PostReactions.post_id.in_(posts_query))
 		delete_query.delete(synchronize_session=False)
 
-		posts = db.session.query(Posts).filter(Posts.user_email == user_email).all()
+		posts = db.session.query(Posts).filter(Posts.user_id == user_id).all()
 
 		# N+1になっていそう
 		for post in posts:
