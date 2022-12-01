@@ -10,7 +10,7 @@ from app import app, db
 
 from validator.post_reaction_validator import posts_reaction_count_validate
 
-from models.models import Posts, PostReactions, UserReactions
+from models.models import User, Posts, PostReactions
 
 from util.auth_decorator import auth_required
 from util.jwt_decoder import get_email_from_cookie
@@ -26,14 +26,15 @@ def post_receive():
 		contents = request.json["contents"]
 		private = request.json["private"]
 
-		email = get_email_from_cookie(jwt)
+		user_email = get_email_from_cookie(jwt)
 
 		# TODO_名前DBから取得するようにする
 		name = "TEST_NAME"
 
 		icon = open_peeps_icon()
 
-		db.session.add(Posts(user_email = email, private = private, contents = contents, name = name,
+		user_id = db.session.query(User.id).filter(User.email == user_email).first()[0]
+		db.session.add(Posts(user_id = user_id, private = private, contents = contents, name = name,
 													head = icon["head"], face = icon["face"], facialhair = icon["facial_hair"], accessories = icon["accessories"],
 														skincolor = icon["skin_color"], clothingcolor = icon["clothing_color"], haircolor = icon["hair_color"]))
 		db.session.commit()
@@ -52,7 +53,9 @@ def posts_delete():
 
 		user_email = get_email_from_cookie(jwt)
 
-		delete_posts = db.session.query(Posts).filter(Posts.id == post_id, Posts.user_email == user_email).first()
+		user_id = db.session.query(User.id).filter(User.email == user_email).first()[0]
+
+		delete_posts = db.session.query(Posts).filter(Posts.id == post_id, Posts.user_id == user_id, Posts.deleted_at == None).first()
 		delete_posts.deleted_at = datetime.datetime.now()
 		db.session.commit()
 
@@ -61,6 +64,7 @@ def posts_delete():
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 
+"""
 @posts.route("", methods=["GET"])
 def post_get():
 	try:
@@ -102,7 +106,8 @@ def post_get():
 	except:
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
-
+"""
+"""
 @posts.route("/reaction", methods=["PUT"])
 @auth_required
 def reaction_count_up():
@@ -156,3 +161,4 @@ def reaction_count_down():
 	except:
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
+"""
