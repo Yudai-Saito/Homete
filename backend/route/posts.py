@@ -64,16 +64,16 @@ def posts_delete():
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 
-"""
 @posts.route("", methods=["GET"])
 def post_get():
 	try:
-		user_email = None
+		user_id = None
 
 		if request.cookies.get("__session"):
 			jwt = request.cookies.get("__session")
 			user_email = get_email_from_cookie(jwt)
-		
+			user_id = db.session.query(User.id).filter(User.email == user_email).first()[0]
+
 		created_at = request.args.get("created_at")
 		update = request.args.get("update")
 
@@ -84,29 +84,35 @@ def post_get():
 			filters.append(created_at > Posts.created_at)
 		else:
 			filters.append("2000-01-01" < Posts.created_at)
+		
+		reaction_subquery = db.session.query(Reactions.reaction).filter(Reactions.id == PostReactions.reaction_id).label("post_reactions")
+  
+		post_reaction_subquery = db.session.query(PostReactions.post_id, reaction_subquery, func.count(PostReactions.reaction_id).label("reaction_count"))\
+															.group_by(PostReactions.post_id, PostReactions.reaction_id).subquery()
 
-		sub_query = db.session.query(UserReactions.post_id, func.json_arrayagg(UserReactions.reaction, type_=JSON)\
-						.label("reactions")).filter(UserReactions.user_email == user_email).group_by(UserReactions.post_id).subquery()
+		reaction_subquery = db.session.query(Reactions.reaction).filter(Reactions.id == PostReactions.reaction_id, PostReactions.user_id == user_id)
+
+		user_reaction_subquery = db.session.query(PostReactions.post_id, func.json_arrayagg(reaction_subquery, type_=JSON)\
+															.label("user_reactions")).filter(PostReactions.user_id == user_id).group_by(PostReactions.post_id).subquery()
 
 		posts = db.session.query(func.json_object("post_id", Posts.id, \
-						"icon", func.json_object("head", Posts.head, "face", Posts.face, "facial_hair", Posts.facialhair, "accessories", Posts.accessories,\
-																				"skin_color", Posts.skincolor, "clothing_color", Posts.clothingcolor, "hair_color", Posts.haircolor, type_=JSON),\
-							"name", Posts.name, "created_at", Posts.created_at, "contents", Posts.contents,\
-								"post_reactions", func.json_arrayagg(func.json_object("reaction", PostReactions.reaction,\
-									"count", case([(Posts.user_email == user_email, PostReactions.reaction_count),\
-										(Posts.private == True, None)], else_=PostReactions.reaction_count)), type_=JSON),\
-											"user_reaction", sub_query.c.reactions, type_=JSON))\
-												.outerjoin(PostReactions, Posts.id == PostReactions.post_id)\
-												.outerjoin(sub_query, sub_query.c.post_id == Posts.id)\
-													.filter(and_(*filters, Posts.deleted_at == None))\
-														.group_by(Posts.id, sub_query.c.reactions)\
-															.order_by(desc(Posts.created_at)).limit(30).all()
+							"icon", func.json_object("head", Posts.head, "face", Posts.face, "facial_hair", Posts.facialhair, "accessories", Posts.accessories,\
+																					"skin_color", Posts.skincolor, "clothing_color", Posts.clothingcolor, "hair_color", Posts.haircolor, type_=JSON),\
+								"name", Posts.name, "created_at", Posts.created_at, "contents", Posts.contents,\
+									"post_reactions", func.json_arrayagg(func.json_object("reaction", post_reaction_subquery.c.post_reactions,\
+										"count", case([(Posts.user_id == user_id, post_reaction_subquery.c.reaction_count),\
+											(Posts.private == True, None)], else_=post_reaction_subquery.c.reaction_count)), type_=JSON),\
+												"user_reaction", user_reaction_subquery.c.user_reactions, type_=JSON))\
+													.outerjoin(post_reaction_subquery, post_reaction_subquery.c.post_id == Posts.id)\
+													.outerjoin(user_reaction_subquery, user_reaction_subquery.c.post_id == post_reaction_subquery.c.post_id)\
+														.filter(and_(*filters, Posts.deleted_at == None))\
+															.group_by(Posts.id, post_reaction_subquery.c.post_id, user_reaction_subquery.c.post_id, user_reaction_subquery.c.user_reactions)\
+																.order_by(desc(Posts.created_at)).limit(30).all()
   
 		return jsonify({"posts": [row[0] for row in posts]}), 200
 	except:
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
-"""
 
 @posts.route("/reaction", methods=["POST"])
 @auth_required
@@ -119,6 +125,7 @@ def reaction():
 		reaction = request.json["reactions"]
 		
 		user_email = get_email_from_cookie(jwt)
+
 		user_id = db.session.query(User.id).filter(User.email == user_email).first()[0]
 		
 		reactions = db.session.query(Reactions.id).filter(Reactions.reaction.in_(reaction)).all()
