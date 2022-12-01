@@ -71,6 +71,7 @@ export default {
   methods: {
     onClick: function () {
       if (this.$route.path != "/about") {
+        this.$store.dispatch("toAbout");
         this.$router.push("/about");
       }
     },
