@@ -56,10 +56,6 @@
 </style>
 
 <script>
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-
-import axios from "axios";
-
 export default {
   data() {
     return {
@@ -72,18 +68,6 @@ export default {
     },
     logIn: function () {
       this.$router.push("/login");
-    },
-    //ログアウトだから後で使う。nevermind
-    logOut: () => {
-      const auth = getAuth();
-
-      onAuthStateChanged(auth, () => {
-        auth.signOut().then(() => {
-          axios.get("/account/logout", {
-            withCredentials: true,
-          });
-        });
-      });
     },
   },
 };
