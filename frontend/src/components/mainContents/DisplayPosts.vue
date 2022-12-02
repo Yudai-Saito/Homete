@@ -453,7 +453,7 @@ export default {
   },
   created() {
     //投稿の本文に親コンポーネントから渡されたデータを設定
-    this.reaction = [...this.default_reactions];
+    this.reactions = [...this.default_reactions];
 
     this.userName = this.postList.name;
     this.homete = this.postList.contents;
