@@ -10,7 +10,7 @@
       :disabled="!logged"
     >
       <div class="btnIcon" v-twemoji>{{ reactionIcon }}</div>
-      <div class="countNum">{{ reactionCount }}</div>
+      <div v-if="!privateFlag" class="countNum">{{ reactionCount }}</div>
     </v-btn>
     <v-btn
       class="grey--text text--darken-3 pushedBtn ma-0 pa-0"
@@ -22,7 +22,7 @@
       :disabled="!logged"
     >
       <div class="btnIcon" v-twemoji>{{ reactionIcon }}</div>
-      <div class="countNum">{{ reactionCount }}</div>
+      <div v-if="!privateFlag" class="countNum">{{ reactionCount }}</div>
     </v-btn>
   </div>
 </template>
@@ -113,6 +113,7 @@ export default {
     "postReaction",
     "userReaction",
     "postId",
+    "privateFlag",
   ],
   methods: {
     count: function () {

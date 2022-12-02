@@ -58,6 +58,7 @@
               :postReaction="postList.post_reactions"
               :userReaction="postList.user_reaction"
               :postId="postList.post_id"
+              :privateFlag="postList.private"
               v-on:deleteReaction="deleteReactions"
             />
           </div>
