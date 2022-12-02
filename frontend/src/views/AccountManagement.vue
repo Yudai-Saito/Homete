@@ -226,6 +226,8 @@ import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
 import twemoji from "twemoji";
+import { getAuth } from "firebase/auth";
+import axios from "axios";
 
 export default {
   name: "AccountManagement",
@@ -269,7 +271,21 @@ export default {
       this.checked = [];
     },
     deleteAccount() {},
-    logout() {},
+    logout() {
+      const auth = getAuth();
+
+      auth.signOut().then(() => {
+        axios
+          .get("/account/logout", {
+            withCredentials: true,
+          })
+          .then(() => {
+            console.log("hoge");
+            this.$store.dispatch("loggedOut");
+            this.$router.push("/");
+          });
+      });
+    },
   },
   mounted() {
     window.onload = () => {
