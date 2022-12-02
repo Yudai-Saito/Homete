@@ -98,16 +98,17 @@ def post_get():
 		posts = db.session.query(func.json_object("post_id", Posts.id, \
 							"icon", func.json_object("head", Posts.head, "face", Posts.face, "facial_hair", Posts.facialhair, "accessories", Posts.accessories,\
 																					"skin_color", Posts.skincolor, "clothing_color", Posts.clothingcolor, "hair_color", Posts.haircolor, type_=JSON),\
-								"name", Posts.name, "created_at", Posts.created_at, "contents", Posts.contents,\
-									"post_reactions", func.json_arrayagg(func.json_object("reaction", post_reaction_subquery.c.post_reactions,\
-										"count", case([(Posts.user_id == user_id, post_reaction_subquery.c.reaction_count),\
-											(Posts.private == True, None)], else_=post_reaction_subquery.c.reaction_count)), type_=JSON),\
-												"user_reaction", user_reaction_subquery.c.user_reactions, type_=JSON))\
-													.outerjoin(post_reaction_subquery, post_reaction_subquery.c.post_id == Posts.id)\
-													.outerjoin(user_reaction_subquery, user_reaction_subquery.c.post_id == post_reaction_subquery.c.post_id)\
-														.filter(and_(*filters, Posts.deleted_at == None))\
-															.group_by(Posts.id, post_reaction_subquery.c.post_id, user_reaction_subquery.c.post_id, user_reaction_subquery.c.user_reactions)\
-																.order_by(desc(Posts.created_at)).limit(30).all()
+								"name", Posts.name, "created_at", Posts.created_at, "contents", Posts.contents, "private", Posts.private,\
+									"user_post", case([(Posts.id == user_reaction_subquery.c.post_id, True)], else_=False),\
+										"post_reactions", func.json_arrayagg(func.json_object("reaction", post_reaction_subquery.c.post_reactions,\
+											"count", case([(Posts.user_id == user_id, post_reaction_subquery.c.reaction_count),\
+												(Posts.private == True, None)], else_=post_reaction_subquery.c.reaction_count)), type_=JSON),\
+													"user_reaction", user_reaction_subquery.c.user_reactions, type_=JSON))\
+														.outerjoin(post_reaction_subquery, post_reaction_subquery.c.post_id == Posts.id)\
+														.outerjoin(user_reaction_subquery, user_reaction_subquery.c.post_id == post_reaction_subquery.c.post_id)\
+															.filter(and_(*filters, Posts.deleted_at == None))\
+																.group_by(Posts.id, post_reaction_subquery.c.post_id, user_reaction_subquery.c.post_id, user_reaction_subquery.c.user_reactions)\
+																	.order_by(desc(Posts.created_at)).limit(30).all()
   
 		return jsonify({"posts": [row[0] for row in posts]}), 200
 	except:
