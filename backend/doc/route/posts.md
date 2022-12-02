@@ -25,11 +25,10 @@ select
   post.name, post.created_at, post.contents,
   json_arrayagg(
     json_object(
-      "reaction", pr.reaction,
+      "reaction", pr.post_reactions,
       "count",
       case
-        post.private
-        when post.user_email = 'test_mail' then pr.reaction_count
+        when post.user_id = 1 then pr.reaction_count
         when post.private = 1 then null
         else pr.reaction_count
       end
@@ -38,17 +37,44 @@ select
   ur.user_reaction
 from
   posts as post
-  left join post_reactions as pr on post.id = pr.post_id
   left join (
     select
-      post_id, json_arrayagg(reaction) as user_reaction
+      post_id,
+      (
+        select
+          reaction
+        from
+          reactions
+        where
+          reactions.id = post_reactions.reaction_id
+      ) as post_reactions,
+      count(reaction_id) as reaction_count
     from
-      user_reactions
-    where
-      user_email = 'test_mail'
+      post_reactions
     group by
-      post_id
+      post_id, reaction_id
+  ) as pr on post.id = pr.post_id
+  left join (
+    select
+      post_id,
+      json_arrayagg(
+        (
+          select
+            reaction
+          from
+            reactions
+          where
+            reactions.id = post_reactions.reaction_id
+        )
+      ) as user_reaction
+    from
+      post_reactions
+    where
+      user_id = 1
+    group by
+      post_reactions.post_id
   ) as ur on pr.post_id = ur.post_id
+where deleted_at is null
 group by
-  id, ur.user_reaction;
+  post.id, pr.post_id, ur.post_id, ur.user_reaction;
 ```

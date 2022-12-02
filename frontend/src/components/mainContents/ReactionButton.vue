@@ -107,9 +107,16 @@ export default {
       reactionFlag: true,
     };
   },
-  props: ["reactionIcon", "postReaction", "userReaction", "postId"],
+  props: [
+    "default_reactions",
+    "reactionIcon",
+    "postReaction",
+    "userReaction",
+    "postId",
+  ],
   methods: {
     count: function () {
+      //カウントダウン
       if (this.reactionFlag) {
         this.reactionCount -= 1;
         this.reactionFlag = false;
@@ -131,22 +138,20 @@ export default {
           this.$emit("deleteReaction", this.reactionIcon);
         }
 
-        axios.post(
-          "/post/reaction",
-          {
+        axios.delete("/posts/reaction", {
+          params: {
             post_id: this.postId,
             reaction: this.reactionIcon,
           },
-          {
-            withCredentials: true,
-          }
-        );
+          withCredentials: true,
+        });
+        //カウントアップ
       } else {
         this.reactionCount += 1;
         this.reactionFlag = true;
 
         axios.put(
-          "/post/reaction",
+          "/posts/reaction",
           {
             post_id: this.postId,
             reaction: this.reactionIcon,
@@ -164,7 +169,11 @@ export default {
         if (item.count == null) {
           item.count = 1;
         }
-        this.reactionCount = item.count;
+        if (this.default_reactions.includes(item.reaction)) {
+          this.reactionCount = item.count + 1;
+        } else {
+          this.reactionCount = item.count;
+        }
       }
       //他のユーザーの投稿やログアウト時の投稿の表示の際にuserReactionにはnullが入るため、エラー回避をする
       if (this.userReaction !== null) {

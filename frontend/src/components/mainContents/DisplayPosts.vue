@@ -41,9 +41,10 @@
         </div>
       </v-row>
       <v-divider />
-      <v-card-text class="cardMainText black--text break-line">
-        {{ homete }}
-      </v-card-text>
+      <v-card-text
+        class="cardMainText black--text break-line"
+        v-text="homete"
+      ></v-card-text>
       <div class="btns">
         <v-card-actions class="reactionBtns" v-click-outside="closePicker">
           <div
@@ -52,6 +53,7 @@
             :key="reaction"
           >
             <ReactionButton
+              :default_reactions="default_reactions"
               :reactionIcon="reaction"
               :postReaction="postList.post_reactions"
               :userReaction="postList.user_reaction"
@@ -358,6 +360,8 @@
 </style>
 
 <script>
+import axios from "axios";
+
 import ReactionButton from "./ReactionButton.vue";
 import VueResponsiveText from "vue-responsive-text";
 
@@ -378,10 +382,11 @@ export default {
   data() {
     return {
       avatorSvg: "",
-      userName: "とくめいさん",
-      postTime: "2022/11/17",
+      userName: "",
+      postTime: "",
       homete: "",
-      reactions: ["👍", "👀", "💯", "🥰", "🎉"],
+      default_reactions: ["👍", "👀", "💯", "🥰", "🎉"],
+      reactions: [],
       x: 0,
       y: 0,
       displayPicker: false,
@@ -409,7 +414,6 @@ export default {
   },
   methods: {
     emojiAdded(emojiUnicode) {
-      //ここで絵文字選択イベントが発動する
       if (!this.reactions.includes(emojiUnicode)) {
         this.postList.user_reaction.push(emojiUnicode);
         this.postList.post_reactions.push({
@@ -418,9 +422,22 @@ export default {
         });
         this.reactions.push(emojiUnicode);
       }
+
+      axios.put(
+        "/posts/reaction",
+        {
+          post_id: this.postList.post_id,
+          reaction: emojiUnicode,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
       if (this.reactions.length >= 20) {
         this.displayAddBtn = false;
       }
+
       this.displayPicker = false;
     },
     displayEmojiPicker() {
@@ -451,6 +468,8 @@ export default {
   },
   created() {
     //投稿の本文に親コンポーネントから渡されたデータを設定
+    this.reactions = [...this.default_reactions];
+
     this.userName = this.postList.name;
     this.homete = this.postList.contents;
 
