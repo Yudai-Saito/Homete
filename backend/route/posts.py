@@ -114,32 +114,49 @@ def post_get():
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
 
-@posts.route("/reaction", methods=["POST"])
+@posts.route("/reaction", methods=["PUT"])
 @auth_required
 def reaction():
 	try:
 		jwt = request.cookies.get("__session")
 
-		# post_idはdeleted_atがNoneでないものを受け付けないといけない
 		post_id = request.json["post_id"]
-		reaction = request.json["reactions"]
+		reaction = request.json["reaction"]
+		
+		user_email = get_email_from_cookie(jwt)
+		
+		if db.session.query(Posts.query.filter(Posts.id == post_id, Posts.deleted_at == None).exists()).scalar() == True:
+			user_id = db.session.query(User.id).filter(User.email == user_email).first()[0]
+			reaction_id = db.session.query(Reactions.id).filter(Reactions.reaction == reaction).first()[0]
+
+			db.session.add(PostReactions(post_id = post_id, user_id = user_id, reaction_id = reaction_id))
+
+			db.session.commit()
+		else:
+			raise("deleted posts")
+		return jsonify({"status": "success"}), 200
+	except:
+		app.logger.error(format_exc())
+		return jsonify({"status": "error"}), 400
+
+@posts.route("/reaction", methods=["DELETE"])
+@auth_required
+def reaction_delete():
+	try:
+		jwt = request.cookies.get("__session")
+
+		post_id = request.args.get("post_id")
+		reaction = request.args.get("reaction")
 		
 		user_email = get_email_from_cookie(jwt)
 
 		user_id = db.session.query(User.id).filter(User.email == user_email).first()[0]
-		
-		reactions = db.session.query(Reactions.id).filter(Reactions.reaction.in_(reaction)).all()
-		posts_reactions = db.session.query(PostReactions.reaction_id).filter(PostReactions.post_id == post_id, PostReactions.user_id == user_id).all()
+		reaction_id = db.session.query(Reactions.id).filter(Reactions.reaction == reaction).first()[0]
 
-		users = [PostReactions(post_id = post_id, user_id = user_id, reaction_id = reaction[0]) for reaction in set(reactions) - (set(posts_reactions))]
-		db.session.add_all(users)
-
-		delete_reactions = [delete_reaction[0] for delete_reaction in set(posts_reactions) - (set(reactions))]
-		if (len(delete_reactions) != 0)	:
-			db.session.query(PostReactions).filter(PostReactions.reaction_id.in_(delete_reactions), PostReactions.post_id == post_id, PostReactions.user_id == user_id).delete(synchronize_session='fetch')
+		db.session.query(PostReactions).filter(PostReactions.post_id == post_id, PostReactions.user_id == user_id, PostReactions.reaction_id == reaction_id).delete()
 
 		db.session.commit()
-		
+
 		return jsonify({"status": "success"}), 200
 	except:
 		app.logger.error(format_exc())
