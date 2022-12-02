@@ -41,9 +41,10 @@
         </div>
       </v-row>
       <v-divider />
-      <v-card-text class="cardMainText black--text break-line">
-        {{ homete }}
-      </v-card-text>
+      <v-card-text
+        class="cardMainText black--text break-line"
+        v-text="homete"
+      ></v-card-text>
       <div class="btns">
         <v-card-actions class="reactionBtns" v-click-outside="closePicker">
           <div
@@ -52,6 +53,7 @@
             :key="reaction"
           >
             <ReactionButton
+              :default_reactions="default_reactions"
               :reactionIcon="reaction"
               :postReaction="postList.post_reactions"
               :userReaction="postList.user_reaction"
@@ -365,10 +367,11 @@ export default {
   data() {
     return {
       avatorSvg: "",
-      userName: "とくめいさん",
-      postTime: "2022/11/17",
+      userName: "",
+      postTime: "",
       homete: "",
-      reactions: ["👍", "👀", "💯", "🥰", "🎉"],
+      default_reactions: ["👍", "👀", "💯", "🥰", "🎉"],
+      reactions: [],
       x: 0,
       y: 0,
       displayPicker: false,
@@ -450,6 +453,8 @@ export default {
   },
   created() {
     //投稿の本文に親コンポーネントから渡されたデータを設定
+    this.reaction = [...this.default_reactions];
+
     this.userName = this.postList.name;
     this.homete = this.postList.contents;
 
