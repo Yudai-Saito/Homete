@@ -107,7 +107,13 @@ export default {
       reactionFlag: true,
     };
   },
-  props: ["reactionIcon", "postReaction", "userReaction", "postId"],
+  props: [
+    "default_reactions",
+    "reactionIcon",
+    "postReaction",
+    "userReaction",
+    "postId",
+  ],
   methods: {
     count: function () {
       //カウントダウン
@@ -163,7 +169,11 @@ export default {
         if (item.count == null) {
           item.count = 1;
         }
-        this.reactionCount = item.count;
+        if (this.default_reactions.includes(item.reaction)) {
+          this.reactionCount = item.count + 1;
+        } else {
+          this.reactionCount = item.count;
+        }
       }
       //他のユーザーの投稿やログアウト時の投稿の表示の際にuserReactionにはnullが入るため、エラー回避をする
       if (this.userReaction !== null) {
