@@ -2,7 +2,14 @@
   <v-app class="artBoard blue-grey lighten-5">
     <Header />
     <v-overlay :value="displayLogin" :light="true" :dark="false" :z-index="999">
-      <Login />
+      <Login
+        usage="login"
+        titleTxt="HOMETE"
+        firstMsg="ここに適当なサービスの説明とようこそ的な文章"
+        btnTxt="Googleでログイン"
+        descriptionTxt="ここに注意事項的な文章"
+        :onClick="logIn"
+      />
     </v-overlay>
     <v-overlay
       :value="displayPostForm"
@@ -89,6 +96,11 @@ export default {
       this.$store.dispatch("invisibleLogin");
       this.$store.dispatch("toTimeLine");
     };
+  },
+  methods: {
+    logIn: function () {
+      this.$router.push("/login");
+    },
   },
 };
 </script>
