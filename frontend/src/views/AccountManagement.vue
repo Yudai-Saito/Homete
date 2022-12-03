@@ -270,7 +270,20 @@ export default {
       this.displayDelete = false;
       this.checked = [];
     },
-    deleteAccount() {},
+    deleteAccount() {
+      const auth = getAuth();
+
+      auth.signOut().then(() => {
+        axios
+          .delete("/account/delete", {
+            withCredentials: true,
+          })
+          .then(() => {
+            this.$store.dispatch("loggedOut");
+            this.$router.push("/");
+          });
+      });
+    },
     logout() {
       const auth = getAuth();
 
@@ -280,7 +293,6 @@ export default {
             withCredentials: true,
           })
           .then(() => {
-            console.log("hoge");
             this.$store.dispatch("loggedOut");
             this.$router.push("/");
           });
