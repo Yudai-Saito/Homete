@@ -19,7 +19,12 @@
           <LeftMenu class="SideMenuSticky" />
         </v-col>
         <v-col cols="6">
-          <TimeLine />
+          <TimeLine v-if="contentsKey == 'timeline'" :key="contentsKey" />
+          <TimeLine
+            v-if="contentsKey == 'history'"
+            :channel="contentsKey"
+            :key="contentsKey"
+          />
         </v-col>
         <v-col cols="3">
           <RightMenu class="SideMenuSticky" />
@@ -71,6 +76,9 @@ export default {
     },
     displayLogin() {
       return this.$store.getters.displayLogin;
+    },
+    contentsKey() {
+      return this.$store.getters.contentsKey;
     },
   },
   components: {
