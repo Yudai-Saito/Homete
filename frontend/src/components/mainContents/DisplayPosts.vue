@@ -27,14 +27,8 @@
             </template>
             <v-list class="ma-0 pa-0">
               <v-list-item class="ma-0 pa-0">
-                <v-btn
-                  style="color: #494854; height: 50px"
-                  depressed
-                  plain
-                  color="#FFFFFF"
-                >
-                  通報
-                </v-btn>
+                <PostsMenu labelTxt="削除" v-if="this.postList.user_post" />
+                <PostsMenu labelTxt="通報" v-else />
               </v-list-item>
             </v-list>
           </v-menu>
@@ -363,6 +357,7 @@
 <script>
 import axios from "axios";
 
+import PostsMenu from "./PostsMenu.vue";
 import ReactionButton from "./ReactionButton.vue";
 import VueResponsiveText from "vue-responsive-text";
 
@@ -398,6 +393,7 @@ export default {
   },
   props: ["postList"],
   components: {
+    PostsMenu,
     ReactionButton,
     VueResponsiveText,
     "twemoji-picker": TwemojiPicker,
