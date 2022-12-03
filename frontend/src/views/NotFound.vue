@@ -1,8 +1,20 @@
 <template>
   <div class="artBoard">
     <Header />
-    <v-overlay :value="displayLogin" :light="true" :dark="false" :z-index="999">
-      <Login />
+    <v-overlay
+      :value="displayCommonOverlay"
+      :light="true"
+      :dark="false"
+      :z-index="999"
+    >
+      <CommonOverlay
+        usage="login"
+        titleTxt="HOMETE"
+        firstMsg="ここに適当なサービスの説明とようこそ的な文章"
+        btnTxt="Googleでログイン"
+        descriptionTxt="ここに注意事項的な文章"
+        :onClick="logIn"
+      />
     </v-overlay>
     <div class="notFoundTxt">
       <h1>404</h1>
@@ -81,19 +93,19 @@
 
 
 <script>
-import Login from "@/components/Account/Login.vue";
+import CommonOverlay from "@/components/Account/CommonOverlay.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
 
 export default {
   name: "NotFound",
   computed: {
-    displayLogin() {
-      return this.$store.getters.displayLogin;
+    displayCommonOverlay() {
+      return this.$store.getters.displayCommonOverlay;
     },
   },
   components: {
-    Login,
+    CommonOverlay,
     Footer,
     Header,
   },
@@ -104,7 +116,7 @@ export default {
   },
   mounted() {
     window.onload = () => {
-      this.$store.dispatch("toInvisibleLoginWindow");
+      this.$store.dispatch("toInvisibleCommonOverlay");
     };
   },
 };

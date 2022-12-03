@@ -1,8 +1,20 @@
 <template>
   <v-app class="artBoard blue-grey lighten-5">
     <Header />
-    <v-overlay :value="displayLogin" :light="true" :dark="false" :z-index="999">
-      <Login />
+    <v-overlay
+      :value="displayCommonOverlay"
+      :light="true"
+      :dark="false"
+      :z-index="999"
+    >
+      <CommonOverlay
+        usage="login"
+        titleTxt="HOMETE"
+        firstMsg="ここに適当なサービスの説明とようこそ的な文章"
+        btnTxt="Googleでログイン"
+        descriptionTxt="ここに注意事項的な文章"
+        :onClick="logIn"
+      />
     </v-overlay>
 
     <div>
@@ -166,7 +178,7 @@ import Explanation from "@/components/abouts/Explanation.vue";
 import PrivacyPolicy from "@/components/abouts/PrivacyPolicy.vue";
 import QuestionAnswer from "@/components/abouts/QuestionAnswer.vue";
 import UserPolicy from "@/components/abouts/UserPolicy.vue";
-import Login from "@/components/Account/Login.vue";
+import CommonOverlay from "@/components/Account/CommonOverlay.vue";
 import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
@@ -188,8 +200,8 @@ export default {
     logged() {
       return this.$store.getters.logged;
     },
-    displayLogin() {
-      return this.$store.getters.displayLogin;
+    displayCommonOverlay() {
+      return this.$store.getters.displayCommonOverlay;
     },
   },
   data() {
@@ -207,7 +219,7 @@ export default {
     PrivacyPolicy,
     QuestionAnswer,
     UserPolicy,
-    Login,
+    CommonOverlay,
     LeftMenu,
     Footer,
     Header,
@@ -224,7 +236,7 @@ export default {
   mounted() {
     window.onload = () => {
       this.$store.dispatch("invisiblePostForm");
-      this.$store.dispatch("invisibleLogin");
+      this.$store.dispatch("invisibleCommonOverlay");
     };
   },
 };

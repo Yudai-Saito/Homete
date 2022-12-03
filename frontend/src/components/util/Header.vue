@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     login: function () {
-      this.$store.dispatch("visibleLogin");
+      this.$store.dispatch("visibleLoginOverlay");
     },
     logout: function () {
       this.$store.dispatch("loggedOut");

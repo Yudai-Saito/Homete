@@ -4,7 +4,7 @@ import createPersistedState from "vuex-persistedstate";
 
 import contentName from "./modules/contentName";
 import displayAlert from "./modules/displayAlert";
-import displayLogin from "./modules/displayLogin";
+import displayCommonOverlay from "./modules/displayCommonOverlay";
 import displayPostForm from "./modules/displayPostForm";
 import logged from "./modules/logged";
 
@@ -16,7 +16,7 @@ export default new Vuex.Store({
   modules: {
     contentName,
     displayAlert,
-    displayLogin,
+    displayCommonOverlay,
     displayPostForm,
     logged,
   },
