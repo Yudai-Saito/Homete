@@ -14,7 +14,7 @@ from app import app, db
 from models.models import User, Posts, PostReactions
 
 from util.auth_decorator import auth_required
-from util.jwt_decoder import get_email_from_cookie
+from util.jwt_decoder import get_email_from_cookie, get_id_from_cookie
 
 account = Blueprint("accout", __name__, url_prefix="/account")
 
@@ -72,23 +72,28 @@ def delete():
 		jwt = request.cookies.get("__session")
 
 		user_email = get_email_from_cookie(jwt)
+		firebase_user_id = get_id_from_cookie(jwt)
 
-		user_id = db.session.query(User.id).filter(User.email == user_email).first()[0]
+		# Userテーブルから対象のUserを取得
+		user = db.session.query(User).filter(User.email == user_email).first()
 
-		user = db.session.query(User).filter(User.id == user_id).first()
-		user.deleted_at = datetime.now() 
-  
-		posts_query = db.session.query(Posts.id).filter(Posts.user_id == user_id)
-		delete_query = db.session.query(PostReactions).filter(PostReactions.post_id.in_(posts_query))
-		delete_query.delete(synchronize_session=False)
-
-		posts = db.session.query(Posts).filter(Posts.user_id == user_id).all()
-
-		# N+1になっていそう
+		# Userが持つPostを取得し、削除日時を設定
+		posts = db.session.query(Posts).filter(Posts.user_id == user.id, Posts.deleted_at == None).all()
 		for post in posts:
 			post.deleted_at = datetime.now()
 
+		# Userを削除
+		user.deleted_at = datetime.now()
+
+		# PostReactionsテーブルから削除するPostを特定し、一括削除
+		post_ids = [post.id for post in posts]
+		delete_query = db.session.query(PostReactions)
+		delete_query = delete_query.filter(PostReactions.post_id.in_(post_ids))
+		delete_query.delete(synchronize_session=False)
+
 		db.session.commit()
+
+		auth.delete_user(firebase_user_id)
 
 		return jsonify({"status": "success"}), 200
 	except:
