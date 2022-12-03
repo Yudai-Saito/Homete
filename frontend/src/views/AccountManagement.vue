@@ -280,6 +280,7 @@ export default {
           })
           .then(() => {
             this.$store.dispatch("loggedOut");
+            this.$store.dispatch("toTimeLine");
             this.$router.push("/");
           });
       });
@@ -294,6 +295,7 @@ export default {
           })
           .then(() => {
             this.$store.dispatch("loggedOut");
+            this.$store.dispatch("toTimeLine");
             this.$router.push("/");
           });
       });
