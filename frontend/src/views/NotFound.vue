@@ -2,7 +2,7 @@
   <div class="artBoard">
     <Header />
     <v-overlay
-      :value="displayCommonOverlay"
+      :value="overlayState == 'login'"
       :light="true"
       :dark="false"
       :z-index="999"
@@ -93,15 +93,15 @@
 
 
 <script>
-import CommonOverlay from "@/components/Account/CommonOverlay.vue";
+import CommonOverlay from "@/components/util/CommonOverlay.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
 
 export default {
   name: "NotFound",
   computed: {
-    displayCommonOverlay() {
-      return this.$store.getters.displayCommonOverlay;
+    overlayState() {
+      return this.$store.getters.overlayState;
     },
   },
   components: {

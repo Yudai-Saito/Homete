@@ -1,5 +1,4 @@
 const state = {
-  displayCommonOverlay: false,
   overlayState: "",
 };
 

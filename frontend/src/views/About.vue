@@ -2,7 +2,7 @@
   <v-app class="artBoard blue-grey lighten-5">
     <Header />
     <v-overlay
-      :value="displayCommonOverlay"
+      :value="overlayState == 'login'"
       :light="true"
       :dark="false"
       :z-index="999"
@@ -178,8 +178,8 @@ import Explanation from "@/components/abouts/Explanation.vue";
 import PrivacyPolicy from "@/components/abouts/PrivacyPolicy.vue";
 import QuestionAnswer from "@/components/abouts/QuestionAnswer.vue";
 import UserPolicy from "@/components/abouts/UserPolicy.vue";
-import CommonOverlay from "@/components/Account/CommonOverlay.vue";
 import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
+import CommonOverlay from "@/components/util/CommonOverlay.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
 import twemoji from "twemoji";
@@ -200,8 +200,8 @@ export default {
     logged() {
       return this.$store.getters.logged;
     },
-    displayCommonOverlay() {
-      return this.$store.getters.displayCommonOverlay;
+    overlayState() {
+      return this.$store.getters.overlayState;
     },
   },
   data() {

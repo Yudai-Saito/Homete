@@ -83,11 +83,11 @@
 
 
 <script>
-import CommonOverlay from "@/components/Account/CommonOverlay.vue";
 import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
 import TimeLine from "@/components/mainContents/TimeLine.vue";
 import RightMenu from "@/components/rightMenu/RightMenu.vue";
 import Alert from "@/components/util/Alert.vue";
+import CommonOverlay from "@/components/util/CommonOverlay.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
 
