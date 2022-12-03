@@ -19,8 +19,8 @@
           <LeftMenu class="SideMenuSticky" />
         </v-col>
         <v-col cols="6">
-          <TimeLine v-if="contentsKey == 'timeline'" :key="contentsKey" />
-          <TimeLine
+          <PostContents v-if="contentsKey == 'timeline'" :key="contentsKey" />
+          <PostContents
             v-if="contentsKey == 'history'"
             :channel="contentsKey"
             :key="contentsKey"
@@ -58,7 +58,7 @@
 <script>
 import Login from "@/components/Account/Login.vue";
 import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
-import TimeLine from "@/components/mainContents/TimeLine.vue";
+import PostContents from "@/components/mainContents/PostContents.vue";
 import RightMenu from "@/components/rightMenu/RightMenu.vue";
 import Alert from "@/components/util/Alert.vue";
 import Footer from "@/components/util/Footer.vue";
@@ -84,7 +84,7 @@ export default {
   components: {
     Login,
     LeftMenu,
-    TimeLine,
+    PostContents,
     RightMenu,
     Alert,
     Footer,
