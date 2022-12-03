@@ -27,8 +27,12 @@
             </template>
             <v-list class="ma-0 pa-0">
               <v-list-item class="ma-0 pa-0">
-                <PostsMenu labelTxt="削除" v-if="this.postList.user_post" />
-                <PostsMenu labelTxt="通報" v-else />
+                <PostsMenu
+                  labelTxt="削除"
+                  :onClick="deletePost"
+                  v-if="this.postList.user_post"
+                />
+                <PostsMenu labelTxt="通報" :onClick="reportPost" v-else />
               </v-list-item>
             </v-list>
           </v-menu>
@@ -461,6 +465,12 @@ export default {
       if (this.displayAddBtn == false) {
         this.displayAddBtn = true;
       }
+    },
+    deletePost() {
+      this.$store.dispatch("visibleDeletePostOverlay");
+    },
+    reportPost() {
+      this.$store.dispatch("visibleReportPostOverlay");
     },
   },
   created() {
