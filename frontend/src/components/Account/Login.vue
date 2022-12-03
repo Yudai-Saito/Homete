@@ -42,6 +42,8 @@
   color: #494854;
   margin-right: 8px;
   margin-left: 8px;
+  text-transform: none;
+  font-weight: 600;
 }
 .loadingTxt {
   font-size: 20px;
