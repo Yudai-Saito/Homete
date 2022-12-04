@@ -2,87 +2,7 @@
   <v-app class="artBoard blue-grey lighten-5">
     <Header />
     <Login />
-    <v-overlay
-      :value="displayDelete"
-      :light="true"
-      :dark="false"
-      :z-index="999"
-    >
-      <v-card
-        width="450px"
-        height="300px"
-        class="mx-auto mt-5 pa-2 rounded-xl"
-        v-cloak
-        v-click-outside="closeDeleteCard"
-      >
-        <div>
-          <v-btn icon plain text class="closeCardBtn" @click="closeDeleteCard">
-            <v-icon color="#23282F">mdi-close</v-icon>
-          </v-btn>
-          <v-card-title
-            style="font-weight: 700 !important"
-            class="justify-center"
-            >アカウント削除</v-card-title
-          >
-          <v-card-text
-            style="
-              margin-top: 10px;
-              padding: 0 !important;
-              text-align: center;
-              font-weight: bold;
-            "
-          >
-            <div style="text-align: left; margin: 0 auto; width: 330px">
-              <div>
-                <input
-                  type="checkbox"
-                  id="check1"
-                  value="check1"
-                  v-model="checked"
-                />
-                <label for="check1">自分の投稿は全て消えてしまいます。</label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="check2"
-                  value="check2"
-                  v-model="checked"
-                />
-                <label for="check2"
-                  >あげたリアクションは全て消えてしまいます。</label
-                >
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="check3"
-                  value="check3"
-                  v-model="checked"
-                />
-                <label for="check3">アカウント情報は復元できません。</label>
-              </div>
-            </div>
-            <p style="margin-top: 20px; margin-bottom: 0 !important">
-              全てにチェックをつけてアカウントを削除する
-            </p>
-          </v-card-text>
-          <v-card-actions class="justify-center">
-            <v-btn
-              large
-              @click="deleteAccount"
-              class="text-transform ma-0 pa-0"
-              color="error"
-              :disabled="btnDisable"
-            >
-              <div style="padding: 0 !important" class="deleteBtnTxt">
-                アカウントを削除する
-              </div>
-            </v-btn>
-          </v-card-actions>
-        </div>
-      </v-card>
-    </v-overlay>
+    <DeleteAccount />
     <div>
       <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
         <v-col cols="3">
@@ -133,7 +53,7 @@
               color="error"
               x-large
               :elevation="3"
-              @click="displayDeleteCard"
+              @click="displayDeleteAccount"
             >
               <div class="btnTxt">
                 <div v-twemoji style="width: 18px; margin-right: 5px">⚠️</div>
@@ -158,16 +78,6 @@
 .contentsFlex {
   width: 100%;
   flex-wrap: nowrap;
-}
-.closeCardBtn {
-  justify-content: center;
-  position: absolute;
-  left: 400px;
-}
-.deleteBtnTxt {
-  color: #ffffff;
-  margin-right: 8px;
-  margin-left: 8px;
 }
 .SideMenuSticky {
   position: sticky;
@@ -221,6 +131,7 @@
 <script>
 import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
 import Login from "@/components/overlays/Login.vue";
+import DeleteAccount from "@/components/overlays/DeleteAccount.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
 import twemoji from "twemoji";
@@ -231,6 +142,7 @@ export default {
   name: "AccountManagement",
   components: {
     Login,
+    DeleteAccount,
     LeftMenu,
     Footer,
     Header,
@@ -239,16 +151,6 @@ export default {
     logged() {
       return this.$store.getters.logged;
     },
-    overlayState() {
-      return this.$store.getters.overlayState;
-    },
-  },
-  data() {
-    return {
-      displayDelete: false,
-      checked: [],
-      btnDisable: true,
-    };
   },
   directives: {
     twemoji: {
@@ -261,27 +163,8 @@ export default {
     },
   },
   methods: {
-    displayDeleteCard() {
-      this.displayDelete = true;
-    },
-    closeDeleteCard() {
-      this.displayDelete = false;
-      this.checked = [];
-    },
-    deleteAccount() {
-      const auth = getAuth();
-
-      auth.signOut().then(() => {
-        axios
-          .delete("/account/delete", {
-            withCredentials: true,
-          })
-          .then(() => {
-            this.$store.dispatch("loggedOut");
-            this.$store.dispatch("toTimeLine");
-            this.$router.push("/");
-          });
-      });
+    displayDeleteAccount() {
+      this.$store.dispatch("visibleDeleteAccountOverlay");
     },
     logout() {
       const auth = getAuth();
@@ -304,17 +187,6 @@ export default {
       this.$store.dispatch("invisiblePostForm");
       this.$store.dispatch("invisibleCommonOverlay");
     };
-  },
-  updated() {
-    if (
-      this.checked.includes("check1") &&
-      this.checked.includes("check2") &&
-      this.checked.includes("check3")
-    ) {
-      this.btnDisable = false;
-    } else {
-      this.btnDisable = true;
-    }
   },
 };
 </script>

@@ -19,6 +19,9 @@ const actions = {
   visibleReportPostOverlay(context) {
     context.commit("updateOverlayState", "reportPost");
   },
+  visibleDeleteAccountOverlay(context) {
+    context.commit("updateOverlayState", "deleteAccount");
+  },
 };
 
 const mutations = {

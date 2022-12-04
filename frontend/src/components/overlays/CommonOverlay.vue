@@ -17,6 +17,39 @@
         <v-icon color="#23282F">mdi-close</v-icon>
       </v-btn>
       <v-card-title class="justify-center">{{ titleTxt }}</v-card-title>
+      <v-card-text v-if="usage == 'deleteAccount'">
+        <div style="text-align: left; margin: 0 auto; width: 330px">
+          <div>
+            <input
+              type="checkbox"
+              id="check1"
+              value="check1"
+              v-model="checked"
+            />
+            <label for="check1">自分の投稿は全て消えてしまいます。</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              id="check2"
+              value="check2"
+              v-model="checked"
+            />
+            <label for="check2"
+              >あげたリアクションは全て消えてしまいます。</label
+            >
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              id="check3"
+              value="check3"
+              v-model="checked"
+            />
+            <label for="check3">アカウント情報は復元できません。</label>
+          </div>
+        </div>
+      </v-card-text>
       <v-card-text>
         <div>{{ firstMsg }}</div>
       </v-card-text>
@@ -26,6 +59,7 @@
           @click="onClick"
           class="text-transform ma-0 pa-0 rounded-lg"
           :color="usage == 'login' ? 'white' : 'red'"
+          :disabled="usage == 'deleteAccount' ? btnDisable : false"
         >
           <img
             v-if="usage == 'login'"
@@ -80,6 +114,12 @@
 <script>
 export default {
   name: "CommonOverlay",
+  data() {
+    return {
+      checked: [],
+      btnDisable: true,
+    };
+  },
   props: [
     "usage",
     "titleTxt",
@@ -91,7 +131,22 @@ export default {
   methods: {
     closeOverlayCard: function () {
       this.$store.dispatch("invisibleCommonOverlay");
+      if (this.usage == "deleteAccount") {
+        this.checked = [];
+      }
     },
+  },
+  updated() {
+    if (
+      this.usage == "deleteAccount" &&
+      this.checked.includes("check1") &&
+      this.checked.includes("check2") &&
+      this.checked.includes("check3")
+    ) {
+      this.btnDisable = false;
+    } else {
+      this.btnDisable = true;
+    }
   },
 };
 </script>
