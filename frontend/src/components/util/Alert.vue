@@ -22,6 +22,15 @@
 
 <script>
 export default {
+  name: "Alert",
+  computed: {
+    alertState() {
+      return this.$store.getters.alertState;
+    },
+    displayAlert() {
+      return this.$store.getters.displayAlert;
+    },
+  },
   data() {
     return {
       //[投稿、ログイン、ログアウト]
@@ -36,14 +45,6 @@ export default {
         logoutSuccess: "ログアウトが完了しました",
       },
     };
-  },
-  computed: {
-    alertState() {
-      return this.$store.getters.alertState;
-    },
-    displayAlert() {
-      return this.$store.getters.displayAlert;
-    },
   },
 };
 </script>

@@ -10,3 +10,9 @@
     <p class="aboutText">規約内容</p>
   </div>
 </template>
+
+<script>
+export default {
+  name: "UserPolicy",
+};
+</script>

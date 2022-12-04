@@ -93,6 +93,15 @@ import Header from "@/components/util/Header.vue";
 
 export default {
   name: "Top",
+  components: {
+    CommonOverlay,
+    LeftMenu,
+    TimeLine,
+    RightMenu,
+    Alert,
+    Footer,
+    Header,
+  },
   computed: {
     displayPostForm() {
       return this.$store.getters.displayPostForm;
@@ -104,14 +113,10 @@ export default {
       return this.$store.getters.overlayState;
     },
   },
-  components: {
-    CommonOverlay,
-    LeftMenu,
-    TimeLine,
-    RightMenu,
-    Alert,
-    Footer,
-    Header,
+  methods: {
+    logIn: function () {
+      this.$router.push("/login");
+    },
   },
   mounted() {
     window.onload = () => {
@@ -119,11 +124,6 @@ export default {
       this.$store.dispatch("invisibleCommonOverlay");
       this.$store.dispatch("toTimeLine");
     };
-  },
-  methods: {
-    logIn: function () {
-      this.$router.push("/login");
-    },
   },
 };
 </script>

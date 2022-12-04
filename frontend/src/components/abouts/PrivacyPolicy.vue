@@ -10,3 +10,9 @@
     <p class="aboutText">内容</p>
   </div>
 </template>
+
+<script>
+export default {
+  name: "PrivacyPolicy",
+};
+</script>

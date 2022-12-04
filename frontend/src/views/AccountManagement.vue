@@ -243,15 +243,11 @@ import axios from "axios";
 
 export default {
   name: "AccountManagement",
-  directives: {
-    twemoji: {
-      inserted(el) {
-        el.innerHTML = twemoji.parse(el.innerHTML, {
-          folder: "svg",
-          ext: ".svg",
-        });
-      },
-    },
+  components: {
+    CommonOverlay,
+    LeftMenu,
+    Footer,
+    Header,
   },
   computed: {
     logged() {
@@ -268,11 +264,15 @@ export default {
       btnDisable: true,
     };
   },
-  components: {
-    CommonOverlay,
-    LeftMenu,
-    Footer,
-    Header,
+  directives: {
+    twemoji: {
+      inserted(el) {
+        el.innerHTML = twemoji.parse(el.innerHTML, {
+          folder: "svg",
+          ext: ".svg",
+        });
+      },
+    },
   },
   methods: {
     displayDeleteCard() {

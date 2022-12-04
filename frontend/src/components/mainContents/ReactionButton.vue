@@ -83,17 +83,6 @@ import twemoji from "twemoji";
 
 export default {
   name: "ReactionButton",
-  //v-twemojiプロパティを追加
-  directives: {
-    twemoji: {
-      inserted(el) {
-        el.innerHTML = twemoji.parse(el.innerHTML, {
-          folder: "svg",
-          ext: ".svg",
-        });
-      },
-    },
-  },
   computed: {
     logged() {
       return this.$store.getters.logged;
@@ -115,6 +104,17 @@ export default {
     "postId",
     "privateFlag",
   ],
+  //v-twemojiプロパティを追加
+  directives: {
+    twemoji: {
+      inserted(el) {
+        el.innerHTML = twemoji.parse(el.innerHTML, {
+          folder: "svg",
+          ext: ".svg",
+        });
+      },
+    },
+  },
   methods: {
     count: function () {
       //カウントダウン

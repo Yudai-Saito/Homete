@@ -375,9 +375,23 @@ import EmojiGroups from "@/emoji/emoji-groups.json";
 import ClickOutside from "vue-click-outside";
 
 export default {
-  name: "DisplayHomete",
-  directives: {
-    ClickOutside,
+  name: "DisplayPosts",
+  components: {
+    PostsMenu,
+    ReactionButton,
+    VueResponsiveText,
+    "twemoji-picker": TwemojiPicker,
+  },
+  computed: {
+    emojiDataAll() {
+      return EmojiAllData;
+    },
+    emojiGroups() {
+      return EmojiGroups;
+    },
+    logged() {
+      return this.$store.getters.logged;
+    },
   },
   data() {
     return {
@@ -396,22 +410,8 @@ export default {
     };
   },
   props: ["postList"],
-  components: {
-    PostsMenu,
-    ReactionButton,
-    VueResponsiveText,
-    "twemoji-picker": TwemojiPicker,
-  },
-  computed: {
-    emojiDataAll() {
-      return EmojiAllData;
-    },
-    emojiGroups() {
-      return EmojiGroups;
-    },
-    logged() {
-      return this.$store.getters.logged;
-    },
+  directives: {
+    ClickOutside,
   },
   methods: {
     emojiAdded(emojiUnicode) {

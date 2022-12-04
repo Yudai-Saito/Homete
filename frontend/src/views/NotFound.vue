@@ -99,15 +99,15 @@ import Header from "@/components/util/Header.vue";
 
 export default {
   name: "NotFound",
-  computed: {
-    overlayState() {
-      return this.$store.getters.overlayState;
-    },
-  },
   components: {
     CommonOverlay,
     Footer,
     Header,
+  },
+  computed: {
+    overlayState() {
+      return this.$store.getters.overlayState;
+    },
   },
   methods: {
     toTopPage: function () {

@@ -79,6 +79,7 @@
 
 <script>
 export default {
+  name: "CommonOverlay",
   props: [
     "usage",
     "titleTxt",

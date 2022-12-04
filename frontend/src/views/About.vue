@@ -185,16 +185,16 @@ import Header from "@/components/util/Header.vue";
 import twemoji from "twemoji";
 
 export default {
-  name: "AccountManagement",
-  directives: {
-    twemoji: {
-      inserted(el) {
-        el.innerHTML = twemoji.parse(el.innerHTML, {
-          folder: "svg",
-          ext: ".svg",
-        });
-      },
-    },
+  name: "About",
+  components: {
+    Explanation,
+    PrivacyPolicy,
+    QuestionAnswer,
+    UserPolicy,
+    CommonOverlay,
+    LeftMenu,
+    Footer,
+    Header,
   },
   computed: {
     logged() {
@@ -214,15 +214,15 @@ export default {
       title: ["使い方", "Q & A", "利用規約", "プライバシー"],
     };
   },
-  components: {
-    Explanation,
-    PrivacyPolicy,
-    QuestionAnswer,
-    UserPolicy,
-    CommonOverlay,
-    LeftMenu,
-    Footer,
-    Header,
+  directives: {
+    twemoji: {
+      inserted(el) {
+        el.innerHTML = twemoji.parse(el.innerHTML, {
+          folder: "svg",
+          ext: ".svg",
+        });
+      },
+    },
   },
   methods: {
     displayDeleteCard() {

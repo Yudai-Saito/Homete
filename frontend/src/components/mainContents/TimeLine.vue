@@ -40,13 +40,13 @@ import axios from "axios";
 
 export default {
   name: "TimeLine",
+  components: {
+    DisplayPosts,
+  },
   data() {
     return {
       posts: [],
     };
-  },
-  components: {
-    DisplayPosts,
   },
   methods: {
     set_posts: function (res) {

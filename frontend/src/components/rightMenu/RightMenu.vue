@@ -19,6 +19,9 @@ import PostForm from "@/components/util/PostForm.vue";
 
 export default {
   name: "RightMenu",
+  components: {
+    PostForm,
+  },
   computed: {
     displayPostForm() {
       return this.$store.getters.displayPostForm;
@@ -26,9 +29,6 @@ export default {
     logged() {
       return this.$store.getters.logged;
     },
-  },
-  components: {
-    PostForm,
   },
   methods: {
     clickPost: function () {

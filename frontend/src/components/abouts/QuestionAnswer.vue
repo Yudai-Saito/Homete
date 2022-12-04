@@ -10,3 +10,9 @@
     <p class="aboutText">Q：質問</p>
   </div>
 </template>
+
+<script>
+export default {
+  name: "QuestionAnswer",
+};
+</script>

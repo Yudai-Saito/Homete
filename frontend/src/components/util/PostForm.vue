@@ -168,6 +168,23 @@ export default {
       private_posts: false,
     };
   },
+  computed: {
+    forms() {
+      const required = (v) => !!v || "";
+      const inputFormat = (v) =>
+        v.length <= 400 || "400文字以下で入力してください!";
+
+      const inputRules = [required, inputFormat];
+
+      return { inputRules };
+    },
+    displayPostForm() {
+      return this.$store.getters.displayPostForm;
+    },
+    logged() {
+      return this.$store.getters.logged;
+    },
+  },
   methods: {
     submit: function () {
       this.loading = true;
@@ -214,23 +231,6 @@ export default {
     },
     alertPostError: function () {
       this.$store.dispatch("alertPostError");
-    },
-  },
-  computed: {
-    forms() {
-      const required = (v) => !!v || "";
-      const inputFormat = (v) =>
-        v.length <= 400 || "400文字以下で入力してください!";
-
-      const inputRules = [required, inputFormat];
-
-      return { inputRules };
-    },
-    displayPostForm() {
-      return this.$store.getters.displayPostForm;
-    },
-    logged() {
-      return this.$store.getters.logged;
     },
   },
 };
