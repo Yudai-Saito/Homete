@@ -1,17 +1,9 @@
 <template>
   <v-app class="artBoard blue-grey lighten-5">
     <Header />
-    <v-overlay :value="displayLogin" :light="true" :dark="false" :z-index="999">
-      <Login />
-    </v-overlay>
-    <v-overlay
-      :value="displayPostForm"
-      :dark="false"
-      :light="true"
-      :z-index="999"
-    >
-      <PostForm />
-    </v-overlay>
+    <Login />
+    <DeletePost />
+    <ReportPost />
     <div>
       <Alert />
       <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
@@ -56,17 +48,29 @@
 
 
 <script>
-import Login from "@/components/Account/Login.vue";
 import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
 import PostContents from "@/components/mainContents/PostContents.vue";
 import RightMenu from "@/components/rightMenu/RightMenu.vue";
+import Login from "@/components/overlays/Login.vue";
+import DeletePost from "@/components/overlays/DeletePost.vue";
+import ReportPost from "@/components/overlays/ReportPost.vue";
 import Alert from "@/components/util/Alert.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
-import PostForm from "@/components/util/PostForm.vue";
 
 export default {
   name: "Top",
+  components: {
+    LeftMenu,
+    PostContents,
+    RightMenu,
+    Login,
+    DeletePost,
+    ReportPost,
+    Alert,
+    Footer,
+    Header,
+  },
   computed: {
     displayPostForm() {
       return this.$store.getters.displayPostForm;
@@ -74,27 +78,22 @@ export default {
     logged() {
       return this.$store.getters.logged;
     },
-    displayLogin() {
-      return this.$store.getters.displayLogin;
+    overlayState() {
+      return this.$store.getters.overlayState;
     },
     contentsKey() {
       return this.$store.getters.contentsKey;
     },
   },
-  components: {
-    Login,
-    LeftMenu,
-    PostContents,
-    RightMenu,
-    Alert,
-    Footer,
-    Header,
-    PostForm,
+  methods: {
+    logIn: function () {
+      this.$router.push("/login");
+    },
   },
   mounted() {
     window.onload = () => {
       this.$store.dispatch("invisiblePostForm");
-      this.$store.dispatch("invisibleLogin");
+      this.$store.dispatch("invisibleCommonOverlay");
       this.$store.dispatch("toTimeLine");
     };
   },

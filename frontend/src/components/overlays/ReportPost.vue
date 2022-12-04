@@ -1,0 +1,35 @@
+<template>
+  <v-overlay
+    :value="overlayState == 'reportPost'"
+    :light="true"
+    :dark="false"
+    :z-index="999"
+  >
+    <CommonOverlay
+      usage="reportPost"
+      titleTxt="注意"
+      firstMsg="この投稿を管理者に通報します。"
+      btnTxt="通報する"
+      :onClick="reportPost"
+    />
+  </v-overlay>
+</template>
+
+<script>
+import CommonOverlay from "@/components/overlays/CommonOverlay.vue";
+
+export default {
+  name: "ReportPost",
+  components: {
+    CommonOverlay,
+  },
+  computed: {
+    overlayState() {
+      return this.$store.getters.overlayState;
+    },
+  },
+  methods: {
+    reportPost: function () {},
+  },
+};
+</script>

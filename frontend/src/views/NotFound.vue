@@ -1,9 +1,7 @@
 <template>
   <div class="artBoard">
     <Header />
-    <v-overlay :value="displayLogin" :light="true" :dark="false" :z-index="999">
-      <Login />
-    </v-overlay>
+    <Login />
     <div class="notFoundTxt">
       <h1>404</h1>
     </div>
@@ -81,21 +79,21 @@
 
 
 <script>
-import Login from "@/components/Account/Login.vue";
+import Login from "@/components/overlays/Login.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
 
 export default {
   name: "NotFound",
-  computed: {
-    displayLogin() {
-      return this.$store.getters.displayLogin;
-    },
-  },
   components: {
     Login,
     Footer,
     Header,
+  },
+  computed: {
+    overlayState() {
+      return this.$store.getters.overlayState;
+    },
   },
   methods: {
     toTopPage: function () {
@@ -104,7 +102,7 @@ export default {
   },
   mounted() {
     window.onload = () => {
-      this.$store.dispatch("toInvisibleLoginWindow");
+      this.$store.dispatch("toInvisibleCommonOverlay");
     };
   },
 };

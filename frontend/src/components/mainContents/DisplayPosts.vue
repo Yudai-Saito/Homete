@@ -27,14 +27,12 @@
             </template>
             <v-list class="ma-0 pa-0">
               <v-list-item class="ma-0 pa-0">
-                <v-btn
-                  style="color: #494854; height: 50px"
-                  depressed
-                  plain
-                  color="#FFFFFF"
-                >
-                  通報
-                </v-btn>
+                <PostsMenu
+                  labelTxt="削除"
+                  :onClick="deletePost"
+                  v-if="this.postList.user_post"
+                />
+                <PostsMenu labelTxt="通報" :onClick="reportPost" v-else />
               </v-list-item>
             </v-list>
           </v-menu>
@@ -58,6 +56,7 @@
               :postReaction="postList.post_reactions"
               :userReaction="postList.user_reaction"
               :postId="postList.post_id"
+              :privateFlag="postList.private"
               v-on:deleteReaction="deleteReactions"
             />
           </div>
@@ -362,6 +361,7 @@
 <script>
 import axios from "axios";
 
+import PostsMenu from "./PostsMenu.vue";
 import ReactionButton from "./ReactionButton.vue";
 import VueResponsiveText from "vue-responsive-text";
 
@@ -375,9 +375,23 @@ import EmojiGroups from "@/emoji/emoji-groups.json";
 import ClickOutside from "vue-click-outside";
 
 export default {
-  name: "DisplayHomete",
-  directives: {
-    ClickOutside,
+  name: "DisplayPosts",
+  components: {
+    PostsMenu,
+    ReactionButton,
+    VueResponsiveText,
+    "twemoji-picker": TwemojiPicker,
+  },
+  computed: {
+    emojiDataAll() {
+      return EmojiAllData;
+    },
+    emojiGroups() {
+      return EmojiGroups;
+    },
+    logged() {
+      return this.$store.getters.logged;
+    },
   },
   data() {
     return {
@@ -396,21 +410,8 @@ export default {
     };
   },
   props: ["postList"],
-  components: {
-    ReactionButton,
-    VueResponsiveText,
-    "twemoji-picker": TwemojiPicker,
-  },
-  computed: {
-    emojiDataAll() {
-      return EmojiAllData;
-    },
-    emojiGroups() {
-      return EmojiGroups;
-    },
-    logged() {
-      return this.$store.getters.logged;
-    },
+  directives: {
+    ClickOutside,
   },
   methods: {
     emojiAdded(emojiUnicode) {
@@ -464,6 +465,12 @@ export default {
       if (this.displayAddBtn == false) {
         this.displayAddBtn = true;
       }
+    },
+    deletePost() {
+      this.$store.dispatch("visibleDeletePostOverlay");
+    },
+    reportPost() {
+      this.$store.dispatch("visibleReportPostOverlay");
     },
   },
   created() {

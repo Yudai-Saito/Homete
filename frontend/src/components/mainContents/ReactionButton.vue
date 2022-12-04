@@ -10,7 +10,7 @@
       :disabled="!logged"
     >
       <div class="btnIcon" v-twemoji>{{ reactionIcon }}</div>
-      <div class="countNum">{{ reactionCount }}</div>
+      <div v-if="!privateFlag" class="countNum">{{ reactionCount }}</div>
     </v-btn>
     <v-btn
       class="grey--text text--darken-3 pushedBtn ma-0 pa-0"
@@ -22,7 +22,7 @@
       :disabled="!logged"
     >
       <div class="btnIcon" v-twemoji>{{ reactionIcon }}</div>
-      <div class="countNum">{{ reactionCount }}</div>
+      <div v-if="!privateFlag" class="countNum">{{ reactionCount }}</div>
     </v-btn>
   </div>
 </template>
@@ -83,17 +83,6 @@ import twemoji from "twemoji";
 
 export default {
   name: "ReactionButton",
-  //v-twemojiプロパティを追加
-  directives: {
-    twemoji: {
-      inserted(el) {
-        el.innerHTML = twemoji.parse(el.innerHTML, {
-          folder: "svg",
-          ext: ".svg",
-        });
-      },
-    },
-  },
   computed: {
     logged() {
       return this.$store.getters.logged;
@@ -113,7 +102,19 @@ export default {
     "postReaction",
     "userReaction",
     "postId",
+    "privateFlag",
   ],
+  //v-twemojiプロパティを追加
+  directives: {
+    twemoji: {
+      inserted(el) {
+        el.innerHTML = twemoji.parse(el.innerHTML, {
+          folder: "svg",
+          ext: ".svg",
+        });
+      },
+    },
+  },
   methods: {
     count: function () {
       //カウントダウン

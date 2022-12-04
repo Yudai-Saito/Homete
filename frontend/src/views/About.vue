@@ -1,9 +1,7 @@
 <template>
   <v-app class="artBoard blue-grey lighten-5">
     <Header />
-    <v-overlay :value="displayLogin" :light="true" :dark="false" :z-index="999">
-      <Login />
-    </v-overlay>
+    <Login />
 
     <div>
       <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
@@ -166,30 +164,30 @@ import Explanation from "@/components/abouts/Explanation.vue";
 import PrivacyPolicy from "@/components/abouts/PrivacyPolicy.vue";
 import QuestionAnswer from "@/components/abouts/QuestionAnswer.vue";
 import UserPolicy from "@/components/abouts/UserPolicy.vue";
-import Login from "@/components/Account/Login.vue";
 import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
+import Login from "@/components/overlays/Login.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
 import twemoji from "twemoji";
 
 export default {
-  name: "AccountManagement",
-  directives: {
-    twemoji: {
-      inserted(el) {
-        el.innerHTML = twemoji.parse(el.innerHTML, {
-          folder: "svg",
-          ext: ".svg",
-        });
-      },
-    },
+  name: "About",
+  components: {
+    Explanation,
+    PrivacyPolicy,
+    QuestionAnswer,
+    UserPolicy,
+    Login,
+    LeftMenu,
+    Footer,
+    Header,
   },
   computed: {
     logged() {
       return this.$store.getters.logged;
     },
-    displayLogin() {
-      return this.$store.getters.displayLogin;
+    overlayState() {
+      return this.$store.getters.overlayState;
     },
   },
   data() {
@@ -202,15 +200,15 @@ export default {
       title: ["使い方", "Q & A", "利用規約", "プライバシー"],
     };
   },
-  components: {
-    Explanation,
-    PrivacyPolicy,
-    QuestionAnswer,
-    UserPolicy,
-    Login,
-    LeftMenu,
-    Footer,
-    Header,
+  directives: {
+    twemoji: {
+      inserted(el) {
+        el.innerHTML = twemoji.parse(el.innerHTML, {
+          folder: "svg",
+          ext: ".svg",
+        });
+      },
+    },
   },
   methods: {
     displayDeleteCard() {
@@ -224,7 +222,7 @@ export default {
   mounted() {
     window.onload = () => {
       this.$store.dispatch("invisiblePostForm");
-      this.$store.dispatch("invisibleLogin");
+      this.$store.dispatch("invisibleCommonOverlay");
     };
   },
 };

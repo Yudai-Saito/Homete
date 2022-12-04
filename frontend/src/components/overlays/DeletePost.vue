@@ -1,0 +1,35 @@
+<template>
+  <v-overlay
+    :value="overlayState == 'deletePost'"
+    :light="true"
+    :dark="false"
+    :z-index="999"
+  >
+    <CommonOverlay
+      usage="deletePost"
+      titleTxt="本当に削除しますか？"
+      firstMsg="この投稿はタイムライン、あなたのヒストリーから削除されます。"
+      btnTxt="削除する"
+      :onClick="deletePost"
+    />
+  </v-overlay>
+</template>
+
+<script>
+import CommonOverlay from "@/components/overlays/CommonOverlay.vue";
+
+export default {
+  name: "DeletePost",
+  components: {
+    CommonOverlay,
+  },
+  computed: {
+    overlayState() {
+      return this.$store.getters.overlayState;
+    },
+  },
+  methods: {
+    deletePost: function () {},
+  },
+};
+</script>

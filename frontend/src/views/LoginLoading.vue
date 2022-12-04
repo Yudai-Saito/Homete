@@ -175,7 +175,7 @@ export default {
             })
             .then(() => {
               this.$store.dispatch("loggedIn");
-              this.$store.dispatch("invisibleLogin");
+              this.$store.dispatch("invisibleCommonOverlay");
               this.isShow = false;
               this.message = "Success!";
               setTimeout(() => {
@@ -184,7 +184,7 @@ export default {
             })
             .catch(() => {
               this.$store.dispatch("loggedOut");
-              this.$store.dispatch("invisibleLogin");
+              this.$store.dispatch("invisibleCommonOverlay");
               this.isShow = false;
               this.isError = true;
               this.message = "Error!";

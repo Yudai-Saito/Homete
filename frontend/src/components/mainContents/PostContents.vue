@@ -40,15 +40,15 @@ import axios from "axios";
 
 export default {
   name: "TimeLine",
+  components: {
+    DisplayPosts,
+  },
   data() {
     return {
       posts: [],
     };
   },
   props: ["channel"],
-  components: {
-    DisplayPosts,
-  },
   methods: {
     set_posts: function (res) {
       var posts = res.data["posts"];

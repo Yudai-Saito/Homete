@@ -10,3 +10,9 @@
     <p class="aboutText">使い方の説明</p>
   </div>
 </template>
+
+<script>
+export default {
+  name: "Explanation",
+};
+</script>
