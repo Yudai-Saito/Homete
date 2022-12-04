@@ -84,9 +84,6 @@ export default {
     contentsKey() {
       return this.$store.getters.contentsKey;
     },
-    contentsKey() {
-      return this.$store.getters.contentsKey;
-    },
   },
   methods: {
     logIn: function () {
