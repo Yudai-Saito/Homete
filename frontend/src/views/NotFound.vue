@@ -1,21 +1,7 @@
 <template>
   <div class="artBoard">
     <Header />
-    <v-overlay
-      :value="overlayState == 'login'"
-      :light="true"
-      :dark="false"
-      :z-index="999"
-    >
-      <CommonOverlay
-        usage="login"
-        titleTxt="HOMETE"
-        firstMsg="ここに適当なサービスの説明とようこそ的な文章"
-        btnTxt="Googleでログイン"
-        descriptionTxt="ここに注意事項的な文章"
-        :onClick="logIn"
-      />
-    </v-overlay>
+    <Login />
     <div class="notFoundTxt">
       <h1>404</h1>
     </div>
@@ -93,14 +79,14 @@
 
 
 <script>
-import CommonOverlay from "@/components/util/CommonOverlay.vue";
+import Login from "@/components/overlays/Login.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
 
 export default {
   name: "NotFound",
   components: {
-    CommonOverlay,
+    Login,
     Footer,
     Header,
   },

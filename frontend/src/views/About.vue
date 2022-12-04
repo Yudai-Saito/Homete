@@ -1,21 +1,7 @@
 <template>
   <v-app class="artBoard blue-grey lighten-5">
     <Header />
-    <v-overlay
-      :value="overlayState == 'login'"
-      :light="true"
-      :dark="false"
-      :z-index="999"
-    >
-      <CommonOverlay
-        usage="login"
-        titleTxt="HOMETE"
-        firstMsg="ここに適当なサービスの説明とようこそ的な文章"
-        btnTxt="Googleでログイン"
-        descriptionTxt="ここに注意事項的な文章"
-        :onClick="logIn"
-      />
-    </v-overlay>
+    <Login />
 
     <div>
       <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
@@ -179,7 +165,7 @@ import PrivacyPolicy from "@/components/abouts/PrivacyPolicy.vue";
 import QuestionAnswer from "@/components/abouts/QuestionAnswer.vue";
 import UserPolicy from "@/components/abouts/UserPolicy.vue";
 import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
-import CommonOverlay from "@/components/util/CommonOverlay.vue";
+import Login from "@/components/overlays/Login.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
 import twemoji from "twemoji";
@@ -191,7 +177,7 @@ export default {
     PrivacyPolicy,
     QuestionAnswer,
     UserPolicy,
-    CommonOverlay,
+    Login,
     LeftMenu,
     Footer,
     Header,
