@@ -21,10 +21,12 @@
       </v-card-title>
       <v-card-text v-if="usage == 'deleteAccount'">
         <div
-          style="text-align: left; margin: 0 auto; width: 330px text-align: left;
+          style="
+            text-align: left;
             margin: 0 auto;
             width: 330px;
-            font-weight: 600;"
+            font-weight: 600;
+          "
         >
           <div>
             <input
@@ -58,7 +60,11 @@
         </div>
       </v-card-text>
       <v-card-text>
-        <div :style="usage == 'deleteAccount' ? 'font-weight:600' : none">
+        <div
+          :style="
+            usage == 'deleteAccount' ? 'font-weight:600' : 'font-weigt:normal'
+          "
+        >
           {{ firstMsg }}
         </div>
       </v-card-text>
