@@ -48,6 +48,7 @@ export default {
       posts: [],
     };
   },
+  props: ["channel"],
   methods: {
     set_posts: function (res) {
       var posts = res.data["posts"];
@@ -80,7 +81,7 @@ export default {
     },
   },
   created() {
-    this.get_posts();
+    this.get_posts({ channel: this.channel });
   },
   mounted() {
     this.observer = new IntersectionObserver((entries) => {
@@ -89,6 +90,7 @@ export default {
         this.get_posts({
           created_at: this.posts[this.posts.length - 1].created_at,
           update: "old",
+          channel: this.channel,
         });
       }
     });

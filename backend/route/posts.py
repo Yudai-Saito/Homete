@@ -76,6 +76,7 @@ def post_get():
 
 		created_at = request.args.get("created_at")
 		update = request.args.get("update")
+		channel = request.args.get("channel")
 
 		filters = []
 		if update == "new":
@@ -84,7 +85,10 @@ def post_get():
 			filters.append(created_at > Posts.created_at)
 		else:
 			filters.append("2000-01-01" < Posts.created_at)
-		
+
+		if channel == "history":
+			filters.append(Posts.user_id == user_id)
+
 		reaction_subquery = db.session.query(Reactions.reaction).filter(Reactions.id == PostReactions.reaction_id).label("post_reactions")
   
 		post_reaction_subquery = db.session.query(PostReactions.post_id, reaction_subquery, func.count(PostReactions.reaction_id).label("reaction_count"))\

@@ -11,7 +11,12 @@
           <LeftMenu class="SideMenuSticky" />
         </v-col>
         <v-col cols="6">
-          <TimeLine />
+          <PostContents v-if="contentsKey == 'timeline'" :key="contentsKey" />
+          <PostContents
+            v-if="contentsKey == 'history'"
+            :channel="contentsKey"
+            :key="contentsKey"
+          />
         </v-col>
         <v-col cols="3">
           <RightMenu class="SideMenuSticky" />
@@ -44,7 +49,7 @@
 
 <script>
 import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
-import TimeLine from "@/components/mainContents/TimeLine.vue";
+import PostContents from "@/components/mainContents/PostContents.vue";
 import RightMenu from "@/components/rightMenu/RightMenu.vue";
 import Login from "@/components/overlays/Login.vue";
 import DeletePost from "@/components/overlays/DeletePost.vue";
@@ -57,7 +62,7 @@ export default {
   name: "Top",
   components: {
     LeftMenu,
-    TimeLine,
+    PostContents,
     RightMenu,
     Login,
     DeletePost,
@@ -75,6 +80,9 @@ export default {
     },
     overlayState() {
       return this.$store.getters.overlayState;
+    },
+    contentsKey() {
+      return this.$store.getters.contentsKey;
     },
   },
   methods: {
