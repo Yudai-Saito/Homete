@@ -16,9 +16,16 @@
       >
         <v-icon color="#23282F">mdi-close</v-icon>
       </v-btn>
-      <v-card-title class="justify-center">{{ titleTxt }}</v-card-title>
+      <v-card-title class="justify-center" style="font-weight: 600">
+        {{ titleTxt }}
+      </v-card-title>
       <v-card-text v-if="usage == 'deleteAccount'">
-        <div style="text-align: left; margin: 0 auto; width: 330px">
+        <div
+          style="text-align: left; margin: 0 auto; width: 330px text-align: left;
+            margin: 0 auto;
+            width: 330px;
+            font-weight: 600;"
+        >
           <div>
             <input
               type="checkbox"
@@ -51,7 +58,9 @@
         </div>
       </v-card-text>
       <v-card-text>
-        <div>{{ firstMsg }}</div>
+        <div :style="usage == 'deleteAccount' ? 'font-weight:600' : none">
+          {{ firstMsg }}
+        </div>
       </v-card-text>
       <v-card-actions class="justify-center">
         <v-btn
