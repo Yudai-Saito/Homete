@@ -7,6 +7,7 @@ import displayAlert from "./modules/displayAlert";
 import displayCommonOverlay from "./modules/displayCommonOverlay";
 import displayPostForm from "./modules/displayPostForm";
 import logged from "./modules/logged";
+import posts from "./modules/posts";
 
 Vue.use(Vuex);
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     displayCommonOverlay,
     displayPostForm,
     logged,
+    posts,
   },
   state: {},
   mutations: {},

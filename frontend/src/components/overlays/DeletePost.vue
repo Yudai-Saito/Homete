@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 import CommonOverlay from "@/components/overlays/CommonOverlay.vue";
 
 export default {
@@ -29,7 +31,19 @@ export default {
     },
   },
   methods: {
-    deletePost: function () {},
+    deletePost: function () {
+      axios
+        .delete("/posts", {
+          params: {
+            post_id: this.$store.getters.deletePostId,
+          },
+          withCredentials: true,
+        })
+        .then(() => {
+          this.$store.commit("updateDeletePostFlag", true);
+          this.$store.dispatch("invisibleCommonOverlay");
+        });
+    },
   },
 };
 </script>

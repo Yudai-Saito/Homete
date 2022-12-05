@@ -43,6 +43,14 @@ export default {
   components: {
     DisplayPosts,
   },
+  computed: {
+    deletePostId: function () {
+      return this.$store.getters.deletePostId;
+    },
+    deletePostFlag: function () {
+      return this.$store.getters.deletePostFlag;
+    },
+  },
   data() {
     return {
       posts: [],
@@ -96,6 +104,24 @@ export default {
     });
     const observe_element = this.$refs.observe_element;
     this.observer.observe(observe_element);
+  },
+  watch: {
+    deletePostFlag(newDeletePostFlag) {
+      if (newDeletePostFlag === true) {
+        // ポスト配列内で、IDがdeletePostIdと一致するものを探し、
+        // その位置を検出する
+        const index = this.posts.findIndex(
+          (post) => post.post_id === this.deletePostId
+        );
+
+        // 存在した場合は、その位置から1つの要素を配列から削除する
+        if (index !== -1) {
+          this.posts.splice(index, 1);
+        }
+
+        this.$store.commit("updateDeletePostFlag", false);
+      }
+    },
   },
 };
 </script>

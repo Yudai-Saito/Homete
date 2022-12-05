@@ -48,21 +48,24 @@ def post_receive():
 @auth_required
 def posts_delete():
 	try:
-		jwt = request.cookies.get("__session")
-		post_id = request.json["post_id"]
+			jwt = request.cookies.get("__session")
+			post_id = request.args.get("post_id")
 
-		user_email = get_email_from_cookie(jwt)
+			user_email = get_email_from_cookie(jwt)
 
-		user_id = db.session.query(User.id).filter(User.email == user_email).first()[0]
+			user = db.session.query(User).filter(User.email == user_email).first()
 
-		delete_posts = db.session.query(Posts).filter(Posts.id == post_id, Posts.user_id == user_id, Posts.deleted_at == None).first()
-		delete_posts.deleted_at = datetime.datetime.now()
-		db.session.commit()
+			db.session.query(PostReactions).filter(PostReactions.post_id == post_id, PostReactions.user_id == user.id).delete()
 
-		return jsonify({"status": "success"}), 200
+			post = db.session.query(Posts).filter(Posts.id == post_id, Posts.user_id == user.id, Posts.deleted_at == None).first()
+			post.deleted_at = datetime.datetime.now()
+
+			db.session.commit()
+
+			return jsonify({"status": "success"}), 200
 	except:
-		app.logger.error(format_exc())
-		return jsonify({"status": "error"}), 400
+			app.logger.error(format_exc())
+			return jsonify({"status": "error"}), 400
 
 @posts.route("", methods=["GET"])
 def post_get():
