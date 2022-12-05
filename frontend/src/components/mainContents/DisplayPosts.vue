@@ -467,7 +467,7 @@ export default {
       }
     },
     deletePost() {
-      this.$store.commit("updateDeletePostId", this.postList.post_id);
+      this.$store.commit("setDeletePostId", this.postList.post_id);
       this.$store.dispatch("visibleDeletePostOverlay");
     },
     reportPost() {
