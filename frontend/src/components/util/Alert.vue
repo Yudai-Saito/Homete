@@ -1,6 +1,6 @@
 <template>
   <div style="display: flex; justify-content: center">
-    <v-expand-transition>
+    <v-slide-y-reverse-transition>
       <v-alert
         v-show="displayAlert"
         :color="alertColor[alertState]"
@@ -9,7 +9,7 @@
       >
         {{ alertText[alertState] }}
       </v-alert>
-    </v-expand-transition>
+    </v-slide-y-reverse-transition>
   </div>
 </template>
 
@@ -42,7 +42,7 @@ export default {
         postSuccess: "primary",
         deletePost: "red accent-2",
         login: "green lighten-2",
-        logout: "red accent-2",
+        logout: "green lighten-2",
         deleteAccount: "red accent-2",
         reportSuccess: "primary",
       },
