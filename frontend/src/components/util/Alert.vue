@@ -1,22 +1,25 @@
 <template>
-  <v-expand-transition>
-    <v-alert
-      v-show="displayAlert"
-      :color="alertColor[alertState]"
-      text
-      type="success"
-      class="alertSucess"
-    >
-      {{ alertText[alertState] }}
-    </v-alert>
-  </v-expand-transition>
+  <div style="display: flex; justify-content: center">
+    <v-expand-transition>
+      <v-alert
+        v-show="displayAlert"
+        :color="alertColor[alertState]"
+        :type="alertState == 'error' ? 'error' : 'success'"
+        id="alertPosition"
+      >
+        {{ alertText[alertState] }}
+      </v-alert>
+    </v-expand-transition>
+  </div>
 </template>
 
 <style>
-.alertSucess {
-  width: 90%;
-  margin-right: auto;
-  margin-left: auto;
+#alertPosition {
+  position: fixed;
+  bottom: 40px;
+  z-index: 999999;
+  margin: 0;
+  border-radius: 20px;
 }
 </style>
 
@@ -33,16 +36,24 @@ export default {
   },
   data() {
     return {
-      //[投稿、ログイン、ログアウト]
+      //[投稿完了、投稿削除、ログイン、ログアウト、アカウント削除、通報完了]
       alertColor: {
-        primary: "primary",
-        greenLighten2: "green lighten-2",
-        redAccent2: "red accent-2",
+        error: "red accent-2",
+        postSuccess: "primary",
+        deletePost: "red accent-2",
+        welcomeBack: "green lighten-2",
+        seeYouAgain: "red accent-2",
+        deleteAccount: "red accent-2",
+        reportSuccess: "primary",
       },
       alertText: {
+        error: "通信に失敗しました。時間をおいてもう一度お願いします。",
         postSuccess: "投稿しました!",
+        deletePost: "投稿を削除しました",
         welcomeBack: "おかえりなさい",
-        logoutSuccess: "ログアウトが完了しました",
+        seeYouAgain: "またのご利用をお待ちしています",
+        deleteAccount: "アカウントを削除しました",
+        reportSuccess: "通報しました",
       },
     };
   },

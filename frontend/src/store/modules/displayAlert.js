@@ -9,29 +9,50 @@ const getters = {
 };
 
 const actions = {
-  alertPostSuccess(context) {
-    context.commit("updateAlertState", "primary");
+  alertError(context) {
+    context.commit("updateAlertState", "error");
     context.commit("updateAlert", true);
     setTimeout(() => {
       context.commit("updateAlert", false);
     }, 3000);
   },
-  alertPostError(context) {
-    context.commit("updateAlertState", "redAccent2");
+  alertPostSuccess(context) {
+    context.commit("updateAlertState", "postSuccess");
+    context.commit("updateAlert", true);
+    setTimeout(() => {
+      context.commit("updateAlert", false);
+    }, 3000);
+  },
+  alertDeletePost(context) {
+    context.commit("updateAlertState", "deletePost");
     context.commit("updateAlert", true);
     setTimeout(() => {
       context.commit("updateAlert", false);
     }, 3000);
   },
   alertLogin(context) {
-    context.commit("updateAlertState", "greenLighten2");
+    context.commit("updateAlertState", "welcomeBack");
     context.commit("updateAlert", true);
     setTimeout(() => {
       context.commit("updateAlert", false);
     }, 3000);
   },
   alertLogout(context) {
-    context.commit("updateAlertState", "redAccent2");
+    context.commit("updateAlertState", "seeYouAgain");
+    context.commit("updateAlert", true);
+    setTimeout(() => {
+      context.commit("updateAlert", false);
+    }, 3000);
+  },
+  alertDeleteAccount(context) {
+    context.commit("updateAlertState", "deleteAccount");
+    context.commit("updateAlert", true);
+    setTimeout(() => {
+      context.commit("updateAlert", false);
+    }, 3000);
+  },
+  alertReportSuccess(context) {
+    context.commit("updateAlertState", "reportSuccess");
     context.commit("updateAlert", true);
     setTimeout(() => {
       context.commit("updateAlert", false);
