@@ -205,10 +205,10 @@ export default {
 
           //スマホ用に投稿用コンポーネントの非表示
           this.$store.dispatch("invisiblePostForm");
-          //this.alertPostSuccess();
+          this.$store.dispatch("alertPostSuccess");
         })
         .catch(() => {
-          //this.alertPostError();
+          this.$store.dispatch("alertError");
         });
       this.loading = false;
       this.formTxt = "";
@@ -224,13 +224,6 @@ export default {
       this.formTxt = "";
       this.detectInput = false;
       this.$store.dispatch("invisiblePostForm");
-    },
-    alertPostSuccess: function () {
-      //dispatchで表示アラート設定していない？
-      this.$store.dispatch("alertPostSuccess");
-    },
-    alertPostError: function () {
-      this.$store.dispatch("alertPostError");
     },
   },
 };

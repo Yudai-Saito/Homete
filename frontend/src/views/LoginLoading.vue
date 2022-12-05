@@ -204,7 +204,11 @@ export default {
   },
   updated() {
     if (this.logged && !this.isError) {
+      this.$store.commit("updateAlertState", "login");
       this.$router.push("/");
+      setTimeout(() => {
+        this.$store.dispatch("alertLogin");
+      }, 500);
     } else if (!this.logged && !this.isError) {
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
@@ -216,7 +220,11 @@ export default {
       signInWithRedirect(auth, provider);
     } else {
       setTimeout(() => {
+        this.$store.commit("updateAlertState", "error");
         this.$router.push("/");
+        setTimeout(() => {
+          this.$store.dispatch("alertError");
+        }, 500);
       }, 2500);
     }
   },

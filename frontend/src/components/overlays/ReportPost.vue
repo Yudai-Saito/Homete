@@ -29,7 +29,10 @@ export default {
     },
   },
   methods: {
-    reportPost: function () {},
+    reportPost: function () {
+      this.$store.dispatch("invisibleCommonOverlay");
+      this.$store.dispatch("alertReportSuccess");
+    },
   },
 };
 </script>

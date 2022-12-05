@@ -31,14 +31,14 @@ const actions = {
     }, 3000);
   },
   alertLogin(context) {
-    context.commit("updateAlertState", "welcomeBack");
+    context.commit("updateAlertState", "login");
     context.commit("updateAlert", true);
     setTimeout(() => {
       context.commit("updateAlert", false);
     }, 3000);
   },
   alertLogout(context) {
-    context.commit("updateAlertState", "seeYouAgain");
+    context.commit("updateAlertState", "logout");
     context.commit("updateAlert", true);
     setTimeout(() => {
       context.commit("updateAlert", false);

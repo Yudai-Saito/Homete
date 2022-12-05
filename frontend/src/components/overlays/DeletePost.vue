@@ -42,6 +42,7 @@ export default {
         .then(() => {
           this.$store.commit("updateDeletePostFlag", true);
           this.$store.dispatch("invisibleCommonOverlay");
+          this.$store.dispatch("alertDeletePost");
         });
     },
   },
