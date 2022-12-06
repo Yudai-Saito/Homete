@@ -1,15 +1,13 @@
 <template>
   <div style="display: flex; justify-content: center">
     <v-alert
-      :transition="
-        alertState == 'newPost'
-          ? 'slide-y-transition'
-          : 'slide-y-reverse-transition'
-      "
+      :transition="alertTransition"
       v-show="displayAlert"
       :color="alertColor[alertState]"
       :type="alertState == 'error' ? 'error' : 'success'"
-      id="alertPosition"
+      id="alertShape"
+      :style="alertPosition"
+      @click="onClick"
     >
       {{ alertText[alertState] }}
     </v-alert>
@@ -17,10 +15,9 @@
 </template>
 
 <style>
-#alertPosition {
+#alertShape {
   position: fixed;
-  bottom: 40px;
-  z-index: 999999;
+  z-index: 999;
   margin: 0;
   border-radius: 20px;
 }
@@ -28,15 +25,7 @@
 
 <script>
 export default {
-  name: "Alert",
-  computed: {
-    alertState() {
-      return this.$store.getters.alertState;
-    },
-    displayAlert() {
-      return this.$store.getters.displayAlert;
-    },
-  },
+  name: "CommonAlert",
   data() {
     return {
       //[投稿完了、投稿削除、ログイン、ログアウト、アカウント削除、通報完了]
@@ -61,6 +50,14 @@ export default {
         reportSuccess: "通報しました",
       },
     };
+  },
+  props: ["alertTransition", "alertState", "displayAlert", "alertPosition"],
+  methods: {
+    onClick: function () {
+      if (this.alertState == "newPost") {
+        this.$store.commit("updateTopAlert", false);
+      }
+    },
   },
 };
 </script>

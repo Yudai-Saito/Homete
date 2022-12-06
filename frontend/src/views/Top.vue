@@ -5,7 +5,8 @@
     <DeletePost />
     <ReportPost />
     <div>
-      <Alert />
+      <TopAlert />
+      <BottomAlert />
       <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
         <v-col cols="3">
           <LeftMenu class="SideMenuSticky" />
@@ -54,7 +55,8 @@ import RightMenu from "@/components/rightMenu/RightMenu.vue";
 import Login from "@/components/overlays/Login.vue";
 import DeletePost from "@/components/overlays/DeletePost.vue";
 import ReportPost from "@/components/overlays/ReportPost.vue";
-import Alert from "@/components/util/Alert.vue";
+import TopAlert from "@/components/util/TopAlert.vue/";
+import BottomAlert from "@/components/util/BottomAlert.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
 
@@ -67,7 +69,8 @@ export default {
     Login,
     DeletePost,
     ReportPost,
-    Alert,
+    TopAlert,
+    BottomAlert,
     Footer,
     Header,
   },
@@ -95,7 +98,8 @@ export default {
       this.$store.dispatch("invisiblePostForm");
       this.$store.dispatch("invisibleCommonOverlay");
       this.$store.dispatch("toTimeLine");
-      this.$store.commit("updateAlert", false);
+      this.$store.commit("updateTopAlert", false);
+      this.$store.commit("updateBottomAlert", false);
     };
   },
 };

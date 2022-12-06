@@ -1,91 +1,103 @@
 const state = {
-  alertState: "",
-  displayAlert: false,
+  topAlertState: "",
+  bottomAlertState: "",
+  displayTopAlert: false,
+  displayBottomAlert: false,
 };
 
 const getters = {
-  alertState: (state) => state.alertState,
-  displayAlert: (state) => state.displayAlert,
+  topAlertState: (state) => state.topAlertState,
+  bottomAlertState: (state) => state.bottomAlertState,
+  displayTopAlert: (state) => state.displayTopAlert,
+  displayBottomAlert: (state) => state.displayBottomAlert,
 };
 
 const actions = {
   alertNewPost(context) {
-    context.commit("updateAlertState", "newPost");
+    context.commit("setTopAlertState", "newPost");
     setTimeout(() => {
-      context.commit("updateAlert", true);
+      context.commit("updateTopAlert", true);
     }, 1);
   },
+
+  //以下BottomAlert用
   alertError(context) {
-    context.commit("updateAlertState", "error");
+    context.commit("setBottomAlertState", "error");
     setTimeout(() => {
-      context.commit("updateAlert", true);
+      context.commit("updateBottomAlert", true);
     }, 1);
     setTimeout(() => {
-      context.commit("updateAlert", false);
+      context.commit("updateBottomAlert", false);
     }, 3000);
   },
   alertPostSuccess(context) {
-    context.commit("updateAlertState", "postSuccess");
+    context.commit("setBottomAlertState", "postSuccess");
     setTimeout(() => {
-      context.commit("updateAlert", true);
+      context.commit("updateBottomAlert", true);
     }, 1);
     setTimeout(() => {
-      context.commit("updateAlert", false);
+      context.commit("updateBottomAlert", false);
     }, 3000);
   },
   alertDeletePost(context) {
-    context.commit("updateAlertState", "deletePost");
+    context.commit("setBottomAlertState", "deletePost");
     setTimeout(() => {
-      context.commit("updateAlert", true);
+      context.commit("updateBottomAlert", true);
     }, 1);
     setTimeout(() => {
-      context.commit("updateAlert", false);
+      context.commit("updateBottomAlert", false);
     }, 3000);
   },
   alertLogin(context) {
-    context.commit("updateAlertState", "login");
+    context.commit("setBottomAlertState", "login");
     setTimeout(() => {
-      context.commit("updateAlert", true);
+      context.commit("updateBottomAlert", true);
     }, 1);
     setTimeout(() => {
-      context.commit("updateAlert", false);
+      context.commit("updateBottomAlert", false);
     }, 3000);
   },
   alertLogout(context) {
-    context.commit("updateAlertState", "logout");
+    context.commit("setBottomAlertState", "logout");
     setTimeout(() => {
-      context.commit("updateAlert", true);
+      context.commit("updateBottomAlert", true);
     }, 1);
     setTimeout(() => {
-      context.commit("updateAlert", false);
+      context.commit("updateBottomAlert", false);
     }, 3000);
   },
   alertDeleteAccount(context) {
-    context.commit("updateAlertState", "deleteAccount");
+    context.commit("setBottomAlertState", "deleteAccount");
     setTimeout(() => {
-      context.commit("updateAlert", true);
+      context.commit("updateBottomAlert", true);
     }, 1);
     setTimeout(() => {
-      context.commit("updateAlert", false);
+      context.commit("updateBottomAlert", false);
     }, 3000);
   },
   alertReportSuccess(context) {
-    context.commit("updateAlertState", "reportSuccess");
+    context.commit("setBottomAlertState", "reportSuccess");
     setTimeout(() => {
-      context.commit("updateAlert", true);
+      context.commit("updateBottomAlert", true);
     }, 1);
     setTimeout(() => {
-      context.commit("updateAlert", false);
+      context.commit("updateBottomAlert", false);
     }, 3000);
   },
 };
 
 const mutations = {
-  updateAlertState(state, num) {
-    state.alertState = num;
+  setTopAlertState(state, str) {
+    state.topAlertState = str;
   },
-  updateAlert(state, bool) {
-    state.displayAlert = bool;
+  setBottomAlertState(state, str) {
+    state.bottomAlertState = str;
+  },
+  updateTopAlert(state, bool) {
+    state.displayTopAlert = bool;
+  },
+  updateBottomAlert(state, bool) {
+    state.displayBottomAlert = bool;
   },
 };
 
