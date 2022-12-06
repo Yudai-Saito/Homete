@@ -9,51 +9,71 @@ const getters = {
 };
 
 const actions = {
+  alertNewPost(context) {
+    context.commit("updateAlertState", "newPost");
+    setTimeout(() => {
+      context.commit("updateAlert", true);
+    }, 1);
+  },
   alertError(context) {
     context.commit("updateAlertState", "error");
-    context.commit("updateAlert", true);
+    setTimeout(() => {
+      context.commit("updateAlert", true);
+    }, 1);
     setTimeout(() => {
       context.commit("updateAlert", false);
     }, 3000);
   },
   alertPostSuccess(context) {
     context.commit("updateAlertState", "postSuccess");
-    context.commit("updateAlert", true);
+    setTimeout(() => {
+      context.commit("updateAlert", true);
+    }, 1);
     setTimeout(() => {
       context.commit("updateAlert", false);
     }, 3000);
   },
   alertDeletePost(context) {
     context.commit("updateAlertState", "deletePost");
-    context.commit("updateAlert", true);
+    setTimeout(() => {
+      context.commit("updateAlert", true);
+    }, 1);
     setTimeout(() => {
       context.commit("updateAlert", false);
     }, 3000);
   },
   alertLogin(context) {
     context.commit("updateAlertState", "login");
-    context.commit("updateAlert", true);
+    setTimeout(() => {
+      context.commit("updateAlert", true);
+    }, 1);
     setTimeout(() => {
       context.commit("updateAlert", false);
     }, 3000);
   },
   alertLogout(context) {
     context.commit("updateAlertState", "logout");
-    context.commit("updateAlert", true);
+    setTimeout(() => {
+      context.commit("updateAlert", true);
+    }, 1);
     setTimeout(() => {
       context.commit("updateAlert", false);
     }, 3000);
   },
   alertDeleteAccount(context) {
     context.commit("updateAlertState", "deleteAccount");
-    context.commit("updateAlert", true);
+    setTimeout(() => {
+      context.commit("updateAlert", true);
+    }, 1);
     setTimeout(() => {
       context.commit("updateAlert", false);
     }, 3000);
   },
   alertReportSuccess(context) {
     context.commit("updateAlertState", "reportSuccess");
-    context.commit("updateAlert", true);
+    setTimeout(() => {
+      context.commit("updateAlert", true);
+    }, 1);
     setTimeout(() => {
       context.commit("updateAlert", false);
     }, 3000);
