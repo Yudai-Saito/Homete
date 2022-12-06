@@ -13,6 +13,10 @@ const getters = {
 };
 
 const actions = {
+  invisibleAlert(context) {
+    context.commit("updateTopAlert", false);
+    context.commit("updateBottomAlert", false);
+  },
   alertNewPost(context) {
     context.commit("setTopAlertState", "newPost");
     setTimeout(() => {

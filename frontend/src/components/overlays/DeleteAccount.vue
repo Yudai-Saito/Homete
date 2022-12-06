@@ -43,6 +43,7 @@ export default {
           .then(() => {
             this.$store.dispatch("loggedOut");
             this.$store.dispatch("toTimeLine");
+            this.$store.dispatch("invisibleAlert");
             this.$store.commit("updateAlertState", "deleteAccount");
             this.$router.push("/");
             setTimeout(() => {

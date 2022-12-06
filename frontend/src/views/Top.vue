@@ -97,9 +97,8 @@ export default {
     window.onload = () => {
       this.$store.dispatch("invisiblePostForm");
       this.$store.dispatch("invisibleCommonOverlay");
+      this.$store.dispatch("invisibleAlert");
       this.$store.dispatch("toTimeLine");
-      this.$store.commit("updateTopAlert", false);
-      this.$store.commit("updateBottomAlert", false);
     };
   },
 };

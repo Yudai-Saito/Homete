@@ -20,7 +20,7 @@
   height: 40px;
   width: 248px;
   border-radius: 50px;
-  z-index: 10000;
+  z-index: 900;
   background-color: transparent;
 }
 </style>
