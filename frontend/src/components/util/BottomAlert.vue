@@ -3,7 +3,7 @@
     :alertTransition="'slide-y-reverse-transition'"
     :alertState="bottomAlertState"
     :displayAlert="displayBottomAlert"
-    :alertPosition="'bottom: 40px'"
+    :alertPosition="'position:fixed;bottom: 40px'"
   />
 </template>
 
