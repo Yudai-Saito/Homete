@@ -7,7 +7,6 @@
       :type="alertState == 'error' ? 'error' : 'success'"
       id="alertShape"
       :style="alertPosition"
-      @click="onClick"
     >
       {{ alertText[alertState] }}
     </v-alert>
@@ -16,8 +15,7 @@
 
 <style>
 #alertShape {
-  position: fixed;
-  z-index: 999;
+  z-index: auto;
   margin: 0;
   border-radius: 20px;
 }
@@ -52,12 +50,5 @@ export default {
     };
   },
   props: ["alertTransition", "alertState", "displayAlert", "alertPosition"],
-  methods: {
-    onClick: function () {
-      if (this.alertState == "newPost") {
-        this.$store.commit("updateTopAlert", false);
-      }
-    },
-  },
 };
 </script>
