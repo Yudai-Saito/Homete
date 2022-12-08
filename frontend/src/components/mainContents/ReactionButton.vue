@@ -1,7 +1,8 @@
 <template>
-  <div class="ma-0 pa-0 reactionBtnDiv">
+  <div id="reactionBtnDiv" class="ma-0 pa-0">
     <v-btn
-      class="grey--text text--darken-3 reactionBtn ma-0 pa-0"
+      id="reactionBtn"
+      class="grey--text text--darken-3 ma-0 pa-0"
       @click="count"
       elevation="0"
       small
@@ -9,11 +10,12 @@
       v-if="!reactionFlag"
       :disabled="!logged"
     >
-      <div class="btnIcon" v-twemoji>{{ reactionIcon }}</div>
-      <div v-if="!privateFlag" class="countNum">{{ reactionCount }}</div>
+      <div id="btnIcon" v-twemoji>{{ reactionIcon }}</div>
+      <div v-if="!privateFlag" id="countNum">{{ reactionCount }}</div>
     </v-btn>
     <v-btn
-      class="grey--text text--darken-3 pushedBtn ma-0 pa-0"
+      id="pushedBtn"
+      class="grey--text text--darken-3 ma-0 pa-0"
       @click="count"
       elevation="0"
       small
@@ -21,49 +23,48 @@
       v-else
       :disabled="!logged"
     >
-      <div class="btnIcon" v-twemoji>{{ reactionIcon }}</div>
-      <div v-if="!privateFlag" class="countNum">{{ reactionCount }}</div>
+      <div id="btnIcon" v-twemoji>{{ reactionIcon }}</div>
+      <div v-if="!privateFlag" id="countNum">{{ reactionCount }}</div>
     </v-btn>
   </div>
 </template>
+
 <style>
-.reactionBtnDiv {
+#reactionBtnDiv {
   display: flex;
   justify-content: center;
 }
-.reactionBtn {
+#reactionBtn {
   background-color: rgba(207, 216, 220, 0.5);
   gap: 0;
-  height: 24px !important;
   width: 45px !important;
   min-width: 0 !important;
   border: solid rgba(0, 0, 0, 0.1) 1px !important;
 }
-.reactionBtn.v-btn--outlined {
+#reactionBtn.v-btn--outlined {
   border: thin solid transparent;
 }
-.pushedBtn {
+#pushedBtn {
   background-color: rgba(112, 119, 218, 0.5);
-  height: 24px !important;
   width: 45px !important;
   min-width: 0 !important;
   border: solid rgba(0, 0, 0, 0.1) 1px !important;
 }
-.pushedBtn.v-btn--outlined {
+#pushedBtn.v-btn--outlined {
   border: thin solid rgb(112, 119, 218);
 }
-.btnIcon {
+#btnIcon {
   margin: 5px;
   padding: 0;
   width: 16px;
   height: 16px;
   font-size: 2px;
 }
-.btnIcon img.emoji {
+#btnIcon img.emoji {
   margin: 0;
   padding: 0;
 }
-.countNum {
+#countNum {
   display: flex;
   flex-flow: column;
   margin: 0;

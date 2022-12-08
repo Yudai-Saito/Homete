@@ -3,7 +3,8 @@
     :loading="loading"
     :disabled="loading"
     outlined
-    class="formTxtCard rounded-xl"
+    id="formTxtCard"
+    class="rounded-xl"
   >
     <template slot="progress">
       <v-progress-linear
@@ -13,7 +14,7 @@
       ></v-progress-linear>
     </template>
 
-    <v-form class="formArea" v-model="isValid" ref="forms">
+    <v-form id="formArea" v-model="isValid" ref="forms">
       <v-textarea
         label="なにを褒めてもらう？"
         solo
@@ -25,20 +26,21 @@
         :rules="forms.inputRules"
       ></v-textarea>
       <v-divider class="mx-4"></v-divider>
-      <label class="ECM_CheckboxInput"
+      <label id="ECM_CheckboxInput"
         ><input
-          class="ECM_CheckboxInput-Input"
+          id="ECM_CheckboxInput-Input"
           type="checkbox"
           value="true"
           v-model="private_posts"
-        /><span class="ECM_CheckboxInput-DummyInput"></span
-        ><span class="ECM_CheckboxInput-LabelText"
+        /><span id="ECM_CheckboxInput-DummyInput"></span
+        ><span id="ECM_CheckboxInput-LabelText"
           >リアクションを見せない</span
         ></label
       >
       <v-card-actions>
         <v-btn
-          class="postBtn ml-auto mt-auto mb-1 mr-1"
+          id="postBtn"
+          class="ml-auto mt-auto mb-1 mr-1"
           :disabled="!isValid || loading"
           @click="submit"
           elevation="0"
@@ -53,7 +55,7 @@
   </v-card>
 </template>
 <style>
-.formTxtCard {
+#formTxtCard {
   display: flex;
   width: 100%;
   margin: auto 12px;
@@ -61,7 +63,7 @@
   overflow: hidden;
   border: solid rgba(0, 0, 0, 0.25) 1px !important;
 }
-.formArea {
+#formArea {
   margin: auto 0;
   padding: 0;
   height: 100%;
@@ -85,42 +87,42 @@
   padding: 0 !important;
   height: 40vh !important;
 }
-.postBtn {
+#postBtn {
   width: 60% !important;
   border-radius: 20px !important;
   font-size: 18px !important;
   border: solid rgba(0, 0, 0, 0.1) 1px !important;
 }
-.postBtn span {
+#postBtn span {
   color: #494854 0.75;
 }
 
 /* 以下チェックボックスのスタイル */
-.ECM_CheckboxInput {
+#ECM_CheckboxInput {
   padding: 8px;
   padding-bottom: 0;
   display: flex;
   align-items: center;
   cursor: pointer;
 }
-.ECM_CheckboxInput-Input {
+#ECM_CheckboxInput-Input {
   margin: 0;
   width: 0;
   opacity: 0;
 }
-.ECM_CheckboxInput:hover > .ECM_CheckboxInput-DummyInput {
+#ECM_CheckboxInput:hover > #ECM_CheckboxInput-DummyInput {
   background: #dddddd !important;
   border: solid 1px rgba(0, 0, 0, 0.5);
 }
-.ECM_CheckboxInput-Input:focus + .ECM_CheckboxInput-DummyInput {
+#ECM_CheckboxInput-Input:focus + #ECM_CheckboxInput-DummyInput {
   background: #dddddd !important;
   border: solid 1px rgba(0, 0, 0, 0.5);
 }
-.ECM_CheckboxInput-Input:checked + .ECM_CheckboxInput-DummyInput {
+#ECM_CheckboxInput-Input:checked + #ECM_CheckboxInput-DummyInput {
   border: solid 1px rgba(0, 0, 0, 0.25);
   background: #ffffff;
 }
-.ECM_CheckboxInput-Input:checked + .ECM_CheckboxInput-DummyInput::before {
+#ECM_CheckboxInput-Input:checked + #ECM_CheckboxInput-DummyInput::before {
   content: "";
   display: block;
   position: absolute;
@@ -132,7 +134,7 @@
     no-repeat center;
   background-size: contain;
 }
-.ECM_CheckboxInput-DummyInput {
+#ECM_CheckboxInput-DummyInput {
   position: relative;
   top: 0;
   left: 0;
@@ -145,7 +147,7 @@
   background: #ffffff;
   border-radius: 4px;
 }
-.ECM_CheckboxInput-LabelText {
+#ECM_CheckboxInput-LabelText {
   margin-left: 4px;
   display: block;
   font-size: 10px;

@@ -1,19 +1,19 @@
 <template>
   <v-container fluid>
-    <v-card class="hometeCard rounded-xl" :elevation="3">
-      <v-row class="cardTitle">
-        <div class="circle">
+    <v-card id="postsCard" class="rounded-xl" :elevation="3">
+      <v-row id="cardTitle">
+        <div id="circle">
           <v-avatar size="50">
             <svg v-html="this.avatorSvg"></svg>
           </v-avatar>
         </div>
-        <div class="nameTxt mt-auto">
+        <div id="nameTxt" class="mt-auto">
           <VueResponsiveText>
             {{ userName }}
           </VueResponsiveText>
         </div>
-        <div class="timeTxt mt-auto">{{ postTime }}</div>
-        <div class="cardMenu">
+        <div id="timeTxt" class="mt-auto">{{ postTime }}</div>
+        <div id="cardMenu">
           <v-menu
             top
             offset-y
@@ -40,16 +40,13 @@
       </v-row>
       <v-divider />
       <v-card-text
-        class="cardMainText black--text break-line"
+        id="cardMainText"
+        class="black--text break-line"
         v-text="homete"
       ></v-card-text>
-      <div class="btns">
-        <v-card-actions class="reactionBtns" v-click-outside="closePicker">
-          <div
-            class="reactionsDiv"
-            v-for="reaction in reactions"
-            :key="reaction"
-          >
+      <div id="btns">
+        <v-card-actions id="reactionBtns" v-click-outside="closePicker">
+          <div id="reactionsDiv" v-for="reaction in reactions" :key="reaction">
             <ReactionButton
               :default_reactions="default_reactions"
               :reactionIcon="reaction"
@@ -61,7 +58,8 @@
             />
           </div>
           <v-btn
-            class="grey--text text--darken-3 addReactionBtn pa-0"
+            id="addReactionBtn"
+            class="grey--text text--darken-3 pa-0"
             v-if="displayAddBtn"
             @click="displayEmojiPicker"
             elevation="0"
@@ -249,11 +247,11 @@
   .emoji-popover-inner {
   height: 100% !important;
 }
-.hometeCard {
+
+#postsCard {
   margin: 0;
   width: 100%;
-  min-width: 520px;
-  max-width: 520px;
+  max-width: 550px;
   margin-left: auto;
   margin-right: auto;
   padding: 20px;
@@ -261,30 +259,29 @@
   z-index: auto !important;
   border: solid rgba(0, 0, 0, 0.25) 1px !important;
 }
-.hometeCard * {
+#postsCard * {
   z-index: 99;
 }
-.btns {
+#btns {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
 }
-.reactionBtns {
+#reactionBtns {
   margin: 0;
   padding: 0;
   flex-wrap: wrap;
-  max-width: 450px;
   z-index: auto;
 }
-.reactionsDiv {
+#reactionsDiv {
   margin-bottom: 10px;
   margin-right: 10px;
   z-index: auto;
 }
-.reactionsDiv * {
+#reactionsDiv * {
   z-index: auto;
 }
-.addReactionBtn {
+#addReactionBtn {
   background-color: rgba(144, 152, 156, 0.5);
   overflow: hidden;
   height: 24px !important;
@@ -294,14 +291,14 @@
   margin-bottom: auto;
   border: solid rgba(0, 0, 0, 0.1) 1px !important;
 }
-.addReactionBtn * {
+#addReactionBtn * {
   z-index: auto;
 }
 
-.addReactionBtn.v-btn--outlined {
+#addReactionBtn.v-btn--outlined {
   border: thin solid transparent;
 }
-.cardTitle {
+#cardTitle {
   margin: 0;
   padding: 0;
   padding-left: 12px;
@@ -309,7 +306,7 @@
   padding-bottom: 8px;
   z-index: auto;
 }
-.circle {
+#circle {
   width: 50px;
   height: 50px;
   background: #cfd8dc;
@@ -320,11 +317,10 @@
   display: flex;
   justify-content: flex-end;
 }
-.circle * {
+#circle * {
   z-index: auto;
 }
-.nameTxt {
-  max-width: 280px;
+#nameTxt {
   font-size: 22px;
   font-weight: 600;
   margin: 0;
@@ -332,7 +328,7 @@
   margin-left: 10px;
   z-index: auto;
 }
-.timeTxt {
+#timeTxt {
   color: #6b7280;
   font-size: 14px;
   margin: 0;
@@ -341,16 +337,16 @@
   margin-left: 15px;
   z-index: auto;
 }
-.cardMenu {
+#cardMenu {
   margin: 0;
   padding: 0;
   margin-left: auto;
   z-index: auto;
 }
-.cardMenu * {
+#cardMenu * {
   z-index: auto;
 }
-.cardMainText {
+#cardMainText {
   font-size: 16px;
   line-height: 26px;
   padding-top: 8px;

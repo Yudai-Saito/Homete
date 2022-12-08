@@ -1,5 +1,5 @@
 <template>
-  <v-col class="mainContents virtualScrollBar" cols="12">
+  <v-col id="postContents" class="virtualScrollBar supportBreakPoint" cols="12">
     <div>
       <DisplayPosts
         v-for="post in posts"
@@ -12,14 +12,12 @@
 </template>
 
 <style>
-.mainContents {
+#postContents {
   margin: 0 auto !important;
   margin-top: 10vh !important;
   margin-bottom: 30px !important;
   padding: 0;
-  width: 550px;
-  min-width: 550px;
-  max-width: 550px;
+  width: 100%;
 }
 .virtualScrollBar {
   overflow: auto;
