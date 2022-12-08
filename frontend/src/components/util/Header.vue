@@ -1,17 +1,19 @@
 <template>
   <v-app-bar
-    class="header"
+    id="header"
     style="border-bottom: solid #00000080 1px"
     color="#BABDBE"
     fixed
     elevation="0"
   >
     <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
-      <v-col class="text-h5 font-weight-bold title" cols="3"> homete… </v-col>
-      <v-col class="contentTitle" cols="6">
+      <v-col id="title" class="text-h5 font-weight-bold" cols="3">
+        homete…
+      </v-col>
+      <v-col id="contentTitle" cols="6" lg="5">
         {{ contentName }}
       </v-col>
-      <v-col class="headerBtn" cols="3">
+      <v-col id="headerBtn" cols="3">
         <v-btn color="#CFD8DC" rounded @click="account" v-if="logged">
           <v-icon color="#494854">mdi-account-cog</v-icon>
           <div>アカウント</div>
@@ -26,17 +28,17 @@
 </template>
 
 <style>
-.header div {
+#header div {
   padding: 0 !important;
 }
-.title {
+#title {
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
   color: #494854;
 }
-.contentTitle {
+#contentTitle {
   margin: 0;
   padding: 0;
   width: 550px;
@@ -46,13 +48,13 @@
   font-weight: 900;
   color: #494854;
 }
-.headerBtn {
+#headerBtn {
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
 }
-.headerBtn button {
+#headerBtn button {
   border: solid rgba(0, 0, 0, 0.25) 1px !important;
 }
 </style>

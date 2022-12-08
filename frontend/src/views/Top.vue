@@ -8,10 +8,10 @@
       <TopAlert />
       <BottomAlert />
       <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
-        <v-col cols="3">
+        <v-col cols="3" class="d-none d-md-block">
           <LeftMenu class="SideMenuSticky" />
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12" md="6" lg="5">
           <PostContents v-if="contentsKey == 'timeline'" :key="contentsKey" />
           <PostContents
             v-if="contentsKey == 'history'"
@@ -19,7 +19,7 @@
             :key="contentsKey"
           />
         </v-col>
-        <v-col cols="3">
+        <v-col cols="3" class="d-none d-md-block">
           <RightMenu class="SideMenuSticky" />
         </v-col>
       </v-row>
@@ -44,6 +44,7 @@
   flex-wrap: nowrap;
   margin: 0;
   padding: 0;
+  justify-content: center;
 }
 </style>
 
