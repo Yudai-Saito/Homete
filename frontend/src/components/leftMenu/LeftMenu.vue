@@ -50,6 +50,7 @@
   margin: auto 36px;
   gap: 40px;
   width: 100%;
+  align-items: center;
 }
 .leftMenuFlex button {
   border: solid rgba(0, 0, 0, 0.25) 1px !important;

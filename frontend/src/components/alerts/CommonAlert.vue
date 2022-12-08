@@ -15,7 +15,7 @@
 
 <style>
 #alertShape {
-  z-index: auto;
+  z-index: 999999;
   margin: 0;
   border-radius: 20px;
 }
