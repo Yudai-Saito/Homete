@@ -1,50 +1,107 @@
 const state = {
-  alertState: "",
-  displayAlert: false,
+  topAlertState: "",
+  bottomAlertState: "",
+  displayTopAlert: false,
+  displayBottomAlert: false,
 };
 
 const getters = {
-  alertState: (state) => state.alertState,
-  displayAlert: (state) => state.displayAlert,
+  topAlertState: (state) => state.topAlertState,
+  bottomAlertState: (state) => state.bottomAlertState,
+  displayTopAlert: (state) => state.displayTopAlert,
+  displayBottomAlert: (state) => state.displayBottomAlert,
 };
 
 const actions = {
-  alertPostSuccess(context) {
-    context.commit("updateAlertState", "primary");
-    context.commit("updateAlert", true);
+  invisibleAlert(context) {
+    context.commit("updateTopAlert", false);
+    context.commit("updateBottomAlert", false);
+  },
+  alertNewPost(context) {
+    context.commit("setTopAlertState", "newPost");
     setTimeout(() => {
-      context.commit("updateAlert", false);
+      context.commit("updateTopAlert", true);
+    }, 1);
+  },
+
+  //以下BottomAlert用
+  alertError(context) {
+    context.commit("setBottomAlertState", "error");
+    setTimeout(() => {
+      context.commit("updateBottomAlert", true);
+    }, 1);
+    setTimeout(() => {
+      context.commit("updateBottomAlert", false);
     }, 3000);
   },
-  alertPostError(context) {
-    context.commit("updateAlertState", "redAccent2");
-    context.commit("updateAlert", true);
+  alertPostSuccess(context) {
+    context.commit("setBottomAlertState", "postSuccess");
     setTimeout(() => {
-      context.commit("updateAlert", false);
+      context.commit("updateBottomAlert", true);
+    }, 1);
+    setTimeout(() => {
+      context.commit("updateBottomAlert", false);
+    }, 3000);
+  },
+  alertDeletePost(context) {
+    context.commit("setBottomAlertState", "deletePost");
+    setTimeout(() => {
+      context.commit("updateBottomAlert", true);
+    }, 1);
+    setTimeout(() => {
+      context.commit("updateBottomAlert", false);
     }, 3000);
   },
   alertLogin(context) {
-    context.commit("updateAlertState", "greenLighten2");
-    context.commit("updateAlert", true);
+    context.commit("setBottomAlertState", "login");
     setTimeout(() => {
-      context.commit("updateAlert", false);
+      context.commit("updateBottomAlert", true);
+    }, 1);
+    setTimeout(() => {
+      context.commit("updateBottomAlert", false);
     }, 3000);
   },
   alertLogout(context) {
-    context.commit("updateAlertState", "redAccent2");
-    context.commit("updateAlert", true);
+    context.commit("setBottomAlertState", "logout");
     setTimeout(() => {
-      context.commit("updateAlert", false);
+      context.commit("updateBottomAlert", true);
+    }, 1);
+    setTimeout(() => {
+      context.commit("updateBottomAlert", false);
+    }, 3000);
+  },
+  alertDeleteAccount(context) {
+    context.commit("setBottomAlertState", "deleteAccount");
+    setTimeout(() => {
+      context.commit("updateBottomAlert", true);
+    }, 1);
+    setTimeout(() => {
+      context.commit("updateBottomAlert", false);
+    }, 3000);
+  },
+  alertReportSuccess(context) {
+    context.commit("setBottomAlertState", "reportSuccess");
+    setTimeout(() => {
+      context.commit("updateBottomAlert", true);
+    }, 1);
+    setTimeout(() => {
+      context.commit("updateBottomAlert", false);
     }, 3000);
   },
 };
 
 const mutations = {
-  updateAlertState(state, num) {
-    state.alertState = num;
+  setTopAlertState(state, str) {
+    state.topAlertState = str;
   },
-  updateAlert(state, bool) {
-    state.displayAlert = bool;
+  setBottomAlertState(state, str) {
+    state.bottomAlertState = str;
+  },
+  updateTopAlert(state, bool) {
+    state.displayTopAlert = bool;
+  },
+  updateBottomAlert(state, bool) {
+    state.displayBottomAlert = bool;
   },
 };
 

@@ -174,8 +174,10 @@ export default {
               withCredentials: true,
             })
             .then(() => {
+              this.$store.commit("updateAlertState", "login");
               this.$store.dispatch("loggedIn");
               this.$store.dispatch("invisibleCommonOverlay");
+              this.$store.dispatch("invisibleAlert");
               this.isShow = false;
               this.message = "Success!";
               setTimeout(() => {
@@ -183,8 +185,10 @@ export default {
               }, 50);
             })
             .catch(() => {
+              this.$store.commit("updateAlertState", "error");
               this.$store.dispatch("loggedOut");
               this.$store.dispatch("invisibleCommonOverlay");
+              this.$store.dispatch("invisibleAlert");
               this.isShow = false;
               this.isError = true;
               this.message = "Error!";
@@ -205,6 +209,9 @@ export default {
   updated() {
     if (this.logged && !this.isError) {
       this.$router.push("/");
+      setTimeout(() => {
+        this.$store.dispatch("alertLogin");
+      }, 500);
     } else if (!this.logged && !this.isError) {
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
@@ -217,6 +224,9 @@ export default {
     } else {
       setTimeout(() => {
         this.$router.push("/");
+        setTimeout(() => {
+          this.$store.dispatch("alertError");
+        }, 500);
       }, 2500);
     }
   },

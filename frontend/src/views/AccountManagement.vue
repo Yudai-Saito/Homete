@@ -177,7 +177,11 @@ export default {
           .then(() => {
             this.$store.dispatch("loggedOut");
             this.$store.dispatch("toTimeLine");
+            this.$store.commit("updateAlertState", "logout");
             this.$router.push("/");
+            setTimeout(() => {
+              this.$store.dispatch("alertLogout");
+            }, 500);
           });
       });
     },
