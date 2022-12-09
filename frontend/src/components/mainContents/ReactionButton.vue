@@ -29,7 +29,41 @@
   </div>
 </template>
 
-<style>
+<style lang="scss">
+@media (min-width: map-get($grid-breakpoints, sm)) {
+  // sm 以上のブレークポイントでのスタイル定義
+  #reactionBtn {
+    width: 45px !important;
+  }
+  #pushedBtn {
+    width: 45px !important;
+  }
+  #btnIcon {
+    width: 16px;
+    height: 16px;
+  }
+  #countNum {
+    font-size: 14px;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  // sm 以下のブレークポイントでのスタイル定義
+  #reactionBtn {
+    width: 35px !important;
+    height: 20px;
+  }
+  #pushedBtn {
+    width: 35px !important;
+    height: 20px;
+  }
+  #btnIcon {
+    width: 13px;
+    height: 13px;
+  }
+  #countNum {
+    font-size: 12px;
+  }
+}
 #reactionBtnDiv {
   display: flex;
   justify-content: center;
@@ -37,7 +71,6 @@
 #reactionBtn {
   background-color: rgba(207, 216, 220, 0.5);
   gap: 0;
-  width: 45px !important;
   min-width: 0 !important;
   border: solid rgba(0, 0, 0, 0.1) 1px !important;
 }
@@ -56,8 +89,6 @@
 #btnIcon {
   margin: 5px;
   padding: 0;
-  width: 16px;
-  height: 16px;
   font-size: 2px;
 }
 #btnIcon img.emoji {
@@ -73,7 +104,6 @@
   height: 20px;
   text-align: center;
   justify-content: center;
-  font-size: 14px;
 }
 </style>
 

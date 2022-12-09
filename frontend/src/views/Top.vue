@@ -8,10 +8,10 @@
       <TopAlert />
       <BottomAlert />
       <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
-        <v-col cols="3" class="d-none d-md-block">
+        <v-col cols="3" class="d-none d-sm-block">
           <LeftMenu class="SideMenuSticky" />
         </v-col>
-        <v-col cols="12" md="6" lg="5">
+        <v-col cols="12" sm="9" md="6" lg="5">
           <PostContents v-if="contentsKey == 'timeline'" :key="contentsKey" />
           <PostContents
             v-if="contentsKey == 'history'"
@@ -28,6 +28,9 @@
   </v-app>
 </template>
 <style>
+body {
+  padding: 0;
+}
 .artBoard {
   width: 100%;
   height: 100%;

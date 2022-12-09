@@ -1,5 +1,5 @@
 <template>
-  <v-col class="leftMenu" cols="12">
+  <v-col id="leftMenu" cols="12">
     <div class="leftMenuFlex">
       <LeftMenuButton
         usage="toTimeLine"
@@ -12,7 +12,8 @@
         btnIcon="mdi-history"
       />
       <v-btn
-        class="aboutBtn ma-0 pa-0"
+        id="aboutBtn"
+        class="ma-0 pa-0"
         color="#CFD8DC"
         rounded
         x-large
@@ -24,8 +25,20 @@
     </div>
   </v-col>
 </template>
-<style>
-.aboutBtn {
+<style lang="scss">
+@media (min-width: map-get($grid-breakpoints, md)) {
+  // md 以上のブレークポイントでのスタイル定義
+  #aboutBtn {
+    font-size: 12px !important;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, md)) {
+  // md 以下のブレークポイントでのスタイル定義
+  #aboutBtn {
+    font-size: 10px !important;
+  }
+}
+#aboutBtn {
   position: absolute;
   bottom: 50px;
   height: 30px !important;
@@ -34,9 +47,8 @@
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
-  font-size: 12px !important;
 }
-.leftMenu {
+#leftMenu {
   display: flex;
   height: 100vh;
   min-height: 100vh;

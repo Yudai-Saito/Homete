@@ -3,16 +3,16 @@
     <v-card id="postsCard" class="rounded-xl" :elevation="3">
       <v-row id="cardTitle">
         <div id="circle">
-          <v-avatar size="50">
+          <v-avatar id="avater">
             <svg v-html="this.avatorSvg"></svg>
           </v-avatar>
         </div>
-        <div id="nameTxt" class="mt-auto">
+        <div id="nameTxt">
           <VueResponsiveText>
             {{ userName }}
           </VueResponsiveText>
         </div>
-        <div id="timeTxt" class="mt-auto">{{ postTime }}</div>
+        <div id="timeTxt">{{ postTime }}</div>
         <div id="cardMenu">
           <v-menu
             top
@@ -22,7 +22,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-btn style="bottom: 10px" icon plain v-bind="attrs" v-on="on">
-                <v-icon>mdi-dots-horizontal</v-icon>
+                <v-icon>smi-dots-horizontal</v-icon>
               </v-btn>
             </template>
             <v-list class="ma-0 pa-0">
@@ -100,7 +100,83 @@
     </v-card>
   </v-container>
 </template>
-<style>
+<style lang="scss">
+@media (min-width: map-get($grid-breakpoints, sm)) {
+  // sm 以上のブレークポイントでのスタイル定義
+  #addReactionBtn {
+    height: 28px !important;
+    width: 28px;
+    min-width: 28px !important;
+  }
+  #cardMainText {
+    font-size: 16px;
+    padding-top: 8px;
+  }
+  #cardTitle {
+    padding-left: 12px;
+    padding-bottom: 8px;
+  }
+  #circle {
+    height: 50px;
+    width: 50px;
+  }
+  #avater {
+    height: 50px !important;
+    width: 50px !important;
+    min-width: 50px !important;
+  }
+  #postsCard {
+    padding: 20px;
+  }
+  #nameTxt {
+    font-size: 22px;
+    margin-top: 10px;
+  }
+  #timeTxt {
+    font-size: 14px;
+    margin-top: 20px;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  // sm 以下のブレークポイントでのスタイル定義
+  #addReactionBtn {
+    height: 20px !important;
+    width: 20px;
+    min-width: 20px !important;
+  }
+  #addReactionBtn span div i {
+    font-size: 20px !important;
+  }
+  #cardMainText {
+    font-size: 14px;
+    padding: 8px;
+  }
+  #cardTitle {
+    padding-left: 0px;
+    padding-bottom: 0px;
+  }
+  #circle {
+    height: 30px;
+    width: 30px;
+  }
+  #avater {
+    height: 30px !important;
+    width: 30px !important;
+    min-width: 30px !important;
+  }
+  #postsCard {
+    padding: 12px;
+  }
+  #nameTxt {
+    font-size: 16px;
+    margin-top: 5px;
+  }
+  #timeTxt {
+    font-size: 10px;
+    margin-top: 10px;
+  }
+}
+
 @keyframes fadein {
   from {
     opacity: 0;
@@ -254,7 +330,6 @@
   max-width: 550px;
   margin-left: auto;
   margin-right: auto;
-  padding: 20px;
   padding-bottom: 10px;
   z-index: auto !important;
   border: solid rgba(0, 0, 0, 0.25) 1px !important;
@@ -284,9 +359,6 @@
 #addReactionBtn {
   background-color: rgba(144, 152, 156, 0.5);
   overflow: hidden;
-  height: 24px !important;
-  width: 24px;
-  min-width: 24px !important;
   z-index: auto;
   margin-bottom: auto;
   border: solid rgba(0, 0, 0, 0.1) 1px !important;
@@ -301,14 +373,10 @@
 #cardTitle {
   margin: 0;
   padding: 0;
-  padding-left: 12px;
   justify-content: baseline;
-  padding-bottom: 8px;
   z-index: auto;
 }
 #circle {
-  width: 50px;
-  height: 50px;
   background: #cfd8dc;
   border-radius: 50%;
   overflow: hidden;
@@ -321,21 +389,18 @@
   z-index: auto;
 }
 #nameTxt {
-  font-size: 22px;
   font-weight: 600;
-  margin: 0;
   padding: 0;
   margin-left: 10px;
   z-index: auto;
+  position: relative;
 }
 #timeTxt {
   color: #6b7280;
-  font-size: 14px;
-  margin: 0;
   padding: 0;
-  margin-bottom: 4px;
   margin-left: 15px;
   z-index: auto;
+  position: relative;
 }
 #cardMenu {
   margin: 0;
@@ -347,9 +412,7 @@
   z-index: auto;
 }
 #cardMainText {
-  font-size: 16px;
   line-height: 26px;
-  padding-top: 8px;
   z-index: auto;
 }
 </style>

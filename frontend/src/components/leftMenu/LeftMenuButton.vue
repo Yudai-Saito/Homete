@@ -13,7 +13,16 @@
   </v-btn>
 </template>
 
-<style>
+<style lang="scss">
+@media (max-width: map-get($grid-breakpoints, md)) {
+  // md 以下のブレークポイントでのスタイル定義
+  #leftMenuBtn {
+    font-size: 12px;
+  }
+  #leftMenuBtn span div i {
+    font-size: 22px !important;
+  }
+}
 #leftMenuBtn {
   width: 100%;
 }
