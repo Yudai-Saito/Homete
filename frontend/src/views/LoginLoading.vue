@@ -143,6 +143,8 @@ import {
   getIdToken,
 } from "firebase/auth";
 
+import ws from "@/ws-client";
+
 import axios from "axios";
 
 export default {
@@ -178,20 +180,26 @@ export default {
               this.$store.dispatch("loggedIn");
               this.$store.dispatch("invisibleCommonOverlay");
               this.$store.dispatch("invisibleAlert");
+
               this.isShow = false;
               this.message = "Success!";
+
               setTimeout(() => {
                 this.isShow = true;
               }, 50);
+
+              ws.ws_connect();
             })
             .catch(() => {
               this.$store.commit("updateAlertState", "error");
               this.$store.dispatch("loggedOut");
               this.$store.dispatch("invisibleCommonOverlay");
               this.$store.dispatch("invisibleAlert");
+
               this.isShow = false;
               this.isError = true;
               this.message = "Error!";
+
               setTimeout(() => {
                 this.isShow = true;
               }, 50);
