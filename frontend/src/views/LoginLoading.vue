@@ -143,6 +143,8 @@ import {
   getIdToken,
 } from "firebase/auth";
 
+import ws from "@/ws-client";
+
 import axios from "axios";
 
 export default {
@@ -176,18 +178,25 @@ export default {
             .then(() => {
               this.$store.dispatch("loggedIn");
               this.$store.dispatch("invisibleCommonOverlay");
+
               this.isShow = false;
               this.message = "Success!";
+
               setTimeout(() => {
                 this.isShow = true;
               }, 50);
+
+              ws.ws_connect();
             })
-            .catch(() => {
+            .catch((errro) => {
+              console.log(errro);
               this.$store.dispatch("loggedOut");
               this.$store.dispatch("invisibleCommonOverlay");
+
               this.isShow = false;
               this.isError = true;
               this.message = "Error!";
+
               setTimeout(() => {
                 this.isShow = true;
               }, 50);
