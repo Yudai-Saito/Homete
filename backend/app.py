@@ -5,14 +5,16 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from flask_socketio import SocketIO
 
 from firebase_admin import credentials, initialize_app
 
 app = Flask(__name__)
-app.config['JSON_AS_ASCII'] = False
+app.config["JSON_AS_ASCII"] = False
+app.config["SECRET_KEY"] = environ["SECRET_KEY"]
 
 #CORSに対応
-CORS(app,supports_credentials=True)
+CORS(app, supports_credentials=True)
 
 #接続先DBMS
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://{}:{}@mysql/{}?charset=utf8mb4"\
