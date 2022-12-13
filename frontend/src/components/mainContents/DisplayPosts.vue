@@ -197,6 +197,10 @@
     font-size: 10px;
     margin-top: 10px;
   }
+  #btns {
+    width: 75%;
+    margin: 0 auto;
+  }
 }
 
 @keyframes fadein {
