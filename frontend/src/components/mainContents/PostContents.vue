@@ -15,7 +15,7 @@
 #postContents {
   margin: 0 auto !important;
   margin-top: 10vh !important;
-  margin-bottom: 30px !important;
+  margin-bottom: 8vh !important;
   padding: 0;
   width: 100%;
 }
