@@ -22,7 +22,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-btn style="bottom: 10px" icon plain v-bind="attrs" v-on="on">
-                <v-icon>smi-dots-horizontal</v-icon>
+                <v-icon>mdi-dots-horizontal</v-icon>
               </v-btn>
             </template>
             <v-list class="ma-0 pa-0">
@@ -38,7 +38,7 @@
           </v-menu>
         </div>
       </v-row>
-      <v-divider />
+      <v-divider id="divider" />
       <v-card-text
         id="cardMainText"
         class="black--text break-line"
@@ -108,9 +108,15 @@
     width: 28px;
     min-width: 28px !important;
   }
+  #divider {
+    margin: 0 auto;
+  }
   #cardMainText {
     font-size: 16px;
     padding-top: 8px;
+    margin: 0 auto;
+    padding-left: 0px;
+    padding-right: 0px;
   }
   #cardTitle {
     padding-left: 12px;
@@ -127,6 +133,7 @@
   }
   #postsCard {
     padding: 20px;
+    max-width: 550px;
   }
   #nameTxt {
     font-size: 22px;
@@ -147,9 +154,15 @@
   #addReactionBtn span div i {
     font-size: 20px !important;
   }
+  #divider {
+    margin: 0 auto;
+  }
   #cardMainText {
     font-size: 14px;
     padding: 8px;
+    margin: 0 auto;
+    padding-left: 0px;
+    padding-right: 0px;
   }
   #cardTitle {
     padding-left: 0px;
@@ -166,6 +179,7 @@
   }
   #postsCard {
     padding: 12px;
+    max-width: 350px;
   }
   #nameTxt {
     font-size: 16px;
@@ -327,7 +341,6 @@
 #postsCard {
   margin: 0;
   width: 100%;
-  max-width: 550px;
   margin-left: auto;
   margin-right: auto;
   padding-bottom: 10px;
@@ -411,7 +424,11 @@
 #cardMenu * {
   z-index: auto;
 }
+#divider {
+  width: 75%;
+}
 #cardMainText {
+  width: 75%;
   line-height: 26px;
   z-index: auto;
 }
