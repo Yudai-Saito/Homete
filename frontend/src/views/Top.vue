@@ -142,6 +142,8 @@ body {
 
 
 <script>
+import Header from "@/components/util/Header.vue";
+import Footer from "@/components/footer/Footer.vue";
 import TopAlert from "@/components/alerts/TopAlert.vue/";
 import BottomAlert from "@/components/alerts/BottomAlert.vue";
 import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
@@ -150,8 +152,6 @@ import RightMenu from "@/components/rightMenu/RightMenu.vue";
 import Login from "@/components/overlays/Login.vue";
 import DeletePost from "@/components/overlays/DeletePost.vue";
 import ReportPost from "@/components/overlays/ReportPost.vue";
-import Footer from "@/components/util/Footer.vue";
-import Header from "@/components/util/Header.vue";
 import PostForm from "@/components/util/PostForm.vue";
 
 export default {

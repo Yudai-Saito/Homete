@@ -129,11 +129,11 @@
 
 
 <script>
+import Header from "@/components/util/Header.vue";
+import Footer from "@/components/footer/Footer.vue";
 import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
 import Login from "@/components/overlays/Login.vue";
 import DeleteAccount from "@/components/overlays/DeleteAccount.vue";
-import Footer from "@/components/util/Footer.vue";
-import Header from "@/components/util/Header.vue";
 import twemoji from "twemoji";
 import { getAuth } from "firebase/auth";
 import axios from "axios";

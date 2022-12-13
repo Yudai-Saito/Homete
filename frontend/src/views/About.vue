@@ -160,14 +160,14 @@
 
 
 <script>
+import Header from "@/components/util/Header.vue";
+import Footer from "@/components/footer/Footer.vue";
+import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
+import Login from "@/components/overlays/Login.vue";
 import Explanation from "@/components/abouts/Explanation.vue";
 import PrivacyPolicy from "@/components/abouts/PrivacyPolicy.vue";
 import QuestionAnswer from "@/components/abouts/QuestionAnswer.vue";
 import UserPolicy from "@/components/abouts/UserPolicy.vue";
-import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
-import Login from "@/components/overlays/Login.vue";
-import Footer from "@/components/util/Footer.vue";
-import Header from "@/components/util/Header.vue";
 import twemoji from "twemoji";
 
 export default {
