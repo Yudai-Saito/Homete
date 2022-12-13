@@ -89,7 +89,7 @@
   border-radius: 5px;
   border: solid #494854 1px;
   top: 5px;
-  left: 5px;
+  left: 5vw;
 }
 
 /*ボタン内側*/
