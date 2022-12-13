@@ -3,6 +3,8 @@ import { io } from "socket.io-client";
 function ws_connect() {
   const socket = io(process.env.VUE_APP_API_ENDPOINT, {
     withCredentials: true,
+    transports: ["websocket"],
+    cookie: true,
   });
 
   socket.on("connect", () => {
@@ -14,7 +16,8 @@ function ws_connect() {
     console.log(error);
   });
 
-  socket.on("hello", (data) => {
+  socket.on("new_posts", (data) => {
+    // TODO - ここでupdate_postsに追加していく
     console.log(data);
   });
 }
