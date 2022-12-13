@@ -5,11 +5,11 @@
 
     <div>
       <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
-        <v-col cols="3">
+        <v-col cols="3" class="d-none d-sm-block">
           <LeftMenu class="SideMenuSticky" />
         </v-col>
 
-        <v-col class="mainContents" cols="6">
+        <v-col cols="12" sm="9" md="6" lg="5">
           <v-slide-group
             id="flexSlide"
             v-model="currentDisplay"
@@ -62,13 +62,31 @@
             <PrivacyPolicy v-if="currentDisplay == 3" />
           </v-fade-transition>
         </v-col>
-        <v-col class="SideMenuSticky rightMenu" cols="3"></v-col>
+        <v-col cols="3" class="d-none d-md-block"> </v-col>
       </v-row>
     </div>
     <Footer />
   </v-app>
 </template>
-<style>
+
+<style lang="scss">
+@media (min-width: map-get($grid-breakpoints, sm)) {
+  // sm 以上のブレークポイントでのスタイル定義
+}
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  // sm 以下のブレークポイントでのスタイル定義
+  #flexSlide .v-slide-group__prev,
+  #flexSlide .v-slide-group__next {
+    display: none;
+  }
+  #flexSlide .v-slide-group__wrapper .v-slide-group__content div div {
+    transform: scale(0.75);
+    margin: 0;
+  }
+}
+body {
+  padding: 0;
+}
 .artBoard {
   width: 100%;
   height: 100%;
@@ -79,44 +97,22 @@
   width: 100%;
   flex-wrap: nowrap;
 }
-.closeCardBtn {
-  justify-content: center;
-  position: absolute;
-  left: 400px;
-}
-.deleteaboutGroupTitle {
-  color: #ffffff;
-  margin-right: 8px;
-  margin-left: 8px;
-}
 .SideMenuSticky {
   position: sticky;
   top: 0;
   flex-wrap: nowrap;
-}
-.mainContents {
-  margin: 0;
-  margin-top: 47px;
-  margin-bottom: 20px;
-  padding: 0;
-  width: 550px;
-  min-width: 550px;
-  max-width: 550px;
-}
-.rightMenu {
-  display: flex;
-  height: 100vh;
-  min-height: 100vh;
-  max-height: 100vh;
   margin: 0;
   padding: 0;
+  justify-content: center;
 }
+
 .aboutContainer {
   width: 100%;
   height: 30%;
   text-align: center;
   background-color: #ffffff;
   border-radius: 30px;
+  margin-bottom: 8vh;
 }
 .aboutTitleTxt {
   margin-top: 10px;
@@ -131,6 +127,9 @@
   margin: 0 15px;
   display: flex;
   justify-content: center;
+}
+#flexSlide {
+  margin-top: 10vh;
 }
 #flexSlide .v-slide-group__wrapper .v-slide-group__content {
   justify-content: center;
@@ -218,12 +217,6 @@ export default {
       this.displayDelete = false;
       this.checked = [];
     },
-  },
-  mounted() {
-    window.onload = () => {
-      this.$store.dispatch("invisiblePostForm");
-      this.$store.dispatch("invisibleCommonOverlay");
-    };
   },
 };
 </script>

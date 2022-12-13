@@ -45,18 +45,17 @@
   text-align: center;
   z-index: 0;
   margin-top: 100px;
-  min-width: 520px;
   max-width: 520px;
   margin-left: auto;
   margin-right: auto;
 }
 .notFoundCard {
   margin-bottom: auto;
+  padding: 10px;
 }
 .hometeCard {
   margin: 0;
   width: 100%;
-  min-width: 520px;
   max-width: 520px;
   margin-left: auto;
   margin-right: auto;
@@ -99,11 +98,6 @@ export default {
     toTopPage: function () {
       this.$router.push("/");
     },
-  },
-  mounted() {
-    window.onload = () => {
-      this.$store.dispatch("toInvisibleCommonOverlay");
-    };
   },
 };
 </script>

@@ -5,10 +5,10 @@
     <DeleteAccount />
     <div>
       <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
-        <v-col cols="3">
+        <v-col cols="3" class="d-none d-sm-block">
           <LeftMenu class="SideMenuSticky" />
         </v-col>
-        <v-col class="mainContents" cols="6">
+        <v-col cols="12" sm="9" md="6" lg="5">
           <div class="settingContainer">
             <div class="btnTxt">
               <div
@@ -62,13 +62,16 @@
             </v-btn>
           </div>
         </v-col>
-        <v-col class="SideMenuSticky rightMenu" cols="3"></v-col>
+        <v-col cols="3" class="d-none d-md-block"></v-col>
       </v-row>
     </div>
     <Footer />
   </v-app>
 </template>
 <style>
+body {
+  padding: 0;
+}
 .artBoard {
   width: 100%;
   height: 100%;
@@ -83,28 +86,15 @@
   position: sticky;
   top: 0;
   flex-wrap: nowrap;
-}
-.mainContents {
-  margin: 0;
-  margin-top: 47px;
-  margin-bottom: 20px;
-  padding: 0;
-  width: 550px;
-  min-width: 550px;
-  max-width: 550px;
-}
-.rightMenu {
-  display: flex;
-  height: 100vh;
-  min-height: 100vh;
-  max-height: 100vh;
   margin: 0;
   padding: 0;
+  justify-content: center;
 }
+
 .settingContainer {
   width: 100%;
   height: 30%;
-  margin-top: 30px;
+  margin-top: 10vh;
   border-top: solid black 2px;
   text-align: center;
 }
@@ -185,12 +175,6 @@ export default {
           });
       });
     },
-  },
-  mounted() {
-    window.onload = () => {
-      this.$store.dispatch("invisiblePostForm");
-      this.$store.dispatch("invisibleCommonOverlay");
-    };
   },
 };
 </script>
