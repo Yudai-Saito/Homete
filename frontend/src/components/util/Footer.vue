@@ -7,8 +7,16 @@
     padless
   >
     <v-col id="ftTxt" class="text-center" cols="12"> ©2022 by HOMETE </v-col>
-    <v-btn plain class="ftBtn"></v-btn>
-    <v-btn plain class="ftBtn"></v-btn>
+    <FooterBtn
+      usage="toTimeLine"
+      ftBtnIcon="mdi-home"
+      ftBtnTxt="タイムライン"
+    />
+    <FooterBtn
+      usage="toHistory"
+      ftBtnIcon="mdi-clock-outline"
+      ftBtnTxt="ヒストリー"
+    />
   </v-footer>
 </template>
 
@@ -21,9 +29,6 @@
   #ftTxt {
     display: block;
   }
-  .ftBtn {
-    display: none;
-  }
 }
 @media (max-width: map-get($grid-breakpoints, sm)) {
   // sm 以下のブレークポイントでのスタイル定義
@@ -32,11 +37,6 @@
   }
   #ftTxt {
     display: none;
-  }
-  .ftBtn {
-    display: block;
-    height: 50px !important;
-    border-radius: 0px !important;
   }
 }
 
@@ -54,7 +54,11 @@
 </style>
 
 <script>
+import FooterBtn from "./FooterBtn.vue";
 export default {
   name: "Footer",
+  components: {
+    FooterBtn,
+  },
 };
 </script>
