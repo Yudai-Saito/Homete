@@ -19,9 +19,17 @@
             offset-y
             nudge-bottom="90px"
             transition="scale-transition"
+            z-index="auto"
           >
             <template v-slot:activator="{ on, attrs }">
-              <v-btn style="bottom: 10px" icon plain v-bind="attrs" v-on="on">
+              <v-btn
+                style="bottom: 10px"
+                icon
+                plain
+                :ripple="false"
+                v-bind="attrs"
+                v-on="on"
+              >
                 <v-icon>mdi-dots-horizontal</v-icon>
               </v-btn>
             </template>
