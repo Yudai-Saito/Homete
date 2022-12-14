@@ -16,6 +16,7 @@ from util.auth_decorator import auth_required
 from util.jwt_decoder import get_email_from_cookie
 from util.icon_generator import open_peeps_icon
 from util.get_posts import get_posts
+from util.posts_template import user_posts_template
 
 posts = Blueprint("posts", __name__, url_prefix="/posts")
 
@@ -38,9 +39,22 @@ def post_receive():
 		db.session.add(Posts(user_id = user_id, private = private, contents = contents, name = name,
 													head = icon["head"], face = icon["face"], facialhair = icon["facial_hair"], accessories = icon["accessories"],
 														skincolor = icon["skin_color"], clothingcolor = icon["clothing_color"], haircolor = icon["hair_color"]))
+
 		db.session.commit()
 
-		return jsonify({"status": "success", "icon":icon, "name":name}), 200
+		added_posts_id = db.session.query(Posts.id).filter(Posts.user_id == user_id).order_by(desc(Posts.id)).first()[0]
+		added_posts = db.session.query(Posts).filter(Posts.id == added_posts_id).first()
+
+		user_posts = user_posts_template
+
+		user_posts["contents"] = added_posts.contents
+		user_posts["created_at"] = added_posts.created_at.strftime('%Y-%m-%d %H:%M:%S')
+		user_posts["icon"] = icon
+		user_posts["name"] = name
+		user_posts["post_id"] = added_posts.id
+
+		return jsonify({"status": "success", "user_posts":user_posts}), 200
+
 	except:
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
