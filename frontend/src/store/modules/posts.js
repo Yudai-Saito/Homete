@@ -1,4 +1,5 @@
 const state = {
+  updatePosts: [],
   deletePostId: "",
   deletePostFlag: false,
 };
@@ -11,6 +12,11 @@ const getters = {
 const actions = {};
 
 const mutations = {
+  setUpdatePosts(state, posts) {
+    const newUpdatePosts = [...state.updatePosts, ...posts];
+
+    state.updatePosts = newUpdatePosts;
+  },
   setDeletePostId(state, postId) {
     state.deletePostId = postId;
   },
