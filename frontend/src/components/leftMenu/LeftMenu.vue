@@ -55,6 +55,7 @@
   max-height: 100vh;
   margin: 0;
   padding: 0;
+  width: 25%;
 }
 .leftMenuFlex {
   display: flex;
