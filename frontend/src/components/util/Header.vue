@@ -19,30 +19,35 @@
           <v-list-item>
             <SpringBoardMenu
               :labelTxt="logged ? 'アカウント' : 'ログイン'"
+              :icon="logged ? 'mdi-account-cog' : 'mdi-login-variant'"
               :onClickSpringBoardMenu="logged ? toAccountManagement : login"
             />
           </v-list-item>
           <v-list-item>
             <SpringBoardMenu
               labelTxt="HOMETEについて"
+              icon="mdi-information-variant"
               :onClickSpringBoardMenu="toExplanation"
             />
           </v-list-item>
           <v-list-item>
             <SpringBoardMenu
               labelTxt="Q & A"
+              icon="mdi-chat-question-outline"
               :onClickSpringBoardMenu="toQuestionAnswer"
             />
           </v-list-item>
           <v-list-item>
             <SpringBoardMenu
               labelTxt="利用規約"
+              icon="mdi-shield-check"
               :onClickSpringBoardMenu="toUserPolicy"
             />
           </v-list-item>
           <v-list-item>
             <SpringBoardMenu
               labelTxt="プライバシー"
+              icon="mdi-shield-key-outline"
               :onClickSpringBoardMenu="toPrivacyPolicy"
             />
           </v-list-item>
@@ -201,7 +206,6 @@
 #springBoard .v-list-item {
   width: 75%;
   margin: 0 auto;
-  border-bottom: solid 1px #333;
   top: 20px;
   font-size: 13px;
 }

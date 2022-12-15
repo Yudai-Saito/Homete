@@ -7,6 +7,7 @@
     plain
     color="#FFFFFF"
   >
+    <v-icon style="margin-right: 5px">{{ this.icon }}</v-icon>
     {{ this.labelTxt }}
   </v-btn>
 </template>
@@ -27,6 +28,6 @@
 <script>
 export default {
   name: "SpringBoardMenu",
-  props: ["labelTxt", "onClickSpringBoardMenu"],
+  props: ["labelTxt", "icon", "onClickSpringBoardMenu"],
 };
 </script>
