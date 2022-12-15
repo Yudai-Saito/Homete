@@ -16,9 +16,36 @@
       </div>
       <transition name="slide-menu-x">
         <v-list id="springBoard" v-show="isActiveMenu">
-          <v-list-item>Menu item 1</v-list-item>
-          <v-list-item>Menu item 2</v-list-item>
-          <v-list-item>Menu item 3</v-list-item>
+          <v-list-item>
+            <SpringBoardMenu
+              :labelTxt="logged ? 'アカウント' : 'ログイン'"
+              :onClickSpringBoardMenu="logged ? toAccountManagement : login"
+            />
+          </v-list-item>
+          <v-list-item>
+            <SpringBoardMenu
+              labelTxt="HOMETEについて"
+              :onClickSpringBoardMenu="toExplanation"
+            />
+          </v-list-item>
+          <v-list-item>
+            <SpringBoardMenu
+              labelTxt="Q & A"
+              :onClickSpringBoardMenu="toQuestionAnswer"
+            />
+          </v-list-item>
+          <v-list-item>
+            <SpringBoardMenu
+              labelTxt="利用規約"
+              :onClickSpringBoardMenu="toUserPolicy"
+            />
+          </v-list-item>
+          <v-list-item>
+            <SpringBoardMenu
+              labelTxt="プライバシー"
+              :onClickSpringBoardMenu="toPrivacyPolicy"
+            />
+          </v-list-item>
         </v-list>
       </transition>
       <transition name="fade">
@@ -31,7 +58,12 @@
         {{ contentName }}
       </v-col>
       <v-col id="headerBtn" cols="3">
-        <v-btn color="#CFD8DC" rounded @click="account" v-if="logged">
+        <v-btn
+          color="#CFD8DC"
+          rounded
+          @click="toAccountManagement"
+          v-if="logged"
+        >
           <v-icon color="#494854">mdi-account-cog</v-icon>
           <div>アカウント</div>
         </v-btn>
@@ -170,10 +202,13 @@
   width: 75%;
   margin: 0 auto;
   border-bottom: solid 1px #333;
+  top: 20px;
+  font-size: 13px;
 }
+
 .slide-menu-x-enter-active,
 .slide-menu-x-leave-active {
-  transition: all 0.5s !important;
+  transition: all 0.4s !important;
 }
 .slide-menu-x-enter,
 .slide-menu-x-leave-to {
@@ -234,8 +269,13 @@ a {
 </style>
 
 <script>
+import SpringBoardMenu from "./SpringBoardMenu.vue";
+
 export default {
   name: "Header",
+  components: {
+    SpringBoardMenu,
+  },
   computed: {
     logged() {
       return this.$store.getters.logged;
@@ -257,15 +297,49 @@ export default {
     logout: function () {
       this.$store.dispatch("loggedOut");
     },
-    account: function () {
+    toAccountManagement: function () {
       this.$store.dispatch("toAccount");
+      this.isActiveMenu = !this.isActiveMenu;
+      this.$emit("isActive", this.isActiveMenu);
       if (this.$route.path != "/account") {
         this.$router.push("/account");
       }
     },
-    toggleMenu() {
+    toExplanation: function () {
+      this.$store.dispatch("toExplanation");
       this.isActiveMenu = !this.isActiveMenu;
       this.$emit("isActive", this.isActiveMenu);
+      if (this.$route.path != "/about") {
+        this.$router.push("/about");
+      }
+    },
+    toQuestionAnswer: function () {
+      this.$store.dispatch("toQuestionAnswer");
+      this.isActiveMenu = !this.isActiveMenu;
+      this.$emit("isActive", this.isActiveMenu);
+      if (this.$route.path != "/about") {
+        this.$router.push("/about");
+      }
+    },
+    toUserPolicy: function () {
+      this.$store.dispatch("toUserPolicy");
+      this.isActiveMenu = !this.isActiveMenu;
+      this.$emit("isActive", this.isActiveMenu);
+      if (this.$route.path != "/about") {
+        this.$router.push("/about");
+      }
+    },
+    toPrivacyPolicy: function () {
+      this.$store.dispatch("toPrivacyPolicy");
+      this.isActiveMenu = !this.isActiveMenu;
+      this.$emit("isActive", this.isActiveMenu);
+      if (this.$route.path != "/about") {
+        this.$router.push("/about");
+      }
+    },
+    toggleMenu() {
+      this.$emit("isActive", !this.isActiveMenu);
+      this.isActiveMenu = !this.isActiveMenu;
     },
   },
 };

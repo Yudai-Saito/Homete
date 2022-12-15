@@ -25,34 +25,37 @@
         <v-col cols="3" class="d-none d-sm-block">
           <LeftMenu class="SideMenuFixed" />
         </v-col>
-        <v-col cols="12" sm="9" md="6" lg="5">
-          <div
-            id="slideContentsX"
-            :class="{ slideContentsXActive: isActiveContents }"
-          >
-            <PostContents v-if="contentsKey == 'timeline'" :key="contentsKey" />
-            <PostContents
-              v-if="contentsKey == 'history'"
-              :channel="contentsKey"
-              :key="contentsKey"
-            />
-          </div>
+        <v-col
+          id="slideTopX"
+          :class="{ slideTopXActive: isActiveContents }"
+          cols="12"
+          sm="9"
+          md="6"
+          lg="5"
+        >
+          <PostContents v-if="contentsKey == 'timeline'" :key="contentsKey" />
+          <PostContents
+            v-if="contentsKey == 'history'"
+            :channel="contentsKey"
+            :key="contentsKey"
+          />
         </v-col>
+        <v-btn
+          id="postBtnFloat"
+          class="d-md-none"
+          :class="{ slideTopXActive: isActiveContents }"
+          elevation="3"
+          fab
+          icon
+          rounded
+          @click="onClickPostBtn"
+        >
+          <v-icon> mdi-pen-plus </v-icon>
+        </v-btn>
         <v-col cols="3" class="d-none d-md-block">
           <RightMenu class="SideMenuFixed" />
         </v-col>
       </v-row>
-      <v-btn
-        elevation="3"
-        fab
-        icon
-        rounded
-        id="postBtnFloat"
-        class="d-md-none"
-        @click="onClickPostBtn"
-      >
-        <v-icon> mdi-pen-plus </v-icon>
-      </v-btn>
     </div>
     <Footer />
   </v-app>
@@ -93,12 +96,12 @@ body {
   justify-content: center;
 }
 
-#slideContentsX {
-  transition: all 0.5s !important;
+#slideTopX {
+  transition: all 0.4s !important;
   transform: translateX(0px);
   z-index: 0;
 }
-.slideContentsXActive {
+.slideTopXActive {
   transform: translateX(250px) !important;
   z-index: 0;
   opacity: 0.85;
@@ -108,6 +111,9 @@ body {
   position: fixed;
   background-color: #1da1f2;
   inset: auto 30px 60px auto;
+  transition: all 0.4s !important;
+  transform: translateX(0px);
+  z-index: 0;
 }
 #postBtnFloat span i {
   color: whitesmoke;
