@@ -7,9 +7,23 @@
     elevation="0"
   >
     <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
-      <div id="hamburgerMenu" :class="{ active: isActive }" @click="toggleMenu">
+      <div
+        id="hamburgerMenu"
+        :class="{ active: isActiveMenu }"
+        @click="toggleMenu"
+      >
         <span></span><span>Menu</span><span></span>
       </div>
+      <transition name="slide-menu-x">
+        <v-list id="springBoard" v-show="isActiveMenu">
+          <v-list-item>Menu item 1</v-list-item>
+          <v-list-item>Menu item 2</v-list-item>
+          <v-list-item>Menu item 3</v-list-item>
+        </v-list>
+      </transition>
+      <transition name="fade">
+        <div id="menuOverlay" v-show="isActiveMenu" @click="toggleMenu"></div>
+      </transition>
       <v-col id="title" class="md-none text-h5 font-weight-bold" cols="3">
         homete…
       </v-col>
@@ -86,10 +100,11 @@
   cursor: pointer;
   width: 45px;
   height: 45px;
-  border-radius: 5px;
+  border-radius: 10px;
   border: solid #494854 1px;
   top: 5px;
   left: 5vw;
+  transform: scale(0.95);
 }
 
 /*ボタン内側*/
@@ -141,6 +156,61 @@
   transform: translateY(-6px) rotate(45deg);
   width: 30%;
 }
+
+#springBoard {
+  position: fixed;
+  top: 56px;
+  left: 0px;
+  height: calc(100vh - 106px);
+  z-index: 5;
+  width: 250px;
+  margin: 0 auto;
+}
+#springBoard .v-list-item {
+  width: 75%;
+  margin: 0 auto;
+  border-bottom: solid 1px #333;
+}
+.slide-menu-x-enter-active,
+.slide-menu-x-leave-active {
+  transition: all 0.5s !important;
+}
+.slide-menu-x-enter,
+.slide-menu-x-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+.slide-menu-x-leave,
+.slide-menu-x-enter-to {
+  transform: translateX(0%);
+  opacity: 1;
+}
+
+#menuOverlay {
+  align-items: flex-end;
+  height: calc(100vh - 106px);
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  z-index: auto;
+  justify-content: center;
+  position: fixed;
+  display: flex;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(33, 33, 33, 0.26);
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
 /*========= レイアウトのためのCSS ===============*/
 
 body {
@@ -176,7 +246,8 @@ export default {
   },
   data() {
     return {
-      isActive: false,
+      isActiveMenu: false,
+      menuHeight: "",
     };
   },
   methods: {
@@ -192,8 +263,9 @@ export default {
         this.$router.push("/account");
       }
     },
-    toggleMenu: function () {
-      this.isActive = !this.isActive;
+    toggleMenu() {
+      this.isActiveMenu = !this.isActiveMenu;
+      this.$emit("isActive", this.isActiveMenu);
     },
   },
 };
