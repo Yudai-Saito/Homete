@@ -60,6 +60,8 @@ import ReportPost from "@/components/overlays/ReportPost.vue";
 import Footer from "@/components/util/Footer.vue";
 import Header from "@/components/util/Header.vue";
 
+import ws from "@/ws-client";
+
 export default {
   name: "Top",
   components: {
@@ -99,6 +101,8 @@ export default {
       this.$store.dispatch("invisibleCommonOverlay");
       this.$store.dispatch("invisibleAlert");
       this.$store.dispatch("toTimeLine");
+
+      ws.ws_connect(this);
     };
   },
 };

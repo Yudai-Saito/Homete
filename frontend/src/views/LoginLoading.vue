@@ -143,8 +143,6 @@ import {
   getIdToken,
 } from "firebase/auth";
 
-import ws from "@/ws-client";
-
 import axios from "axios";
 
 export default {
@@ -187,8 +185,6 @@ export default {
               setTimeout(() => {
                 this.isShow = true;
               }, 50);
-
-              ws.ws_connect();
             })
             .catch(() => {
               this.$store.commit("updateAlertState", "error");
