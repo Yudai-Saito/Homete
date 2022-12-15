@@ -1,15 +1,27 @@
 <template>
-  <v-app class="artBoard blue-grey lighten-5">
-    <Header />
+  <v-app id="artBoard" class="blue-grey lighten-5">
+    <Header @isActive="toggleContents" />
     <Login />
 
     <div>
-      <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
+      <v-row
+        id="contentsFlex"
+        justify="center"
+        class="mx-auto my-auto"
+        no-gutters
+      >
         <v-col cols="3" class="d-none d-sm-block">
-          <LeftMenu class="SideMenuSticky" />
+          <LeftMenu class="SideMenuFixed" />
         </v-col>
 
-        <v-col cols="12" sm="9" md="6" lg="5">
+        <v-col
+          cols="12"
+          sm="9"
+          md="6"
+          lg="5"
+          id="slideAboutX"
+          :class="{ slideAboutXActive: isActiveContents }"
+        >
           <v-slide-group
             id="flexSlide"
             v-model="currentDisplay"
@@ -20,7 +32,7 @@
               <div style="margin-bottom: 17px">
                 <v-card
                   :class="active ? 'activeGroupCard' : 'groupCard'"
-                  class="aboutGroups"
+                  id="aboutGroups"
                   height="70"
                   width="70"
                   @click="toggle"
@@ -87,31 +99,33 @@
 body {
   padding: 0;
 }
-.artBoard {
+#artBoard {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
-.contentsFlex {
+#contentsFlex {
   width: 100%;
   flex-wrap: nowrap;
 }
-.SideMenuSticky {
-  position: sticky;
+.SideMenuFixed {
   top: 0;
   flex-wrap: nowrap;
   margin: 0;
   padding: 0;
+  position: fixed;
   justify-content: center;
 }
 
 .aboutContainer {
-  width: 100%;
+  width: 95%;
   height: 30%;
   text-align: center;
   background-color: #ffffff;
   border-radius: 30px;
+  margin: 0 auto;
   margin-bottom: 8vh;
 }
 .aboutTitleTxt {
@@ -134,7 +148,7 @@ body {
 #flexSlide .v-slide-group__wrapper .v-slide-group__content {
   justify-content: center;
 }
-.aboutGroups {
+#aboutGroups {
   display: flex;
   justify-content: center;
   border-radius: 50% !important;
@@ -154,6 +168,17 @@ body {
   width: 75px;
   left: -4px;
   top: -4px;
+}
+
+#slideAboutX {
+  transition: all 0.4s !important;
+  transform: translateX(0px);
+  z-index: 0;
+}
+.slideAboutXActive {
+  transform: translateX(250px) !important;
+  z-index: 0;
+  opacity: 0.85;
 }
 </style>
 
@@ -188,6 +213,9 @@ export default {
     overlayState() {
       return this.$store.getters.overlayState;
     },
+    aboutState() {
+      return this.$store.getters.aboutState;
+    },
   },
   data() {
     return {
@@ -197,6 +225,7 @@ export default {
       currentDisplay: null,
       icon: ["🔍", "💡", "📑", "🔒"],
       title: ["使い方", "Q & A", "利用規約", "プライバシー"],
+      isActiveContents: false,
     };
   },
   directives: {
@@ -209,13 +238,14 @@ export default {
       },
     },
   },
-  methods: {
-    displayDeleteCard() {
-      this.displayDelete = true;
+  watch: {
+    aboutState(newState) {
+      this.currentDisplay = newState;
     },
-    closeDeleteCard() {
-      this.displayDelete = false;
-      this.checked = [];
+  },
+  methods: {
+    toggleContents(bool) {
+      this.isActiveContents = bool;
     },
   },
 };

@@ -11,31 +11,49 @@ const getKeyByValue = (object, value) => {
 
 const state = {
   contentName: "",
+  aboutState: 0,
 };
 
 const getters = {
   contentsKey: (state) => getKeyByValue(contents, state.contentName),
   contentName: (state) => state.contentName,
+  aboutState: (state) => state.aboutState,
 };
 
 const actions = {
   toTimeLine(context) {
-    context.commit("updatecontentName", contents["timeline"]);
+    context.commit("updateContentName", contents["timeline"]);
   },
   toHistory(context) {
-    context.commit("updatecontentName", contents["history"]);
+    context.commit("updateContentName", contents["history"]);
   },
   toAccount(context) {
-    context.commit("updatecontentName", contents["account"]);
+    context.commit("updateContentName", contents["account"]);
   },
-  toAbout(context) {
-    context.commit("updatecontentName", contents["about"]);
+  toExplanation(context) {
+    context.commit("updateContentName", contents["about"]);
+    context.commit("updateAboutState", 0);
+  },
+  toQuestionAnswer(context) {
+    context.commit("updateContentName", contents["about"]);
+    context.commit("updateAboutState", 1);
+  },
+  toUserPolicy(context) {
+    context.commit("updateContentName", contents["about"]);
+    context.commit("updateAboutState", 2);
+  },
+  toPrivacyPolicy(context) {
+    context.commit("updateContentName", contents["about"]);
+    context.commit("updateAboutState", 3);
   },
 };
 
 const mutations = {
-  updatecontentName(state, name) {
+  updateContentName(state, name) {
     state.contentName = name;
+  },
+  updateAboutState(state, num) {
+    state.aboutState = num;
   },
 };
 
