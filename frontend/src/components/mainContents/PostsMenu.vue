@@ -1,6 +1,6 @@
 <template>
   <v-btn
-    @click="onClick"
+    @click="onClickPostsMenu"
     style="color: #494854; height: 50px"
     depressed
     plain
@@ -13,6 +13,6 @@
 <script>
 export default {
   name: "PostsMenu",
-  props: ["labelTxt", "onClick"],
+  props: ["labelTxt", "onClickPostsMenu"],
 };
 </script>

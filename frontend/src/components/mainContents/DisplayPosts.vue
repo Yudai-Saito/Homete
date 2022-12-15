@@ -37,10 +37,14 @@
               <v-list-item class="ma-0 pa-0">
                 <PostsMenu
                   labelTxt="削除"
-                  :onClick="deletePost"
+                  :onClickPostsMenu="deletePost"
                   v-if="this.postList.user_post"
                 />
-                <PostsMenu labelTxt="通報" :onClick="reportPost" v-else />
+                <PostsMenu
+                  labelTxt="通報"
+                  :onClickPostsMenu="reportPost"
+                  v-else
+                />
               </v-list-item>
             </v-list>
           </v-menu>

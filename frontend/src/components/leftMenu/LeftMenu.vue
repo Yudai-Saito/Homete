@@ -18,7 +18,7 @@
         rounded
         x-large
         :elevation="3"
-        v-on:click="onClick"
+        v-on:click="onClickAbout"
       >
         HOMETEについて
       </v-btn>
@@ -83,9 +83,9 @@ export default {
     LeftMenuButton,
   },
   methods: {
-    onClick: function () {
+    onClickAbout: function () {
       if (this.$route.path != "/about") {
-        this.$store.dispatch("toAbout");
+        this.$store.dispatch("toExplanation");
         this.$router.push("/about");
       }
     },
