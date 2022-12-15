@@ -151,6 +151,9 @@
     font-size: 14px;
     margin-top: 20px;
   }
+  #cardMainText {
+    width: 75%;
+  }
 }
 @media (max-width: map-get($grid-breakpoints, sm)) {
   // sm 以下のブレークポイントでのスタイル定義
@@ -177,13 +180,13 @@
     padding-bottom: 0px;
   }
   #circle {
-    height: 30px;
-    width: 30px;
+    height: 40px;
+    width: 40px;
   }
   #avater {
-    height: 30px !important;
-    width: 30px !important;
-    min-width: 30px !important;
+    height: 40px !important;
+    width: 40px !important;
+    min-width: 40px !important;
   }
   #postsCard {
     padding: 12px;
@@ -191,15 +194,18 @@
   }
   #nameTxt {
     font-size: 16px;
-    margin-top: 5px;
+    margin-top: 8px;
   }
   #timeTxt {
     font-size: 10px;
-    margin-top: 10px;
+    margin-top: 13px;
   }
   #btns {
-    width: 75%;
+    width: 70%;
     margin: 0 auto;
+  }
+  #cardMainText {
+    width: 70%;
   }
 }
 
@@ -440,7 +446,6 @@
   width: 75%;
 }
 #cardMainText {
-  width: 75%;
   line-height: 26px;
   z-index: auto;
 }

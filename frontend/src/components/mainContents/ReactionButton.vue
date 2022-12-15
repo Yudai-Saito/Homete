@@ -79,7 +79,6 @@
 }
 #pushedBtn {
   background-color: rgba(112, 119, 218, 0.5);
-  width: 45px !important;
   min-width: 0 !important;
   border: solid rgba(0, 0, 0, 0.1) 1px !important;
 }

@@ -9,7 +9,7 @@
           <LeftMenu class="SideMenuSticky" />
         </v-col>
         <v-col cols="12" sm="9" md="6" lg="5">
-          <div class="settingContainer">
+          <div class="settingContainer" style="border-top: none">
             <div class="btnTxt">
               <div
                 v-twemoji
