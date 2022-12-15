@@ -12,7 +12,18 @@
 </template>
 
 <script>
+import twemoji from "twemoji";
 export default {
   name: "QuestionAnswer",
+  directives: {
+    twemoji: {
+      inserted(el) {
+        el.innerHTML = twemoji.parse(el.innerHTML, {
+          folder: "svg",
+          ext: ".svg",
+        });
+      },
+    },
+  },
 };
 </script>
