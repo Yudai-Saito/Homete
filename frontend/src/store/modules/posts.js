@@ -17,9 +17,15 @@ const mutations = {
 
     state.updatePosts = newUpdatePosts;
   },
-  setDeletePostId(state, postId) {
-    state.deletePostId = postId;
+
+  addUpdatePosts(state, posts) {
+    state.updatePosts.forEach((item) => {
+      if (item["post_id"] == posts["post_id"]) {
+        item = { ...posts };
+      }
+    });
   },
+
   updateDeletePostFlag(state, bool) {
     state.deletePostFlag = bool;
   },

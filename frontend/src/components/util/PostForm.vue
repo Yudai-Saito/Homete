@@ -200,8 +200,9 @@ export default {
             withCredentials: true,
           }
         )
-        .then(() => {
-          //TODO resを受け取TimeLine.vueのposts[]に渡す
+        .then((res) => {
+          //ユーザーが投稿したデータを受け取ってupdatePostsに追加していく
+          this.$store.commit("addUpdatePosts", res);
 
           //スマホ用に投稿用コンポーネントの非表示
           this.$store.dispatch("invisiblePostForm");
