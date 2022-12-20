@@ -79,7 +79,7 @@
 
 
 <script>
-import Header from "@/components/util/Header.vue";
+import Header from "@/components/header/Header.vue";
 import Footer from "@/components/footer/Footer.vue";
 import Login from "@/components/overlays/Login.vue";
 
