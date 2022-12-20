@@ -13,6 +13,7 @@
         </transition>
       </div>
     </transition>
+    <TwemojiPicker @addReaction="addPickerReaction" />
     <div>
       <TopAlert />
       <BottomAlert />
@@ -33,11 +34,16 @@
           md="6"
           lg="5"
         >
-          <PostContents v-if="contentsKey == 'timeline'" :key="contentsKey" />
+          <PostContents
+            v-if="contentsKey == 'timeline'"
+            :key="contentsKey"
+            :updatePost="updatePost"
+          />
           <PostContents
             v-if="contentsKey == 'history'"
             :channel="contentsKey"
             :key="contentsKey"
+            :updatePost="updatePost"
           />
         </v-col>
         <v-btn
@@ -182,6 +188,7 @@ import Login from "@/components/overlays/Login.vue";
 import DeletePost from "@/components/overlays/DeletePost.vue";
 import ReportPost from "@/components/overlays/ReportPost.vue";
 import PostForm from "@/components/util/PostForm.vue";
+import TwemojiPicker from "@/components/util/TwemojiPicker.vue";
 
 export default {
   name: "Top",
@@ -197,6 +204,7 @@ export default {
     Footer,
     Header,
     PostForm,
+    TwemojiPicker,
   },
   computed: {
     logged() {
@@ -215,6 +223,7 @@ export default {
   data() {
     return {
       isActiveContents: false,
+      updatePost: null,
     };
   },
   methods: {
@@ -229,6 +238,9 @@ export default {
     },
     toggleContents(bool) {
       this.isActiveContents = bool;
+    },
+    addPickerReaction(updatePost) {
+      this.updatePost = updatePost;
     },
   },
 };

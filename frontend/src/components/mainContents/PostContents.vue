@@ -54,7 +54,7 @@ export default {
       posts: [],
     };
   },
-  props: ["channel"],
+  props: ["channel", "updatePost"],
   methods: {
     set_posts: function (res) {
       var posts = res.data["posts"];
@@ -118,6 +118,15 @@ export default {
         }
 
         this.$store.commit("updateDeletePostFlag", false);
+      }
+    },
+    updatePost(newPost) {
+      const index = this.posts.findIndex(
+        (post) => post.post_id === newPost.post_id
+      );
+      // 存在した場合は、その位置から1つの要素を配列から削除する
+      if (index !== -1) {
+        this.$set(this.posts, index, newPost);
       }
     },
   },
