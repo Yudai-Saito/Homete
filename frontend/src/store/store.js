@@ -5,6 +5,7 @@ import createPersistedState from "vuex-persistedstate";
 import contentName from "./modules/contentName";
 import displayAlert from "./modules/displayAlert";
 import displayCommonOverlay from "./modules/displayCommonOverlay";
+import displayTwemojiPicker from "./modules/displayTwemojiPicker";
 import displayPostForm from "./modules/displayPostForm";
 import logged from "./modules/logged";
 import posts from "./modules/posts";
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     contentName,
     displayAlert,
     displayCommonOverlay,
+    displayTwemojiPicker,
     displayPostForm,
     logged,
     posts,
