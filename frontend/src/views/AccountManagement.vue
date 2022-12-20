@@ -77,9 +77,6 @@
   </v-app>
 </template>
 <style>
-body {
-  padding: 0;
-}
 .artBoard {
   width: 100%;
   height: 100%;

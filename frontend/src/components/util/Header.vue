@@ -202,12 +202,14 @@
   z-index: 5;
   width: 250px;
   margin: 0 auto;
+  background-color: #eceff1;
 }
 #springBoard .v-list-item {
   width: 75%;
   margin: 0 auto;
   top: 20px;
   font-size: 13px;
+  margin-bottom: 5px;
 }
 
 .slide-menu-x-enter-active,

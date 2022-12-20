@@ -1,20 +1,21 @@
 <template>
-  <div class="artBoard">
+  <div id="artBoard" class="blue-grey lighten-5">
     <Header />
     <Login />
-    <div class="notFoundTxt">
+    <div id="notFoundTxt">
       <h1>404</h1>
     </div>
-    <div class="notFoundCard">
-      <v-card class="hometeCard rounded-xl" :elevation="3">
+    <div id="notFoundCard">
+      <v-card id="hometeCard" class="rounded-xl" :elevation="3">
         <h3 class="ml-4 mt-2">あどみん</h3>
-        <v-card-text class="cardText black--text font-weight-light">
+        <v-card-text id="cardText" class="black--text font-weight-light">
           このページはすでに削除されているか、URLが間違っているよ
         </v-card-text>
         <v-card-actions>
-          <div class="btnDiv">
+          <div id="btnDiv">
             <v-btn
-              class="grey--text text--darken-3 reactBtn"
+              id="reactBtn"
+              class="grey--text text--darken-3"
               @click="toTopPage"
               elevation="0"
               outlined
@@ -31,7 +32,7 @@
 </template>
 
 <style>
-.artBoard {
+#artBoard {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -40,7 +41,7 @@
   flex-flow: column;
   justify-content: center;
 }
-.notFoundTxt {
+#notFoundTxt {
   font-size: 50px;
   text-align: center;
   z-index: 0;
@@ -49,11 +50,11 @@
   margin-left: auto;
   margin-right: auto;
 }
-.notFoundCard {
+#notFoundCard {
   margin-bottom: auto;
   padding: 10px;
 }
-.hometeCard {
+#hometeCard {
   margin: 0;
   width: 100%;
   max-width: 520px;
@@ -62,16 +63,16 @@
   padding: 20px;
   z-index: 0;
 }
-.cardText {
+#cardText {
   font-size: 18px;
   line-height: 26px;
 }
-.btnDiv {
+#btnDiv {
   margin: 0;
   padding: 0;
   margin-right: 6px;
 }
-.reactBtn {
+#reactBtn {
   background-color: rgba(207, 216, 220, 0.5);
 }
 </style>
