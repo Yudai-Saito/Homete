@@ -57,7 +57,7 @@
         v-text="homete"
       ></v-card-text>
       <div id="btns">
-        <v-card-actions id="reactionBtns" v-click-outside="closePicker">
+        <v-card-actions id="reactionBtns">
           <div id="reactionsDiv" v-for="reaction in reactions" :key="reaction">
             <ReactionButton
               :default_reactions="default_reactions"
@@ -83,30 +83,6 @@
               <v-icon>mdi-plus</v-icon>
             </div>
           </v-btn>
-          <div>
-            <twemoji-picker
-              id="overridePicker"
-              v-if="displayPicker"
-              :style="{ transform: `translate(${x}px, ${y}px)` }"
-              :emojiPickerDisabled="false"
-              :emojiData="emojiDataAll"
-              :emojiGroups="emojiGroups"
-              :skinsSelection="true"
-              :searchEmojisFeat="true"
-              :pickerWidth="520"
-              :pickerHeight="400"
-              :recentEmojisFeat="true"
-              :randomEmojiArray="['']"
-              :pickerAutoFlip="false"
-              :pickerCloseOnClickaway="false"
-              twemojiPath="https://twemoji.maxcdn.com/v/latest/"
-              recentEmojisStorage="local"
-              searchEmojiPlaceholder="絵文字を検索"
-              searchEmojiNotFound="絵文字が見つかりませんでした😭"
-              isLoadingLabel="検索中...🔍"
-              @emojiUnicodeAdded="emojiAdded"
-            ></twemoji-picker>
-          </div>
         </v-card-actions>
       </div>
     </v-card>
@@ -224,141 +200,6 @@
 .break-line {
   white-space: pre-wrap;
 }
-#overridePicker {
-  position: fixed;
-  inset: 0;
-  width: 520px;
-  height: 400px;
-}
-#overridePicker div #popper-button {
-  width: 0px;
-  height: 0px;
-}
-#overridePicker div #popper-container {
-  padding: 0;
-  background: #f7f7f7;
-  border: none;
-  border-radius: 10px;
-  transform: none !important;
-  inset: 0 !important;
-  -webkit-animation: none !important;
-  animation: none !important;
-  display: block;
-  width: 520px;
-  height: 400px;
-  position: fixed !important;
-  top: 0 !important;
-  z-index: 2147483647;
-  overflow: hidden;
-}
-#overridePicker div #popper-container #arrow {
-  display: none !important;
-}
-#overridePicker
-  div
-  #popper-container
-  #popper-inner
-  #emoji-container
-  #emoji-popup
-  #emoji-popover-search
-  #search-header {
-  height: 28px;
-}
-#overridePicker
-  div
-  #popper-container
-  #popper-inner
-  #emoji-container
-  #emoji-popup
-  #emoji-popover-search
-  #search-header
-  span {
-  padding: 0;
-}
-#overridePicker
-  div
-  #popper-container
-  #popper-inner
-  #emoji-container
-  #emoji-popup
-  #emoji-popover-search
-  #search-header
-  span
-  .emoji {
-  width: 20px;
-  height: 20px;
-  vertical-align: -0.4rem !important;
-}
-#overridePicker
-  div
-  #popper-container
-  #popper-inner
-  #emoji-container
-  #emoji-popup
-  #emoji-popover-header {
-  padding: 0 11px;
-  height: 33px;
-  border-bottom: solid #cfd8dc 1px;
-}
-#overridePicker
-  div
-  #popper-container
-  #popper-inner
-  #emoji-container
-  #emoji-popup
-  #emoji-popover-header
-  .emoji-tab {
-  padding: 0 7px;
-  height: 33px;
-}
-#overridePicker
-  div
-  #popper-container
-  #popper-inner
-  #emoji-container
-  #emoji-popup
-  #emoji-popover-header
-  .emoji-tab
-  .emoji {
-  width: 28px;
-  height: 28px;
-}
-#overridePicker
-  div
-  #popper-container
-  #popper-inner
-  #emoji-container
-  #emoji-popup
-  .emoji-popover-inner {
-  height: 300px !important;
-  width: 100% !important;
-}
-#overridePicker
-  div
-  #popper-container
-  #popper-inner
-  #emoji-container
-  #emoji-popup
-  .emoji-popover-inner
-  div
-  .emoji-list {
-  margin: 0 5px !important;
-}
-#emoji-container #emoji-popup #emoji-popover-search #search-header input {
-  z-index: auto;
-}
-#overridePicker
-  div
-  #popper-container
-  #popper-inner
-  #emoji-container
-  #emoji-popup
-  div
-  #popper-skins-container
-  #popper-inner
-  .emoji-popover-inner {
-  height: 100% !important;
-}
 
 #postsCard {
   margin: 0;
@@ -455,9 +296,7 @@
 }
 </style>
 
-<script>
-import axios from "axios";
-
+<script scoped>
 import PostsMenu from "./PostsMenu.vue";
 import ReactionButton from "./ReactionButton.vue";
 import VueResponsiveText from "vue-responsive-text";
@@ -465,27 +304,14 @@ import VueResponsiveText from "vue-responsive-text";
 import { createAvatar } from "@dicebear/avatars";
 import * as style from "@dicebear/open-peeps";
 
-import { TwemojiPicker } from "@kevinfaguiar/vue-twemoji-picker";
-import EmojiAllData from "@/emoji/emoji-all-groups.json";
-import EmojiGroups from "@/emoji/emoji-groups.json";
-
-import ClickOutside from "vue-click-outside";
-
 export default {
   name: "DisplayPosts",
   components: {
     PostsMenu,
     ReactionButton,
     VueResponsiveText,
-    "twemoji-picker": TwemojiPicker,
   },
   computed: {
-    emojiDataAll() {
-      return EmojiAllData;
-    },
-    emojiGroups() {
-      return EmojiGroups;
-    },
     logged() {
       return this.$store.getters.logged;
     },
@@ -498,63 +324,13 @@ export default {
       homete: "",
       default_reactions: ["👍", "👀", "💯", "🥰", "🎉"],
       reactions: [],
-      x: 0,
-      y: 0,
-      displayPicker: false,
-      displayAddBtn: true,
       fhp: 0,
       ap: 0,
+      displayAddBtn: true,
     };
   },
   props: ["postList"],
-  directives: {
-    ClickOutside,
-  },
   methods: {
-    emojiAdded(emojiUnicode) {
-      if (!this.reactions.includes(emojiUnicode)) {
-        this.postList.user_reaction.push(emojiUnicode);
-        this.postList.post_reactions.push({
-          reaction: emojiUnicode,
-          count: 1,
-        });
-        this.reactions.push(emojiUnicode);
-      }
-
-      axios.put(
-        "/posts/reaction",
-        {
-          post_id: this.postList.post_id,
-          reaction: emojiUnicode,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-
-      if (this.reactions.length >= 20) {
-        this.displayAddBtn = false;
-      }
-
-      this.displayPicker = false;
-    },
-    displayEmojiPicker() {
-      var rect = this.$refs.addBtn.getBoundingClientRect();
-      if (rect.x >= window.innerWidth / 2) {
-        this.x = rect.x - 526;
-      } else {
-        this.x = rect.x + 33;
-      }
-      if (rect.y >= window.innerHeight - 410) {
-        this.y = window.innerHeight - 410;
-      } else {
-        this.y = rect.y;
-      }
-      this.displayPicker = !this.displayPicker;
-    },
-    closePicker() {
-      this.displayPicker = false;
-    },
     deleteReactions(icon) {
       var rVal = icon;
       var rIndex = this.reactions.indexOf(rVal);
@@ -569,6 +345,16 @@ export default {
     },
     reportPost() {
       this.$store.dispatch("visibleReportPostOverlay");
+    },
+    displayEmojiPicker() {
+      var rect = this.$refs.addBtn.getBoundingClientRect();
+      this.$store.dispatch("clickBtn", {
+        x: rect.x,
+        y: rect.y,
+        reactions: this.reactions,
+        postList: this.postList,
+        postId: this.postList.post_id,
+      });
     },
   },
   created() {
@@ -606,6 +392,20 @@ export default {
         }
       }
     });
+  },
+  watch: {
+    postList() {
+      this.postList.post_reactions.forEach((reaction) => {
+        if (!this.reactions.includes(reaction.reaction)) {
+          if (reaction.reaction != null) {
+            this.reactions.push(reaction.reaction);
+            if (this.reactions.length >= 20) {
+              this.displayAddBtn = false;
+            }
+          }
+        }
+      });
+    },
   },
 };
 </script>
