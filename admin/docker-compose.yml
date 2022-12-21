@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  python:
+    container_name: "admin"
+    networks:
+      - homete_network
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8001:8001
+    volumes:
+      - .:/usr/src/app/
+    working_dir: "/usr/src/app"
+    tty: true
+    environment:
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      FLASK_APP: run.py
+      DOMAIN: ${DOMAIN}
+    entrypoint: python run.py
+
+networks:
+  homete_network:
+    external: true
