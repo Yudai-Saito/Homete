@@ -29,6 +29,7 @@ class Posts(db.Model):
     haircolor = db.Column(db.String(15))
     created_at = db.Column(db.DateTime, default=datetime.datetime.now)
     deleted_at = db.Column(db.DateTime)
+    approved = db.Column(db.Boolean)
 
 class PostReactions(db.Model):
     __tablename__ = "post_reactions"
@@ -42,3 +43,10 @@ class Reactions(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     reaction = db.Column(db.String(10), unique=True)
+
+class ReportPosts(db.Model):
+    __tablename__ = "report_posts"
+
+    user_id = db.Column(db.Integer, ForeignKey("users.id", name="fk_report_posts_user_id"))
+    post_id = db.Column(db.Integer, ForeignKey("posts.id", name='fk_report_posts_post_id'), primary_key=True)
+
