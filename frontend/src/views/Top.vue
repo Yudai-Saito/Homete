@@ -7,13 +7,34 @@
     <transition name="fade">
       <div id="formOverlay" v-show="displayPostForm" @click="closeForm">
         <transition name="slide-y-reverse">
-          <div v-show="displayPostForm" id="smPostCard" @click.stop>
+          <div v-show="displayPostForm" id="smOverlayCard" @click.stop>
             <PostForm />
           </div>
         </transition>
       </div>
     </transition>
-    <TwemojiPicker @addReaction="addPickerReaction" />
+    <transition name="fade">
+      <div
+        id="formOverlay"
+        class="d-md-none"
+        v-show="displayTwemojiPicker"
+        @click="closePicker"
+      >
+        <transition name="slide-y-reverse">
+          <div v-show="displayTwemojiPicker" id="smOverlayCard" @click.stop>
+            <TwemojiPicker @addReaction="addPickerReaction" />
+          </div>
+        </transition>
+      </div>
+    </transition>
+    <transition name="fade">
+      <div v-show="displayTwemojiPicker" style="z-index: 999" @click.stop>
+        <TwemojiPicker
+          class="d-none d-md-block"
+          @addReaction="addPickerReaction"
+        />
+      </div>
+    </transition>
     <div>
       <TopAlert />
       <BottomAlert />
@@ -69,13 +90,13 @@
 <style lang="scss">
 @media (min-width: map-get($grid-breakpoints, sm)) {
   // sm 以上のブレークポイントでのスタイル定義
-  #smPostCard {
+  #smOverlayCard {
     bottom: 30px;
   }
 }
 @media (max-width: map-get($grid-breakpoints, sm)) {
   // sm 以下のブレークポイントでのスタイル定義
-  #smPostCard {
+  #smOverlayCard {
     bottom: 50px;
   }
 }
@@ -124,9 +145,8 @@ body {
 #postBtnFloat span i {
   color: whitesmoke;
 }
-#smPostCard {
-  overflow: hidden;
-  width: 70vw;
+#smOverlayCard {
+  width: 100vw;
   position: relative;
 }
 #formOverlay {
@@ -144,12 +164,15 @@ body {
   right: 0;
   bottom: 0;
   background: rgba(33, 33, 33, 0.46);
+  overflow: hidden;
 }
-#smPostCard #formTxtCard {
+#smOverlayCard #formTxtCard {
   margin: 0 !important;
   padding: 0 !important;
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
 }
 .fade-enter-active,
 .fade-leave-active {
@@ -219,6 +242,9 @@ export default {
     displayPostForm() {
       return this.$store.getters.displayPostForm;
     },
+    displayTwemojiPicker() {
+      return this.$store.getters.displayTwemojiPicker;
+    },
   },
   data() {
     return {
@@ -241,6 +267,9 @@ export default {
     },
     addPickerReaction(updatePost) {
       this.updatePost = updatePost;
+    },
+    closePicker() {
+      this.$store.commit("invisibleTwemojiPicker");
     },
   },
 };

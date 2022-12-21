@@ -1,7 +1,6 @@
 <template>
   <twemoji-picker
     id="overridePicker"
-    v-if="displayTwemojiPicker"
     v-click-outside="closePicker"
     :style="{ transform: `translate(${x}px, ${y}px)` }"
     :emojiPickerDisabled="false"
@@ -21,14 +20,159 @@
     searchEmojiNotFound="絵文字が見つかりませんでした😭"
     isLoadingLabel="検索中...🔍"
     @emojiUnicodeAdded="emojiAdded"
-  ></twemoji-picker>
+  >
+    <div style="height: 100%; width: 100%" @click.stop></div>
+  </twemoji-picker>
 </template>
 
-<style>
+<style lang="scss">
+@media (max-width: 400px) {
+  #overridePicker
+    div
+    #popper-container
+    #popper-inner
+    #emoji-container
+    #emoji-popup
+    #emoji-popover-header {
+    margin: 0 2% !important;
+  }
+}
+@media (min-width: map-get($grid-breakpoints, md)) {
+  // md 以上のブレークポイントでのスタイル定義
+  #overridePicker {
+    position: fixed;
+    width: 520px;
+  }
+  #overridePicker div #popper-container {
+    position: fixed !important;
+    width: 520px;
+    border-radius: 10px;
+  }
+  #overridePicker
+    div
+    #popper-container
+    #popper-inner
+    #emoji-container
+    #emoji-popup
+    #emoji-popover-header {
+    padding: 0 11px;
+    height: 33px;
+  }
+  #overridePicker
+    div
+    #popper-container
+    #popper-inner
+    #emoji-container
+    #emoji-popup
+    #emoji-popover-header
+    .emoji-tab {
+    padding: 0 7px;
+    height: 33px;
+  }
+  #overridePicker
+    div
+    #popper-container
+    #popper-inner
+    #emoji-container
+    #emoji-popup
+    #emoji-popover-header
+    .emoji-tab
+    .emoji {
+    width: 28px;
+    height: 28px;
+  }
+  #overridePicker
+    div
+    #popper-container
+    #popper-inner
+    #emoji-container
+    #emoji-popup
+    .emoji-popover-inner {
+    height: 300px !important;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, md)) {
+  // md 以下のブレークポイントでのスタイル定義
+  #overridePicker {
+    transform: none !important;
+    position: relative;
+    width: 100%;
+    padding: 0 !important;
+    border: solid rgba(0, 0, 0, 0.25) 1px !important;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  #overridePicker div #popper-container {
+    position: relative !important;
+    width: 100%;
+    overflow: visible !important;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  #overridePicker
+    div
+    #popper-container
+    #popper-inner
+    #emoji-container
+    #emoji-popup {
+    width: 100% !important;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  #overridePicker
+    div
+    #popper-container
+    #popper-inner
+    #emoji-container
+    #emoji-popup
+    #emoji-popover-header {
+    height: 33px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    overflow-x: hidden;
+    margin: 0 5%;
+  }
+  #overridePicker
+    div
+    #popper-container
+    #popper-inner
+    #emoji-container
+    #emoji-popup
+    #emoji-popover-header
+    .emoji-tab {
+    padding: 0;
+    margin: 0 3px;
+    height: 100%;
+    border-bottom: solid 5px transparent;
+  }
+  #overridePicker
+    div
+    #popper-container
+    #popper-inner
+    #emoji-container
+    #emoji-popup
+    #emoji-popover-header
+    .emoji-tab
+    .emoji {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 5px;
+    min-width: 21px;
+    min-height: 21px;
+  }
+  #overridePicker
+    div
+    #popper-container
+    #popper-inner
+    #emoji-container
+    #emoji-popup
+    .emoji-popover-inner {
+    height: 330px !important;
+  }
+}
 #overridePicker {
-  position: fixed;
   inset: 0;
-  width: 520px;
   height: 400px;
   z-index: 999;
 }
@@ -40,15 +184,12 @@
   padding: 0;
   background: #f7f7f7;
   border: none;
-  border-radius: 10px;
   transform: none !important;
   inset: 0 !important;
   -webkit-animation: none !important;
   animation: none !important;
   display: block;
-  width: 520px;
   height: 400px;
-  position: fixed !important;
   top: 0 !important;
   z-index: 2147483647;
   overflow: hidden;
@@ -97,43 +238,9 @@
   #popper-inner
   #emoji-container
   #emoji-popup
-  #emoji-popover-header {
-  padding: 0 11px;
-  height: 33px;
-  border-bottom: solid #cfd8dc 1px;
-}
-#overridePicker
-  div
-  #popper-container
-  #popper-inner
-  #emoji-container
-  #emoji-popup
-  #emoji-popover-header
-  .emoji-tab {
-  padding: 0 7px;
-  height: 33px;
-}
-#overridePicker
-  div
-  #popper-container
-  #popper-inner
-  #emoji-container
-  #emoji-popup
-  #emoji-popover-header
-  .emoji-tab
-  .emoji {
-  width: 28px;
-  height: 28px;
-}
-#overridePicker
-  div
-  #popper-container
-  #popper-inner
-  #emoji-container
-  #emoji-popup
   .emoji-popover-inner {
-  height: 300px !important;
   width: 100% !important;
+  border-top: solid #cfd8dc 1px;
 }
 #overridePicker
   div
@@ -144,7 +251,23 @@
   .emoji-popover-inner
   div
   .emoji-list {
-  margin: 0 5px !important;
+  margin: 0 5% !important;
+  padding: 0;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: flex-start;
+}
+#overridePicker
+  div
+  #popper-container
+  #popper-inner
+  #emoji-container
+  #emoji-popup
+  .emoji-popover-inner
+  div
+  .emoji-list
+  span {
+  width: min-content;
 }
 #emoji-container #emoji-popup #emoji-popover-search #search-header input {
   z-index: auto;
@@ -204,8 +327,8 @@ export default {
     return {
       x: 0,
       y: 0,
-      reactions: null,
-      postList: null,
+      reactions: [],
+      postList: {},
       clickingOutSide: false,
     };
   },
@@ -214,7 +337,7 @@ export default {
   },
   methods: {
     emojiAdded(emojiUnicode) {
-      if (!this.reactions.includes(emojiUnicode)) {
+      if (!JSON.parse(JSON.stringify(this.reactions)).includes(emojiUnicode)) {
         axios.put(
           "/posts/reaction",
           {
@@ -258,6 +381,9 @@ export default {
         this.y = this.pickerY;
       }
     },
+  },
+  created() {
+    this.movePicker();
   },
   watch: {
     emojiBtnClick: {
