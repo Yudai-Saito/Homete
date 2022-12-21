@@ -3,6 +3,8 @@ version: "3.8"
 services:
   python:
     container_name: "admin"
+    networks:
+      - homete_network
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -19,3 +21,7 @@ services:
       FLASK_APP: run.py
       DOMAIN: ${DOMAIN}
     entrypoint: python run.py
+
+networks:
+  homete_network:
+    external: true
