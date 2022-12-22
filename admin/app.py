@@ -2,7 +2,7 @@ from os import environ
 
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-
+from sqlalchemy import desc
 
 #from firebase_admin import credentials, initialize_app
 
@@ -24,5 +24,5 @@ from models.models import Posts
 
 @app.route('/')
 def index():
-  posts = db.session.query(Posts).all()
+  posts = db.session.query(Posts).filter(Posts.approved == None).order_by(desc(Posts.id)).all()
   return render_template("index.html", posts=posts)
