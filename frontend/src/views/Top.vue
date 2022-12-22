@@ -13,7 +13,7 @@
             v-show="displayPostForm"
             @click.stop
           >
-            <div ref="postFormDraggable" id="draggableShape">
+            <div ref="postFormDraggable" id="draggableShape" @click="closeForm">
               <div id="draggableInner"></div>
             </div>
             <PostForm />
@@ -361,7 +361,7 @@ export default {
         this.$refs.postFormCard.style.opacity = `${
           this.$refs.postFormCard.style.opacity + 1 - 0.005
         }`;
-        if (this.dragCurrentY - this.dragStartY >= 150) {
+        if (this.dragCurrentY - this.dragStartY >= 50) {
           this.closeForm();
           this.$refs.postFormCard.style.transform = "";
           this.$refs.postFormCard.style.opacity = "";
@@ -373,7 +373,7 @@ export default {
         this.$refs.pickerCard.style.opacity = `${
           this.$refs.pickerCard.style.opacity + 1 - 0.005
         }`;
-        if (this.dragCurrentY - this.dragStartY >= 150) {
+        if (this.dragCurrentY - this.dragStartY >= 50) {
           this.closePicker();
           this.$refs.pickerCard.style.transform = "";
           this.$refs.pickerCard.style.opacity = "";
@@ -381,7 +381,7 @@ export default {
       }
     },
     overlayTouchEnd() {
-      if (this.dragCurrentY - this.dragStartY < 150) {
+      if (this.dragCurrentY - this.dragStartY < 50) {
         this.$refs.postFormCard.style.transform = "";
         this.$refs.postFormCard.style.opacity = "";
 
