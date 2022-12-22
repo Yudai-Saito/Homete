@@ -6,7 +6,12 @@
     fixed
     elevation="0"
   >
-    <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
+    <v-row
+      justify="center"
+      style="width: 100%"
+      class="contentsFlex mx-auto my-auto"
+      no-gutters
+    >
       <div
         id="hamburgerMenu"
         :class="{ active: isActiveMenu }"
