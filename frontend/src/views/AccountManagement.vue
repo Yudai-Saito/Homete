@@ -1,10 +1,15 @@
 <template>
-  <v-app class="artBoard blue-grey lighten-5">
+  <v-app id="artBoard" class="blue-grey lighten-5">
     <Header @isActive="toggleContents" />
     <Login />
     <DeleteAccount />
     <div>
-      <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
+      <v-row
+        id="contentsFlex"
+        justify="center"
+        class="mx-auto my-auto"
+        no-gutters
+      >
         <v-col cols="3" class="d-none d-sm-block">
           <LeftMenu class="SideMenuFixed" />
         </v-col>
