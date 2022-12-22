@@ -1,6 +1,6 @@
 from os import environ
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
 
@@ -22,7 +22,14 @@ db.init_app(app)
 
 from models.models import Posts
 
-@app.route('/')
+@app.route("/")
 def index():
-  posts = db.session.query(Posts).filter(Posts.approved == None).order_by(desc(Posts.id)).all()
-  return render_template("index.html", posts=posts)
+  return render_template("login.html")
+
+@app.route("/error")
+def error():
+  return render_template('error.html'), 500
+
+@app.errorhandler(Exception)
+def handle_error(e):
+  return redirect(url_for('error'))
