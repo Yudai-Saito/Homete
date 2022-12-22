@@ -32,15 +32,6 @@
 </template>
 
 <style>
-#artBoard {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-}
 #notFoundTxt {
   font-size: 50px;
   text-align: center;

@@ -96,26 +96,6 @@
     margin: 0;
   }
 }
-#artBoard {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-#contentsFlex {
-  width: 100%;
-  flex-wrap: nowrap;
-}
-.SideMenuFixed {
-  top: 0;
-  flex-wrap: nowrap;
-  margin: 0;
-  padding: 0;
-  position: fixed;
-  justify-content: center;
-}
-
 .aboutContainer {
   width: 95%;
   height: 30%;
