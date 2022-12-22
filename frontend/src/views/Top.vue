@@ -44,6 +44,8 @@
         </v-col>
         <v-col
           id="slideTopX"
+          ref="scrollPosts"
+          :style="fixedScroll"
           :class="{ slideTopXActive: isActiveContents }"
           cols="12"
           sm="9"
@@ -219,6 +221,9 @@ import TwemojiPicker from "@/components/util/TwemojiPicker.vue";
 
 import ClickOutside from "vue-click-outside";
 
+// $grid-breakpoints を JavaScript のオブジェクトとして取得
+const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
+
 export default {
   name: "Top",
   components: {
@@ -255,18 +260,28 @@ export default {
       return this.$store.getters.displayTwemojiPicker;
     },
     transitionName() {
-      // $grid-breakpoints を JavaScript のオブジェクトとして取得します
-      const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
       if (window.matchMedia(`(max-width: ${gridBreakpoints.md}px)`).matches) {
         return "slide-y-reverse";
       }
       return "fade";
+    },
+    fixedScroll() {
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.md}px)`).matches) {
+        if (this.displayTwemojiPicker || this.displayPostForm)
+          return {
+            height: "100vh",
+            bottom: `${this.currentScrollPosition}px`,
+            position: "relative",
+          };
+      }
+      return {};
     },
   },
   data() {
     return {
       isActiveContents: false,
       updatePost: null,
+      currentScrollPosition: 0,
     };
   },
   directives: {
@@ -293,6 +308,30 @@ export default {
         this.$store.commit("invisibleTwemojiPicker");
       } else {
         this.$store.commit("clickingOutSide", true);
+      }
+    },
+  },
+  updated() {
+    if (window.matchMedia(`(max-width: ${gridBreakpoints.md}px)`).matches) {
+      window.scrollTo(0, this.currentScrollPosition);
+      if (!this.displayTwemojiPicker && !this.displayPostForm) {
+        this.currentScrollPosition = 0;
+        document.body.style.touchAction = "";
+      }
+    }
+  },
+  watch: {
+    displayTwemojiPicker(newBool) {
+      if (newBool) {
+        this.currentScrollPosition = window.scrollY;
+        document.body.style.touchAction = "none";
+      }
+    },
+    displayPostForm(newBool) {
+      if (newBool) {
+        this.currentScrollPosition = window.scrollY;
+        document.body.style.touchAction = "none";
+        console.log(this.currentScrollPosition);
       }
     },
   },
