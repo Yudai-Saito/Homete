@@ -1,12 +1,11 @@
 <template>
   <twemoji-picker
     id="overridePicker"
-    v-click-outside="closePicker"
     :style="{ transform: `translate(${x}px, ${y}px)` }"
     :emojiPickerDisabled="false"
     :emojiData="emojiDataAll"
     :emojiGroups="emojiGroups"
-    :skinsSelection="true"
+    :skinsSelection="false"
     :searchEmojisFeat="true"
     :pickerWidth="520"
     :pickerHeight="400"
@@ -20,9 +19,7 @@
     searchEmojiNotFound="絵文字が見つかりませんでした😭"
     isLoadingLabel="検索中...🔍"
     @emojiUnicodeAdded="emojiAdded"
-  >
-    <div style="height: 100%; width: 100%" @click.stop></div>
-  </twemoji-picker>
+  ></twemoji-picker>
 </template>
 
 <style lang="scss">
@@ -293,8 +290,6 @@ import { TwemojiPicker } from "@kevinfaguiar/vue-twemoji-picker";
 import EmojiAllData from "@/emoji/emoji-all-groups.json";
 import EmojiGroups from "@/emoji/emoji-groups.json";
 
-import ClickOutside from "vue-click-outside";
-
 export default {
   name: "TwemojiPicker",
   components: {
@@ -319,6 +314,9 @@ export default {
     displayTwemojiPicker() {
       return this.$store.getters.displayTwemojiPicker;
     },
+    clickOutSide() {
+      return this.$store.getters.clickOutSide;
+    },
     emojiBtnClick() {
       return JSON.parse(JSON.stringify(this.$store.getters.emojiBtnClick));
     },
@@ -329,11 +327,7 @@ export default {
       y: 0,
       reactions: [],
       postList: {},
-      clickingOutSide: false,
     };
-  },
-  directives: {
-    ClickOutside,
   },
   methods: {
     emojiAdded(emojiUnicode) {
@@ -363,10 +357,10 @@ export default {
       this.closePicker();
     },
     closePicker() {
-      if (this.clickingOutSide) {
+      if (this.clickOutSide) {
         this.$store.commit("invisibleTwemojiPicker");
       } else {
-        this.clickingOutSide = true;
+        this.$store.commit("clickingOutSide", true);
       }
     },
     movePicker() {
@@ -388,7 +382,7 @@ export default {
   watch: {
     emojiBtnClick: {
       handler: function (newClick, oldClick) {
-        this.clickingOutSide = false;
+        this.$store.commit("clickingOutSide", false);
         if (newClick.currentPostId != null) {
           if (oldClick.currentPostId == null) {
             if (newClick.currentPostId != oldClick.currentPostId) {

@@ -16,23 +16,18 @@
     <transition name="fade">
       <div
         id="formOverlay"
-        class="d-md-none"
+        style="z-index: 2"
         v-show="displayTwemojiPicker"
         @click="closePicker"
       >
-        <transition name="slide-y-reverse">
-          <div v-show="displayTwemojiPicker" id="smOverlayCard" @click.stop>
-            <TwemojiPicker @addReaction="addPickerReaction" />
+        <transition :name="transitionName">
+          <div v-show="displayTwemojiPicker" id="pickerOverlay" @click.stop>
+            <TwemojiPicker
+              v-click-outside="closePicker"
+              @addReaction="addPickerReaction"
+            />
           </div>
         </transition>
-      </div>
-    </transition>
-    <transition name="fade">
-      <div v-show="displayTwemojiPicker" style="z-index: 999" @click.stop>
-        <TwemojiPicker
-          class="d-none d-md-block"
-          @addReaction="addPickerReaction"
-        />
       </div>
     </transition>
     <div>
@@ -88,6 +83,31 @@
   </v-app>
 </template>
 <style lang="scss">
+@media (max-width: map-get($grid-breakpoints, md)) {
+  #pickerOverlay {
+    bottom: 30px;
+    width: 100vw;
+    position: relative;
+    z-index: 999;
+  }
+  #formOverlay {
+    align-items: flex-end;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    justify-content: center;
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(33, 33, 33, 0.46);
+    overflow: hidden;
+  }
+}
 @media (min-width: map-get($grid-breakpoints, sm)) {
   // sm 以上のブレークポイントでのスタイル定義
   #smOverlayCard {
@@ -148,23 +168,7 @@ body {
 #smOverlayCard {
   width: 100vw;
   position: relative;
-}
-#formOverlay {
-  align-items: flex-end;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  z-index: 1;
-  justify-content: center;
-  position: fixed;
-  display: flex;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(33, 33, 33, 0.46);
-  overflow: hidden;
+  z-index: 999;
 }
 #smOverlayCard #formTxtCard {
   margin: 0 !important;
@@ -213,6 +217,8 @@ import ReportPost from "@/components/overlays/ReportPost.vue";
 import PostForm from "@/components/util/PostForm.vue";
 import TwemojiPicker from "@/components/util/TwemojiPicker.vue";
 
+import ClickOutside from "vue-click-outside";
+
 export default {
   name: "Top",
   components: {
@@ -242,8 +248,19 @@ export default {
     displayPostForm() {
       return this.$store.getters.displayPostForm;
     },
+    clickOutSide() {
+      return this.$store.getters.clickOutSide;
+    },
     displayTwemojiPicker() {
       return this.$store.getters.displayTwemojiPicker;
+    },
+    transitionName() {
+      // $grid-breakpoints を JavaScript のオブジェクトとして取得します
+      const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.md}px)`).matches) {
+        return "slide-y-reverse";
+      }
+      return "fade";
     },
   },
   data() {
@@ -251,6 +268,9 @@ export default {
       isActiveContents: false,
       updatePost: null,
     };
+  },
+  directives: {
+    ClickOutside,
   },
   methods: {
     logIn: function () {
@@ -269,7 +289,11 @@ export default {
       this.updatePost = updatePost;
     },
     closePicker() {
-      this.$store.commit("invisibleTwemojiPicker");
+      if (this.clickOutSide) {
+        this.$store.commit("invisibleTwemojiPicker");
+      } else {
+        this.$store.commit("clickingOutSide", true);
+      }
     },
   },
 };

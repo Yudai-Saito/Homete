@@ -2,6 +2,7 @@ const state = {
   displayTwemojiPicker: false,
   pickerX: 0,
   pickerY: 0,
+  clickOutSide: false,
   emojiBtnClick: {
     click: false,
     currentPostId: null,
@@ -14,6 +15,7 @@ const getters = {
   displayTwemojiPicker: (state) => state.displayTwemojiPicker,
   pickerX: (state) => state.pickerX,
   pickerY: (state) => state.pickerY,
+  clickOutSide: (state) => state.clickOutSide,
   emojiBtnClick: (state) => state.emojiBtnClick,
 };
 
@@ -53,6 +55,9 @@ const mutations = {
   },
   reverseemojiBtnClick(state) {
     state.emojiBtnClick.click = !state.emojiBtnClick.click;
+  },
+  clickingOutSide(state, bool) {
+    state.clickOutSide = bool;
   },
 };
 
