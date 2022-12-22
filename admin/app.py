@@ -26,6 +26,11 @@ from models.models import Posts
 def index():
   return render_template("login.html")
 
+@app.route("/posts")
+def posts():
+  posts = db.session.query(Posts).filter(Posts.approved == None).order_by(desc(Posts.id)).all()
+  return render_template("posts.html", posts=posts)
+
 @app.route("/error")
 def error():
   return render_template('error.html'), 500
