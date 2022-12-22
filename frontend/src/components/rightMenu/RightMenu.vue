@@ -11,7 +11,7 @@
   max-height: 100vh;
   margin: 0;
   padding: 0;
-  width: -webkit-fill-available;
+  width: 24%;
 }
 </style>
 
