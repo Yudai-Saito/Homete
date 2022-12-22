@@ -10,10 +10,17 @@
     />
   </head>
   <body>
-    <table class="table">
+    <nav class="navbar">
+      <header>
+        <button>全て</button>
+        <button>通報</button>
+        <button>ログアウト</button>
+      </header>
+    </nav>
+    <table class="table table-striped table-hover">
       <tr>
         <th>PostId</th>
-        <th>UserEmail</th>
+        <th>UserId</th>
         <th>CreateDate</th>
         <th>Contents</th>
       </tr>
@@ -23,6 +30,10 @@
         <td>{{ post.user_id }}</td>
         <td>{{ post.created_at }}</td>
         <td>{{ post.contents }}</td>
+        <td>
+          <button class="btn btn-success">承認</button>
+          <button class="btn btn-danger">削除</button>
+        </td>
       </tr>
       {% endfor %}
     </table>
