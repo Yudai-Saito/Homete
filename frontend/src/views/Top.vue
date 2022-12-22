@@ -7,7 +7,15 @@
     <transition name="fade">
       <div id="formOverlay" v-show="displayPostForm" @click="closeForm">
         <transition name="slide-y-reverse">
-          <div v-show="displayPostForm" id="smOverlayCard" @click.stop>
+          <div
+            ref="postFormCard"
+            id="postFormOverlayCard"
+            v-show="displayPostForm"
+            @click.stop
+          >
+            <div ref="postFormDraggable" id="draggableShape">
+              <div id="draggableInner"></div>
+            </div>
             <PostForm />
           </div>
         </transition>
@@ -21,7 +29,15 @@
         @click="closePicker"
       >
         <transition :name="transitionName">
-          <div v-show="displayTwemojiPicker" id="pickerOverlay" @click.stop>
+          <div
+            ref="pickerCard"
+            id="pickerOverlay"
+            v-show="displayTwemojiPicker"
+            @click.stop
+          >
+            <div ref="pickerDraggable" id="draggableShape">
+              <div id="draggableInner"></div>
+            </div>
             <TwemojiPicker
               v-click-outside="closePicker"
               @addReaction="addPickerReaction"
@@ -112,13 +128,13 @@
 }
 @media (min-width: map-get($grid-breakpoints, sm)) {
   // sm 以上のブレークポイントでのスタイル定義
-  #smOverlayCard {
+  #postFormOverlayCard {
     bottom: 30px;
   }
 }
 @media (max-width: map-get($grid-breakpoints, sm)) {
   // sm 以下のブレークポイントでのスタイル定義
-  #smOverlayCard {
+  #postFormOverlayCard {
     bottom: 50px;
   }
 }
@@ -167,12 +183,12 @@ body {
 #postBtnFloat span i {
   color: whitesmoke;
 }
-#smOverlayCard {
+#postFormOverlayCard {
   width: 100vw;
   position: relative;
   z-index: 999;
 }
-#smOverlayCard #formTxtCard {
+#postFormOverlayCard #formTxtCard {
   margin: 0 !important;
   padding: 0 !important;
   border-bottom-left-radius: 0px !important;
@@ -180,6 +196,24 @@ body {
   border-top-left-radius: 10px !important;
   border-top-right-radius: 10px !important;
 }
+#draggableShape {
+  width: 100%;
+  height: 50px;
+  position: absolute;
+  z-index: 9999;
+  top: -35px;
+  display: flex;
+  justify-content: center;
+}
+#draggableInner {
+  width: 60px;
+  height: 5px;
+  border-radius: 10px;
+  background-color: rgba(230, 230, 230, 0.75);
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s;
@@ -272,6 +306,7 @@ export default {
             height: "100vh",
             bottom: `${this.currentScrollPosition}px`,
             position: "relative",
+            "pointer-events": "none",
           };
       }
       return {};
@@ -282,6 +317,8 @@ export default {
       isActiveContents: false,
       updatePost: null,
       currentScrollPosition: 0,
+      dragStartY: 0, // タッチ操作開始時のY座標
+      dragCurrentY: 0, // 現在のY座標
     };
   },
   directives: {
@@ -310,6 +347,96 @@ export default {
         this.$store.commit("clickingOutSide", true);
       }
     },
+    overlayTouchStart(event) {
+      this.dragStartY = event.touches[0].clientY;
+    },
+    // touchmoveイベントのハンドラ
+    overlayTouchMove(event) {
+      this.dragCurrentY = event.touches[0].clientY;
+      // スライドさせたい要素のスタイルを変更する
+      if (this.dragCurrentY - this.dragStartY >= 0) {
+        this.$refs.postFormCard.style.transform = `translateY(${
+          this.dragCurrentY - this.dragStartY
+        }px)`;
+        this.$refs.postFormCard.style.opacity = `${
+          this.$refs.postFormCard.style.opacity + 1 - 0.005
+        }`;
+        if (this.dragCurrentY - this.dragStartY >= 150) {
+          this.closeForm();
+          this.$refs.postFormCard.style.transform = "";
+          this.$refs.postFormCard.style.opacity = "";
+        }
+
+        this.$refs.pickerCard.style.transform = `translateY(${
+          this.dragCurrentY - this.dragStartY
+        }px)`;
+        this.$refs.pickerCard.style.opacity = `${
+          this.$refs.pickerCard.style.opacity + 1 - 0.005
+        }`;
+        if (this.dragCurrentY - this.dragStartY >= 150) {
+          this.closePicker();
+          this.$refs.pickerCard.style.transform = "";
+          this.$refs.pickerCard.style.opacity = "";
+        }
+      }
+    },
+    overlayTouchEnd() {
+      if (this.dragCurrentY - this.dragStartY < 150) {
+        this.$refs.postFormCard.style.transform = "";
+        this.$refs.postFormCard.style.opacity = "";
+
+        this.$refs.pickerCard.style.transform = "";
+        this.$refs.pickerCard.style.opacity = "";
+      }
+    },
+  },
+  mounted() {
+    // touchstartイベントを監視する
+    this.$refs.postFormDraggable.addEventListener(
+      "touchstart",
+      this.overlayTouchStart
+    );
+    // touchmoveイベントを監視する
+    this.$refs.postFormDraggable.addEventListener(
+      "touchmove",
+      this.overlayTouchMove
+    );
+    // touchendイベントを監視する
+    this.$refs.postFormDraggable.addEventListener(
+      "touchend",
+      this.overlayTouchEnd
+    );
+
+    // touchstartイベントを監視する
+    this.$refs.pickerDraggable.addEventListener(
+      "touchstart",
+      this.overlayTouchStart
+    );
+    // touchmoveイベントを監視する
+    this.$refs.pickerDraggable.addEventListener(
+      "touchmove",
+      this.overlayTouchMove
+    );
+    // touchendイベントを監視する
+    this.$refs.pickerDraggable.addEventListener(
+      "touchend",
+      this.overlayTouchEnd
+    );
+  },
+  beforeDestroy() {
+    // イベントの監視を解除する
+    this.$refs.postFormDraggable.removeEventListener(
+      "touchstart",
+      this.overlayTouchStart
+    );
+    this.$refs.postFormDraggable.removeEventListener(
+      "touchmove",
+      this.overlayTouchMove
+    );
+    this.$refs.postFormDraggable.removeEventListener(
+      "touchend",
+      this.overlayTouchEnd
+    );
   },
   updated() {
     if (window.matchMedia(`(max-width: ${gridBreakpoints.md}px)`).matches) {
@@ -331,7 +458,6 @@ export default {
       if (newBool) {
         this.currentScrollPosition = window.scrollY;
         document.body.style.touchAction = "none";
-        console.log(this.currentScrollPosition);
       }
     },
   },
