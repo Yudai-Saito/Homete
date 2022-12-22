@@ -1,8 +1,7 @@
 from os import environ
 
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import desc
 
 #from firebase_admin import credentials, initialize_app
 
@@ -20,21 +19,10 @@ db.init_app(app)
 #cred = credentials.Certificate("firebase_account_key.json")
 #firebase_app = initialize_app(cred)
 
-from models.models import Posts
+from routes.error import error
+from routes.login import login
+from routes.posts import posts
 
-@app.route("/")
-def index():
-  return render_template("login.html")
-
-@app.route("/posts")
-def posts():
-  posts = db.session.query(Posts).filter(Posts.approved == None).order_by(desc(Posts.id)).all()
-  return render_template("posts.html", posts=posts)
-
-@app.route("/error")
-def error():
-  return render_template('error.html'), 500
-
-@app.errorhandler(Exception)
-def handle_error(e):
-  return redirect(url_for('error'))
+app.register_blueprint(error)
+app.register_blueprint(login)
+app.register_blueprint(posts)
