@@ -16,6 +16,7 @@
 
     <v-form id="formArea" v-model="isValid" ref="forms">
       <v-textarea
+        id="mdPostForm"
         label="なにを褒めてもらう？"
         solo
         flat
@@ -54,7 +55,23 @@
     </v-form>
   </v-card>
 </template>
-<style>
+<style lang="scss">
+@media (max-width: map-get($grid-breakpoints, md)) {
+  #formArea .v-textarea {
+    height: 250px;
+  }
+  #formArea .v-textarea .v-input__control .v-input__slot {
+    height: 220px;
+  }
+  #formArea
+    .v-textarea
+    .v-input__control
+    .v-input__slot
+    .v-text-field__slot
+    textarea {
+    height: 200px !important;
+  }
+}
 #formTxtCard {
   display: flex;
   width: 100%;
