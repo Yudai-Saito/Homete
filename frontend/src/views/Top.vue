@@ -80,18 +80,20 @@
             :updatePost="updatePost"
           />
         </v-col>
-        <v-btn
-          id="postBtnFloat"
-          class="d-md-none"
-          :class="{ slideTopXActive: displayMenu }"
-          elevation="3"
-          fab
-          icon
-          rounded
-          @click="onClickPostBtn"
-        >
-          <v-icon> mdi-pen-plus </v-icon>
-        </v-btn>
+        <div id="postBtnFloat" ref="postBtn">
+          <v-btn
+            class="d-md-none"
+            style="background-color: #1da1f2"
+            :class="{ slideTopXActive: displayMenu }"
+            elevation="3"
+            fab
+            icon
+            rounded
+            @click="onClickPostBtn"
+          >
+            <v-icon> mdi-pen-plus </v-icon>
+          </v-btn>
+        </div>
         <v-col cols="3" class="d-none d-md-block">
           <RightMenu class="SideMenuFixed" />
         </v-col>
@@ -163,8 +165,10 @@ body {
 
 #slideTopX {
   transition: all 0.4s !important;
-  transform: translateX(0px);
   z-index: 0;
+  position: relative;
+  top: 10vh;
+  min-height: 100vh;
 }
 .slideTopXActive {
   transform: translateX(250px) !important;
@@ -174,7 +178,6 @@ body {
 
 #postBtnFloat {
   position: fixed;
-  background-color: #1da1f2;
   inset: auto 30px 60px auto;
   transition: all 0.4s !important;
   transform: translateX(0px);
@@ -304,7 +307,11 @@ export default {
     },
     fixedScroll() {
       if (window.matchMedia(`(max-width: ${gridBreakpoints.md}px)`).matches) {
-        if (this.displayTwemojiPicker || this.displayPostForm)
+        if (
+          this.displayTwemojiPicker ||
+          this.displayPostForm ||
+          this.displayMenu
+        )
           return {
             height: "100vh",
             bottom: `${this.currentScrollPosition}px`,
@@ -317,8 +324,6 @@ export default {
   },
   data() {
     return {
-      isActiveMenu: false,
-      isActiveContents: false,
       updatePost: null,
       currentScrollPosition: 0,
       dragStartY: 0, // タッチ操作開始時のY座標
@@ -406,22 +411,27 @@ export default {
         this.$refs.scrollPosts.style.transform = `translateX(${
           this.dragCurrentX - this.dragStartX
         }px)`;
+        this.$refs.postBtn.style.transform = `translateX(${
+          this.dragCurrentX - this.dragStartX
+        }px)`;
         this.$refs.scrollPosts.style.opacity = `${
           this.$refs.scrollPosts.style.opacity + 1 - 0.005
+        }`;
+        this.$refs.postBtn.style.opacity = `${
+          this.$refs.postFormCard.style.opacity + 1 - 0.005
         }`;
       }
     },
     postsTouchEnd() {
       if (this.dragCurrentX - this.dragStartX >= 50) {
         this.$store.dispatch("visibleMenu");
-        this.isActiveMenu = true;
-        this.$refs.scrollPosts.style.transform = "";
-        this.$refs.scrollPosts.style.opacity = "";
         this.dragStartX = 0;
         this.dragCurrentX = 0;
       } else {
         this.$refs.scrollPosts.style.transform = "";
         this.$refs.scrollPosts.style.opacity = "";
+        this.$refs.postBtn.style.transform = "";
+        this.$refs.postBtn.style.opacity = "";
         this.dragStartX = 0;
         this.dragCurrentX = 0;
       }
@@ -469,6 +479,14 @@ export default {
     this.$refs.scrollPosts.addEventListener("touchmove", this.postsTouchMove);
     // touchendイベントを監視する
     this.$refs.scrollPosts.addEventListener("touchend", this.postsTouchEnd);
+
+    //投稿ボタン
+    // touchstartイベントを監視する
+    this.$refs.postBtn.addEventListener("touchstart", this.postsTouchStart);
+    // touchmoveイベントを監視する
+    this.$refs.postBtn.addEventListener("touchmove", this.postsTouchMove);
+    // touchendイベントを監視する
+    this.$refs.postBtn.addEventListener("touchend", this.postsTouchEnd);
   },
   beforeDestroy() {
     // イベントの監視を解除する
@@ -515,6 +533,11 @@ export default {
       if (newBool) {
         this.currentScrollPosition = window.scrollY;
         document.body.style.touchAction = "none";
+      } else {
+        this.$refs.scrollPosts.style.transform = "";
+        this.$refs.scrollPosts.style.opacity = "";
+        this.$refs.postBtn.style.transform = "";
+        this.$refs.postBtn.style.opacity = "";
       }
     },
   },
