@@ -212,7 +212,7 @@
   position: fixed;
   left: 0px;
   height: calc(100vh - 56px);
-  width: 100%;
+  width: 250px;
   margin: 0 auto;
   top: 56px;
   z-index: 5;
@@ -327,34 +327,44 @@ export default {
       this.$store.dispatch("loggedOut");
     },
     toAccountManagement: function () {
-      this.$store.dispatch("toAccount");
-      if (this.$route.path != "/account") {
-        this.$router.push("/account");
-      }
+      this.$store.dispatch("invisibleMenu");
+      this.$store.dispatch("toAccount").then(() => {
+        if (this.$route.path != "/account") {
+          this.$router.push("/account");
+        }
+      });
     },
     toExplanation: function () {
-      this.$store.dispatch("toExplanation");
-      if (this.$route.path != "/about") {
-        this.$router.push("/about");
-      }
+      this.$store.dispatch("invisibleMenu");
+      this.$store.dispatch("toExplanation").then(() => {
+        if (this.$route.path != "/about") {
+          this.$router.push("/about");
+        }
+      });
     },
     toQuestionAnswer: function () {
-      this.$store.dispatch("toQuestionAnswer");
-      if (this.$route.path != "/about") {
-        this.$router.push("/about");
-      }
+      this.$store.dispatch("invisibleMenu");
+      this.$store.dispatch("toQuestionAnswer").then(() => {
+        if (this.$route.path != "/about") {
+          this.$router.push("/about");
+        }
+      });
     },
     toUserPolicy: function () {
-      this.$store.dispatch("toUserPolicy");
-      if (this.$route.path != "/about") {
-        this.$router.push("/about");
-      }
+      this.$store.dispatch("invisibleMenu");
+      this.$store.dispatch("toUserPolicy").then(() => {
+        if (this.$route.path != "/about") {
+          this.$router.push("/about");
+        }
+      });
     },
     toPrivacyPolicy: function () {
-      this.$store.dispatch("toPrivacyPolicy");
-      if (this.$route.path != "/about") {
-        this.$router.push("/about");
-      }
+      this.$store.dispatch("invisibleMenu");
+      this.$store.dispatch("toPrivacyPolicy").then(() => {
+        if (this.$route.path != "/about") {
+          this.$router.push("/about");
+        }
+      });
     },
     toggleMenu() {
       if (this.displayMenu) {
