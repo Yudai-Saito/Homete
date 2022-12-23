@@ -20,7 +20,7 @@
           md="6"
           lg="5"
           id="slideAboutX"
-          :class="{ slideAboutXActive: isActiveContents }"
+          :class="{ slideAboutXActive: displayMenu }"
         >
           <v-slide-group
             id="flexSlide"
@@ -193,16 +193,18 @@ export default {
     aboutState() {
       return this.$store.getters.aboutState;
     },
+    displayMenu() {
+      return this.$store.getters.displayMenu;
+    },
   },
   data() {
     return {
       displayDelete: false,
       checked: [],
       btnDisable: true,
-      currentDisplay: null,
+      currentDisplay: this.aboutState,
       icon: ["🔍", "💡", "📑", "🔒"],
       title: ["使い方", "Q & A", "利用規約", "プライバシー"],
-      isActiveContents: false,
     };
   },
   directives: {
@@ -224,6 +226,9 @@ export default {
     toggleContents(bool) {
       this.isActiveContents = bool;
     },
+  },
+  mounted() {
+    this.currentDisplay = this.aboutState;
   },
 };
 </script>

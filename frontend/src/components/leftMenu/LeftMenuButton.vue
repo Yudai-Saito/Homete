@@ -34,10 +34,11 @@ export default {
   props: ["usage", "btnText", "btnIcon"],
   methods: {
     onClick: function () {
-      this.$store.dispatch(this.usage);
-      if (this.$route.path != "/") {
-        this.$router.push("/");
-      }
+      this.$store.dispatch(this.usage).then(() => {
+        if (this.$route.path != "/") {
+          this.$router.push("/");
+        }
+      });
     },
   },
 };

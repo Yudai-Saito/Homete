@@ -22,29 +22,50 @@ const getters = {
 
 const actions = {
   toTimeLine(context) {
-    context.commit("updateContentName", contents["timeline"]);
+    return new Promise((resolve) => {
+      context.commit("updateContentName", contents["timeline"]);
+      resolve();
+    });
   },
   toHistory(context) {
-    context.commit("updateContentName", contents["history"]);
+    return new Promise((resolve) => {
+      context.commit("updateContentName", contents["history"]);
+      resolve();
+    });
   },
   toAccount(context) {
-    context.commit("updateContentName", contents["account"]);
+    return new Promise((resolve) => {
+      context.commit("updateContentName", contents["account"]);
+      resolve();
+    });
   },
   toExplanation(context) {
-    context.commit("updateContentName", contents["about"]);
-    context.commit("updateAboutState", 0);
+    return new Promise((resolve) => {
+      context.commit("updateContentName", contents["about"]);
+      context.commit("updateAboutState", 0);
+      resolve();
+    });
   },
   toQuestionAnswer(context) {
-    context.commit("updateContentName", contents["about"]);
-    context.commit("updateAboutState", 1);
+    return new Promise((resolve) => {
+      context.commit("updateContentName", contents["about"]);
+      context.commit("updateAboutState", 1);
+      resolve();
+    });
   },
   toUserPolicy(context) {
-    context.commit("updateContentName", contents["about"]);
-    context.commit("updateAboutState", 2);
+    return new Promise((resolve) => {
+      context.commit("updateContentName", contents["about"]);
+      context.commit("updateAboutState", 2);
+      resolve();
+    });
   },
   toPrivacyPolicy(context) {
-    context.commit("updateContentName", contents["about"]);
-    context.commit("updateAboutState", 3);
+    return new Promise((resolve) => {
+      context.commit("updateContentName", contents["about"]);
+      context.commit("updateAboutState", 3);
+      resolve();
+    });
   },
 };
 
