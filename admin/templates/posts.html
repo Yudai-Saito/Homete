@@ -31,8 +31,18 @@
         <td>{{ post.created_at }}</td>
         <td>{{ post.contents }}</td>
         <td>
-          <button class="btn btn-success">承認</button>
-          <button class="btn btn-danger">削除</button>
+          <button
+            class="btn btn-success"
+            onclick="window.location.href='/posts/delete?post_id=${id}"
+          >
+            承認
+          </button>
+          <button
+            class="btn btn-danger"
+            onclick="window.location.href='/posts/delete?post_id={{ post.id }}'"
+          >
+            削除
+          </button>
         </td>
       </tr>
       {% endfor %}
