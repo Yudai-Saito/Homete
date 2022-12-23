@@ -59,10 +59,12 @@ export default {
   props: ["usage", "ftBtnIcon", "ftBtnTxt"],
   methods: {
     onClick: function () {
-      this.$store.dispatch(this.usage);
-      if (this.$route.path != "/") {
-        this.$router.push("/");
-      }
+      this.$store.dispatch("invisibleMenu");
+      this.$store.dispatch(this.usage).then(() => {
+        if (this.$route.path != "/") {
+          this.$router.push("/");
+        }
+      });
     },
   },
 };
