@@ -307,11 +307,7 @@ export default {
     },
     fixedScroll() {
       if (window.matchMedia(`(max-width: ${gridBreakpoints.md}px)`).matches) {
-        if (
-          this.displayTwemojiPicker ||
-          this.displayPostForm ||
-          this.displayMenu
-        )
+        if (this.displayTwemojiPicker || this.displayPostForm)
           return {
             height: "100vh",
             bottom: `${this.currentScrollPosition}px`,
