@@ -14,52 +14,59 @@
     >
       <div
         id="hamburgerMenu"
-        :class="{ active: isActiveMenu }"
+        :class="{ active: displayMenu }"
         @click="toggleMenu"
       >
         <span></span><span>Menu</span><span></span>
       </div>
       <transition name="slide-menu-x">
-        <v-list id="springBoard" v-show="isActiveMenu">
-          <v-list-item>
-            <SpringBoardMenu
-              :labelTxt="logged ? 'アカウント' : 'ログイン'"
-              :icon="logged ? 'mdi-account-cog' : 'mdi-login-variant'"
-              :onClickSpringBoardMenu="logged ? toAccountManagement : login"
-            />
-          </v-list-item>
-          <v-list-item>
-            <SpringBoardMenu
-              labelTxt="HOMETEについて"
-              icon="mdi-information-variant"
-              :onClickSpringBoardMenu="toExplanation"
-            />
-          </v-list-item>
-          <v-list-item>
-            <SpringBoardMenu
-              labelTxt="Q & A"
-              icon="mdi-chat-question-outline"
-              :onClickSpringBoardMenu="toQuestionAnswer"
-            />
-          </v-list-item>
-          <v-list-item>
-            <SpringBoardMenu
-              labelTxt="利用規約"
-              icon="mdi-shield-check"
-              :onClickSpringBoardMenu="toUserPolicy"
-            />
-          </v-list-item>
-          <v-list-item>
-            <SpringBoardMenu
-              labelTxt="プライバシー"
-              icon="mdi-shield-key-outline"
-              :onClickSpringBoardMenu="toPrivacyPolicy"
-            />
-          </v-list-item>
-        </v-list>
+        <div ref="slideBoard" id="springBoard" v-show="displayMenu">
+          <v-list id="springBoardMenu">
+            <v-list-item>
+              <SpringBoardMenu
+                :labelTxt="logged ? 'アカウント' : 'ログイン'"
+                :icon="logged ? 'mdi-account-cog' : 'mdi-login-variant'"
+                :onClickSpringBoardMenu="logged ? toAccountManagement : login"
+              />
+            </v-list-item>
+            <v-list-item>
+              <SpringBoardMenu
+                labelTxt="HOMETEについて"
+                icon="mdi-information-variant"
+                :onClickSpringBoardMenu="toExplanation"
+              />
+            </v-list-item>
+            <v-list-item>
+              <SpringBoardMenu
+                labelTxt="Q & A"
+                icon="mdi-chat-question-outline"
+                :onClickSpringBoardMenu="toQuestionAnswer"
+              />
+            </v-list-item>
+            <v-list-item>
+              <SpringBoardMenu
+                labelTxt="利用規約"
+                icon="mdi-shield-check"
+                :onClickSpringBoardMenu="toUserPolicy"
+              />
+            </v-list-item>
+            <v-list-item>
+              <SpringBoardMenu
+                labelTxt="プライバシー"
+                icon="mdi-shield-key-outline"
+                :onClickSpringBoardMenu="toPrivacyPolicy"
+              />
+            </v-list-item>
+          </v-list>
+        </div>
       </transition>
-      <transition name="fade">
-        <div id="menuOverlay" v-show="isActiveMenu" @click="toggleMenu"></div>
+      <transition name="fade"
+        ><div
+          ref="slideMenuOverlay"
+          id="menuOverlay"
+          v-show="displayMenu"
+          @click="closeMenu"
+        ></div>
       </transition>
       <v-col id="title" class="md-none text-h5 font-weight-bold" cols="3">
         homete…
@@ -107,7 +114,9 @@
     display: block;
   }
 }
-
+#header {
+  z-index: 2;
+}
 #header div {
   padding: 0 !important;
 }
@@ -201,15 +210,22 @@
 
 #springBoard {
   position: fixed;
-  top: 56px;
   left: 0px;
-  height: calc(100vh - 106px);
-  z-index: 5;
-  width: 250px;
+  height: calc(100vh - 56px);
+  width: 100%;
   margin: 0 auto;
-  background-color: #eceff1;
+  top: 56px;
+  z-index: 5;
 }
-#springBoard .v-list-item {
+#springBoardMenu {
+  left: 0px;
+  height: calc(100vh - 56px);
+  width: 250px;
+  position: fixed;
+  background-color: #eceff1;
+  z-index: 2;
+}
+#springBoardMenu .v-list-item {
   width: 75%;
   margin: 0 auto;
   top: 20px;
@@ -234,7 +250,7 @@
 
 #menuOverlay {
   align-items: flex-end;
-  height: calc(100vh - 106px);
+  height: calc(100vh - 56px);
   width: 100vw;
   margin: 0;
   padding: 0;
@@ -294,10 +310,12 @@ export default {
     contentName() {
       return this.$store.getters.contentName;
     },
+    displayMenu() {
+      return this.$store.getters.displayMenu;
+    },
   },
   data() {
     return {
-      isActiveMenu: false,
       menuHeight: "",
     };
   },
@@ -310,48 +328,129 @@ export default {
     },
     toAccountManagement: function () {
       this.$store.dispatch("toAccount");
-      this.isActiveMenu = !this.isActiveMenu;
-      this.$emit("isActive", this.isActiveMenu);
       if (this.$route.path != "/account") {
         this.$router.push("/account");
       }
     },
     toExplanation: function () {
       this.$store.dispatch("toExplanation");
-      this.isActiveMenu = !this.isActiveMenu;
-      this.$emit("isActive", this.isActiveMenu);
       if (this.$route.path != "/about") {
         this.$router.push("/about");
       }
     },
     toQuestionAnswer: function () {
       this.$store.dispatch("toQuestionAnswer");
-      this.isActiveMenu = !this.isActiveMenu;
-      this.$emit("isActive", this.isActiveMenu);
       if (this.$route.path != "/about") {
         this.$router.push("/about");
       }
     },
     toUserPolicy: function () {
       this.$store.dispatch("toUserPolicy");
-      this.isActiveMenu = !this.isActiveMenu;
-      this.$emit("isActive", this.isActiveMenu);
       if (this.$route.path != "/about") {
         this.$router.push("/about");
       }
     },
     toPrivacyPolicy: function () {
       this.$store.dispatch("toPrivacyPolicy");
-      this.isActiveMenu = !this.isActiveMenu;
-      this.$emit("isActive", this.isActiveMenu);
       if (this.$route.path != "/about") {
         this.$router.push("/about");
       }
     },
     toggleMenu() {
-      this.$emit("isActive", !this.isActiveMenu);
-      this.isActiveMenu = !this.isActiveMenu;
+      if (this.displayMenu) {
+        this.$store.dispatch("invisibleMenu");
+        this.dragStartX = 0;
+        this.dragCurrentX = 0;
+      } else {
+        this.$store.dispatch("visibleMenu");
+      }
     },
+    closeMenu() {
+      this.$store.dispatch("invisibleMenu");
+      this.dragStartX = 0;
+      this.dragCurrentX = 0;
+    },
+    menuTouchStart(event) {
+      this.dragStartX = event.touches[0].clientX;
+    },
+    // touchmoveイベントのハンドラ
+    menuTouchMove(event) {
+      this.dragCurrentX = event.touches[0].clientX;
+      // スライドさせたい要素のスタイルを変更する
+      if (this.dragCurrentX - this.dragStartX <= 0) {
+        this.$refs.slideBoard.style.transform = `translateX(${
+          this.dragCurrentX - this.dragStartX
+        }px)`;
+        this.$refs.slideBoard.style.opacity = `${
+          this.$refs.slideBoard.style.opacity + 1 - 0.01
+        }`;
+        this.$refs.slideMenuOverlay.style.opacity = `${
+          this.$refs.slideMenuOverlay.style.opacity + 1 - 0.01
+        }`;
+      }
+    },
+    menuTouchEnd() {
+      if (
+        this.dragCurrentX != 0 &&
+        this.dragCurrentX - this.dragStartX <= -50
+      ) {
+        this.$store.dispatch("invisibleMenu");
+        this.$refs.slideBoard.style.transform = "";
+        this.$refs.slideBoard.style.opacity = "";
+        this.$refs.slideMenuOverlay.style.opacity = "";
+        this.dragStartX = 0;
+        this.dragCurrentX = 0;
+      } else {
+        this.$refs.slideBoard.style.transform = "";
+        this.$refs.slideBoard.style.opacity = "";
+        this.$refs.slideMenuOverlay.style.opacity = "";
+        this.dragStartX = 0;
+        this.dragCurrentX = 0;
+      }
+    },
+  },
+  mounted() {
+    // touchstartイベントを監視する
+    this.$refs.slideBoard.addEventListener("touchstart", this.menuTouchStart);
+    // touchmoveイベントを監視する
+    this.$refs.slideBoard.addEventListener("touchmove", this.menuTouchMove);
+    // touchendイベントを監視する
+    this.$refs.slideBoard.addEventListener("touchend", this.menuTouchEnd);
+
+    // touchstartイベントを監視する
+    this.$refs.slideMenuOverlay.addEventListener(
+      "touchstart",
+      this.menuTouchStart
+    );
+    // touchmoveイベントを監視する
+    this.$refs.slideMenuOverlay.addEventListener(
+      "touchmove",
+      this.menuTouchMove
+    );
+    // touchendイベントを監視する
+    this.$refs.slideMenuOverlay.addEventListener("touchend", this.menuTouchEnd);
+  },
+  beforeDestroy() {
+    // イベントの監視を解除する
+    this.$refs.slideBoard.removeEventListener(
+      "touchstart",
+      this.menuTouchStart
+    );
+    this.$refs.slideBoard.removeEventListener("touchmove", this.menuTouchMove);
+    this.$refs.slideBoard.removeEventListener("touchend", this.menuTouchEnd);
+
+    this.$refs.slideMenuOverlay.removeEventListener(
+      "touchstart",
+      this.menuTouchStart
+    );
+    this.$refs.slideMenuOverlay.removeEventListener(
+      "touchmove",
+      this.menuTouchMove
+    );
+    this.$refs.slideMenuOverlay.removeEventListener(
+      "touchend",
+      this.menuTouchEnd
+    );
   },
 };
 </script>

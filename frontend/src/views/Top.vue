@@ -1,6 +1,6 @@
 <template>
   <v-app id="artBoard" class="blue-grey lighten-5">
-    <Header @isActive="toggleContents" />
+    <Header />
     <Login />
     <DeletePost />
     <ReportPost />
@@ -62,7 +62,7 @@
           id="slideTopX"
           ref="scrollPosts"
           :style="fixedScroll"
-          :class="{ slideTopXActive: isActiveContents }"
+          :class="{ slideTopXActive: displayMenu }"
           cols="12"
           sm="9"
           md="6"
@@ -83,7 +83,7 @@
         <v-btn
           id="postBtnFloat"
           class="d-md-none"
-          :class="{ slideTopXActive: isActiveContents }"
+          :class="{ slideTopXActive: displayMenu }"
           elevation="3"
           fab
           icon
@@ -284,6 +284,9 @@ export default {
     contentsKey() {
       return this.$store.getters.contentsKey;
     },
+    displayMenu() {
+      return this.$store.getters.displayMenu;
+    },
     displayPostForm() {
       return this.$store.getters.displayPostForm;
     },
@@ -314,11 +317,14 @@ export default {
   },
   data() {
     return {
+      isActiveMenu: false,
       isActiveContents: false,
       updatePost: null,
       currentScrollPosition: 0,
       dragStartY: 0, // タッチ操作開始時のY座標
       dragCurrentY: 0, // 現在のY座標
+      dragStartX: 0, // タッチ操作開始時のY座標
+      dragCurrentX: 0, // 現在のY座標
     };
   },
   directives: {
@@ -333,9 +339,6 @@ export default {
     },
     closeForm() {
       this.$store.dispatch("invisiblePostForm");
-    },
-    toggleContents(bool) {
-      this.isActiveContents = bool;
     },
     addPickerReaction(updatePost) {
       this.updatePost = updatePost;
@@ -361,11 +364,6 @@ export default {
         this.$refs.postFormCard.style.opacity = `${
           this.$refs.postFormCard.style.opacity + 1 - 0.005
         }`;
-        if (this.dragCurrentY - this.dragStartY >= 50) {
-          this.closeForm();
-          this.$refs.postFormCard.style.transform = "";
-          this.$refs.postFormCard.style.opacity = "";
-        }
 
         this.$refs.pickerCard.style.transform = `translateY(${
           this.dragCurrentY - this.dragStartY
@@ -373,24 +371,64 @@ export default {
         this.$refs.pickerCard.style.opacity = `${
           this.$refs.pickerCard.style.opacity + 1 - 0.005
         }`;
-        if (this.dragCurrentY - this.dragStartY >= 50) {
-          this.closePicker();
-          this.$refs.pickerCard.style.transform = "";
-          this.$refs.pickerCard.style.opacity = "";
-        }
       }
     },
     overlayTouchEnd() {
-      if (this.dragCurrentY - this.dragStartY < 50) {
+      if (this.dragCurrentY - this.dragStartY >= 50) {
+        this.closeForm();
+        this.$refs.postFormCard.style.transform = "";
+        this.$refs.postFormCard.style.opacity = "";
+        this.closePicker();
+        this.$refs.pickerCard.style.transform = "";
+        this.$refs.pickerCard.style.opacity = "";
+        this.dragStartY = 0;
+        this.dragCurrentY = 0;
+      } else {
         this.$refs.postFormCard.style.transform = "";
         this.$refs.postFormCard.style.opacity = "";
 
         this.$refs.pickerCard.style.transform = "";
         this.$refs.pickerCard.style.opacity = "";
+
+        this.dragStartY = 0;
+        this.dragCurrentY = 0;
+      }
+    },
+
+    postsTouchStart(event) {
+      this.dragStartX = event.touches[0].clientX;
+    },
+    // touchmoveイベントのハンドラ
+    postsTouchMove(event) {
+      this.dragCurrentX = event.touches[0].clientX;
+      // スライドさせたい要素のスタイルを変更する
+      if (this.dragCurrentX - this.dragStartX >= 0) {
+        this.$refs.scrollPosts.style.transform = `translateX(${
+          this.dragCurrentX - this.dragStartX
+        }px)`;
+        this.$refs.scrollPosts.style.opacity = `${
+          this.$refs.scrollPosts.style.opacity + 1 - 0.005
+        }`;
+      }
+    },
+    postsTouchEnd() {
+      if (this.dragCurrentX - this.dragStartX >= 50) {
+        this.$store.dispatch("visibleMenu");
+        this.isActiveMenu = true;
+        this.$refs.scrollPosts.style.transform = "";
+        this.$refs.scrollPosts.style.opacity = "";
+        this.dragStartX = 0;
+        this.dragCurrentX = 0;
+      } else {
+        this.$refs.scrollPosts.style.transform = "";
+        this.$refs.scrollPosts.style.opacity = "";
+        this.dragStartX = 0;
+        this.dragCurrentX = 0;
       }
     },
   },
   mounted() {
+    //投稿フォーム
     // touchstartイベントを監視する
     this.$refs.postFormDraggable.addEventListener(
       "touchstart",
@@ -407,6 +445,7 @@ export default {
       this.overlayTouchEnd
     );
 
+    //絵文字ピッカー
     // touchstartイベントを監視する
     this.$refs.pickerDraggable.addEventListener(
       "touchstart",
@@ -422,6 +461,14 @@ export default {
       "touchend",
       this.overlayTouchEnd
     );
+
+    //投稿一覧全体
+    // touchstartイベントを監視する
+    this.$refs.scrollPosts.addEventListener("touchstart", this.postsTouchStart);
+    // touchmoveイベントを監視する
+    this.$refs.scrollPosts.addEventListener("touchmove", this.postsTouchMove);
+    // touchendイベントを監視する
+    this.$refs.scrollPosts.addEventListener("touchend", this.postsTouchEnd);
   },
   beforeDestroy() {
     // イベントの監視を解除する
@@ -440,8 +487,12 @@ export default {
   },
   updated() {
     if (window.matchMedia(`(max-width: ${gridBreakpoints.md}px)`).matches) {
-      window.scrollTo(0, this.currentScrollPosition);
-      if (!this.displayTwemojiPicker && !this.displayPostForm) {
+      if (
+        !this.displayTwemojiPicker &&
+        !this.displayPostForm &&
+        !this.displayMenu
+      ) {
+        window.scrollTo(0, this.currentScrollPosition);
         this.currentScrollPosition = 0;
         document.body.style.touchAction = "";
       }
@@ -455,6 +506,12 @@ export default {
       }
     },
     displayPostForm(newBool) {
+      if (newBool) {
+        this.currentScrollPosition = window.scrollY;
+        document.body.style.touchAction = "none";
+      }
+    },
+    displayMenu(newBool) {
       if (newBool) {
         this.currentScrollPosition = window.scrollY;
         document.body.style.touchAction = "none";
