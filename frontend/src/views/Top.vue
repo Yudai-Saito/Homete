@@ -58,6 +58,7 @@
         <v-col cols="3" class="d-none d-sm-block">
           <LeftMenu class="SideMenuFixed" />
         </v-col>
+        <!-- メニューが表示されているときはslideTopXActiveクラスによってスライドする -->
         <v-col
           id="slideTopX"
           ref="scrollPosts"
@@ -307,6 +308,7 @@ export default {
     },
     fixedScroll() {
       if (window.matchMedia(`(max-width: ${gridBreakpoints.md}px)`).matches) {
+        //絵文字ピッカーか投稿フォームが表示されている時にスタイルを付与
         if (this.displayTwemojiPicker || this.displayPostForm)
           return {
             height: "100vh",
@@ -351,13 +353,16 @@ export default {
         this.$store.commit("clickingOutSide", true);
       }
     },
+
+    // スワイプ開始
     overlayTouchStart(event) {
       this.dragStartY = event.touches[0].clientY;
     },
-    // touchmoveイベントのハンドラ
+    // スワイプ中
     overlayTouchMove(event) {
       this.dragCurrentY = event.touches[0].clientY;
       // スライドさせたい要素のスタイルを変更する
+      //下方向へのスワイプのみ
       if (this.dragCurrentY - this.dragStartY >= 0) {
         this.$refs.postFormCard.style.transform = `translateY(${
           this.dragCurrentY - this.dragStartY
@@ -374,6 +379,7 @@ export default {
         }`;
       }
     },
+    // スワイプ終了
     overlayTouchEnd() {
       if (this.dragCurrentY - this.dragStartY >= 50) {
         this.closeForm();
@@ -396,16 +402,18 @@ export default {
       }
     },
 
+    // スワイプ開始
     postsTouchStart(event) {
       if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
         this.dragStartX = event.touches[0].clientX;
       }
     },
-    // touchmoveイベントのハンドラ
+    // スワイプ中
     postsTouchMove(event) {
       if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
         this.dragCurrentX = event.touches[0].clientX;
         // スライドさせたい要素のスタイルを変更する
+        //右方向へのスワイプのみ
         if (this.dragCurrentX - this.dragStartX >= 0) {
           this.$refs.scrollPosts.style.transform = `translateX(${
             this.dragCurrentX - this.dragStartX
@@ -422,9 +430,11 @@ export default {
         }
       }
     },
+    // スワイプ終了
     postsTouchEnd() {
       if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
         if (this.dragCurrentX - this.dragStartX >= 50) {
+          //投稿一覧はメニューが開いている間ずっと右にずれているため、位置の初期化はしない
           this.$store.dispatch("visibleMenu");
           this.dragStartX = 0;
           this.dragCurrentX = 0;
@@ -539,12 +549,14 @@ export default {
     this.$refs.postBtn.removeEventListener("touchend", this.overlayTouchEnd);
   },
   updated() {
+    //画面が動いた時に絵文字ピッカー、投稿フォーム、メニューの全てが閉じている時
     if (window.matchMedia(`(max-width: ${gridBreakpoints.md}px)`).matches) {
       if (
         !this.displayTwemojiPicker &&
         !this.displayPostForm &&
         !this.displayMenu
       ) {
+        //保持されているスクロール位置へとスクロール
         window.scrollTo(0, this.currentScrollPosition);
         this.currentScrollPosition = 0;
         document.body.style.touchAction = "";
@@ -552,6 +564,7 @@ export default {
     }
   },
   watch: {
+    //それぞれ開く際に現在のスクロール位置を保持
     displayTwemojiPicker(newBool) {
       if (newBool) {
         this.currentScrollPosition = window.scrollY;

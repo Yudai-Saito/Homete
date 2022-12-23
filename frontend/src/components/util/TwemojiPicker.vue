@@ -364,11 +364,15 @@ export default {
       }
     },
     movePicker() {
+      //呼び出し元の+ボタンが画面の右半分にある時はピッカーを左に
       if (this.pickerX >= window.innerWidth / 2) {
         this.x = this.pickerX - 526;
-      } else {
+      }
+      //画面左半分の時はピッカーを右に配置
+      else {
         this.x = this.pickerX + 33;
       }
+      //呼び出し元の+ボタンが画面のピッカーの高さ未満の場所の時、ピッカーの高さ分確保
       if (this.pickerY >= window.innerHeight - 410) {
         this.y = window.innerHeight - 410;
       } else {

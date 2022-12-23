@@ -227,12 +227,13 @@ export default {
       this.isActiveContents = bool;
     },
 
+    //スワイプ開始
     postsTouchStart(event) {
       if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
         this.dragStartX = event.touches[0].clientX;
       }
     },
-    // touchmoveイベントのハンドラ
+    //スワイプ中
     postsTouchMove(event) {
       if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
         this.dragCurrentX = event.touches[0].clientX;
@@ -247,6 +248,7 @@ export default {
         }
       }
     },
+    //スワイプ終了
     postsTouchEnd() {
       if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
         if (this.dragCurrentX - this.dragStartX >= 50) {
