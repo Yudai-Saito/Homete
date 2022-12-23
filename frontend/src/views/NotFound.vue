@@ -2,31 +2,41 @@
   <div id="artBoard" class="blue-grey lighten-5">
     <Header />
     <Login />
-    <div id="notFoundTxt">
-      <h1>404</h1>
-    </div>
-    <div id="notFoundCard">
-      <v-card id="hometeCard" class="rounded-xl" :elevation="3">
-        <h3 class="ml-4 mt-2">あどみん</h3>
-        <v-card-text id="cardText" class="black--text font-weight-light">
-          このページはすでに削除されているか、URLが間違っているよ
-        </v-card-text>
-        <v-card-actions>
-          <div id="btnDiv">
-            <v-btn
-              id="reactBtn"
-              class="grey--text text--darken-3"
-              @click="toTopPage"
-              elevation="0"
-              outlined
-            >
-              <v-icon>mdi-arrow-up-bold-box-outline</v-icon>
-              <h4>Topへ戻る</h4>
-            </v-btn>
-          </div>
-        </v-card-actions>
-      </v-card>
-    </div>
+    <v-col
+      ref="notFound"
+      cols="12"
+      sm="9"
+      md="6"
+      lg="5"
+      id="slideNotFoundX"
+      :class="{ slideAboutXActive: displayMenu }"
+    >
+      <div id="notFoundTxt">
+        <h1>404</h1>
+      </div>
+      <div id="notFoundCard">
+        <v-card id="hometeCard" class="rounded-xl" :elevation="3">
+          <h3 class="ml-4 mt-2">あどみん</h3>
+          <v-card-text id="cardText" class="black--text font-weight-light">
+            このページはすでに削除されているか、URLが間違っているよ
+          </v-card-text>
+          <v-card-actions>
+            <div id="btnDiv">
+              <v-btn
+                id="reactBtn"
+                class="grey--text text--darken-3"
+                @click="toTopPage"
+                elevation="0"
+                outlined
+              >
+                <v-icon>mdi-arrow-up-bold-box-outline</v-icon>
+                <h4>Topへ戻る</h4>
+              </v-btn>
+            </div>
+          </v-card-actions>
+        </v-card>
+      </div>
+    </v-col>
     <Footer />
   </div>
 </template>
@@ -36,7 +46,7 @@
   font-size: 50px;
   text-align: center;
   z-index: 0;
-  margin-top: 100px;
+  margin-top: 30px;
   max-width: 520px;
   margin-left: auto;
   margin-right: auto;
@@ -66,6 +76,18 @@
 #reactBtn {
   background-color: rgba(207, 216, 220, 0.5);
 }
+#slideNotFoundX {
+  transition: all 0.4s !important;
+  z-index: 0;
+  position: relative;
+  top: 10vh;
+  min-height: 100vh;
+}
+.slideNotFoundXActive {
+  transform: translateX(250px) !important;
+  z-index: 0;
+  opacity: 0.85;
+}
 </style>
 
 
@@ -82,13 +104,78 @@ export default {
     Header,
   },
   computed: {
-    overlayState() {
-      return this.$store.getters.overlayState;
+    displayMenu() {
+      return this.$store.getters.displayMenu;
     },
   },
+  data() {
+    return {
+      dragStartX: 0, // タッチ操作開始時のX座標
+      dragCurrentX: 0, // 現在のX座標
+    };
+  },
+
   methods: {
     toTopPage: function () {
       this.$router.push("/");
+    },
+
+    postsTouchStart(event) {
+      this.dragStartX = event.touches[0].clientX;
+    },
+    // touchmoveイベントのハンドラ
+    postsTouchMove(event) {
+      this.dragCurrentX = event.touches[0].clientX;
+      // スライドさせたい要素のスタイルを変更する
+      if (this.dragCurrentX - this.dragStartX >= 0) {
+        this.$refs.notFound.style.transform = `translateX(${
+          this.dragCurrentX - this.dragStartX
+        }px)`;
+        this.$refs.notFound.style.opacity = `${
+          this.$refs.notFound.style.opacity + 1 - 0.005
+        }`;
+      }
+    },
+    postsTouchEnd() {
+      if (this.dragCurrentX - this.dragStartX >= 50) {
+        this.$store.dispatch("visibleMenu");
+        this.dragStartX = 0;
+        this.dragCurrentX = 0;
+      } else {
+        this.$refs.notFound.style.transform = "";
+        this.$refs.notFound.style.opacity = "";
+        this.dragStartX = 0;
+        this.dragCurrentX = 0;
+      }
+    },
+  },
+  mounted() {
+    //画面中央
+    // touchstartイベントを監視する
+    this.$refs.notFound.addEventListener("touchstart", this.postsTouchStart);
+    // touchmoveイベントを監視する
+    this.$refs.notFound.addEventListener("touchmove", this.postsTouchMove);
+    // touchendイベントを監視する
+    this.$refs.notFound.addEventListener("touchend", this.postsTouchEnd);
+  },
+  beforeDestroy() {
+    // イベントの監視を解除する
+    this.$refs.notFound.removeEventListener(
+      "touchstart",
+      this.overlayTouchStart
+    );
+    this.$refs.notFound.removeEventListener("touchmove", this.overlayTouchMove);
+    this.$refs.notFound.removeEventListener("touchend", this.overlayTouchEnd);
+  },
+  watch: {
+    displayMenu(newBool) {
+      if (newBool) {
+        this.currentScrollPosition = window.scrollY;
+        document.body.style.touchAction = "none";
+      } else {
+        this.$refs.notFound.style.transform = "";
+        this.$refs.notFound.style.opacity = "";
+      }
     },
   },
 };

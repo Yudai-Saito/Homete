@@ -15,6 +15,7 @@
         </v-col>
 
         <v-col
+          ref="aboutMenu"
           cols="12"
           sm="9"
           md="6"
@@ -119,9 +120,6 @@
   display: flex;
   justify-content: center;
 }
-#flexSlide {
-  margin-top: 10vh;
-}
 #flexSlide .v-slide-group__wrapper .v-slide-group__content {
   justify-content: center;
 }
@@ -149,8 +147,10 @@
 
 #slideAboutX {
   transition: all 0.4s !important;
-  transform: translateX(0px);
   z-index: 0;
+  position: relative;
+  top: 10vh;
+  min-height: 100vh;
 }
 .slideAboutXActive {
   transform: translateX(250px) !important;
@@ -205,6 +205,8 @@ export default {
       currentDisplay: this.aboutState,
       icon: ["🔍", "💡", "📑", "🔒"],
       title: ["使い方", "Q & A", "利用規約", "プライバシー"],
+      dragStartX: 0, // タッチ操作開始時のX座標
+      dragCurrentX: 0, // 現在のX座標
     };
   },
   directives: {
@@ -217,18 +219,76 @@ export default {
       },
     },
   },
-  watch: {
-    aboutState(newState) {
-      this.currentDisplay = newState;
-    },
-  },
   methods: {
     toggleContents(bool) {
       this.isActiveContents = bool;
     },
+
+    postsTouchStart(event) {
+      this.dragStartX = event.touches[0].clientX;
+    },
+    // touchmoveイベントのハンドラ
+    postsTouchMove(event) {
+      this.dragCurrentX = event.touches[0].clientX;
+      // スライドさせたい要素のスタイルを変更する
+      if (this.dragCurrentX - this.dragStartX >= 0) {
+        this.$refs.aboutMenu.style.transform = `translateX(${
+          this.dragCurrentX - this.dragStartX
+        }px)`;
+        this.$refs.aboutMenu.style.opacity = `${
+          this.$refs.aboutMenu.style.opacity + 1 - 0.005
+        }`;
+      }
+    },
+    postsTouchEnd() {
+      if (this.dragCurrentX - this.dragStartX >= 50) {
+        this.$store.dispatch("visibleMenu");
+        this.dragStartX = 0;
+        this.dragCurrentX = 0;
+      } else {
+        this.$refs.aboutMenu.style.transform = "";
+        this.$refs.aboutMenu.style.opacity = "";
+        this.dragStartX = 0;
+        this.dragCurrentX = 0;
+      }
+    },
   },
   mounted() {
+    //画面中央
+    // touchstartイベントを監視する
+    this.$refs.aboutMenu.addEventListener("touchstart", this.postsTouchStart);
+    // touchmoveイベントを監視する
+    this.$refs.aboutMenu.addEventListener("touchmove", this.postsTouchMove);
+    // touchendイベントを監視する
+    this.$refs.aboutMenu.addEventListener("touchend", this.postsTouchEnd);
+
     this.currentDisplay = this.aboutState;
+  },
+  beforeDestroy() {
+    // イベントの監視を解除する
+    this.$refs.aboutMenu.removeEventListener(
+      "touchstart",
+      this.overlayTouchStart
+    );
+    this.$refs.aboutMenu.removeEventListener(
+      "touchmove",
+      this.overlayTouchMove
+    );
+    this.$refs.aboutMenu.removeEventListener("touchend", this.overlayTouchEnd);
+  },
+  watch: {
+    aboutState(newState) {
+      this.currentDisplay = newState;
+    },
+    displayMenu(newBool) {
+      if (newBool) {
+        this.currentScrollPosition = window.scrollY;
+        document.body.style.touchAction = "none";
+      } else {
+        this.$refs.aboutMenu.style.transform = "";
+        this.$refs.aboutMenu.style.opacity = "";
+      }
+    },
   },
 };
 </script>

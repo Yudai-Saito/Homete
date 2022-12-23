@@ -328,8 +328,8 @@ export default {
       currentScrollPosition: 0,
       dragStartY: 0, // タッチ操作開始時のY座標
       dragCurrentY: 0, // 現在のY座標
-      dragStartX: 0, // タッチ操作開始時のY座標
-      dragCurrentX: 0, // 現在のY座標
+      dragStartX: 0, // タッチ操作開始時のX座標
+      dragCurrentX: 0, // 現在のX座標
     };
   },
   directives: {
@@ -502,6 +502,39 @@ export default {
       "touchend",
       this.overlayTouchEnd
     );
+
+    this.$refs.pickerDraggable.removeEventListener(
+      "touchstart",
+      this.overlayTouchStart
+    );
+    this.$refs.pickerDraggable.removeEventListener(
+      "touchmove",
+      this.overlayTouchMove
+    );
+    this.$refs.pickerDraggable.removeEventListener(
+      "touchend",
+      this.overlayTouchEnd
+    );
+
+    this.$refs.scrollPosts.removeEventListener(
+      "touchstart",
+      this.overlayTouchStart
+    );
+    this.$refs.scrollPosts.removeEventListener(
+      "touchmove",
+      this.overlayTouchMove
+    );
+    this.$refs.scrollPosts.removeEventListener(
+      "touchend",
+      this.overlayTouchEnd
+    );
+
+    this.$refs.postBtn.removeEventListener(
+      "touchstart",
+      this.overlayTouchStart
+    );
+    this.$refs.postBtn.removeEventListener("touchmove", this.overlayTouchMove);
+    this.$refs.postBtn.removeEventListener("touchend", this.overlayTouchEnd);
   },
   updated() {
     if (window.matchMedia(`(max-width: ${gridBreakpoints.md}px)`).matches) {

@@ -14,6 +14,7 @@
           <LeftMenu class="SideMenuFixed" />
         </v-col>
         <v-col
+          ref="accountMenu"
           cols="12"
           sm="9"
           md="6"
@@ -21,7 +22,7 @@
           id="slideAccountX"
           :class="{ slideAccountXActive: displayMenu }"
         >
-          <div class="settingContainer" style="margin-top: 10vh">
+          <div class="settingContainer">
             <div class="btnTxt">
               <div
                 v-twemoji
@@ -107,8 +108,10 @@
 
 #slideAccountX {
   transition: all 0.4s !important;
-  transform: translateX(0px);
   z-index: 0;
+  position: relative;
+  top: 10vh;
+  min-height: 100vh;
 }
 .slideAccountXActive {
   transform: translateX(250px) !important;
@@ -148,6 +151,8 @@ export default {
   data() {
     return {
       isActiveContents: false,
+      dragStartX: 0, // タッチ操作開始時のX座標
+      dragCurrentX: 0, // 現在のX座標
     };
   },
   directives: {
@@ -174,17 +179,82 @@ export default {
           })
           .then(() => {
             this.$store.dispatch("loggedOut");
-            this.$store.dispatch("toTimeLine");
             this.$store.commit("updateAlertState", "logout");
-            this.$router.push("/");
-            setTimeout(() => {
-              this.$store.dispatch("alertLogout");
-            }, 500);
+            this.$store.dispatch("toTimeLine").then(() => {
+              this.$router.push("/");
+              setTimeout(() => {
+                this.$store.dispatch("alertLogout");
+              }, 500);
+            });
           });
       });
     },
     toggleContents(bool) {
       this.isActiveContents = bool;
+    },
+
+    postsTouchStart(event) {
+      this.dragStartX = event.touches[0].clientX;
+    },
+    // touchmoveイベントのハンドラ
+    postsTouchMove(event) {
+      this.dragCurrentX = event.touches[0].clientX;
+      // スライドさせたい要素のスタイルを変更する
+      if (this.dragCurrentX - this.dragStartX >= 0) {
+        this.$refs.accountMenu.style.transform = `translateX(${
+          this.dragCurrentX - this.dragStartX
+        }px)`;
+        this.$refs.accountMenu.style.opacity = `${
+          this.$refs.accountMenu.style.opacity + 1 - 0.005
+        }`;
+      }
+    },
+    postsTouchEnd() {
+      if (this.dragCurrentX - this.dragStartX >= 50) {
+        this.$store.dispatch("visibleMenu");
+        this.dragStartX = 0;
+        this.dragCurrentX = 0;
+      } else {
+        this.$refs.accountMenu.style.transform = "";
+        this.$refs.accountMenu.style.opacity = "";
+        this.dragStartX = 0;
+        this.dragCurrentX = 0;
+      }
+    },
+  },
+  mounted() {
+    //画面中央
+    // touchstartイベントを監視する
+    this.$refs.accountMenu.addEventListener("touchstart", this.postsTouchStart);
+    // touchmoveイベントを監視する
+    this.$refs.accountMenu.addEventListener("touchmove", this.postsTouchMove);
+    // touchendイベントを監視する
+    this.$refs.accountMenu.addEventListener("touchend", this.postsTouchEnd);
+  },
+  beforeDestroy() {
+    // イベントの監視を解除する
+    this.$refs.accountMenu.removeEventListener(
+      "touchstart",
+      this.overlayTouchStart
+    );
+    this.$refs.accountMenu.removeEventListener(
+      "touchmove",
+      this.overlayTouchMove
+    );
+    this.$refs.accountMenu.removeEventListener(
+      "touchend",
+      this.overlayTouchEnd
+    );
+  },
+  watch: {
+    displayMenu(newBool) {
+      if (newBool) {
+        this.currentScrollPosition = window.scrollY;
+        document.body.style.touchAction = "none";
+      } else {
+        this.$refs.accountMenu.style.transform = "";
+        this.$refs.accountMenu.style.opacity = "";
+      }
     },
   },
 };
