@@ -19,7 +19,7 @@
           md="6"
           lg="5"
           id="slideAccountX"
-          :class="{ slideAccountXActive: isActiveContents }"
+          :class="{ slideAccountXActive: displayMenu }"
         >
           <div class="settingContainer" style="margin-top: 10vh">
             <div class="btnTxt">
@@ -140,6 +140,9 @@ export default {
   computed: {
     logged() {
       return this.$store.getters.logged;
+    },
+    displayMenu() {
+      return this.$store.getters.displayMenu;
     },
   },
   data() {
