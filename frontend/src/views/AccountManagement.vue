@@ -131,6 +131,9 @@ import twemoji from "twemoji";
 import { getAuth } from "firebase/auth";
 import axios from "axios";
 
+// $grid-breakpoints を JavaScript のオブジェクトとして取得
+const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
+
 export default {
   name: "AccountManagement",
   components: {
@@ -194,31 +197,37 @@ export default {
     },
 
     postsTouchStart(event) {
-      this.dragStartX = event.touches[0].clientX;
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
+        this.dragStartX = event.touches[0].clientX;
+      }
     },
     // touchmoveイベントのハンドラ
     postsTouchMove(event) {
-      this.dragCurrentX = event.touches[0].clientX;
-      // スライドさせたい要素のスタイルを変更する
-      if (this.dragCurrentX - this.dragStartX >= 0) {
-        this.$refs.accountMenu.style.transform = `translateX(${
-          this.dragCurrentX - this.dragStartX
-        }px)`;
-        this.$refs.accountMenu.style.opacity = `${
-          this.$refs.accountMenu.style.opacity + 1 - 0.005
-        }`;
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
+        this.dragCurrentX = event.touches[0].clientX;
+        // スライドさせたい要素のスタイルを変更する
+        if (this.dragCurrentX - this.dragStartX >= 0) {
+          this.$refs.accountMenu.style.transform = `translateX(${
+            this.dragCurrentX - this.dragStartX
+          }px)`;
+          this.$refs.accountMenu.style.opacity = `${
+            this.$refs.accountMenu.style.opacity + 1 - 0.005
+          }`;
+        }
       }
     },
     postsTouchEnd() {
-      if (this.dragCurrentX - this.dragStartX >= 50) {
-        this.$store.dispatch("visibleMenu");
-        this.dragStartX = 0;
-        this.dragCurrentX = 0;
-      } else {
-        this.$refs.accountMenu.style.transform = "";
-        this.$refs.accountMenu.style.opacity = "";
-        this.dragStartX = 0;
-        this.dragCurrentX = 0;
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
+        if (this.dragCurrentX - this.dragStartX >= 50) {
+          this.$store.dispatch("visibleMenu");
+          this.dragStartX = 0;
+          this.dragCurrentX = 0;
+        } else {
+          this.$refs.accountMenu.style.transform = "";
+          this.$refs.accountMenu.style.opacity = "";
+          this.dragStartX = 0;
+          this.dragCurrentX = 0;
+        }
       }
     },
   },

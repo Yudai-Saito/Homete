@@ -171,6 +171,9 @@ import QuestionAnswer from "@/components/abouts/QuestionAnswer.vue";
 import UserPolicy from "@/components/abouts/UserPolicy.vue";
 import twemoji from "twemoji";
 
+// $grid-breakpoints を JavaScript のオブジェクトとして取得
+const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
+
 export default {
   name: "About",
   components: {
@@ -225,31 +228,37 @@ export default {
     },
 
     postsTouchStart(event) {
-      this.dragStartX = event.touches[0].clientX;
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
+        this.dragStartX = event.touches[0].clientX;
+      }
     },
     // touchmoveイベントのハンドラ
     postsTouchMove(event) {
-      this.dragCurrentX = event.touches[0].clientX;
-      // スライドさせたい要素のスタイルを変更する
-      if (this.dragCurrentX - this.dragStartX >= 0) {
-        this.$refs.aboutMenu.style.transform = `translateX(${
-          this.dragCurrentX - this.dragStartX
-        }px)`;
-        this.$refs.aboutMenu.style.opacity = `${
-          this.$refs.aboutMenu.style.opacity + 1 - 0.005
-        }`;
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
+        this.dragCurrentX = event.touches[0].clientX;
+        // スライドさせたい要素のスタイルを変更する
+        if (this.dragCurrentX - this.dragStartX >= 0) {
+          this.$refs.aboutMenu.style.transform = `translateX(${
+            this.dragCurrentX - this.dragStartX
+          }px)`;
+          this.$refs.aboutMenu.style.opacity = `${
+            this.$refs.aboutMenu.style.opacity + 1 - 0.005
+          }`;
+        }
       }
     },
     postsTouchEnd() {
-      if (this.dragCurrentX - this.dragStartX >= 50) {
-        this.$store.dispatch("visibleMenu");
-        this.dragStartX = 0;
-        this.dragCurrentX = 0;
-      } else {
-        this.$refs.aboutMenu.style.transform = "";
-        this.$refs.aboutMenu.style.opacity = "";
-        this.dragStartX = 0;
-        this.dragCurrentX = 0;
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
+        if (this.dragCurrentX - this.dragStartX >= 50) {
+          this.$store.dispatch("visibleMenu");
+          this.dragStartX = 0;
+          this.dragCurrentX = 0;
+        } else {
+          this.$refs.aboutMenu.style.transform = "";
+          this.$refs.aboutMenu.style.opacity = "";
+          this.dragStartX = 0;
+          this.dragCurrentX = 0;
+        }
       }
     },
   },

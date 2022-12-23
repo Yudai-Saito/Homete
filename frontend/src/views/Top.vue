@@ -401,39 +401,45 @@ export default {
     },
 
     postsTouchStart(event) {
-      this.dragStartX = event.touches[0].clientX;
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
+        this.dragStartX = event.touches[0].clientX;
+      }
     },
     // touchmoveイベントのハンドラ
     postsTouchMove(event) {
-      this.dragCurrentX = event.touches[0].clientX;
-      // スライドさせたい要素のスタイルを変更する
-      if (this.dragCurrentX - this.dragStartX >= 0) {
-        this.$refs.scrollPosts.style.transform = `translateX(${
-          this.dragCurrentX - this.dragStartX
-        }px)`;
-        this.$refs.postBtn.style.transform = `translateX(${
-          this.dragCurrentX - this.dragStartX
-        }px)`;
-        this.$refs.scrollPosts.style.opacity = `${
-          this.$refs.scrollPosts.style.opacity + 1 - 0.005
-        }`;
-        this.$refs.postBtn.style.opacity = `${
-          this.$refs.postFormCard.style.opacity + 1 - 0.005
-        }`;
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
+        this.dragCurrentX = event.touches[0].clientX;
+        // スライドさせたい要素のスタイルを変更する
+        if (this.dragCurrentX - this.dragStartX >= 0) {
+          this.$refs.scrollPosts.style.transform = `translateX(${
+            this.dragCurrentX - this.dragStartX
+          }px)`;
+          this.$refs.postBtn.style.transform = `translateX(${
+            this.dragCurrentX - this.dragStartX
+          }px)`;
+          this.$refs.scrollPosts.style.opacity = `${
+            this.$refs.scrollPosts.style.opacity + 1 - 0.005
+          }`;
+          this.$refs.postBtn.style.opacity = `${
+            this.$refs.postFormCard.style.opacity + 1 - 0.005
+          }`;
+        }
       }
     },
     postsTouchEnd() {
-      if (this.dragCurrentX - this.dragStartX >= 50) {
-        this.$store.dispatch("visibleMenu");
-        this.dragStartX = 0;
-        this.dragCurrentX = 0;
-      } else {
-        this.$refs.scrollPosts.style.transform = "";
-        this.$refs.scrollPosts.style.opacity = "";
-        this.$refs.postBtn.style.transform = "";
-        this.$refs.postBtn.style.opacity = "";
-        this.dragStartX = 0;
-        this.dragCurrentX = 0;
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
+        if (this.dragCurrentX - this.dragStartX >= 50) {
+          this.$store.dispatch("visibleMenu");
+          this.dragStartX = 0;
+          this.dragCurrentX = 0;
+        } else {
+          this.$refs.scrollPosts.style.transform = "";
+          this.$refs.scrollPosts.style.opacity = "";
+          this.$refs.postBtn.style.transform = "";
+          this.$refs.postBtn.style.opacity = "";
+          this.dragStartX = 0;
+          this.dragCurrentX = 0;
+        }
       }
     },
   },
