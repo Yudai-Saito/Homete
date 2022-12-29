@@ -6,12 +6,5 @@ module.exports = {
       title: "HOMETE",
     },
   },
-  css: {
-    loaderOptions: {
-      sass: {
-        additionalData: `@import "./src/scss/variables.scss"`,
-      },
-    },
-  },
   transpileDependencies: ["vuetify"],
 };

@@ -1,5 +1,5 @@
 <template>
-  <v-col class="mainContents virtualScrollBar" cols="12">
+  <v-col id="postContents" class="virtualScrollBar supportBreakPoint" cols="12">
     <div>
       <DisplayPosts
         v-for="post in posts"
@@ -12,14 +12,11 @@
 </template>
 
 <style>
-.mainContents {
+#postContents {
   margin: 0 auto !important;
-  margin-top: 10vh !important;
-  margin-bottom: 30px !important;
+  margin-bottom: 20vh !important;
   padding: 0;
-  width: 550px;
-  min-width: 550px;
-  max-width: 550px;
+  width: 100%;
 }
 .virtualScrollBar {
   overflow: auto;
@@ -56,7 +53,7 @@ export default {
       posts: [],
     };
   },
-  props: ["channel"],
+  props: ["channel", "updatePost"],
   methods: {
     set_posts: function (res) {
       var posts = res.data["posts"];
@@ -120,6 +117,15 @@ export default {
         }
 
         this.$store.commit("updateDeletePostFlag", false);
+      }
+    },
+    updatePost(newPost) {
+      const index = this.posts.findIndex(
+        (post) => post.post_id === newPost.post_id
+      );
+      // 存在した場合は、その位置から1つの要素を配列から削除する
+      if (index !== -1) {
+        this.$set(this.posts, index, newPost);
       }
     },
   },

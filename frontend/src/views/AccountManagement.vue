@@ -1,14 +1,27 @@
 <template>
-  <v-app class="artBoard blue-grey lighten-5">
-    <Header />
+  <v-app id="artBoard" class="blue-grey lighten-5">
+    <Header @isActive="toggleContents" />
     <Login />
     <DeleteAccount />
     <div>
-      <v-row justify="center" class="contentsFlex mx-auto my-auto" no-gutters>
-        <v-col cols="3">
-          <LeftMenu class="SideMenuSticky" />
+      <v-row
+        id="contentsFlex"
+        justify="center"
+        class="mx-auto my-auto"
+        no-gutters
+      >
+        <v-col cols="3" class="d-none d-sm-block">
+          <LeftMenu class="SideMenuFixed" />
         </v-col>
-        <v-col class="mainContents" cols="6">
+        <v-col
+          ref="accountMenu"
+          cols="12"
+          sm="9"
+          md="6"
+          lg="5"
+          id="slideAccountX"
+          :class="{ slideAccountXActive: displayMenu }"
+        >
           <div class="settingContainer">
             <div class="btnTxt">
               <div
@@ -35,6 +48,7 @@
               </div>
             </v-btn>
           </div>
+          <v-divider style="width: 90%; margin: 25px auto"></v-divider>
           <div class="settingContainer">
             <div class="btnTxt">
               <div
@@ -62,51 +76,17 @@
             </v-btn>
           </div>
         </v-col>
-        <v-col class="SideMenuSticky rightMenu" cols="3"></v-col>
+        <v-col cols="3" class="d-none d-md-block"></v-col>
       </v-row>
     </div>
     <Footer />
   </v-app>
 </template>
 <style>
-.artBoard {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-.contentsFlex {
-  width: 100%;
-  flex-wrap: nowrap;
-}
-.SideMenuSticky {
-  position: sticky;
-  top: 0;
-  flex-wrap: nowrap;
-}
-.mainContents {
-  margin: 0;
-  margin-top: 47px;
-  margin-bottom: 20px;
-  padding: 0;
-  width: 550px;
-  min-width: 550px;
-  max-width: 550px;
-}
-.rightMenu {
-  display: flex;
-  height: 100vh;
-  min-height: 100vh;
-  max-height: 100vh;
-  margin: 0;
-  padding: 0;
-}
 .settingContainer {
-  width: 100%;
-  height: 30%;
-  margin-top: 30px;
-  border-top: solid black 2px;
+  width: 90%;
   text-align: center;
+  margin: 0 auto;
 }
 .settingTitle {
   margin-top: 10px;
@@ -125,18 +105,34 @@
   display: flex;
   justify-content: center;
 }
+
+#slideAccountX {
+  transition: all 0.4s !important;
+  z-index: 0;
+  position: relative;
+  top: 10vh;
+  min-height: 100vh;
+}
+.slideAccountXActive {
+  transform: translateX(250px) !important;
+  z-index: 0;
+  opacity: 0.85;
+}
 </style>
 
 
 <script>
+import Header from "@/components/header/Header.vue";
+import Footer from "@/components/footer/Footer.vue";
 import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
 import Login from "@/components/overlays/Login.vue";
 import DeleteAccount from "@/components/overlays/DeleteAccount.vue";
-import Footer from "@/components/util/Footer.vue";
-import Header from "@/components/util/Header.vue";
 import twemoji from "twemoji";
 import { getAuth } from "firebase/auth";
 import axios from "axios";
+
+// $grid-breakpoints を JavaScript のオブジェクトとして取得
+const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
 
 export default {
   name: "AccountManagement",
@@ -151,6 +147,16 @@ export default {
     logged() {
       return this.$store.getters.logged;
     },
+    displayMenu() {
+      return this.$store.getters.displayMenu;
+    },
+  },
+  data() {
+    return {
+      isActiveContents: false,
+      dragStartX: 0, // タッチ操作開始時のX座標
+      dragCurrentX: 0, // 現在のX座標
+    };
   },
   directives: {
     twemoji: {
@@ -176,21 +182,91 @@ export default {
           })
           .then(() => {
             this.$store.dispatch("loggedOut");
-            this.$store.dispatch("toTimeLine");
             this.$store.commit("updateAlertState", "logout");
-            this.$router.push("/");
-            setTimeout(() => {
-              this.$store.dispatch("alertLogout");
-            }, 500);
+            this.$store.dispatch("toTimeLine").then(() => {
+              this.$router.push("/");
+              setTimeout(() => {
+                this.$store.dispatch("alertLogout");
+              }, 500);
+            });
           });
       });
     },
+    toggleContents(bool) {
+      this.isActiveContents = bool;
+    },
+
+    //スワイプ開始
+    postsTouchStart(event) {
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
+        this.dragStartX = event.touches[0].clientX;
+      }
+    },
+    //スワイプ中
+    postsTouchMove(event) {
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
+        this.dragCurrentX = event.touches[0].clientX;
+        // スライドさせたい要素のスタイルを変更する
+        if (this.dragCurrentX - this.dragStartX >= 0) {
+          this.$refs.accountMenu.style.transform = `translateX(${
+            this.dragCurrentX - this.dragStartX
+          }px)`;
+          this.$refs.accountMenu.style.opacity = `${
+            this.$refs.accountMenu.style.opacity + 1 - 0.005
+          }`;
+        }
+      }
+    },
+    //スワイプ終了
+    postsTouchEnd() {
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
+        if (this.dragCurrentX - this.dragStartX >= 50) {
+          this.$store.dispatch("visibleMenu");
+          this.dragStartX = 0;
+          this.dragCurrentX = 0;
+        } else {
+          this.$refs.accountMenu.style.transform = "";
+          this.$refs.accountMenu.style.opacity = "";
+          this.dragStartX = 0;
+          this.dragCurrentX = 0;
+        }
+      }
+    },
   },
   mounted() {
-    window.onload = () => {
-      this.$store.dispatch("invisiblePostForm");
-      this.$store.dispatch("invisibleCommonOverlay");
-    };
+    //画面中央
+    // touchstartイベントを監視する
+    this.$refs.accountMenu.addEventListener("touchstart", this.postsTouchStart);
+    // touchmoveイベントを監視する
+    this.$refs.accountMenu.addEventListener("touchmove", this.postsTouchMove);
+    // touchendイベントを監視する
+    this.$refs.accountMenu.addEventListener("touchend", this.postsTouchEnd);
+  },
+  beforeDestroy() {
+    // イベントの監視を解除する
+    this.$refs.accountMenu.removeEventListener(
+      "touchstart",
+      this.overlayTouchStart
+    );
+    this.$refs.accountMenu.removeEventListener(
+      "touchmove",
+      this.overlayTouchMove
+    );
+    this.$refs.accountMenu.removeEventListener(
+      "touchend",
+      this.overlayTouchEnd
+    );
+  },
+  watch: {
+    displayMenu(newBool) {
+      if (newBool) {
+        this.currentScrollPosition = window.scrollY;
+        document.body.style.touchAction = "none";
+      } else {
+        this.$refs.accountMenu.style.transform = "";
+        this.$refs.accountMenu.style.opacity = "";
+      }
+    },
   },
 };
 </script>

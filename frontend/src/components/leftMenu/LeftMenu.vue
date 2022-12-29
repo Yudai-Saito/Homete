@@ -1,5 +1,5 @@
 <template>
-  <v-col class="leftMenu" cols="12">
+  <v-col id="leftMenu" cols="12">
     <div class="leftMenuFlex">
       <LeftMenuButton
         usage="toTimeLine"
@@ -12,20 +12,33 @@
         btnIcon="mdi-history"
       />
       <v-btn
-        class="aboutBtn ma-0 pa-0"
+        id="aboutBtn"
+        class="ma-0 pa-0"
         color="#CFD8DC"
         rounded
         x-large
         :elevation="3"
-        v-on:click="onClick"
+        v-on:click="onClickAbout"
       >
         HOMETEについて
       </v-btn>
     </div>
   </v-col>
 </template>
-<style>
-.aboutBtn {
+<style lang="scss">
+@media (min-width: map-get($grid-breakpoints, md)) {
+  // md 以上のブレークポイントでのスタイル定義
+  #aboutBtn {
+    font-size: 12px !important;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, md)) {
+  // md 以下のブレークポイントでのスタイル定義
+  #aboutBtn {
+    font-size: 10px !important;
+  }
+}
+#aboutBtn {
   position: absolute;
   bottom: 50px;
   height: 30px !important;
@@ -34,15 +47,15 @@
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
-  font-size: 12px !important;
 }
-.leftMenu {
+#leftMenu {
   display: flex;
   height: 100vh;
   min-height: 100vh;
   max-height: 100vh;
   margin: 0;
   padding: 0;
+  width: 25%;
 }
 .leftMenuFlex {
   display: flex;
@@ -50,6 +63,7 @@
   margin: auto 36px;
   gap: 40px;
   width: 100%;
+  align-items: center;
 }
 .leftMenuFlex button {
   border: solid rgba(0, 0, 0, 0.25) 1px !important;
@@ -69,9 +83,9 @@ export default {
     LeftMenuButton,
   },
   methods: {
-    onClick: function () {
+    onClickAbout: function () {
       if (this.$route.path != "/about") {
-        this.$store.dispatch("toAbout");
+        this.$store.dispatch("toExplanation");
         this.$router.push("/about");
       }
     },
