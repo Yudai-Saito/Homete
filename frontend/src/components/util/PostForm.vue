@@ -202,7 +202,7 @@ export default {
         )
         .then((res) => {
           //ユーザーが投稿したデータを受け取ってupdatePostsに追加していく
-          this.$store.commit("addUpdatePosts", res);
+          this.$store.commit("addUserUpdatePosts", res.data.user_posts);
 
           //スマホ用に投稿用コンポーネントの非表示
           this.$store.dispatch("invisiblePostForm");
