@@ -13,7 +13,7 @@
     :randomEmojiArray="['']"
     :pickerAutoFlip="false"
     :pickerCloseOnClickaway="false"
-    twemojiPath="https://twemoji.maxcdn.com/v/latest/"
+    twemojiPath="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/"
     recentEmojisStorage="local"
     searchEmojiPlaceholder="絵文字を検索"
     searchEmojiNotFound="絵文字が見つかりませんでした😭"

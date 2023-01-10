@@ -141,6 +141,7 @@ export default {
         el.innerHTML = twemoji.parse(el.innerHTML, {
           folder: "svg",
           ext: ".svg",
+          base: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/",
         });
       },
     },
