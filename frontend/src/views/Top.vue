@@ -259,6 +259,8 @@ import TwemojiPicker from "@/components/util/TwemojiPicker.vue";
 
 import ClickOutside from "vue-click-outside";
 
+import ws from "@/ws-client";
+
 // $grid-breakpoints を JavaScript のオブジェクトとして取得
 const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
 
@@ -450,6 +452,9 @@ export default {
     },
   },
   mounted() {
+    //WS接続
+    ws.ws_connect(this);
+
     //投稿フォーム
     // touchstartイベントを監視する
     this.$refs.postFormDraggable.addEventListener(

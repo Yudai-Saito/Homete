@@ -36,7 +36,7 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       FLASK_APP: run.py
       FRONTEND_URL: ${FRONTEND_URL}
-      SALT: ${SALT}
+      SECRET_KEY: ${SECRET_KEY}
       DOMAIN: ${DOMAIN}
     entrypoint: python run.py
 

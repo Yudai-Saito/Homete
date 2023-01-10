@@ -5,7 +5,7 @@ up-prod:
 	docker-compose up -d
 
 down:
-	docker-compose down
+	docker-compose --env-file .env.dev -f docker-compose.dev.yml down
 
 kill:
 	docker-compose kill

@@ -1,5 +1,10 @@
 <template>
-  <v-col id="postContents" class="virtualScrollBar supportBreakPoint" cols="12">
+  <v-col
+    ref="dispPs"
+    id="postContents"
+    class="virtualScrollBar supportBreakPoint"
+    cols="12"
+  >
     <div>
       <DisplayPosts
         v-for="post in posts"
@@ -47,9 +52,13 @@ export default {
     deletePostFlag: function () {
       return this.$store.getters.deletePostFlag;
     },
+    addUserUpdatePosts: function () {
+      return this.$store.getters.userUpdatePosts;
+    },
   },
   data() {
     return {
+      scrollBottomHeight: 0,
       posts: [],
     };
   },
@@ -103,6 +112,11 @@ export default {
     this.observer.observe(observe_element);
   },
   watch: {
+    scrollBottomHeight: function (newHeight, oldHeight) {
+      var beforeViewHeight =
+        newHeight.height - oldHeight.height + window.scrollY;
+      scrollTo(0, beforeViewHeight);
+    },
     deletePostFlag(newDeletePostFlag) {
       if (newDeletePostFlag === true) {
         // ポスト配列内で、IDがdeletePostIdと一致するものを探し、
@@ -119,6 +133,27 @@ export default {
         this.$store.commit("updateDeletePostFlag", false);
       }
     },
+    addUserUpdatePosts(userUpdatePosts) {
+      //userUpdatePostsを空にするので動作しなように1以上のときに動くようにする
+      if (userUpdatePosts.length > 0) {
+        for (let i; i < userUpdatePosts.length; i++) {
+          for (let j; j < userUpdatePosts.length; j++) {
+            if (this.posts[j].post_id == userUpdatePosts[i].post_id) {
+              console.log();
+              userUpdatePosts.splice(j);
+              break;
+            }
+            if (this.posts[j].post_id == userUpdatePosts[i].post_id) {
+              break;
+            }
+          }
+        }
+
+        this.posts.unshift(...userUpdatePosts);
+
+        this.$store.commit("deleteUserUpdatePosts");
+      }
+    },
     updatePost(newPost) {
       const index = this.posts.findIndex(
         (post) => post.post_id === newPost.post_id
@@ -128,6 +163,10 @@ export default {
         this.$set(this.posts, index, newPost);
       }
     },
+  },
+  updated() {
+    var h = this.$refs.dispPs.getBoundingClientRect();
+    this.scrollBottomHeight = h;
   },
 };
 </script>
