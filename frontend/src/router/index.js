@@ -5,6 +5,7 @@ import About from "@/views/About.vue";
 import Loginloading from "@/views/LoginLoading.vue";
 import NotFound from "@/views/NotFound.vue";
 import AccountManagement from "@/views/AccountManagement.vue";
+import LandingPage from "@/views/LandingPage.vue";
 
 Vue.use(VueRouter);
 
@@ -32,6 +33,11 @@ const routes = [
     name: "Account",
     component: AccountManagement,
     meta: { title: "アカウント管理" },
+  },
+  {
+    path: "/contact",
+    name: "LandingPage",
+    component: LandingPage,
   },
   {
     path: "/:catchAll(.*)",

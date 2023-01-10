@@ -16,7 +16,7 @@ export default {
         let setTitle = routeInstance.meta.title + " | HOMETE";
         document.title = setTitle;
       } else {
-        document.title = "HOMETE";
+        document.title = "HOMETE | 日常を全肯定されるSNS";
       }
     },
   },
