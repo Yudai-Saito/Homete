@@ -1,5 +1,6 @@
 <template>
   <v-overlay
+    id="reportPost"
     :value="overlayState == 'reportPost'"
     :light="true"
     :dark="false"
@@ -14,6 +15,12 @@
     />
   </v-overlay>
 </template>
+
+<style>
+#reportPost .v-overlay__content {
+  width: 100%;
+}
+</style>
 
 <script>
 import CommonOverlay from "@/components/overlays/CommonOverlay.vue";

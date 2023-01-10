@@ -49,4 +49,3 @@ class ReportPosts(db.Model):
 
     user_id = db.Column(db.Integer, ForeignKey("users.id", name="fk_report_posts_user_id"))
     post_id = db.Column(db.Integer, ForeignKey("posts.id", name='fk_report_posts_post_id'), primary_key=True)
-

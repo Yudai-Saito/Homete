@@ -11,31 +11,70 @@ const getKeyByValue = (object, value) => {
 
 const state = {
   contentName: "",
+  aboutState: 0,
 };
 
 const getters = {
   contentsKey: (state) => getKeyByValue(contents, state.contentName),
   contentName: (state) => state.contentName,
+  aboutState: (state) => state.aboutState,
 };
 
 const actions = {
   toTimeLine(context) {
-    context.commit("updatecontentName", contents["timeline"]);
+    return new Promise((resolve) => {
+      context.commit("updateContentName", contents["timeline"]);
+      resolve();
+    });
   },
   toHistory(context) {
-    context.commit("updatecontentName", contents["history"]);
+    return new Promise((resolve) => {
+      context.commit("updateContentName", contents["history"]);
+      resolve();
+    });
   },
   toAccount(context) {
-    context.commit("updatecontentName", contents["account"]);
+    return new Promise((resolve) => {
+      context.commit("updateContentName", contents["account"]);
+      resolve();
+    });
   },
-  toAbout(context) {
-    context.commit("updatecontentName", contents["about"]);
+  toExplanation(context) {
+    return new Promise((resolve) => {
+      context.commit("updateContentName", contents["about"]);
+      context.commit("updateAboutState", 0);
+      resolve();
+    });
+  },
+  toQuestionAnswer(context) {
+    return new Promise((resolve) => {
+      context.commit("updateContentName", contents["about"]);
+      context.commit("updateAboutState", 1);
+      resolve();
+    });
+  },
+  toUserPolicy(context) {
+    return new Promise((resolve) => {
+      context.commit("updateContentName", contents["about"]);
+      context.commit("updateAboutState", 2);
+      resolve();
+    });
+  },
+  toPrivacyPolicy(context) {
+    return new Promise((resolve) => {
+      context.commit("updateContentName", contents["about"]);
+      context.commit("updateAboutState", 3);
+      resolve();
+    });
   },
 };
 
 const mutations = {
-  updatecontentName(state, name) {
+  updateContentName(state, name) {
     state.contentName = name;
+  },
+  updateAboutState(state, num) {
+    state.aboutState = num;
   },
 };
 

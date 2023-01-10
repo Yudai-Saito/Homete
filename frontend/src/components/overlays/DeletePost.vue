@@ -15,6 +15,12 @@
   </v-overlay>
 </template>
 
+<style>
+#reportPost .v-overlay__content {
+  width: 100%;
+}
+</style>
+
 <script>
 import axios from "axios";
 

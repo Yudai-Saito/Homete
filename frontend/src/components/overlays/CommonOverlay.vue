@@ -1,6 +1,6 @@
 <template>
   <v-card
-    width="400px"
+    id="overlayCard"
     class="mx-auto pa-2 rounded-xl"
     v-cloak
     v-click-outside="closeOverlayCard"
@@ -109,7 +109,19 @@
   </v-card>
 </template>
 
-<style>
+<style lang="scss">
+@media (min-width: map-get($grid-breakpoints, sm)) {
+  // sm 以上のブレークポイントでのスタイル定義
+  #overlayCard {
+    width: 400px;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  // sm 以下のブレークポイントでのスタイル定義
+  #overlayCard {
+    width: 80%;
+  }
+}
 #closeOverlayBtn {
   justify-content: center;
   position: absolute !important;

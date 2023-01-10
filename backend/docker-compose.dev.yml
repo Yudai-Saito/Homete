@@ -42,6 +42,7 @@ services:
 
 networks:
   homete_network:
+    external: true
 
 volumes:
   mysql_volume:
