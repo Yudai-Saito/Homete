@@ -11,7 +11,7 @@ posts = Blueprint("posts", __name__, url_prefix="/posts")
 @posts.route("/")
 def posts_template():
   posts = db.session.query(Posts).filter(Posts.approved == None).order_by(desc(Posts.id)).all()
-  return render_template("posts.html", posts=posts)
+  return render_template("posts.html", display_name="全体投稿" ,posts=posts)
 
 @posts.route("/report")
 def posts_report_template():
@@ -20,7 +20,7 @@ def posts_report_template():
 
     posts = db.session.query(Posts).filter(Posts.id.in_(report_posts), Posts.approved == None).order_by(desc(Posts.id)).all()
 
-    return render_template("posts.html", posts=posts)
+    return render_template("posts.html", display_name="通報投稿", posts=posts)
 
 @posts.route("/approved")
 def posts_approved():
