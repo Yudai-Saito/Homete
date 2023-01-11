@@ -13,6 +13,15 @@ def posts_template():
   posts = db.session.query(Posts).filter(Posts.approved == None).order_by(desc(Posts.id)).all()
   return render_template("posts.html", posts=posts)
 
+@posts.route("/report")
+def posts_report_template():
+    report_posts = db.session.query(ReportPosts.post_id).all()
+    report_posts = [post.post_id for post in report_posts] 
+
+    posts = db.session.query(Posts).filter(Posts.id.in_(report_posts), Posts.approved == None).order_by(desc(Posts.id)).all()
+
+    return render_template("posts.html", posts=posts)
+
 @posts.route("/approved")
 def posts_approved():
   post_id = request.args.get("post_id")
