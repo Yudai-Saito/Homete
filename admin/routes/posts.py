@@ -1,7 +1,7 @@
 import datetime
 
 from app import db
-from models.models import Posts, PostReactions
+from models.models import Posts, PostReactions, ReportPosts
 
 from sqlalchemy import desc, func
 from flask import Blueprint, render_template, request, redirect, url_for
@@ -22,8 +22,7 @@ def posts_approved():
   
   db.session.commit()
   
-  posts = db.session.query(Posts).filter(Posts.approved == None).order_by(desc(Posts.id)).all()
-  return render_template("posts.html", posts=posts)
+  return redirect(url_for("posts.posts_template"))
 
 @posts.route("/delete")
 def posts_delete_template():
