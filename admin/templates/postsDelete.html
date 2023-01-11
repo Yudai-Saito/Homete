@@ -12,40 +12,26 @@
       .btn {
         margin-right: 25px;
       }
-      html,
-      body {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      html {
-        display: table;
-      }
-      body {
-        display: table-cell;
+      .table-center {
         text-align: center;
-        vertical-align: middle;
       }
     </style>
   </head>
   <body>
     <div style="display: flex; justify-content: center">
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover table-center">
         <tr>
           <th>PostId</th>
-          <td>{{ posts.id }}</td>
-        </tr>
-        <tr>
           <th>UserId</th>
-          <td>{{ posts.user_id }}</td>
-        </tr>
-        <tr>
           <th>CreateDate</th>
-          <td>{{ posts.created_at }}</td>
+          <th>DeleteCount</th>
+          <th>Contents</th>
         </tr>
         <tr>
-          <th>Contents</th>
+          <td>{{ posts.id }}</td>
+          <td>{{ posts.user_id }}</td>
+          <td>{{ posts.created_at }}</td>
+          <td>{{ delete_count }}</td>
           <td>{{ posts.contents }}</td>
         </tr>
       </table>

@@ -3,7 +3,7 @@ import datetime
 from app import db
 from models.models import Posts, PostReactions
 
-from sqlalchemy import desc
+from sqlalchemy import desc, func
 from flask import Blueprint, render_template, request, redirect, url_for
 
 posts = Blueprint("posts", __name__, url_prefix="/posts")
@@ -29,8 +29,9 @@ def posts_approved():
 def posts_delete_template():
   post_id = request.args.get("post_id")
   posts = db.session.query(Posts).filter(Posts.id == post_id).first()
+  delete_count = db.session.query(func.count(Posts.approved)).filter(Posts.user_id == posts.user_id, Posts.approved == False).all()
 
-  return render_template("postsDelete.html", posts=posts)
+  return render_template("postsDelete.html", posts=posts, delete_count=delete_count[0][0])
 
 @posts.route("/destroy")
 def posts_destoroy():
