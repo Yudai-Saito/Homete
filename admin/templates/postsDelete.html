@@ -59,7 +59,7 @@
       </button>
       <button
         class="btn btn-danger"
-        onclick="window.location.href='/posts/delete?post_id={{ posts.id }}'"
+        onclick="if (confirm('本当に削除しますか？')) { window.location.href = '/posts/destroy?post_id={{ posts.id }}'; }"
       >
         削除
       </button>
