@@ -365,22 +365,13 @@ export default {
       });
     },
     scrollToAbout() {
-      this.$refs.about.scrollIntoView()({
-        behavior: "smooth",
-        block: "start",
-      });
+      this.$refs.about.scrollIntoView();
     },
     scrollToGuide() {
-      this.$refs.guide.scrollIntoView()({
-        behavior: "smooth",
-        block: "start",
-      });
+      this.$refs.guide.scrollIntoView();
     },
     scrollToQuestion() {
-      this.$refs.question.scrollIntoView()({
-        behavior: "smooth",
-        block: "start",
-      });
+      this.$refs.question.scrollIntoView();
     },
     handleScroll() {
       this.scrollY = window.scrollY;
