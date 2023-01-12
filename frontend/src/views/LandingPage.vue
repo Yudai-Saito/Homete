@@ -130,9 +130,9 @@
         style="display: flex; justify-content: center; align-items: center"
       >
         <img src="/assets/HOMETE_LP7.png" style="width: 50%" />
-        <div style="width: 30%">
-          <div>日常にちょっとした喜びを</div>
-          <div style="transform: translateX(120px)">HOMETEと一緒に</div>
+        <div style="width: 33%">
+          <div>日常にちょっとの喜びを</div>
+          <div style="transform: translateX(80px)">HOMETEと一緒に</div>
         </div>
         <button
           id="lpBtnSignup"
@@ -188,6 +188,17 @@
 </template>
 
 <style>
+@media (max-width: 760px) {
+  #lpBtns {
+    min-width: 530px;
+    transform: scale(0.8);
+  }
+}
+@media (min-width: 760px) {
+  #lpBtns {
+    text-align: right;
+  }
+}
 html {
   scroll-behavior: smooth;
 }
@@ -206,9 +217,6 @@ html {
   margin: 0;
   padding: 0;
   color: #494854;
-}
-#lpBtns {
-  text-align: right;
 }
 #lpBtnNomal {
   margin-right: 10px;
@@ -295,7 +303,7 @@ export default {
     Login,
   },
   beforeCreate() {
-    if (window.matchMedia(`(max-width: ${gridBreakpoints.md}px)`).matches) {
+    if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
       this.$router.push("/smcontact");
     }
   },

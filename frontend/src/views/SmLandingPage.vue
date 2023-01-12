@@ -337,11 +337,19 @@ html {
 import DisplayPosts from "@/components/mainContents/DisplayPosts.vue";
 import Login from "@/components/overlays/Login.vue";
 
+// $grid-breakpoints を JavaScript のオブジェクトとして取得
+const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
+
 export default {
   name: "LandingPage",
   components: {
     DisplayPosts,
     Login,
+  },
+  beforeCreate() {
+    if (window.matchMedia(`(min-width: ${gridBreakpoints.sm}px)`).matches) {
+      this.$router.push("/contact");
+    }
   },
   data() {
     return {
