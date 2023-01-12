@@ -332,13 +332,29 @@ export default {
         post_id: 0,
         post_reactions: [
           {
-            count: null,
-            reaction: null,
+            count: 11,
+            reaction: "👍",
+          },
+          {
+            count: 5,
+            reaction: "👀",
+          },
+          {
+            count: 10,
+            reaction: "💯",
+          },
+          {
+            count: 3,
+            reaction: "🥰",
+          },
+          {
+            count: 7,
+            reaction: "🎉",
           },
         ],
         private: 0,
         user_post: 0,
-        user_reaction: null,
+        user_reaction: ["👍", "🥰"],
       },
       lpTxt3: `日常のどんなことでも
       ほめてもらえる的な文章`,

@@ -171,28 +171,32 @@ export default {
           this.$emit("deleteReaction", this.reactionIcon);
         }
 
-        axios.delete("/posts/reaction", {
-          params: {
-            post_id: this.postId,
-            reaction: this.reactionIcon,
-          },
-          withCredentials: true,
-        });
+        if (!this.isSample) {
+          axios.delete("/posts/reaction", {
+            params: {
+              post_id: this.postId,
+              reaction: this.reactionIcon,
+            },
+            withCredentials: true,
+          });
+        }
         //カウントアップ
       } else {
         this.reactionCount += 1;
         this.reactionFlag = true;
 
-        axios.put(
-          "/posts/reaction",
-          {
-            post_id: this.postId,
-            reaction: this.reactionIcon,
-          },
-          {
-            withCredentials: true,
-          }
-        );
+        if (!this.isSample) {
+          axios.put(
+            "/posts/reaction",
+            {
+              post_id: this.postId,
+              reaction: this.reactionIcon,
+            },
+            {
+              withCredentials: true,
+            }
+          );
+        }
       }
     },
   },
