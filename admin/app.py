@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
+app.config["SECRET_KEY"] = environ["SECRET_KEY"]
 
 #接続先DBMS
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://{}:{}@mysql/{}?charset=utf8mb4"\

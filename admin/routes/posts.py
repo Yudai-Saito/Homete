@@ -4,7 +4,7 @@ from app import db
 from models.models import Posts, PostReactions, ReportPosts
 
 from sqlalchemy import desc, func
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 
 posts = Blueprint("posts", __name__, url_prefix="/posts")
 
@@ -31,15 +31,18 @@ def posts_approved():
   
   db.session.commit()
   
-  return redirect(url_for("posts.posts_template"))
+  return redirect(request.referrer)
 
 @posts.route("/delete")
 def posts_delete_template():
   post_id = request.args.get("post_id")
+
   posts = db.session.query(Posts).filter(Posts.id == post_id).first()
   delete_count = db.session.query(func.count(Posts.approved)).filter(Posts.user_id == posts.user_id, Posts.approved == False).all()
 
-  return render_template("postsDelete.html", posts=posts, delete_count=delete_count[0][0])
+  session['previous_url'] = request.referrer
+
+  return render_template("postsDelete.html", posts=posts, delete_count=delete_count[0][0], referrer=request.referrer)
 
 @posts.route("/destroy")
 def posts_destoroy():
@@ -50,7 +53,8 @@ def posts_destoroy():
   post = db.session.query(Posts).filter(Posts.id == post_id).first()
   post.approved = False
   post.deleted_at = datetime.datetime.now()
-  
+
   db.session.commit()
 
-  return redirect(url_for("posts.posts_template"))
+  previous_url = session.pop('previous_url', '/')
+  return redirect(previous_url)
