@@ -49,3 +49,8 @@ class ReportPosts(db.Model):
 
     user_id = db.Column(db.Integer, ForeignKey("users.id", name="fk_report_posts_user_id"))
     post_id = db.Column(db.Integer, ForeignKey("posts.id", name='fk_report_posts_post_id'), primary_key=True)
+
+class BanAccount(db.Model):
+    __tablename__ = "ban_account"
+
+    user_id = db.Column(db.Integer, ForeignKey("users.id", name="fk_ban_account_user_id"), primary_key=True)
