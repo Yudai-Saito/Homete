@@ -13,11 +13,12 @@ from app import app, db
 from models.models import User, Posts, PostReactions
 from util.auth_decorator import auth_required
 from util.jwt_decoder import get_email_from_cookie, get_id_from_cookie
-
+from util.ban_check import ban_check
 
 account = Blueprint("accout", __name__, url_prefix="/account")
 
 @account.route("/login", methods=["GET"])
+@ban_check("header")
 def login():
 	try:
 		jwt = request.headers.get("Authorization")
@@ -65,6 +66,7 @@ def logout():
 		return jsonify({"status": "error"}), 401
 
 @account.route("/delete", methods=["DELETE"])
+@ban_check("header")
 @auth_required
 def delete():
 	try:

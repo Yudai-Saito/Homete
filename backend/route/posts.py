@@ -17,10 +17,12 @@ from util.jwt_decoder import get_email_from_cookie
 from util.icon_generator import open_peeps_icon
 from util.get_posts import get_posts
 from util.posts_template import user_posts_template
+from util.ban_check import ban_check
 
 posts = Blueprint("posts", __name__, url_prefix="/posts")
 
 @posts.route("", methods=["POST"])
+@ban_check("cookie")
 @auth_required
 def post_receive():
 	try:	
@@ -60,6 +62,7 @@ def post_receive():
 		return jsonify({"status": "error"}), 400
 
 @posts.route("", methods=["DELETE"])
+@ban_check("cookie")
 @auth_required
 def posts_delete():
 	try:
@@ -104,6 +107,7 @@ def post_get():
 		return jsonify({"status": "error"}), 400
 
 @posts.route("/reaction", methods=["PUT"])
+@ban_check("cookie")
 @auth_required
 def reaction():
 	try:
@@ -129,6 +133,7 @@ def reaction():
 		return jsonify({"status": "error"}), 400
 
 @posts.route("/reaction", methods=["DELETE"])
+@ban_check("cookie")
 @auth_required
 def reaction_delete():
 	try:
