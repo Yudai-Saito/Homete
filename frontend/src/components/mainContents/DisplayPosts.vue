@@ -29,6 +29,7 @@
                 :ripple="false"
                 v-bind="attrs"
                 v-on="on"
+                :disabled="!(logged && !isSample)"
               >
                 <v-icon>mdi-dots-horizontal</v-icon>
               </v-btn>
@@ -67,6 +68,7 @@
               :postId="postList.post_id"
               :privateFlag="postList.private"
               v-on:deleteReaction="deleteReactions"
+              :isSample="isSample"
             />
           </div>
           <v-btn
@@ -77,7 +79,7 @@
             elevation="0"
             small
             outlined
-            :disabled="!logged"
+            :disabled="!logged && !isSample"
           >
             <div ref="addBtn">
               <v-icon>mdi-plus</v-icon>
@@ -329,7 +331,7 @@ export default {
       displayAddBtn: true,
     };
   },
-  props: ["postList"],
+  props: ["postList", "isSample"],
   methods: {
     deleteReactions(icon) {
       var rVal = icon;

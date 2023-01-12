@@ -8,7 +8,7 @@
       small
       outlined
       v-if="!reactionFlag"
-      :disabled="!logged"
+      :disabled="!logged && !isSample"
     >
       <div id="btnIcon" v-twemoji>{{ reactionIcon }}</div>
       <div v-if="!privateFlag" id="countNum">{{ reactionCount }}</div>
@@ -21,7 +21,7 @@
       small
       outlined
       v-else
-      :disabled="!logged"
+      :disabled="!logged && !isSample"
     >
       <div id="btnIcon" v-twemoji>{{ reactionIcon }}</div>
       <div v-if="!privateFlag" id="countNum">{{ reactionCount }}</div>
@@ -133,6 +133,7 @@ export default {
     "userReaction",
     "postId",
     "privateFlag",
+    "isSample",
   ],
   //v-twemojiプロパティを追加
   directives: {
@@ -170,28 +171,32 @@ export default {
           this.$emit("deleteReaction", this.reactionIcon);
         }
 
-        axios.delete("/posts/reaction", {
-          params: {
-            post_id: this.postId,
-            reaction: this.reactionIcon,
-          },
-          withCredentials: true,
-        });
+        if (!this.isSample) {
+          axios.delete("/posts/reaction", {
+            params: {
+              post_id: this.postId,
+              reaction: this.reactionIcon,
+            },
+            withCredentials: true,
+          });
+        }
         //カウントアップ
       } else {
         this.reactionCount += 1;
         this.reactionFlag = true;
 
-        axios.put(
-          "/posts/reaction",
-          {
-            post_id: this.postId,
-            reaction: this.reactionIcon,
-          },
-          {
-            withCredentials: true,
-          }
-        );
+        if (!this.isSample) {
+          axios.put(
+            "/posts/reaction",
+            {
+              post_id: this.postId,
+              reaction: this.reactionIcon,
+            },
+            {
+              withCredentials: true,
+            }
+          );
+        }
       }
     },
   },
