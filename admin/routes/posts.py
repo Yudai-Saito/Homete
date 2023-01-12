@@ -28,6 +28,8 @@ def posts_approved():
   
   post = db.session.query(Posts).filter(Posts.id == post_id).first()
   post.approved = True
+
+  db.session.query(ReportPosts).filter(ReportPosts.post_id == post_id).delete()
   
   db.session.commit()
   
@@ -53,6 +55,8 @@ def posts_destoroy():
   post = db.session.query(Posts).filter(Posts.id == post_id).first()
   post.approved = False
   post.deleted_at = datetime.datetime.now()
+  
+  db.session.query(ReportPosts).filter(ReportPosts.post_id == post_id).delete()
 
   db.session.commit()
 
