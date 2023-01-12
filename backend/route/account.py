@@ -66,7 +66,7 @@ def logout():
 		return jsonify({"status": "error"}), 401
 
 @account.route("/delete", methods=["DELETE"])
-@ban_check("header")
+@ban_check("cookie")
 @auth_required
 def delete():
 	try:
