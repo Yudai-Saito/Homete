@@ -6,6 +6,7 @@ import Loginloading from "@/views/LoginLoading.vue";
 import NotFound from "@/views/NotFound.vue";
 import AccountManagement from "@/views/AccountManagement.vue";
 import LandingPage from "@/views/LandingPage.vue";
+import SmLandingPage from "@/views/SmLandingPage.vue";
 
 Vue.use(VueRouter);
 
@@ -38,6 +39,11 @@ const routes = [
     path: "/contact",
     name: "LandingPage",
     component: LandingPage,
+  },
+  {
+    path: "/smcontact",
+    name: "SmLandingPage",
+    component: SmLandingPage,
   },
   {
     path: "/:catchAll(.*)",
