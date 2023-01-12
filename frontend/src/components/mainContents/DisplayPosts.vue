@@ -29,7 +29,7 @@
                 :ripple="false"
                 v-bind="attrs"
                 v-on="on"
-                :disabled="isSample"
+                :disabled="!(logged && !isSample)"
               >
                 <v-icon>mdi-dots-horizontal</v-icon>
               </v-btn>
