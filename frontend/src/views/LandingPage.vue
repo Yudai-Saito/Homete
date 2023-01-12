@@ -249,6 +249,7 @@ html {
   width: 90vw;
   height: 90vh;
   margin: auto 0;
+  border-radius: 10%;
 }
 #lpContent div {
   white-space: pre-line;
@@ -327,7 +328,7 @@ export default {
           head: "grayMedium",
           skin_color: "variant01",
         },
-        name: "あどみん",
+        name: "ほめてもんすたー",
         post_id: 0,
         post_reactions: [
           {
