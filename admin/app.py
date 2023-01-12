@@ -23,7 +23,9 @@ firebase_app = initialize_app(cred)
 from routes.error import error
 from routes.login import login
 from routes.posts import posts
+from routes.account import account
 
 app.register_blueprint(error)
 app.register_blueprint(login)
 app.register_blueprint(posts)
+app.register_blueprint(account)
