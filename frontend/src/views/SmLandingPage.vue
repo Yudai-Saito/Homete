@@ -10,7 +10,7 @@
       floating
       color="transparent"
     >
-      <div id="smLpTitle" class="text-h6 font-weight-bold" @click="toTop">
+      <div id="smLpTitle" class="text-h5 font-weight-bold" @click="toTop">
         homete…
       </div>
       <div id="smLpBtns">
@@ -29,14 +29,6 @@
           :ripple="false"
           @click="scrollToGuide"
           >使い方</v-btn
-        >
-        <v-btn
-          id="smLpBtnNomal"
-          plain
-          text
-          :ripple="false"
-          @click="scrollToQuestion"
-          >よくある質問</v-btn
         >
         <button id="smLpBtnSignup" @click="login">Googleで登録する</button>
       </div>
@@ -147,7 +139,7 @@
         </div>
       </div>
     </div>
-    <div id="smLpBoard" ref="question">
+    <div id="smLpBoard">
       <div
         id="smLpContent"
         class="amber lighten-4"
@@ -237,13 +229,13 @@ html {
 }
 #smLpHeader {
   z-index: 2;
-  padding: 20px;
+  padding: 0;
   transition: transform 0.5s;
 }
 #smLpHeader .v-toolbar__content {
   height: 48px !important;
   width: 100%;
-  justify-content: space-between;
+  justify-content: space-evenly;
   padding: 0px 3px;
   transform: translateX(-5px);
 }
@@ -252,16 +244,21 @@ html {
   margin: 0;
   padding: 0;
   color: #494854;
+  transform: scale(1.1);
+  position: relative;
+  top: 3px;
+  left: 10px;
 }
 #smLpBtns {
-  text-align: right;
-  font-size: 5px;
+  font-size: 12px;
   display: flex;
-  margin-left: 5px;
+  left: 20px;
+  position: relative;
+  top: 5px;
 }
 #smLpBtnNomal {
-  font-size: 5px;
-  transform: scale(0.8);
+  font-size: 12px;
+  transform: scale(0.9);
   min-width: 0px;
   padding: 0;
 }
@@ -277,6 +274,9 @@ html {
   transition: background-color 0.2s, color 0.2s;
   transform: scale(0.8);
   min-width: 100px;
+  position: relative;
+  right: 3px;
+  padding: 0 3px;
 }
 #smLpBtnSignup:hover {
   background-color: transparent;
@@ -294,7 +294,7 @@ html {
   width: 90vw;
   height: 90vh;
   margin: auto 0;
-  border-radius: 10%;
+  border-radius: 50px;
 }
 #smLpContent div {
   white-space: pre-line;
@@ -312,7 +312,7 @@ html {
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  height: 50vh;
+  height: 333px;
 }
 
 #smLpFooter {
@@ -328,8 +328,8 @@ html {
   margin: 20px 0;
 }
 #smLpFooterBtn {
-  font-size: 5px;
-  padding: 0 8px !important;
+  font-size: 11px;
+  padding: 0 4px !important;
 }
 </style>
 
@@ -446,9 +446,6 @@ export default {
     },
     scrollToGuide() {
       this.$refs.guide.scrollIntoView();
-    },
-    scrollToQuestion() {
-      this.$refs.question.scrollIntoView();
     },
     handleScroll() {
       this.scrollY = window.scrollY;
