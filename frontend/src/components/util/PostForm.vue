@@ -239,6 +239,7 @@ export default {
         });
       this.loading = false;
       this.$refs.postForm.reset();
+      this.formTxt = "";
     },
     inputText: function () {
       if (this.formTxt == "") {
