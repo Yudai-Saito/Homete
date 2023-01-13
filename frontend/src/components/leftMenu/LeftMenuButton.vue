@@ -6,9 +6,7 @@
     rounded
     x-large
     :elevation="3"
-    v-on="
-      logged && usage == `toHistory` ? { click: count } : { click: plzLogin }
-    "
+    @click="onClick"
   >
     <v-icon> {{ btnIcon }} </v-icon>
     {{ btnText }}
@@ -41,11 +39,15 @@ export default {
   props: ["usage", "btnText", "btnIcon"],
   methods: {
     onClick: function () {
-      this.$store.dispatch(this.usage).then(() => {
-        if (this.$route.path != "/") {
-          this.$router.push("/");
-        }
-      });
+      if (this.logged || this.usage == "toTimeLine") {
+        this.$store.dispatch(this.usage).then(() => {
+          if (this.$route.path != "/") {
+            this.$router.push("/");
+          }
+        });
+      } else {
+        this.plzLogin();
+      }
     },
     plzLogin: function () {
       this.$store.dispatch("visiblePlzLoginOverlay");
