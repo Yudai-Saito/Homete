@@ -13,6 +13,9 @@ const actions = {
   visibleLoginOverlay(context) {
     context.commit("updateOverlayState", "login");
   },
+  visiblePlzLoginOverlay(context) {
+    context.commit("updateOverlayState", "plzLogin");
+  },
   visibleDeletePostOverlay(context) {
     context.commit("updateOverlayState", "deletePost");
   },

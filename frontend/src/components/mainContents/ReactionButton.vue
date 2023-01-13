@@ -3,12 +3,11 @@
     <v-btn
       id="reactionBtn"
       class="grey--text text--darken-3 ma-0 pa-0"
-      @click="count"
+      v-on="logged ? { click: count } : { click: plzLogin }"
       elevation="0"
       small
       outlined
       v-if="!reactionFlag"
-      :disabled="!logged && !isSample"
     >
       <div id="btnIcon" v-twemoji>{{ reactionIcon }}</div>
       <div v-if="!privateFlag" id="countNum">{{ reactionCount }}</div>
@@ -16,12 +15,11 @@
     <v-btn
       id="pushedBtn"
       class="grey--text text--darken-3 ma-0 pa-0"
-      @click="count"
+      v-on="logged ? { click: count } : { click: plzLogin }"
       elevation="0"
       small
       outlined
       v-else
-      :disabled="!logged && !isSample"
     >
       <div id="btnIcon" v-twemoji>{{ reactionIcon }}</div>
       <div v-if="!privateFlag" id="countNum">{{ reactionCount }}</div>
@@ -198,6 +196,9 @@ export default {
           );
         }
       }
+    },
+    plzLogin: function () {
+      this.$store.dispatch("visiblePlzLoginOverlay");
     },
   },
   mounted() {

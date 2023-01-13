@@ -6,6 +6,11 @@
     id="formTxtCard"
     class="rounded-xl"
   >
+    <div
+      v-show="!logged"
+      style="height: 100%; width: 100%; position: absolute; z-index: 999"
+      @click.stop="plzLogin"
+    ></div>
     <template slot="progress">
       <v-progress-linear
         color="#4169e1"
@@ -244,6 +249,9 @@ export default {
       this.formTxt = "";
       this.detectInput = false;
       this.$store.dispatch("invisiblePostForm");
+    },
+    plzLogin: function () {
+      this.$store.dispatch("visiblePlzLoginOverlay");
     },
   },
 };

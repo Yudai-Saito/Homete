@@ -6,7 +6,9 @@
     rounded
     x-large
     :elevation="3"
-    v-on:click="onClick"
+    v-on="
+      logged && usage == `toHistory` ? { click: count } : { click: plzLogin }
+    "
   >
     <v-icon> {{ btnIcon }} </v-icon>
     {{ btnText }}
@@ -31,6 +33,11 @@
 <script>
 export default {
   name: "LeftMenuButton",
+  computed: {
+    logged() {
+      return this.$store.getters.logged;
+    },
+  },
   props: ["usage", "btnText", "btnIcon"],
   methods: {
     onClick: function () {
@@ -39,6 +46,9 @@ export default {
           this.$router.push("/");
         }
       });
+    },
+    plzLogin: function () {
+      this.$store.dispatch("visiblePlzLoginOverlay");
     },
   },
 };
