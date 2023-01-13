@@ -13,25 +13,7 @@
       <div id="smLpTitle" class="text-h5 font-weight-bold" @click="toTop">
         homete…
       </div>
-      <div id="smLpBtns">
-        <v-btn
-          id="smLpBtnNomal"
-          plain
-          text
-          :ripple="false"
-          @click="scrollToAbout"
-          >hometeとは</v-btn
-        >
-        <v-btn
-          id="smLpBtnNomal"
-          plain
-          text
-          :ripple="false"
-          @click="scrollToGuide"
-          >使い方</v-btn
-        >
-        <button id="smLpBtnSignup" @click="login">Googleで登録する</button>
-      </div>
+      <button id="smLpBtnSignup" @click="login">Googleで登録する</button>
     </v-app-bar>
     <div id="smLpBoard">
       <div
@@ -48,7 +30,7 @@
         <img src="/assets/HOMETE_LP1.png" style="width: 60%" />
       </div>
     </div>
-    <div id="smLpBoard" ref="about">
+    <div id="smLpBoard">
       <div
         id="smLpContent"
         class="amber lighten-4"
@@ -82,7 +64,7 @@
         />
       </div>
     </div>
-    <div id="smLpBoard" ref="guide">
+    <div id="smLpBoard">
       <div
         id="smLpContent"
         class="amber lighten-4"
@@ -172,7 +154,7 @@
         <img src="/assets/HOMETE_LP7.png" style="width: 70%" />
         <button
           id="smLpBtnSignup"
-          style="position: absolute; right: 3%; bottom: 20%; padding: 5px 15px"
+          style="right: 3%; bottom: 20%; padding: 5px 15px"
           @click="login"
         >
           Googleで登録する
@@ -235,9 +217,11 @@ html {
 #smLpHeader .v-toolbar__content {
   height: 48px !important;
   width: 100%;
-  justify-content: space-evenly;
+  justify-content: space-around;
   padding: 0px 3px;
-  transform: translateX(-5px);
+  position: relative;
+  top: 15px;
+  transform: scale(1.1);
 }
 
 #smLpTitle {
@@ -249,22 +233,6 @@ html {
   top: 3px;
   left: 10px;
 }
-#smLpBtns {
-  font-size: 12px;
-  display: flex;
-  left: 20px;
-  position: relative;
-  top: 5px;
-}
-#smLpBtnNomal {
-  font-size: 12px;
-  transform: scale(0.9);
-  min-width: 0px;
-  padding: 0;
-}
-#smLpBtnNomal .v-btn__content {
-  opacity: 0.75;
-}
 #smLpBtnSignup {
   color: floralwhite;
   border-radius: 28px;
@@ -275,8 +243,10 @@ html {
   transform: scale(0.8);
   min-width: 100px;
   position: relative;
-  right: 3px;
-  padding: 0 3px;
+  left: 25px;
+  padding: 2px 8px;
+  font-size: 18px;
+  top: 3px;
 }
 #smLpBtnSignup:hover {
   background-color: transparent;
@@ -440,12 +410,6 @@ export default {
       this.$store.dispatch("toPrivacyPolicy").then(() => {
         this.$router.push("/about");
       });
-    },
-    scrollToAbout() {
-      this.$refs.about.scrollIntoView();
-    },
-    scrollToGuide() {
-      this.$refs.guide.scrollIntoView();
     },
     handleScroll() {
       this.scrollY = window.scrollY;
