@@ -21,6 +21,7 @@
 
     <v-form id="formArea" v-model="isValid" ref="forms">
       <v-textarea
+        ref="postForm"
         id="mdPostForm"
         label="なにを褒めてもらう？"
         solo
@@ -197,8 +198,9 @@ export default {
       const required = (v) => !!v || "";
       const inputFormat = (v) =>
         v.length <= 400 || "400文字以下で入力してください!";
+      const noSpaceOnly = (v) => !/^\s*$/.test(v) || "";
 
-      const inputRules = [required, inputFormat];
+      const inputRules = [required, inputFormat, noSpaceOnly];
 
       return { inputRules };
     },
@@ -236,7 +238,7 @@ export default {
           this.$store.dispatch("alertError");
         });
       this.loading = false;
-      this.formTxt = "";
+      this.$refs.postForm.reset();
     },
     inputText: function () {
       if (this.formTxt == "") {
