@@ -206,9 +206,6 @@
 </template>
 
 <style>
-html {
-  scroll-behavior: smooth;
-}
 #smLpHeader {
   z-index: 2;
   padding: 0;

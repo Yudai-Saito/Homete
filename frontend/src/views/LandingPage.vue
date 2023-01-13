@@ -191,9 +191,6 @@
     text-align: right;
   }
 }
-html {
-  scroll-behavior: smooth;
-}
 #lpHeader {
   z-index: 2;
   padding: 20px;
@@ -404,6 +401,12 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
+
+    if (this.$route.name === "LandingPage") {
+      document.querySelector("html").style.scrollBehavior = "smooth";
+    } else {
+      document.querySelector("html").style.scrollBehavior = "auto";
+    }
   },
   watch: {
     scrollY(newY, oldY) {
