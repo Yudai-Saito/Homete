@@ -214,7 +214,6 @@ export default {
         var beforeViewHeight =
           newHeight.height - oldHeight.height + window.scrollY;
         scrollTo(0, beforeViewHeight);
-        console.log(beforeViewHeight);
       }
     },
     postsProcess(newProcessFlag) {
