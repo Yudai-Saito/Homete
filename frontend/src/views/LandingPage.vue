@@ -10,7 +10,7 @@
       floating
       color="transparent"
     >
-      <div id="lpTitle" class="text-h5 font-weight-bold" @click="toTop">
+      <div id="lpTitle" class="text-h4 font-weight-bold" @click="toTop">
         homete…
       </div>
       <div id="lpBtns">
@@ -19,14 +19,6 @@
         >
         <v-btn id="lpBtnNomal" plain text :ripple="false" @click="scrollToGuide"
           >使い方</v-btn
-        >
-        <v-btn
-          id="lpBtnNomal"
-          plain
-          text
-          :ripple="false"
-          @click="scrollToQuestion"
-          >よくある質問</v-btn
         >
         <button id="lpBtnSignup" @click="login">Googleで登録する</button>
       </div>
@@ -113,7 +105,7 @@
         </div>
       </div>
     </div>
-    <div id="lpBoard" ref="question">
+    <div id="lpBoard">
       <div
         id="lpContent"
         class="amber lighten-4"
@@ -199,9 +191,6 @@
     text-align: right;
   }
 }
-html {
-  scroll-behavior: smooth;
-}
 #lpHeader {
   z-index: 2;
   padding: 20px;
@@ -220,11 +209,13 @@ html {
 }
 #lpBtnNomal {
   margin-right: 10px;
+  font-size: 15px;
 }
 #lpBtnNomal .v-btn__content {
   opacity: 0.75;
 }
 #lpBtnSignup {
+  font-size: 15px;
   color: floralwhite;
   border-radius: 28px;
   padding: 5px 15px;
@@ -249,7 +240,7 @@ html {
   width: 90vw;
   height: 90vh;
   margin: auto 0;
-  border-radius: 10%;
+  border-radius: 50px;
 }
 #lpContent div {
   white-space: pre-line;
@@ -286,6 +277,7 @@ html {
 }
 #lpFooterBtn {
   width: 25%;
+  font-size: 15px;
 }
 </style>
 
@@ -403,15 +395,18 @@ export default {
     scrollToGuide() {
       this.$refs.guide.scrollIntoView();
     },
-    scrollToQuestion() {
-      this.$refs.question.scrollIntoView();
-    },
     handleScroll() {
       this.scrollY = window.scrollY;
     },
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
+
+    if (this.$route.name === "LandingPage") {
+      document.querySelector("html").style.scrollBehavior = "smooth";
+    } else {
+      document.querySelector("html").style.scrollBehavior = "auto";
+    }
   },
   watch: {
     scrollY(newY, oldY) {

@@ -55,16 +55,26 @@ export default {
     contentName() {
       return this.$store.getters.contentName;
     },
+    logged() {
+      return this.$store.getters.logged;
+    },
   },
   props: ["usage", "ftBtnIcon", "ftBtnTxt"],
   methods: {
     onClick: function () {
-      this.$store.dispatch("invisibleMenu");
-      this.$store.dispatch(this.usage).then(() => {
-        if (this.$route.path != "/") {
-          this.$router.push("/");
-        }
-      });
+      if (this.logged || this.usage == "toTimeLine") {
+        this.$store.dispatch("invisibleMenu");
+        this.$store.dispatch(this.usage).then(() => {
+          if (this.$route.path != "/") {
+            this.$router.push("/");
+          }
+        });
+      } else {
+        this.plzLogin();
+      }
+    },
+    plzLogin: function () {
+      this.$store.dispatch("visiblePlzLoginOverlay");
     },
   },
 };

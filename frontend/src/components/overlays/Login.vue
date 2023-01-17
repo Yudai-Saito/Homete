@@ -1,6 +1,6 @@
 <template>
   <v-overlay
-    :value="overlayState == 'login'"
+    :value="overlayState == 'login' || overlayState == 'plzLogin'"
     :light="true"
     :dark="false"
     :z-index="999"
@@ -8,7 +8,11 @@
     <CommonOverlay
       usage="login"
       titleTxt="HOMETE"
-      firstMsg="ここに適当なサービスの説明とようこそ的な文章"
+      :firstMsg="
+        overlayState == 'login'
+          ? 'ここに適当なサービスの説明とようこそ的な文章'
+          : '過去投稿の閲覧やリアクション、投稿はログインしないとできないよ！'
+      "
       btnTxt="Googleでログイン"
       descriptionTxt="ここに注意事項的な文章"
       :onClick="logIn"

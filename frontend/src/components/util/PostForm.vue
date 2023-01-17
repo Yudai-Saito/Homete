@@ -6,6 +6,11 @@
     id="formTxtCard"
     class="rounded-xl"
   >
+    <div
+      v-show="!logged"
+      style="height: 100%; width: 100%; position: absolute; z-index: 999"
+      @click.stop="plzLogin"
+    ></div>
     <template slot="progress">
       <v-progress-linear
         color="#4169e1"
@@ -16,6 +21,7 @@
 
     <v-form id="formArea" v-model="isValid" ref="forms">
       <v-textarea
+        ref="postForm"
         id="mdPostForm"
         label="なにを褒めてもらう？"
         solo
@@ -192,8 +198,9 @@ export default {
       const required = (v) => !!v || "";
       const inputFormat = (v) =>
         v.length <= 400 || "400文字以下で入力してください!";
+      const noSpaceOnly = (v) => !/^\s*$/.test(v) || "";
 
-      const inputRules = [required, inputFormat];
+      const inputRules = [required, inputFormat, noSpaceOnly];
 
       return { inputRules };
     },
@@ -231,6 +238,7 @@ export default {
           this.$store.dispatch("alertError");
         });
       this.loading = false;
+      this.$refs.postForm.reset();
       this.formTxt = "";
     },
     inputText: function () {
@@ -244,6 +252,9 @@ export default {
       this.formTxt = "";
       this.detectInput = false;
       this.$store.dispatch("invisiblePostForm");
+    },
+    plzLogin: function () {
+      this.$store.dispatch("visiblePlzLoginOverlay");
     },
   },
 };

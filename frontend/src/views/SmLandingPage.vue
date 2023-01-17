@@ -10,36 +10,10 @@
       floating
       color="transparent"
     >
-      <div id="smLpTitle" class="text-h6 font-weight-bold" @click="toTop">
+      <div id="smLpTitle" class="text-h5 font-weight-bold" @click="toTop">
         homete…
       </div>
-      <div id="smLpBtns">
-        <v-btn
-          id="smLpBtnNomal"
-          plain
-          text
-          :ripple="false"
-          @click="scrollToAbout"
-          >hometeとは</v-btn
-        >
-        <v-btn
-          id="smLpBtnNomal"
-          plain
-          text
-          :ripple="false"
-          @click="scrollToGuide"
-          >使い方</v-btn
-        >
-        <v-btn
-          id="smLpBtnNomal"
-          plain
-          text
-          :ripple="false"
-          @click="scrollToQuestion"
-          >よくある質問</v-btn
-        >
-        <button id="smLpBtnSignup" @click="login">Googleで登録する</button>
-      </div>
+      <button id="smLpBtnSignup" @click="login">Googleで登録する</button>
     </v-app-bar>
     <div id="smLpBoard">
       <div
@@ -56,7 +30,7 @@
         <img src="/assets/HOMETE_LP1.png" style="width: 60%" />
       </div>
     </div>
-    <div id="smLpBoard" ref="about">
+    <div id="smLpBoard">
       <div
         id="smLpContent"
         class="amber lighten-4"
@@ -90,7 +64,7 @@
         />
       </div>
     </div>
-    <div id="smLpBoard" ref="guide">
+    <div id="smLpBoard">
       <div
         id="smLpContent"
         class="amber lighten-4"
@@ -147,7 +121,7 @@
         </div>
       </div>
     </div>
-    <div id="smLpBoard" ref="question">
+    <div id="smLpBoard">
       <div
         id="smLpContent"
         class="amber lighten-4"
@@ -180,7 +154,7 @@
         <img src="/assets/HOMETE_LP7.png" style="width: 70%" />
         <button
           id="smLpBtnSignup"
-          style="position: absolute; right: 3%; bottom: 20%; padding: 5px 15px"
+          style="right: 3%; bottom: 20%; padding: 5px 15px"
           @click="login"
         >
           Googleで登録する
@@ -232,41 +206,29 @@
 </template>
 
 <style>
-html {
-  scroll-behavior: smooth;
-}
 #smLpHeader {
   z-index: 2;
-  padding: 20px;
+  padding: 0;
   transition: transform 0.5s;
 }
 #smLpHeader .v-toolbar__content {
   height: 48px !important;
   width: 100%;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 0px 3px;
-  transform: translateX(-5px);
+  position: relative;
+  top: 15px;
+  transform: scale(1.1);
 }
 
 #smLpTitle {
   margin: 0;
   padding: 0;
   color: #494854;
-}
-#smLpBtns {
-  text-align: right;
-  font-size: 5px;
-  display: flex;
-  margin-left: 5px;
-}
-#smLpBtnNomal {
-  font-size: 5px;
-  transform: scale(0.8);
-  min-width: 0px;
-  padding: 0;
-}
-#smLpBtnNomal .v-btn__content {
-  opacity: 0.75;
+  transform: scale(1.1);
+  position: relative;
+  top: 3px;
+  left: 10px;
 }
 #smLpBtnSignup {
   color: floralwhite;
@@ -277,6 +239,11 @@ html {
   transition: background-color 0.2s, color 0.2s;
   transform: scale(0.8);
   min-width: 100px;
+  position: relative;
+  left: 25px;
+  padding: 2px 8px;
+  font-size: 18px;
+  top: 3px;
 }
 #smLpBtnSignup:hover {
   background-color: transparent;
@@ -294,7 +261,7 @@ html {
   width: 90vw;
   height: 90vh;
   margin: auto 0;
-  border-radius: 10%;
+  border-radius: 50px;
 }
 #smLpContent div {
   white-space: pre-line;
@@ -312,7 +279,7 @@ html {
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  height: 50vh;
+  height: 333px;
 }
 
 #smLpFooter {
@@ -328,8 +295,8 @@ html {
   margin: 20px 0;
 }
 #smLpFooterBtn {
-  font-size: 5px;
-  padding: 0 8px !important;
+  font-size: 11px;
+  padding: 0 4px !important;
 }
 </style>
 
@@ -440,15 +407,6 @@ export default {
       this.$store.dispatch("toPrivacyPolicy").then(() => {
         this.$router.push("/about");
       });
-    },
-    scrollToAbout() {
-      this.$refs.about.scrollIntoView();
-    },
-    scrollToGuide() {
-      this.$refs.guide.scrollIntoView();
-    },
-    scrollToQuestion() {
-      this.$refs.question.scrollIntoView();
     },
     handleScroll() {
       this.scrollY = window.scrollY;
