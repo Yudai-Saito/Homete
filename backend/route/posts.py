@@ -1,11 +1,11 @@
 
-import MySQLdb
 import datetime
 from traceback import format_exc
 
 from flask import Blueprint, request, jsonify
 
 from sqlalchemy import func, desc, case, and_, JSON
+from sqlalchemy.exc import IntegrityError
 
 from app import app, db
 
@@ -125,9 +125,10 @@ def port_report():
 
 		return jsonify({"status":"success"}), 200
 	#主キーかぶりでエラー吐いた場合でも200番返してあげる
-	except MySQLdb.IntegrityError:
+	except IntegrityError:
 		return jsonify({"status":"success"}), 200
 	except:
+		app.logger.error(format_exc())
 		return jsonify({"status":"error"}), 400
 
 @posts.route("/reaction", methods=["PUT"])
