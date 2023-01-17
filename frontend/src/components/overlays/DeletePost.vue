@@ -8,7 +8,7 @@
     <CommonOverlay
       usage="deletePost"
       titleTxt="本当に削除しますか？"
-      firstMsg="削除してしまうと戻すことはできません。"
+      firstMsg="削除をすると戻すことはできません。"
       btnTxt="削除する"
       :onClick="deletePost"
     />
