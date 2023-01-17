@@ -23,6 +23,8 @@
 </style>
 
 <script>
+import axios from "axios";
+
 import CommonOverlay from "@/components/overlays/CommonOverlay.vue";
 
 export default {
@@ -37,8 +39,22 @@ export default {
   },
   methods: {
     reportPost: function () {
-      this.$store.dispatch("invisibleCommonOverlay");
-      this.$store.dispatch("alertReportSuccess");
+      axios
+        .post(
+          "/posts/report",
+          {
+            post_id: this.$store.getters.postId,
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then(() => {
+          this.$store.commit("updateProcess", true);
+          this.$store.commit("updatePostsProcess", "report");
+          this.$store.dispatch("invisibleCommonOverlay");
+          this.$store.dispatch("alertReportSuccess");
+        });
     },
   },
 };

@@ -121,11 +121,8 @@ export default {
     DisplayPosts,
   },
   computed: {
-    deletePostId: function () {
-      return this.$store.getters.deletePostId;
-    },
-    deletePostFlag: function () {
-      return this.$store.getters.deletePostFlag;
+    postsProcess: function () {
+      return this.$store.getters.processFlag;
     },
     addUserUpdatePosts: function () {
       return this.$store.getters.userUpdatePosts;
@@ -196,21 +193,22 @@ export default {
         newHeight.height - oldHeight.height + window.scrollY;
       scrollTo(0, beforeViewHeight);
     },
-    deletePostFlag(newDeletePostFlag) {
-      if (newDeletePostFlag === true) {
-        // ポスト配列内で、IDがdeletePostIdと一致するものを探し、
-        // その位置を検出する
-        const index = this.posts.findIndex(
-          (post) => post.post_id === this.deletePostId
-        );
+    postsProcess(newProcessFlag) {
+      if (this.$store.getters.postsProcess == "delete") {
+        if (newProcessFlag === true) {
+          // ポスト配列内で、IDがdeletePostIdと一致するものを探し、
+          // その位置を検出する
+          const index = this.posts.findIndex(
+            (post) => post.post_id === this.$store.getters.postId
+          );
 
-        // 存在した場合は、その位置から1つの要素を配列から削除する
-        if (index !== -1) {
-          this.posts.splice(index, 1);
+          // 存在した場合は、その位置から1つの要素を配列から削除する
+          if (index !== -1) {
+            this.posts.splice(index, 1);
+          }
         }
-
-        this.$store.commit("updateDeletePostFlag", false);
       }
+      this.$store.commit("updateProcess", false, "");
     },
     addUserUpdatePosts(userUpdatePosts) {
       //userUpdatePostsを空にするので動作しなように1以上のときに動くようにする
@@ -218,7 +216,6 @@ export default {
         for (let i; i < userUpdatePosts.length; i++) {
           for (let j; j < userUpdatePosts.length; j++) {
             if (this.posts[j].post_id == userUpdatePosts[i].post_id) {
-              console.log();
               userUpdatePosts.splice(j);
               break;
             }
