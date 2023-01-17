@@ -26,7 +26,11 @@ function ws_connect(vm) {
       }
     });
 
+    //投稿したモノが入っていた場合は削除して追加
+
     vm.$store.commit("setUpdatePosts", posts);
+
+    vm.$store.dispatch("alertNewPost");
   });
 }
 
