@@ -65,8 +65,12 @@ const mutations = {
   addCompletedPost(state, posts) {
     state.completedPost.unshift(posts);
   },
-  deleteCompletedPost(state) {
-    state.completedPost = [];
+  deleteCompletedPost(state, target) {
+    state.completedPost.forEach((item, index) => {
+      if (item === target) {
+        state.completedPost.splice(index, 1);
+      }
+    });
   },
 };
 
