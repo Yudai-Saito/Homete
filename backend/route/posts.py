@@ -1,4 +1,5 @@
 
+import MySQLdb
 import datetime
 from traceback import format_exc
 
@@ -10,7 +11,7 @@ from app import app, db
 
 from validator.post_reaction_validator import posts_reaction_count_validate
 
-from models.models import User, Posts, PostReactions, Reactions
+from models.models import User, Posts, PostReactions, Reactions, ReportPosts
 
 from util.auth_decorator import auth_required
 from util.jwt_decoder import get_email_from_cookie
@@ -105,6 +106,29 @@ def post_get():
 	except:
 		app.logger.error(format_exc())
 		return jsonify({"status": "error"}), 400
+
+@posts.route("/report", methods=["POST"])
+@ban_check("cookie")
+@auth_required
+def port_report():
+	try:
+		jwt = request.cookies.get("__session")
+
+		user_email = get_email_from_cookie(jwt)
+		user_id = db.session.query(User.id).filter(User.email == user_email).first()[0]
+
+		post_id = request.json["post_id"]
+
+		if(db.session.query(Posts).filter(Posts.id == post_id, Posts.approved == None).first()):
+			db.session.add(ReportPosts(user_id = user_id, post_id = post_id))
+			db.session.commit()
+
+		return jsonify({"status":"success"}), 200
+	#主キーかぶりでエラー吐いた場合でも200番返してあげる
+	except MySQLdb.IntegrityError:
+		return jsonify({"status":"success"}), 200
+	except:
+		return jsonify({"status":"error"}), 400
 
 @posts.route("/reaction", methods=["PUT"])
 @ban_check("cookie")
