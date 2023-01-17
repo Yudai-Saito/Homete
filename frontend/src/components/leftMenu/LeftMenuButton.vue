@@ -35,16 +35,29 @@ export default {
     logged() {
       return this.$store.getters.logged;
     },
+    contentsKey() {
+      return this.$store.getters.contentsKey;
+    },
   },
   props: ["usage", "btnText", "btnIcon"],
   methods: {
     onClick: function () {
       if (this.logged || this.usage == "toTimeLine") {
-        this.$store.dispatch(this.usage).then(() => {
-          if (this.$route.path != "/") {
-            this.$router.push("/");
-          }
-        });
+        if (
+          (this.usage == "toTimeLine" && this.contentsKey == "timeline") ||
+          (this.usage == "toHistory" && this.contentsKey == "history")
+        ) {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        } else {
+          this.$store.dispatch(this.usage).then(() => {
+            if (this.$route.path != "/") {
+              this.$router.push("/");
+            }
+          });
+        }
       } else {
         this.plzLogin();
       }
