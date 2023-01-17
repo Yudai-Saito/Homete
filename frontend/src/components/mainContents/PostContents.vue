@@ -136,6 +136,7 @@ export default {
       scrollBottomHeight: 0,
       posts: [],
       switchPosts: false,
+      isScrollBottom: false,
     };
   },
   props: ["channel", "updatePost"],
@@ -178,6 +179,8 @@ export default {
   },
   mounted() {
     this.observer = new IntersectionObserver((entries) => {
+      this.$refs.observe_element.style.display = `none`;
+      this.isScrollBottom = true;
       const entry = entries[0];
       if (entry && entry.isIntersecting) {
         this.get_posts({
@@ -186,20 +189,33 @@ export default {
           channel: this.channel,
         });
       }
+
+      this.isScrollBottom = false;
+      this.$refs.observe_element.style.display = `block`;
     });
     const observe_element = this.$refs.observe_element;
     this.observer.observe(observe_element);
   },
   watch: {
-    posts(newPosts) {
-      if (newPosts != null) {
+    posts(newPosts, oldPosts) {
+      if (oldPosts != null) {
+        var h = this.$refs.dispPs.getBoundingClientRect();
+        this.scrollBottomHeight = h;
+      }
+      if (
+        newPosts != null &&
+        this.$refs.observe_element.style.display != `block`
+      ) {
         this.$refs.observe_element.style.display = `block`;
       }
     },
     scrollBottomHeight: function (newHeight, oldHeight) {
-      var beforeViewHeight =
-        newHeight.height - oldHeight.height + window.scrollY;
-      scrollTo(0, beforeViewHeight);
+      if (this.isScrollBottom == false) {
+        var beforeViewHeight =
+          newHeight.height - oldHeight.height + window.scrollY;
+        scrollTo(0, beforeViewHeight);
+        console.log(beforeViewHeight);
+      }
     },
     deletePostFlag(newDeletePostFlag) {
       if (newDeletePostFlag === true) {
@@ -247,10 +263,6 @@ export default {
         this.$set(this.posts, index, newPost);
       }
     },
-  },
-  updated() {
-    var h = this.$refs.dispPs.getBoundingClientRect();
-    this.scrollBottomHeight = h;
   },
 };
 </script>
