@@ -26,11 +26,25 @@ function ws_connect(vm) {
       }
     });
 
+    let existsPosts = JSON.parse(
+      JSON.stringify(vm.$store.getters.completedPost)
+    );
+
     //投稿したモノが入っていた場合は削除して追加
+    for (let i = 0; i < existsPosts.length; i++) {
+      for (let j = 0; j < posts.length; j++) {
+        if (posts[j].post_id == existsPosts[i].post_id) {
+          posts.splice(j, 1);
+          vm.$store.commit("deleteCompletedPost", existsPosts[i]);
+        }
+      }
+    }
 
-    vm.$store.commit("setUpdatePosts", posts);
+    if (posts.length > 0) {
+      vm.$store.commit("setUpdatePosts", posts);
 
-    vm.$store.dispatch("alertNewPost");
+      vm.$store.dispatch("alertNewPost");
+    }
   });
 }
 
