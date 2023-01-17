@@ -5,13 +5,16 @@ function postsSort(posts) {
 const state = {
   updatePosts: [],
   userUpdatePosts: [],
-  deletePostId: "",
-  deletePostFlag: false,
+  //TODO - この2つで分離したファイルにしたほうが良い気がする
+  postId: "",
+  processFlag: false,
+  postsProcess: "",
 };
 
 const getters = {
-  deletePostId: (state) => state.deletePostId,
-  deletePostFlag: (state) => state.deletePostFlag,
+  postId: (state) => state.postId,
+  processFlag: (state) => state.processFlag,
+  postsProcess: (state) => state.postsProcess,
   userUpdatePosts: (state) => state.userUpdatePosts,
 };
 
@@ -40,11 +43,14 @@ const mutations = {
 
     state.userUpdatePosts = postsSort(state.userUpdatePosts);
   },
-  setDeletePostId(state, postId) {
-    state.deletePostId = postId;
+  setPostId(state, postId) {
+    state.postId = postId;
   },
-  updateDeletePostFlag(state, bool) {
-    state.deletePostFlag = bool;
+  updateProcess(state, bool) {
+    state.processFlag = bool;
+  },
+  updatePostsProcess(state, postsProcess) {
+    state.postsProcess = postsProcess;
   },
   deleteUserUpdatePosts(state) {
     state.userUpdatePosts = [];

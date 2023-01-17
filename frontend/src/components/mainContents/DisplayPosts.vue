@@ -342,10 +342,11 @@ export default {
       }
     },
     deletePost() {
-      this.$store.commit("setDeletePostId", this.postList.post_id);
+      this.$store.commit("setPostId", this.postList.post_id);
       this.$store.dispatch("visibleDeletePostOverlay");
     },
     reportPost() {
+      this.$store.commit("setPostId", this.postList.post_id);
       this.$store.dispatch("visibleReportPostOverlay");
     },
     displayEmojiPicker() {

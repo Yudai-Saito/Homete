@@ -41,12 +41,13 @@ export default {
       axios
         .delete("/posts", {
           params: {
-            post_id: this.$store.getters.deletePostId,
+            post_id: this.$store.getters.postId,
           },
           withCredentials: true,
         })
         .then(() => {
-          this.$store.commit("updateDeletePostFlag", true);
+          this.$store.commit("updateProcess", true);
+          this.$store.commit("updatePostsProcess", "delete");
           this.$store.dispatch("invisibleCommonOverlay");
           this.$store.dispatch("alertDeletePost");
         });
