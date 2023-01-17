@@ -19,7 +19,7 @@
         :postList="post"
       />
     </div>
-    <div ref="observe_element"></div>
+    <div style="display: none" ref="observe_element"></div>
   </v-col>
 </template>
 
@@ -191,6 +191,11 @@ export default {
     this.observer.observe(observe_element);
   },
   watch: {
+    posts(newPosts) {
+      if (newPosts != null) {
+        this.$refs.observe_element.style.display = `block`;
+      }
+    },
     scrollBottomHeight: function (newHeight, oldHeight) {
       var beforeViewHeight =
         newHeight.height - oldHeight.height + window.scrollY;
