@@ -8,7 +8,7 @@
     <CommonOverlay
       usage="deletePost"
       titleTxt="本当に削除しますか？"
-      firstMsg="この投稿はタイムライン、あなたのヒストリーから削除されます。"
+      firstMsg="削除をすると戻すことはできません。"
       btnTxt="削除する"
       :onClick="deletePost"
     />

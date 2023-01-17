@@ -61,6 +61,7 @@
       </v-card-text>
       <v-card-text>
         <div
+          style="width: fit-content; margin: 0 auto"
           :style="
             usage == 'deleteAccount' ? 'font-weight:600' : 'font-weigt:normal'
           "
@@ -73,7 +74,13 @@
           large
           @click="onClick"
           class="text-transform ma-0 pa-0 rounded-lg"
-          :color="usage == 'login' ? 'white' : 'red'"
+          :color="
+            usage === 'login'
+              ? 'white'
+              : usage === 'reportPost'
+              ? 'yellow'
+              : 'red'
+          "
           :disabled="usage == 'deleteAccount' ? btnDisable : false"
         >
           <img
@@ -83,7 +90,11 @@
             @click="onClick"
           />
           <div
-            :style="usage == 'login' ? 'color: #494854' : 'color: white'"
+            :style="
+              usage == 'login' || usage == 'reportPost'
+                ? 'color: #494854'
+                : 'color: white'
+            "
             id="overlayBtnTxt"
           >
             {{ btnTxt }}

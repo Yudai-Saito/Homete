@@ -22,58 +22,67 @@
           id="slideAccountX"
           :class="{ slideAccountXActive: displayMenu }"
         >
-          <div class="settingContainer">
-            <div class="btnTxt">
-              <div
-                v-twemoji
-                style="width: 20px; margin-right: 5px; margin-top: 10px"
-              >
-                🚀
-              </div>
-              <h3 v-twemoji class="settingTitle">ログアウト</h3>
+          <div v-if="switchPosts" class="loader">
+            <div class="loader-inner ball-pulse-sync">
+              <div></div>
+              <div></div>
+              <div></div>
             </div>
-            <p class="settingText">
-              ログアウトします。また会える日を楽しみにしています。
-            </p>
-            <v-btn
-              class="ma-0 pa-0 settingBtn"
-              color="primary"
-              x-large
-              :elevation="3"
-              v-on:click="logout"
-            >
-              <div class="btnTxt">
-                <div v-twemoji style="width: 18px; margin-right: 5px">✈️</div>
-                <div>ログアウト</div>
-              </div>
-            </v-btn>
           </div>
-          <v-divider style="width: 90%; margin: 25px auto"></v-divider>
-          <div class="settingContainer">
-            <div class="btnTxt">
-              <div
-                v-twemoji
-                style="width: 20px; margin-right: 5px; margin-top: 10px"
-              >
-                🗑
-              </div>
-              <h3 v-twemoji class="settingTitle">アカウント削除</h3>
-            </div>
-            <p class="settingText">
-              アカウントを削除します。全ての投稿と全てのリアクションが削除されます。
-            </p>
-            <v-btn
-              class="ma-0 pa-0 settingBtn"
-              color="error"
-              x-large
-              :elevation="3"
-              @click="displayDeleteAccount"
-            >
+          <div v-else>
+            <div class="settingContainer">
               <div class="btnTxt">
-                <div v-twemoji style="width: 18px; margin-right: 5px">⚠️</div>
-                <div>アカウント削除</div>
+                <div
+                  v-twemoji
+                  style="width: 20px; margin-right: 5px; margin-top: 10px"
+                >
+                  🚀
+                </div>
+                <h3 v-twemoji class="settingTitle">ログアウト</h3>
               </div>
-            </v-btn>
+              <p class="settingText">
+                ログアウトします。また会える日を楽しみにしています。
+              </p>
+              <v-btn
+                class="ma-0 pa-0 settingBtn"
+                color="primary"
+                x-large
+                :elevation="3"
+                v-on:click="logout"
+              >
+                <div class="btnTxt">
+                  <div v-twemoji style="width: 18px; margin-right: 5px">✈️</div>
+                  <div>ログアウト</div>
+                </div>
+              </v-btn>
+            </div>
+            <v-divider style="width: 90%; margin: 25px auto"></v-divider>
+            <div class="settingContainer">
+              <div class="btnTxt">
+                <div
+                  v-twemoji
+                  style="width: 20px; margin-right: 5px; margin-top: 10px"
+                >
+                  🗑
+                </div>
+                <h3 v-twemoji class="settingTitle">アカウント削除</h3>
+              </div>
+              <p class="settingText">
+                アカウントを削除します。全ての投稿と全てのリアクションが削除されます。
+              </p>
+              <v-btn
+                class="ma-0 pa-0 settingBtn"
+                color="error"
+                x-large
+                :elevation="3"
+                @click="displayDeleteAccount"
+              >
+                <div class="btnTxt">
+                  <div v-twemoji style="width: 18px; margin-right: 5px">⚠️</div>
+                  <div>アカウント削除</div>
+                </div>
+              </v-btn>
+            </div>
           </div>
         </v-col>
         <v-col cols="3" class="d-none d-md-block"></v-col>
@@ -156,6 +165,7 @@ export default {
       isActiveContents: false,
       dragStartX: 0, // タッチ操作開始時のX座標
       dragCurrentX: 0, // 現在のX座標
+      switchPosts: false,
     };
   },
   directives: {
@@ -175,6 +185,7 @@ export default {
     },
     logout() {
       const auth = getAuth();
+      this.switchPosts = true;
 
       auth.signOut().then(() => {
         axios

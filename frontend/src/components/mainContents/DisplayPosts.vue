@@ -2,7 +2,14 @@
   <v-container fluid>
     <v-card id="postsCard" class="rounded-xl" :elevation="3">
       <v-row id="cardTitle">
-        <div id="circle">
+        <div
+          id="circle"
+          :style="
+            postList.user_post == true
+              ? 'border: solid red 2px !important;'
+              : 'border: solid rgba(0, 0, 0, 0.1) 2px !important;'
+          "
+        >
           <v-avatar id="avater">
             <svg v-html="this.avatorSvg"></svg>
           </v-avatar>
@@ -117,7 +124,6 @@
     width: 50px;
   }
   #avater {
-    height: 50px !important;
     width: 50px !important;
     min-width: 50px !important;
   }
@@ -166,9 +172,9 @@
     width: 40px;
   }
   #avater {
-    height: 40px !important;
-    width: 40px !important;
-    min-width: 40px !important;
+    height: 38px !important;
+    width: 38px !important;
+    min-width: 38px !important;
   }
   #postsCard {
     padding: 12px;
@@ -259,7 +265,6 @@
   border-radius: 50%;
   overflow: hidden;
   z-index: auto;
-  border: solid rgba(0, 0, 0, 0.1) 1px !important;
   display: flex;
   justify-content: flex-end;
 }
