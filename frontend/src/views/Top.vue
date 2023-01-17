@@ -340,7 +340,14 @@ export default {
       this.$router.push("/login");
     },
     onClickPostBtn() {
-      this.$store.dispatch("visiblePostForm");
+      if (this.logged) {
+        this.$store.dispatch("visiblePostForm");
+      } else {
+        this.plzLogin();
+      }
+    },
+    plzLogin: function () {
+      this.$store.dispatch("visiblePlzLoginOverlay");
     },
     closeForm() {
       this.$store.dispatch("invisiblePostForm");
