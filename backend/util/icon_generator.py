@@ -15,7 +15,7 @@ facial_hair = ["chin", "full", "full2", "full3", "full4", "goatee1", "goatee2", 
 
 accessories = ["glasses", "glasses2", "glasses3", "glasses4", "glasses5"]
 
-skin_color = ["variant01", "variant02", "variant03", "variant04", "variant05"]
+skin_color = ["variant01", "variant02", "variant03"]
 
 clothing_color = ["red01", "orange01", "yellow01", "green01", "tail01", "lue01", "pink01"]
 
