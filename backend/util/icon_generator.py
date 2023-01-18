@@ -8,14 +8,14 @@ head = ["afro", "bangs", "bangs2", "bantuKnots", "bear", "bun", "bun2", "buns",
           "noHair3", "pomp", "shaved1", "shaved2", "shaved3", "short1", "short2", "short3", "short4", "short5", "turban", "twists", "twists2"]
 
 face = ["awe", "calm", "cheeky", "concernedFear", "contempt", "cute", "cyclops", "driven", "eatingHappy", 
-          "explaining", "lovingGrin1", "lovingGrin2", "monster", "old", "smile", "smileBig", "smileLOL", "smileTeethGap", "solemn", "suspicious"]
+          "explaining", "lovingGrin1", "lovingGrin2", "monster", "old", "smile", "smileBig", "smileLOL", "smileTeethGap", "solemn"]
 
 facial_hair = ["chin", "full", "full2", "full3", "full4", "goatee1", "goatee2", "moustache1", "moustache2", 
                 "jmoustache3", "moustache4", "moustache5", "moustache6", "moustache7", "moustache9"]
 
 accessories = ["glasses", "glasses2", "glasses3", "glasses4", "glasses5"]
 
-skin_color = ["variant01", "variant02", "variant03", "variant04", "variant05"]
+skin_color = ["variant01", "variant02", "variant03"]
 
 clothing_color = ["red01", "orange01", "yellow01", "green01", "tail01", "lue01", "pink01"]
 
