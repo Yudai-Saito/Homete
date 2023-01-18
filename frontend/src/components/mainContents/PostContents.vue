@@ -127,6 +127,9 @@ export default {
     addUserUpdatePosts: function () {
       return this.$store.getters.userUpdatePosts;
     },
+    newPosts: function () {
+      return this.$store.getters.displayTopAlert;
+    },
   },
   data() {
     return {
@@ -211,7 +214,6 @@ export default {
         var beforeViewHeight =
           newHeight.height - oldHeight.height + window.scrollY;
         scrollTo(0, beforeViewHeight);
-        console.log(beforeViewHeight);
       }
     },
     postsProcess(newProcessFlag) {
@@ -231,8 +233,9 @@ export default {
       }
       this.$store.commit("updateProcess", false, "");
     },
+    //投稿完了時の追記
     addUserUpdatePosts(userUpdatePosts) {
-      //userUpdatePostsを空にするので動作しなように1以上のときに動くようにする
+      //userUpdatePostsを空にするので動作しないように1以上のときに動くようにする
       if (userUpdatePosts.length > 0) {
         for (let i; i < userUpdatePosts.length; i++) {
           for (let j; j < userUpdatePosts.length; j++) {
@@ -249,6 +252,7 @@ export default {
         this.posts.unshift(...userUpdatePosts);
 
         this.$store.commit("deleteUserUpdatePosts");
+        this.$store.commit("updateTopAlert", false);
       }
     },
     updatePost(newPost) {
@@ -258,6 +262,18 @@ export default {
       // 存在した場合は、その位置から1つの要素を配列から削除する
       if (index !== -1) {
         this.$set(this.posts, index, newPost);
+      }
+    },
+    //新規投稿通知ボタンを押して追記
+    newPosts(newTopAlertState, oldTopAlertState) {
+      if (newTopAlertState == false && oldTopAlertState == true) {
+        var updatePosts = JSON.parse(
+          JSON.stringify(this.$store.getters.updatePosts)
+        );
+        this.posts.unshift(...updatePosts);
+
+        this.$store.commit("deleteUpdatePosts");
+        this.$store.commit("updateTopAlert", false);
       }
     },
   },
