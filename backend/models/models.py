@@ -44,6 +44,12 @@ class Reactions(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     reaction = db.Column(db.String(10), unique=True)
 
+class PostsName(db.Model):
+    __tablename__ = "posts_name"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(15), unique=True)
+
 class ReportPosts(db.Model):
     __tablename__ = "report_posts"
 
