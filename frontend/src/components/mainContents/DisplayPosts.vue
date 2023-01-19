@@ -6,7 +6,7 @@
           id="circle"
           :style="
             postList.user_post == true
-              ? 'border: solid red 2px !important;'
+              ? 'border: solid rgb(135,143,255) 2px !important;'
               : 'border: solid rgba(0, 0, 0, 0.1) 2px !important;'
           "
         >
@@ -14,10 +14,8 @@
             <svg v-html="this.avatorSvg"></svg>
           </v-avatar>
         </div>
-        <div id="nameTxt">
-          <VueResponsiveText>
-            {{ userName }}
-          </VueResponsiveText>
+        <div id="nameTxt" ref="responsiveTxt" :style="responsiveTxtStyle">
+          {{ userName }}
         </div>
         <div id="timeTxt">{{ postTime }}</div>
         <div id="cardMenu">
@@ -134,6 +132,7 @@
   #nameTxt {
     font-size: 22px;
     margin-top: 10px;
+    max-width: 300px;
   }
   #timeTxt {
     font-size: 14px;
@@ -183,6 +182,7 @@
   #nameTxt {
     font-size: 16px;
     margin-top: 8px;
+    max-width: 150px;
   }
   #timeTxt {
     font-size: 10px;
@@ -261,7 +261,7 @@
   z-index: auto;
 }
 #circle {
-  background: #cfd8dc;
+  background: rgba(255, 238, 183, 0.7);
   border-radius: 50%;
   overflow: hidden;
   z-index: auto;
@@ -277,6 +277,9 @@
   margin-left: 10px;
   z-index: auto;
   position: relative;
+}
+.v-responsive-text {
+  font-size: 16px;
 }
 #timeTxt {
   color: #6b7280;
@@ -306,7 +309,6 @@
 <script scoped>
 import PostsMenu from "./PostsMenu.vue";
 import ReactionButton from "./ReactionButton.vue";
-import VueResponsiveText from "vue-responsive-text";
 
 import { createAvatar } from "@dicebear/avatars";
 import * as style from "@dicebear/open-peeps";
@@ -316,11 +318,13 @@ export default {
   components: {
     PostsMenu,
     ReactionButton,
-    VueResponsiveText,
   },
   computed: {
     logged() {
       return this.$store.getters.logged;
+    },
+    responsiveTxtHeight() {
+      return this.$refs.responsiveTxt.scrollHeight;
     },
   },
   data() {
@@ -334,6 +338,9 @@ export default {
       fhp: 0,
       ap: 0,
       displayAddBtn: true,
+      responsiveTxtStyle: {
+        fontSize: "16px",
+      },
     };
   },
   props: ["postList", "isSample"],
@@ -401,6 +408,14 @@ export default {
       }
     });
   },
+  mounted() {
+    let size = parseInt(this.responsiveTxtStyle.fontSize);
+    let height = this.$refs.responsiveTxt.getBoundingClientRect().height;
+    if (height > 32 && size > 1) {
+      size = size - 1;
+      this.responsiveTxtStyle.fontSize = size + "px";
+    }
+  },
   watch: {
     postList() {
       this.postList.post_reactions.forEach((reaction) => {
@@ -414,6 +429,14 @@ export default {
         }
       });
     },
+  },
+  updated() {
+    let size = parseInt(this.responsiveTxtStyle.fontSize);
+    let height = this.$refs.responsiveTxt.getBoundingClientRect().height;
+    if (height > 32 && size > 1) {
+      size = size - 1;
+      this.responsiveTxtStyle.fontSize = size + "px";
+    }
   },
 };
 </script>
