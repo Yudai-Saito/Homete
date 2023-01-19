@@ -19,7 +19,8 @@ class Posts(db.Model):
     user_id = db.Column(db.Integer, ForeignKey("users.id", name="fk_posts_user_id"))
     private = db.Column(db.Boolean, default=True)
     contents = db.Column(db.String(400))
-    name = db.Column(db.String(15))
+    first_name = db.Column(db.Integer, ForeignKey("posts_name.id", name="fk_posts_posts_first_name_id"))
+    last_name = db.Column(db.Integer, ForeignKey("posts_name.id", name="fk_posts_posts_second_name_id"))
     head = db.Column(db.String(15))
     face = db.Column(db.String(15))
     facialhair = db.Column(db.String(15))
@@ -44,6 +45,12 @@ class Reactions(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     reaction = db.Column(db.String(10), unique=True)
 
+class PostsName(db.Model):
+    __tablename__ = "posts_name"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(15), unique=True)
+
 class ReportPosts(db.Model):
     __tablename__ = "report_posts"
 
@@ -54,3 +61,4 @@ class BanAccount(db.Model):
     __tablename__ = "ban_account"
 
     user_id = db.Column(db.Integer, ForeignKey("users.id", name="fk_ban_account_user_id"), primary_key=True)
+
