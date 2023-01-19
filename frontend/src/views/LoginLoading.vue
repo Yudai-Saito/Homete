@@ -28,7 +28,7 @@
   margin: 0;
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(#cfd8dc, #b0bec5);
+  background: radial-gradient(rgb(255, 248, 225), rgb(244, 227, 192));
   display: flex;
 }
 .txtDiv {
@@ -43,7 +43,7 @@
   height: 20px;
   position: absolute;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: rgb(225, 227, 255);
   left: 15%;
   transform-origin: 50%;
   animation: circle 0.5s alternate infinite ease;
@@ -117,7 +117,7 @@
   top: 85px;
   font-size: 25px;
   letter-spacing: 10px;
-  color: #fff;
+  color: rgb(197, 200, 240);
   font-weight: 500;
 }
 @keyframes text-in {

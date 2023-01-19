@@ -1,5 +1,5 @@
 <template>
-  <div id="artBoard" class="blue-grey lighten-5">
+  <div id="artBoard" style="background-color: rgb(255, 248, 225)">
     <Header />
     <Login />
     <v-col
@@ -71,7 +71,7 @@
   margin-right: 6px;
 }
 #reactBtn {
-  background-color: rgba(207, 216, 220, 0.5);
+  background-color: rgb(225, 227, 255);
 }
 #slideNotFoundX {
   transition: all 0.4s !important;
