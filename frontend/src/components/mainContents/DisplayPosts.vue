@@ -313,6 +313,9 @@ import ReactionButton from "./ReactionButton.vue";
 import { createAvatar } from "@dicebear/avatars";
 import * as style from "@dicebear/open-peeps";
 
+// $grid-breakpoints を JavaScript のオブジェクトとして取得
+const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
+
 export default {
   name: "DisplayPosts",
   components: {
@@ -339,7 +342,7 @@ export default {
       ap: 0,
       displayAddBtn: true,
       responsiveTxtStyle: {
-        fontSize: "16px",
+        fontSize: "22px",
       },
     };
   },
@@ -370,6 +373,21 @@ export default {
         postList: this.postList,
         postId: this.postList.post_id,
       });
+    },
+    resizeTxt(size, height) {
+      if (
+        window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches &&
+        height > 33 &&
+        size > 1
+      ) {
+        this.responsiveTxtStyle.fontSize = size - 1 + "px";
+      } else if (
+        window.matchMedia(`(min-width: ${gridBreakpoints.sm}px)`).matches &&
+        height > 40 &&
+        size > 1
+      ) {
+        this.responsiveTxtStyle.fontSize = size - 1 + "px";
+      }
     },
   },
   created() {
@@ -410,11 +428,11 @@ export default {
   },
   mounted() {
     let size = parseInt(this.responsiveTxtStyle.fontSize);
-    let height = this.$refs.responsiveTxt.getBoundingClientRect().height;
-    if (height > 32 && size > 1) {
-      size = size - 1;
-      this.responsiveTxtStyle.fontSize = size + "px";
+    if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
+      size = 16;
     }
+    let height = this.$refs.responsiveTxt.getBoundingClientRect().height;
+    this.resizeTxt(size, height);
   },
   watch: {
     postList() {
@@ -433,10 +451,7 @@ export default {
   updated() {
     let size = parseInt(this.responsiveTxtStyle.fontSize);
     let height = this.$refs.responsiveTxt.getBoundingClientRect().height;
-    if (height > 32 && size > 1) {
-      size = size - 1;
-      this.responsiveTxtStyle.fontSize = size + "px";
-    }
+    this.resizeTxt(size, height);
   },
 };
 </script>
