@@ -117,6 +117,7 @@ export default {
 
   methods: {
     toTopPage: function () {
+      this.$store.dispatch("toTimeLine");
       this.$router.push("/");
     },
 
