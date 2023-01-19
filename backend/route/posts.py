@@ -1,5 +1,6 @@
 
 import datetime
+import random
 from traceback import format_exc
 
 from flask import Blueprint, request, jsonify
@@ -11,7 +12,7 @@ from app import app, db
 
 from validator.post_reaction_validator import posts_reaction_count_validate
 
-from models.models import User, Posts, PostReactions, Reactions, ReportPosts
+from models.models import User, Posts, PostReactions, Reactions, ReportPosts, PostsName
 
 from util.auth_decorator import auth_required
 from util.jwt_decoder import get_email_from_cookie
@@ -34,12 +35,12 @@ def post_receive():
 		user_email = get_email_from_cookie(jwt)
 
 		# TODO_名前DBから取得するようにする
-		name = "TEST_NAME"
+		random_name_numbers = random.sample(range(1, 3584), 2)
 
 		icon = open_peeps_icon()
 
 		user_id = db.session.query(User.id).filter(User.email == user_email).first()[0]
-		db.session.add(Posts(user_id = user_id, private = private, contents = contents, name = name,
+		db.session.add(Posts(user_id = user_id, private = private, contents = contents, first_name=random_name_numbers[0], last_name=random_name_numbers[1],
 													head = icon["head"], face = icon["face"], facialhair = icon["facial_hair"], accessories = icon["accessories"],
 														skincolor = icon["skin_color"], clothingcolor = icon["clothing_color"], haircolor = icon["hair_color"]))
 
@@ -48,12 +49,14 @@ def post_receive():
 		added_posts_id = db.session.query(Posts.id).filter(Posts.user_id == user_id).order_by(desc(Posts.id)).first()[0]
 		added_posts = db.session.query(Posts).filter(Posts.id == added_posts_id).first()
 
+		name = db.session.query(PostsName.name).filter(PostsName.id.in_(random_name_numbers)).all()
+
 		user_posts = user_posts_template
 
 		user_posts["contents"] = added_posts.contents
 		user_posts["created_at"] = added_posts.created_at.strftime('%Y-%m-%d %H:%M:%S')
 		user_posts["icon"] = icon
-		user_posts["name"] = name
+		user_posts["name"] = name[0][0] + name[1][0]
 		user_posts["post_id"] = added_posts.id
 
 		return jsonify({"status": "success", "user_posts":user_posts}), 200
