@@ -4,10 +4,10 @@ services:
   mysql:
     container_name: "mysql"
     networks:
-      - homete_network
+      - develop_homete_network
     image: mysql:8.0.27
     volumes:
-      - mysql_volume:/var/lib/mysql
+      - develop_mysql_volume:/var/lib/mysql
       - ./mysql.conf:/etc/mysql/conf.d/mysql.conf
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -20,7 +20,7 @@ services:
   python:
     container_name: "python3"
     networks:
-      - homete_network
+      - develop_homete_network
     build:
       context: .
       dockerfile: ../../Dockerfile
@@ -41,8 +41,8 @@ services:
     entrypoint: python run.py
 
 networks:
-  homete_network:
+  develop_homete_network:
     external: true
 
 volumes:
-  mysql_volume:
+  develop_mysql_volume:
