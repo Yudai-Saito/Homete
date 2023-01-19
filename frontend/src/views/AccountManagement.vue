@@ -152,11 +152,6 @@ export default {
     Footer,
     Header,
   },
-  beforeCreate() {
-    if (!this.logged) {
-      this.$router.push("/contact");
-    }
-  },
   computed: {
     logged() {
       return this.$store.getters.logged;
@@ -249,6 +244,11 @@ export default {
         }
       }
     },
+  },
+  created() {
+    if (!this.logged) {
+      this.$router.push("/");
+    }
   },
   mounted() {
     //画面中央
