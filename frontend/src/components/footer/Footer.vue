@@ -2,7 +2,7 @@
   <v-footer
     style="border-top: solid #00000080 1px; justify-content: space-around"
     id="footer"
-    color="#BABDBE"
+    color="rgb(242,217,193)"
     fixed
     padless
   >

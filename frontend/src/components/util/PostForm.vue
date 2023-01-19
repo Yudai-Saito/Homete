@@ -53,7 +53,7 @@
           elevation="0"
           height="50px"
           width="100px"
-          color="#CFD8DC"
+          color="rgb(225,227,255)"
         >
           投稿する
         </v-btn>

@@ -2,7 +2,7 @@
   <v-btn
     id="leftMenuBtn"
     class="ma-0 pa-0"
-    color="#CFD8DC"
+    color="rgb(225,227,255)"
     rounded
     x-large
     :elevation="3"
