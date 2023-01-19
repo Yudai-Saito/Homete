@@ -6,7 +6,7 @@ services:
     restart: always
     networks:
       - homete_network
-    image: mysql
+    image: mysql:8.0.27
     volumes:
       - mysql_volume:/var/lib/mysql
       - ./mysql.conf:/etc/mysql/conf.d/mysql.conf
@@ -15,8 +15,8 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      TZ: 'Asia/Tokyo'
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin 
+      TZ: "Asia/Tokyo"
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
 
   python:
     container_name: "python3"
@@ -38,12 +38,13 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       FLASK_APP: run.py
       FRONTEND_URL: ${FRONTEND_URL}
-      SALT: ${SALT}
+      SECRET_KEY: ${SECRET_KEY}
       DOMAIN: ${DOMAIN}
-    entrypoint: gunicorn --workers=3 app:app --bind=0.0.0.0:8000
+    entrypoint: gunicorn -k gevent -w 1 app:app --bind=0.0.0.0:8000
 
 networks:
   homete_network:
+    external: true
 
 volumes:
   mysql_volume:
