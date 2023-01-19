@@ -49,14 +49,14 @@ def post_receive():
 		added_posts_id = db.session.query(Posts.id).filter(Posts.user_id == user_id).order_by(desc(Posts.id)).first()[0]
 		added_posts = db.session.query(Posts).filter(Posts.id == added_posts_id).first()
 
-		name = db.session.query(PostsName.name).filter(PostsName.id.in_(random_name_numbers)).all()
+		name = db.session.query(PostsName.name).filter(PostsName.id.in_(random_name_numbers)).order_by(desc(PostsName.name)).all()
 
 		user_posts = user_posts_template
 
 		user_posts["contents"] = added_posts.contents
 		user_posts["created_at"] = added_posts.created_at.strftime('%Y-%m-%d %H:%M:%S')
 		user_posts["icon"] = icon
-		user_posts["name"] = name[0][0] + name[1][0]
+		user_posts["name"] = name[0][0] + ' ' + name[1][0]
 		user_posts["post_id"] = added_posts.id
 
 		return jsonify({"status": "success", "user_posts":user_posts}), 200
