@@ -76,16 +76,16 @@
       </v-col>
       <v-col id="headerBtn" cols="3">
         <v-btn
-          color="rgb(225,227,255)"
+          color="rgb(225 255 255)"
           rounded
           @click="toAccountManagement"
           v-if="logged"
         >
-          <v-icon color="#494854">mdi-account-cog</v-icon>
+          <v-icon>mdi-account-cog</v-icon>
           <div>アカウント</div>
         </v-btn>
-        <v-btn color="rgb(225,227,255)" rounded @click="login" v-else>
-          <v-icon color="#494854">mdi-login-variant</v-icon>
+        <v-btn color="rgb(225 255 255)" rounded @click="login" v-else>
+          <v-icon>mdi-login-variant</v-icon>
           <div>ログイン</div>
         </v-btn>
       </v-col>
@@ -143,6 +143,7 @@
 }
 #headerBtn button {
   border: solid rgba(0, 0, 0, 0.25) 1px !important;
+  color: rgb(73, 72, 84);
 }
 
 /*ボタン外側※レイアウトによってpositionや形状は適宜変更してください*/
@@ -156,6 +157,7 @@
   top: 5px;
   left: 5vw;
   transform: scale(0.95);
+  background-color: rgb(225 255 255);
 }
 
 /*ボタン内側*/

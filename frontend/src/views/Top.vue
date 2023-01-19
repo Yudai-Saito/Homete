@@ -84,7 +84,7 @@
         <div id="postBtnFloat" ref="postBtn">
           <v-btn
             class="d-md-none"
-            style="background-color: rgb(225, 227, 255)"
+            style="background-color: rgb(225 255 255)"
             :class="{ slideTopXActive: displayMenu }"
             elevation="3"
             fab
@@ -92,7 +92,7 @@
             rounded
             @click="onClickPostBtn"
           >
-            <v-icon> mdi-pen-plus </v-icon>
+            <v-icon color="rgb(73,72,84)"> mdi-pen-plus </v-icon>
           </v-btn>
         </div>
         <v-col cols="3" class="d-none d-md-block">

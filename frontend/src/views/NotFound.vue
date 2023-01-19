@@ -71,7 +71,7 @@
   margin-right: 6px;
 }
 #reactBtn {
-  background-color: rgb(225, 227, 255);
+  background-color: rgb(225 255 255);
 }
 #slideNotFoundX {
   transition: all 0.4s !important;
