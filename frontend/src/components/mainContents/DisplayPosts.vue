@@ -7,7 +7,7 @@
           :style="
             postList.user_post == true
               ? 'border: solid rgb(135,143,255) 2px !important;'
-              : 'border: solid rgba(0, 0, 0, 0.1) 2px !important;'
+              : 'border: solid transparent 2px !important;'
           "
         >
           <v-avatar id="avater">

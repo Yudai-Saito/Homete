@@ -43,7 +43,7 @@
   height: 20px;
   position: absolute;
   border-radius: 50%;
-  background-color: rgb(225, 227, 255);
+  background-color: rgb(154, 159, 229);
   left: 15%;
   transform-origin: 50%;
   animation: circle 0.5s alternate infinite ease;
@@ -117,7 +117,7 @@
   top: 85px;
   font-size: 25px;
   letter-spacing: 10px;
-  color: rgb(197, 200, 240);
+  color: rgb(154, 159, 229);
   font-weight: 500;
 }
 @keyframes text-in {
@@ -212,7 +212,7 @@ export default {
   },
   updated() {
     if (this.logged && !this.isError) {
-      this.$router.push("/");
+      this.$router.push("/top");
       setTimeout(() => {
         this.$store.dispatch("alertLogin");
       }, 500);
@@ -227,7 +227,7 @@ export default {
       signInWithRedirect(auth, provider);
     } else {
       setTimeout(() => {
-        this.$router.push("/");
+        this.$router.push("/top");
         setTimeout(() => {
           this.$store.dispatch("alertError");
         }, 500);
