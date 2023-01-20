@@ -98,7 +98,7 @@
   margin: 0 auto;
 }
 .settingTitle {
-  margin-top: 10px;
+  margin-top: 5px;
   color: #494854;
 }
 .settingText {
@@ -113,6 +113,7 @@
   margin: 0 15px;
   display: flex;
   justify-content: center;
+  font-weight: 600;
 }
 
 #slideAccountX {
@@ -280,6 +281,7 @@ export default {
         this.currentScrollPosition = window.scrollY;
         document.body.style.touchAction = "none";
       } else {
+        document.body.style.touchAction = "";
         this.$refs.accountMenu.style.transform = "";
         this.$refs.accountMenu.style.opacity = "";
       }

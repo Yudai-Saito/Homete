@@ -55,8 +55,8 @@
     height: 20px;
   }
   #btnIcon {
-    width: 13px;
-    height: 13px;
+    width: 12px;
+    height: 12px;
   }
   #countNum {
     font-size: 12px;

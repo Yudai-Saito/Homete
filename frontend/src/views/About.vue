@@ -51,7 +51,7 @@
                 </v-card>
                 <div
                   :style="active ? 'color:#2196f3' : 'color:#494854'"
-                  style="font-size: 14px; text-align: center"
+                  style="font-size: 12px; text-align: center"
                 >
                   {{ title[n - 1] }}
                 </div>
@@ -85,6 +85,9 @@
 <style lang="scss">
 @media (min-width: map-get($grid-breakpoints, sm)) {
   // sm 以上のブレークポイントでのスタイル定義
+  #groupImg {
+    width: 30px;
+  }
 }
 @media (max-width: map-get($grid-breakpoints, sm)) {
   // sm 以下のブレークポイントでのスタイル定義
@@ -94,7 +97,10 @@
   }
   #flexSlide .v-slide-group__wrapper .v-slide-group__content div div {
     transform: scale(0.75);
-    margin: 0;
+    margin: auto;
+  }
+  #groupImg {
+    width: 40px;
   }
 }
 .aboutContainer {
@@ -134,7 +140,6 @@
   overflow: hidden;
 }
 #groupImg {
-  width: 30px;
   margin: auto;
 }
 #groupImg img {
@@ -305,6 +310,7 @@ export default {
         this.currentScrollPosition = window.scrollY;
         document.body.style.touchAction = "none";
       } else {
+        document.body.style.touchAction = "";
         this.$refs.aboutMenu.style.transform = "";
         this.$refs.aboutMenu.style.opacity = "";
       }
