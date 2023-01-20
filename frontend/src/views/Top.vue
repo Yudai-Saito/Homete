@@ -1,5 +1,5 @@
 <template>
-  <v-app id="artBoard" class="blue-grey lighten-5">
+  <v-app id="artBoard" style="background-color: rgb(255, 248, 225)">
     <Header />
     <Login />
     <DeletePost />
@@ -84,7 +84,7 @@
         <div id="postBtnFloat" ref="postBtn">
           <v-btn
             class="d-md-none"
-            style="background-color: #1da1f2"
+            style="background-color: rgb(225 255 255)"
             :class="{ slideTopXActive: displayMenu }"
             elevation="3"
             fab
@@ -92,7 +92,7 @@
             rounded
             @click="onClickPostBtn"
           >
-            <v-icon> mdi-pen-plus </v-icon>
+            <v-icon color="rgb(73,72,84)"> mdi-pen-plus </v-icon>
           </v-btn>
         </div>
         <v-col cols="3" class="d-none d-md-block">
@@ -313,9 +313,6 @@ export default {
         //絵文字ピッカーか投稿フォームが表示されている時にスタイルを付与
         if (this.displayTwemojiPicker || this.displayPostForm)
           return {
-            height: "100vh",
-            bottom: `${this.currentScrollPosition}px`,
-            position: "relative",
             "pointer-events": "none",
           };
       }
@@ -560,40 +557,27 @@ export default {
     this.$refs.postBtn.removeEventListener("touchmove", this.overlayTouchMove);
     this.$refs.postBtn.removeEventListener("touchend", this.overlayTouchEnd);
   },
-  updated() {
-    //画面が動いた時に絵文字ピッカー、投稿フォーム、メニューの全てが閉じている時
-    if (window.matchMedia(`(max-width: ${gridBreakpoints.md}px)`).matches) {
-      if (
-        !this.displayTwemojiPicker &&
-        !this.displayPostForm &&
-        !this.displayMenu
-      ) {
-        //保持されているスクロール位置へとスクロール
-        window.scrollTo(0, this.currentScrollPosition);
-        this.currentScrollPosition = 0;
-        document.body.style.touchAction = "";
-      }
-    }
-  },
   watch: {
-    //それぞれ開く際に現在のスクロール位置を保持
+    //それぞれ開く際にタッチアクションを無効化
     displayTwemojiPicker(newBool) {
       if (newBool) {
-        this.currentScrollPosition = window.scrollY;
         document.body.style.touchAction = "none";
+      } else {
+        document.body.style.touchAction = "";
       }
     },
     displayPostForm(newBool) {
       if (newBool) {
-        this.currentScrollPosition = window.scrollY;
         document.body.style.touchAction = "none";
+      } else {
+        document.body.style.touchAction = "";
       }
     },
     displayMenu(newBool) {
       if (newBool) {
-        this.currentScrollPosition = window.scrollY;
         document.body.style.touchAction = "none";
       } else {
+        document.body.style.touchAction = "";
         this.$refs.scrollPosts.style.transform = "";
         this.$refs.scrollPosts.style.opacity = "";
         this.$refs.postBtn.style.transform = "";

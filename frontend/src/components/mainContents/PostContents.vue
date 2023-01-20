@@ -1,10 +1,5 @@
 <template>
-  <v-col
-    ref="dispPs"
-    id="postContents"
-    class="virtualScrollBar supportBreakPoint"
-    cols="12"
-  >
+  <v-col ref="dispPs" id="postContents" class="virtualScrollBar" cols="12">
     <div v-show="switchPosts" class="loader">
       <div class="loader-inner ball-pulse-sync">
         <div></div>
@@ -100,7 +95,7 @@
 }
 
 .ball-pulse-sync > div {
-  background-color: slategrey;
+  background-color: rgb(154, 159, 229);
   width: 25px;
   height: 25px;
   border-radius: 100%;
@@ -135,8 +130,11 @@ export default {
     return {
       scrollBottomHeight: 0,
       posts: [],
+      postsLength: 0,
       switchPosts: false,
       isScrollBottom: false,
+      isUnshifted: false,
+      isPushed: false,
     };
   },
   props: ["channel", "updatePost"],
@@ -158,6 +156,7 @@ export default {
             this.posts.push(post);
           });
         }
+        this.postsLength = this.posts.length;
       }
     },
     get_posts: function (axios_params = {}) {
@@ -176,6 +175,7 @@ export default {
   },
   created() {
     this.get_posts({ channel: this.channel });
+    this.postsLength = this.posts.length;
   },
   mounted() {
     this.observer = new IntersectionObserver((entries) => {
@@ -188,6 +188,7 @@ export default {
           update: "old",
           channel: this.channel,
         });
+        this.isPushed = true;
       }
 
       this.isScrollBottom = false;
@@ -197,23 +198,18 @@ export default {
     this.observer.observe(observe_element);
   },
   watch: {
-    posts(newPosts, oldPosts) {
-      if (oldPosts != null) {
-        var h = this.$refs.dispPs.getBoundingClientRect();
-        this.scrollBottomHeight = h;
-      }
-      if (
-        newPosts != null &&
-        this.$refs.observe_element.style.display != `block`
-      ) {
-        this.$refs.observe_element.style.display = `block`;
-      }
-    },
     scrollBottomHeight: function (newHeight, oldHeight) {
-      if (this.isScrollBottom == false) {
-        var beforeViewHeight =
-          newHeight.height - oldHeight.height + window.scrollY;
-        scrollTo(0, beforeViewHeight);
+      if (oldHeight != 0 && this.isPushed == false) {
+        var beforeViewHeight = newHeight - oldHeight + window.scrollY;
+        console.log("result:", beforeViewHeight);
+        console.log("new:", newHeight);
+        console.log("old:", oldHeight);
+        console.log("postHeight:", newHeight - oldHeight);
+        console.log("currentScroll:", window.scrollY);
+        window.scrollTo(0, beforeViewHeight);
+        this.isUnshifted = false;
+      } else {
+        this.isPushed = false;
       }
     },
     postsProcess(newProcessFlag) {
@@ -248,8 +244,10 @@ export default {
             }
           }
         }
-
         this.posts.unshift(...userUpdatePosts);
+
+        this.postsLength = this.posts.length;
+        this.isUnshifted = true;
 
         this.$store.commit("deleteUserUpdatePosts");
         this.$store.commit("updateTopAlert", false);
@@ -262,6 +260,8 @@ export default {
       // 存在した場合は、その位置から1つの要素を配列から削除する
       if (index !== -1) {
         this.$set(this.posts, index, newPost);
+
+        this.postsLength = this.posts.length;
       }
     },
     //新規投稿通知ボタンを押して追記
@@ -272,10 +272,23 @@ export default {
         );
         this.posts.unshift(...updatePosts);
 
+        this.postsLength = this.posts.length;
+        this.isUnshifted = true;
+
         this.$store.commit("deleteUpdatePosts");
         this.$store.commit("updateTopAlert", false);
       }
     },
+  },
+  updated() {
+    if (this.$refs.observe_element.style.display != `block`) {
+      this.$refs.observe_element.style.display = `block`;
+      this.scrollBottomHeight =
+        this.$refs.dispPs.getBoundingClientRect().height;
+    } else {
+      this.scrollBottomHeight =
+        this.$refs.dispPs.getBoundingClientRect().height;
+    }
   },
 };
 </script>

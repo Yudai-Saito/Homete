@@ -2,7 +2,7 @@
   <v-btn
     id="leftMenuBtn"
     class="ma-0 pa-0"
-    color="#CFD8DC"
+    color="rgb(225 255 255)"
     rounded
     x-large
     :elevation="3"
@@ -18,6 +18,7 @@
   // md 以下のブレークポイントでのスタイル定義
   #leftMenuBtn {
     font-size: 12px;
+    color: rgb(73, 72, 84);
   }
   #leftMenuBtn span div i {
     font-size: 22px !important;
@@ -53,8 +54,8 @@ export default {
           });
         } else {
           this.$store.dispatch(this.usage).then(() => {
-            if (this.$route.path != "/") {
-              this.$router.push("/");
+            if (this.$route.path != "/top") {
+              this.$router.push("/top");
             }
           });
         }

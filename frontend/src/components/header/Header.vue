@@ -1,8 +1,8 @@
 <template>
   <v-app-bar
     id="header"
-    style="border-bottom: solid #00000080 1px"
-    color="#BABDBE"
+    style="border-bottom: solid rgba(0, 0, 0, 0.5) 1px"
+    color="rgb(242,217,193)"
     fixed
     elevation="0"
   >
@@ -76,16 +76,16 @@
       </v-col>
       <v-col id="headerBtn" cols="3">
         <v-btn
-          color="#CFD8DC"
+          color="rgb(225 255 255)"
           rounded
           @click="toAccountManagement"
           v-if="logged"
         >
-          <v-icon color="#494854">mdi-account-cog</v-icon>
+          <v-icon>mdi-account-cog</v-icon>
           <div>アカウント</div>
         </v-btn>
-        <v-btn color="#CFD8DC" rounded @click="login" v-else>
-          <v-icon color="#494854">mdi-login-variant</v-icon>
+        <v-btn color="rgb(225 255 255)" rounded @click="login" v-else>
+          <v-icon>mdi-login-variant</v-icon>
           <div>ログイン</div>
         </v-btn>
       </v-col>
@@ -143,6 +143,7 @@
 }
 #headerBtn button {
   border: solid rgba(0, 0, 0, 0.25) 1px !important;
+  color: rgb(73, 72, 84);
 }
 
 /*ボタン外側※レイアウトによってpositionや形状は適宜変更してください*/
@@ -156,6 +157,7 @@
   top: 5px;
   left: 5vw;
   transform: scale(0.95);
+  background-color: rgb(225 255 255);
 }
 
 /*ボタン内側*/
@@ -222,7 +224,7 @@
   height: calc(100vh - 56px);
   width: 250px;
   position: fixed;
-  background-color: #eceff1;
+  background-color: rgb(255, 248, 225);
   z-index: 2;
 }
 #springBoardMenu .v-list-item {

@@ -1,5 +1,5 @@
 <template>
-  <v-app id="artBoard" class="blue-grey lighten-5">
+  <v-app id="artBoard" style="background-color: rgb(255, 248, 225)">
     <Header @isActive="toggleContents" />
     <Login />
 
@@ -27,18 +27,18 @@
             id="flexSlide"
             v-model="currentDisplay"
             show-arrows
-            mandatory
+            :mandatory="false"
           >
-            <v-slide-item v-for="n in 4" :key="n" v-slot="{ active, toggle }">
+            <v-slide-item v-for="n in 5" :key="n" v-slot="{ active, toggle }">
               <div style="margin-bottom: 17px">
                 <v-card
                   :class="active ? 'activeGroupCard' : 'groupCard'"
                   id="aboutGroups"
-                  height="70"
-                  width="70"
-                  @click="toggle"
+                  height="60"
+                  width="60"
+                  @click="toggle()"
                 >
-                  <div v-twemoji style="width: 35px; margin: auto">
+                  <div v-twemoji id="groupImg">
                     {{ icon[n - 1] }}
                   </div>
                   <v-scale-transition>
@@ -60,19 +60,19 @@
           </v-slide-group>
 
           <v-fade-transition :hide-on-leave="true" mode="in-out">
-            <Explanation v-if="currentDisplay == 0" />
+            <Explanation v-if="currentDisplay == 1" />
           </v-fade-transition>
 
           <v-fade-transition :hide-on-leave="true" mode="in-out">
-            <QuestionAnswer v-if="currentDisplay == 1" />
+            <QuestionAnswer v-if="currentDisplay == 2" />
           </v-fade-transition>
 
           <v-fade-transition :hide-on-leave="true" mode="in-out">
-            <UserPolicy v-if="currentDisplay == 2" />
+            <UserPolicy v-if="currentDisplay == 3" />
           </v-fade-transition>
 
           <v-fade-transition :hide-on-leave="true" mode="in-out">
-            <PrivacyPolicy v-if="currentDisplay == 3" />
+            <PrivacyPolicy v-if="currentDisplay == 4" />
           </v-fade-transition>
         </v-col>
         <v-col cols="3" class="d-none d-md-block"> </v-col>
@@ -105,6 +105,7 @@
   border-radius: 30px;
   margin: 0 auto;
   margin-bottom: 8vh;
+  border: solid 1px rgba(135, 143, 255, 0.5);
 }
 .aboutTitleTxt {
   margin-top: 10px;
@@ -127,10 +128,17 @@
   display: flex;
   justify-content: center;
   border-radius: 50% !important;
-  margin: 20px;
+  margin: 20px 10px;
   margin-bottom: 3px;
   padding: 0;
   overflow: hidden;
+}
+#groupImg {
+  width: 30px;
+  margin: auto;
+}
+#groupImg img {
+  margin-top: 3px;
 }
 .activeGroupCard {
   border: solid 2px #2196f3 !important;
@@ -206,8 +214,8 @@ export default {
       checked: [],
       btnDisable: true,
       currentDisplay: this.aboutState,
-      icon: ["🔍", "💡", "📑", "🔒"],
-      title: ["使い方", "Q & A", "利用規約", "プライバシー"],
+      icon: ["🔍", "🔰", "💡", "📑", "🔒"],
+      title: ["HOMETEとは", "使い方", "Q & A", "利用規約", "プライバシー"],
       dragStartX: 0, // タッチ操作開始時のX座標
       dragCurrentX: 0, // 現在のX座標
     };
@@ -299,6 +307,11 @@ export default {
       } else {
         this.$refs.aboutMenu.style.transform = "";
         this.$refs.aboutMenu.style.opacity = "";
+      }
+    },
+    currentDisplay(newState) {
+      if (newState === 0) {
+        this.$router.push("/");
       }
     },
   },

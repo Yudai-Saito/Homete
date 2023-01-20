@@ -14,7 +14,7 @@
       <v-btn
         id="aboutBtn"
         class="ma-0 pa-0"
-        color="#CFD8DC"
+        color="rgb(225 255 255)"
         rounded
         x-large
         :elevation="3"
@@ -47,6 +47,7 @@
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
+  color: rgb(73, 72, 84);
 }
 #leftMenu {
   display: flex;

@@ -1,5 +1,5 @@
 <template>
-  <v-app id="artBoard" class="blue-grey lighten-5">
+  <v-app id="artBoard" style="background-color: rgb(255, 248, 225)">
     <Header @isActive="toggleContents" />
     <Login />
     <DeleteAccount />
@@ -244,6 +244,11 @@ export default {
         }
       }
     },
+  },
+  created() {
+    if (!this.logged) {
+      this.$router.push("/");
+    }
   },
   mounted() {
     //画面中央
