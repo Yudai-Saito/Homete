@@ -48,6 +48,7 @@
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
   color: rgb(73, 72, 84);
+  font-weight: 600;
 }
 #leftMenu {
   display: flex;

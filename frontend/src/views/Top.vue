@@ -150,6 +150,7 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  font-family: "Yasashisa Gothic";
 }
 #contentsFlex {
   width: 100%;
