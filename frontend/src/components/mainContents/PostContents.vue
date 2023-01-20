@@ -95,7 +95,7 @@
 }
 
 .ball-pulse-sync > div {
-  background-color: rgb(194, 197, 234);
+  background-color: rgb(154, 159, 229);
   width: 25px;
   height: 25px;
   border-radius: 100%;

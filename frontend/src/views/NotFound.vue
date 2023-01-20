@@ -118,7 +118,7 @@ export default {
   methods: {
     toTopPage: function () {
       this.$store.dispatch("toTimeLine");
-      this.$router.push("/");
+      this.$router.push("/top");
     },
 
     //スワイプ開始

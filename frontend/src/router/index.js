@@ -8,11 +8,31 @@ import AccountManagement from "@/views/AccountManagement.vue";
 import LandingPage from "@/views/LandingPage.vue";
 import SmLandingPage from "@/views/SmLandingPage.vue";
 
+// $grid-breakpoints を JavaScript のオブジェクトとして取得
+const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
+
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
+    name: "LandingPage",
+    component: LandingPage,
+    beforeEnter: (to, from, next) => {
+      if (window.innerWidth < gridBreakpoints.sm) {
+        next({ name: "SmLandingPage" });
+      } else {
+        next();
+      }
+    },
+  },
+  {
+    path: "/",
+    name: "SmLandingPage",
+    component: SmLandingPage,
+  },
+  {
+    path: "/top",
     name: "Top",
     component: Top,
     meta: { title: "トップ" },
@@ -34,16 +54,6 @@ const routes = [
     name: "Account",
     component: AccountManagement,
     meta: { title: "アカウント管理" },
-  },
-  {
-    path: "/contact",
-    name: "LandingPage",
-    component: LandingPage,
-  },
-  {
-    path: "/smcontact",
-    name: "SmLandingPage",
-    component: SmLandingPage,
   },
   {
     path: "/:catchAll(.*)",
