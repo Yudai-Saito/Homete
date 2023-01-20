@@ -38,3 +38,9 @@ from route.account import account
 
 app.register_blueprint(posts)
 app.register_blueprint(account)
+
+import gevent.monkey; gevent.monkey.patch_thread()
+import threading
+from util.check_new_posts import task
+t1 = threading.Thread(target=task)
+t1.start()

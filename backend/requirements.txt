@@ -14,6 +14,7 @@ Flask-Migrate==3.1.0
 Flask-SocketIO==5.3.2
 Flask-SQLAlchemy==2.5.1
 gevent==22.10.2
+gevent-websocket==0.10.1
 google-api-core==2.10.2
 google-api-python-client==2.65.0
 google-auth==2.14.0

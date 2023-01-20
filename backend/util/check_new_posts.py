@@ -2,6 +2,7 @@ from app import session
 
 import time
 import datetime
+import gevent.monkey; gevent.monkey.patch_thread()
 import threading
 
 from flask_socketio import emit
