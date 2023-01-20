@@ -42,28 +42,28 @@ const actions = {
   toExplanation(context) {
     return new Promise((resolve) => {
       context.commit("updateContentName", contents["about"]);
-      context.commit("updateAboutState", 0);
+      context.commit("updateAboutState", 1);
       resolve();
     });
   },
   toQuestionAnswer(context) {
     return new Promise((resolve) => {
       context.commit("updateContentName", contents["about"]);
-      context.commit("updateAboutState", 1);
+      context.commit("updateAboutState", 2);
       resolve();
     });
   },
   toUserPolicy(context) {
     return new Promise((resolve) => {
       context.commit("updateContentName", contents["about"]);
-      context.commit("updateAboutState", 2);
+      context.commit("updateAboutState", 3);
       resolve();
     });
   },
   toPrivacyPolicy(context) {
     return new Promise((resolve) => {
       context.commit("updateContentName", contents["about"]);
-      context.commit("updateAboutState", 3);
+      context.commit("updateAboutState", 4);
       resolve();
     });
   },
