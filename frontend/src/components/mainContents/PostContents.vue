@@ -139,15 +139,19 @@ export default {
   },
   props: ["channel", "updatePost"],
   methods: {
+    replaceUserReactionNull: function (posts) {
+      Object.keys(posts).forEach((key) => {
+        if (posts[key]["user_reaction"] == null) {
+          posts[key]["user_reaction"] = [];
+        }
+      });
+      return posts;
+    },
     set_posts: function (res) {
       var posts = res.data["posts"];
 
       if (posts.length != 0) {
-        Object.keys(posts).forEach((key) => {
-          if (posts[key]["user_reaction"] == null) {
-            posts[key]["user_reaction"] = [];
-          }
-        });
+        posts = this.replaceUserReactionNull(posts);
 
         if (this.posts.length == 0) {
           this.posts = posts;
@@ -174,6 +178,11 @@ export default {
     },
   },
   created() {
+    //投稿管理系ステートを全てリセットかける
+    this.$store.commit("deleteCompletedPost");
+    this.$store.commit("deleteUserUpdatePosts");
+    this.$store.commit("deleteUpdatePosts");
+
     this.get_posts({ channel: this.channel });
     this.postsLength = this.posts.length;
   },
@@ -229,8 +238,21 @@ export default {
       }
       this.$store.commit("updateProcess", false, "");
     },
+    updatePost(newPost) {
+      const index = this.posts.findIndex(
+        (post) => post.post_id === newPost.post_id
+      );
+      // 存在した場合は、その位置から1つの要素を配列から削除する
+      if (index !== -1) {
+        this.$set(this.posts, index, newPost);
+
+        this.postsLength = this.posts.length;
+      }
+    },
     //投稿完了時の追記
     addUserUpdatePosts(userUpdatePosts) {
+      userUpdatePosts = this.replaceUserReactionNull(userUpdatePosts);
+
       //userUpdatePostsを空にするので動作しないように1以上のときに動くようにする
       if (userUpdatePosts.length > 0) {
         for (let i; i < userUpdatePosts.length; i++) {
@@ -244,6 +266,7 @@ export default {
             }
           }
         }
+
         this.posts.unshift(...userUpdatePosts);
 
         this.postsLength = this.posts.length;
@@ -253,23 +276,15 @@ export default {
         this.$store.commit("updateTopAlert", false);
       }
     },
-    updatePost(newPost) {
-      const index = this.posts.findIndex(
-        (post) => post.post_id === newPost.post_id
-      );
-      // 存在した場合は、その位置から1つの要素を配列から削除する
-      if (index !== -1) {
-        this.$set(this.posts, index, newPost);
-
-        this.postsLength = this.posts.length;
-      }
-    },
     //新規投稿通知ボタンを押して追記
     newPosts(newTopAlertState, oldTopAlertState) {
       if (newTopAlertState == false && oldTopAlertState == true) {
         var updatePosts = JSON.parse(
           JSON.stringify(this.$store.getters.updatePosts)
         );
+
+        updatePosts = this.replaceUserReactionNull(updatePosts);
+
         this.posts.unshift(...updatePosts);
 
         this.postsLength = this.posts.length;

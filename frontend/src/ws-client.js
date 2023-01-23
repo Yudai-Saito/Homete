@@ -20,12 +20,6 @@ function ws_connect(vm) {
     let dataJson = JSON.parse(data);
     let posts = dataJson["posts"];
 
-    Object.keys(posts).forEach((key) => {
-      if (posts[key]["user_reaction"] == null) {
-        posts[key]["user_reaction"] = [];
-      }
-    });
-
     let existsPosts = JSON.parse(
       JSON.stringify(vm.$store.getters.completedPost)
     );
@@ -35,7 +29,7 @@ function ws_connect(vm) {
       for (let j = 0; j < posts.length; j++) {
         if (posts[j].post_id == existsPosts[i].post_id) {
           posts.splice(j, 1);
-          vm.$store.commit("deleteCompletedPost", existsPosts[i]);
+          vm.$store.commit("deleteIntexCompletedPost", existsPosts[i]);
         }
       }
     }
