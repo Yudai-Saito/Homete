@@ -147,6 +147,7 @@ export default {
   },
   methods: {
     count: function () {
+      console.log("hoge");
       //カウントダウン
       if (this.reactionFlag) {
         this.reactionCount -= 1;
@@ -198,7 +199,11 @@ export default {
       }
     },
     plzLogin: function () {
-      this.$store.dispatch("visiblePlzLoginOverlay");
+      if (this.isSample == true) {
+        this.count();
+      } else {
+        this.$store.dispatch("visiblePlzLoginOverlay");
+      }
     },
   },
   mounted() {
