@@ -144,12 +144,16 @@
 body {
   padding: 0;
 }
+.v-menu__content {
+  font-family: "Yasashisa Gothic";
+}
 #artBoard {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
   overflow: hidden;
+  font-family: "Yasashisa Gothic";
 }
 #contentsFlex {
   width: 100%;

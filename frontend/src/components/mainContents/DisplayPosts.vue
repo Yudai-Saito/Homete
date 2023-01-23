@@ -186,7 +186,7 @@
   }
   #timeTxt {
     font-size: 10px;
-    margin-top: 13px;
+    margin-top: 18px;
   }
   #btns {
     width: 70%;
@@ -277,6 +277,7 @@
   margin-left: 10px;
   z-index: auto;
   position: relative;
+  font-family: "Yasashisa Gothic Tegaki";
 }
 .v-responsive-text {
   font-size: 16px;
@@ -427,10 +428,10 @@ export default {
     });
   },
   mounted() {
-    let size = parseInt(this.responsiveTxtStyle.fontSize);
     if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-      size = 16;
+      this.responsiveTxtStyle.fontSize = "18px";
     }
+    let size = parseInt(this.responsiveTxtStyle.fontSize);
     let height = this.$refs.responsiveTxt.getBoundingClientRect().height;
     this.resizeTxt(size, height);
   },

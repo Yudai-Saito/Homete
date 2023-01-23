@@ -17,6 +17,7 @@
   width: 100%;
   height: 49px;
   padding: 0 !important;
+  font-weight: 600;
 }
 #sbMenuBtn .v-btn__content {
   opacity: 1 !important;

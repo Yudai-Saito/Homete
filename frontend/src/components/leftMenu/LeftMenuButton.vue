@@ -26,6 +26,7 @@
 }
 #leftMenuBtn {
   width: 100%;
+  font-weight: 600;
 }
 </style>
 

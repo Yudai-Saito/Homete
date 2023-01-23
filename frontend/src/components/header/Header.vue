@@ -135,6 +135,7 @@
   font-size: 20px;
   font-weight: 900;
   color: #494854;
+  font-family: "Yasashisa Gothic Tegaki";
 }
 #headerBtn {
   margin: 0;
@@ -144,6 +145,7 @@
 #headerBtn button {
   border: solid rgba(0, 0, 0, 0.25) 1px !important;
   color: rgb(73, 72, 84);
+  font-weight: 600;
 }
 
 /*ボタン外側※レイアウトによってpositionや形状は適宜変更してください*/

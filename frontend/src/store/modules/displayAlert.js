@@ -61,24 +61,6 @@ const actions = {
       context.commit("updateBottomAlert", false);
     }, 3000);
   },
-  alertLogout(context) {
-    context.commit("setBottomAlertState", "logout");
-    setTimeout(() => {
-      context.commit("updateBottomAlert", true);
-    }, 1);
-    setTimeout(() => {
-      context.commit("updateBottomAlert", false);
-    }, 3000);
-  },
-  alertDeleteAccount(context) {
-    context.commit("setBottomAlertState", "deleteAccount");
-    setTimeout(() => {
-      context.commit("updateBottomAlert", true);
-    }, 1);
-    setTimeout(() => {
-      context.commit("updateBottomAlert", false);
-    }, 3000);
-  },
   alertReportSuccess(context) {
     context.commit("setBottomAlertState", "reportSuccess");
     setTimeout(() => {

@@ -55,8 +55,8 @@
     height: 20px;
   }
   #btnIcon {
-    width: 13px;
-    height: 13px;
+    width: 12px;
+    height: 12px;
   }
   #countNum {
     font-size: 12px;
@@ -101,6 +101,7 @@
   height: 20px;
   text-align: center;
   justify-content: center;
+  font-weight: 600;
 }
 </style>
 
@@ -147,6 +148,7 @@ export default {
   },
   methods: {
     count: function () {
+      console.log("hoge");
       //カウントダウン
       if (this.reactionFlag) {
         this.reactionCount -= 1;
@@ -198,7 +200,11 @@ export default {
       }
     },
     plzLogin: function () {
-      this.$store.dispatch("visiblePlzLoginOverlay");
+      if (this.isSample == true) {
+        this.count();
+      } else {
+        this.$store.dispatch("visiblePlzLoginOverlay");
+      }
     },
   },
   mounted() {
