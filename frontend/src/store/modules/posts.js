@@ -37,7 +37,6 @@ const mutations = {
   addUserUpdatePosts(state, posts) {
     //WSで裏で取得していた投稿をコピーして、updatePostsは消す
     state.userUpdatePosts = JSON.parse(JSON.stringify(state.updatePosts));
-    state.updatePosts = [];
 
     const updatePostIndex = state.userUpdatePosts.findIndex(
       (updatePost) => updatePost["post_id"] === posts["post_id"]
@@ -59,7 +58,7 @@ const mutations = {
   },
   deleteIntexCompletedPost(state, target) {
     state.completedPost.forEach((item, index) => {
-      if (item === target) {
+      if (item.post_id == target.post_id) {
         state.completedPost.splice(index, 1);
       }
     });
