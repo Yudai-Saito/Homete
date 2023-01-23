@@ -101,6 +101,7 @@
   height: 20px;
   text-align: center;
   justify-content: center;
+  font-weight: 600;
 }
 </style>
 

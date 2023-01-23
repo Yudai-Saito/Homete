@@ -144,6 +144,9 @@
 body {
   padding: 0;
 }
+.v-menu__content {
+  font-family: "Yasashisa Gothic";
+}
 #artBoard {
   width: 100%;
   height: 100%;
