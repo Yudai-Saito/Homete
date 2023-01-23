@@ -17,6 +17,7 @@ const getters = {
   postId: (state) => state.postId,
   processFlag: (state) => state.processFlag,
   postsProcess: (state) => state.postsProcess,
+
   userUpdatePosts: (state) => state.userUpdatePosts,
   updatePosts: (state) => state.updatePosts,
   completedPost: (state) => state.completedPost,
@@ -29,6 +30,9 @@ const mutations = {
     let newUpdatePosts = [...state.updatePosts, ...posts];
     newUpdatePosts = postsSort(newUpdatePosts);
     state.updatePosts = newUpdatePosts;
+  },
+  deleteUpdatePosts(state) {
+    state.updatePosts = [];
   },
   addUserUpdatePosts(state, posts) {
     //WSで裏で取得していた投稿をコピーして、updatePostsは消す
@@ -47,6 +51,23 @@ const mutations = {
 
     state.userUpdatePosts = postsSort(state.userUpdatePosts);
   },
+  deleteUserUpdatePosts(state) {
+    state.userUpdatePosts = [];
+  },
+  addCompletedPost(state, posts) {
+    state.completedPost.unshift(posts);
+  },
+  deleteIntexCompletedPost(state, target) {
+    state.completedPost.forEach((item, index) => {
+      if (item === target) {
+        state.completedPost.splice(index, 1);
+      }
+    });
+  },
+  deleteCompletedPost(state) {
+    state.completedPost = [];
+  },
+
   setPostId(state, postId) {
     state.postId = postId;
   },
@@ -55,22 +76,6 @@ const mutations = {
   },
   updatePostsProcess(state, postsProcess) {
     state.postsProcess = postsProcess;
-  },
-  deleteUserUpdatePosts(state) {
-    state.userUpdatePosts = [];
-  },
-  deleteUpdatePosts(state) {
-    state.updatePosts = [];
-  },
-  addCompletedPost(state, posts) {
-    state.completedPost.unshift(posts);
-  },
-  deleteCompletedPost(state, target) {
-    state.completedPost.forEach((item, index) => {
-      if (item === target) {
-        state.completedPost.splice(index, 1);
-      }
-    });
   },
 };
 
