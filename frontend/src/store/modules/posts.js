@@ -36,19 +36,19 @@ const mutations = {
   },
   addUserUpdatePosts(state, posts) {
     //WSで裏で取得していた投稿をコピーして、updatePostsは消す
-    state.userUpdatePosts = JSON.parse(JSON.stringify(state.updatePosts));
+    let userUpdatePosts = JSON.parse(JSON.stringify(state.updatePosts));
 
-    const updatePostIndex = state.userUpdatePosts.findIndex(
+    const updatePostIndex = userUpdatePosts.findIndex(
       (updatePost) => updatePost["post_id"] === posts["post_id"]
     );
 
-    if (state.updatePostIndex !== -1) {
-      state.userUpdatePosts.splice(updatePostIndex, 1, posts);
+    if (updatePostIndex !== -1) {
+      userUpdatePosts.splice(updatePostIndex, 1, posts);
     } else {
-      state.userUpdatePosts.unshift(posts);
+      userUpdatePosts.unshift(posts);
     }
 
-    state.userUpdatePosts = postsSort(state.userUpdatePosts);
+    state.userUpdatePosts = postsSort(userUpdatePosts);
   },
   deleteUserUpdatePosts(state) {
     state.userUpdatePosts = [];

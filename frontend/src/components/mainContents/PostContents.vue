@@ -133,7 +133,6 @@ export default {
       postsLength: 0,
       switchPosts: false,
       isScrollBottom: false,
-      isUnshifted: false,
       isPushed: false,
     };
   },
@@ -178,10 +177,8 @@ export default {
     },
   },
   created() {
-    //投稿管理系ステートを全てリセットかける
-    this.$store.commit("deleteCompletedPost");
-    this.$store.commit("deleteUserUpdatePosts");
-    this.$store.commit("deleteUpdatePosts");
+    //表示切替で新しく投稿を受信するためアラートは削除
+    this.$store.commit("updateTopAlert", false);
 
     this.get_posts({ channel: this.channel });
     this.postsLength = this.posts.length;
@@ -216,7 +213,6 @@ export default {
         console.log("postHeight:", newHeight - oldHeight);
         console.log("currentScroll:", window.scrollY);
         window.scrollTo(0, beforeViewHeight);
-        this.isUnshifted = false;
       } else {
         this.isPushed = false;
       }
@@ -251,35 +247,37 @@ export default {
     },
     //投稿完了時の追記
     addUserUpdatePosts(userUpdatePosts) {
-      userUpdatePosts = this.replaceUserReactionNull(userUpdatePosts);
+      let updatePosts = JSON.parse(JSON.stringify(userUpdatePosts));
+
+      updatePosts = this.replaceUserReactionNull(updatePosts);
 
       //userUpdatePostsを空にするので動作しないように1以上のときに動くようにする
-      if (userUpdatePosts.length > 0) {
-        for (let i; i < userUpdatePosts.length; i++) {
-          for (let j; j < userUpdatePosts.length; j++) {
-            if (this.posts[j].post_id == userUpdatePosts[i].post_id) {
-              userUpdatePosts.splice(j);
+      if (updatePosts.length > 0) {
+        for (let i; i < updatePosts.length; i++) {
+          for (let j; j < updatePosts.length; j++) {
+            if (this.posts[j].post_id == updatePosts[i].post_id) {
+              updatePosts.splice(j);
               break;
             }
-            if (this.posts[j].post_id == userUpdatePosts[i].post_id) {
+            if (this.posts[j].post_id == updatePosts[i].post_id) {
               break;
             }
           }
         }
 
-        this.posts.unshift(...userUpdatePosts);
+        this.posts.unshift(...updatePosts);
 
         this.postsLength = this.posts.length;
-        this.isUnshifted = true;
 
         this.$store.commit("deleteUserUpdatePosts");
+        this.$store.commit("deleteUpdatePosts");
         this.$store.commit("updateTopAlert", false);
       }
     },
     //新規投稿通知ボタンを押して追記
     newPosts(newTopAlertState, oldTopAlertState) {
       if (newTopAlertState == false && oldTopAlertState == true) {
-        var updatePosts = JSON.parse(
+        let updatePosts = JSON.parse(
           JSON.stringify(this.$store.getters.updatePosts)
         );
 
@@ -288,7 +286,6 @@ export default {
         this.posts.unshift(...updatePosts);
 
         this.postsLength = this.posts.length;
-        this.isUnshifted = true;
 
         this.$store.commit("deleteUpdatePosts");
         this.$store.commit("updateTopAlert", false);
