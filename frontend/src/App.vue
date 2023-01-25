@@ -6,17 +6,6 @@
   </v-app>
 </template>
 
-<style lang="scss">
-@font-face {
-  font-family: "Yasashisa Gothic";
-  src: url("/fonts/YasashisaGothic.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Yasashisa Gothic Tegaki";
-  src: url("/fonts/YasashisaGothicTegaki.otf") format("opentype");
-}
-</style>
-
 <script>
 export default {
   name: "App",

@@ -135,7 +135,6 @@
   font-size: 20px;
   font-weight: 900;
   color: #494854;
-  font-family: "Yasashisa Gothic Tegaki";
 }
 #headerBtn {
   margin: 0;

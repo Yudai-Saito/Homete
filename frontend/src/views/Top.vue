@@ -145,7 +145,7 @@ body {
   padding: 0;
 }
 .v-menu__content {
-  font-family: "Yasashisa Gothic";
+  font-family: "M PLUS Rounded 1c", sans-serif;
 }
 #artBoard {
   width: 100%;
@@ -153,7 +153,7 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: "Yasashisa Gothic";
+  font-family: "M PLUS Rounded 1c", sans-serif;
 }
 #contentsFlex {
   width: 100%;

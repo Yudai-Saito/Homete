@@ -102,7 +102,7 @@
   color: #494854;
 }
 .settingText {
-  font-size: 14px;
+  font-size: 15px;
   margin: 10px 0;
   color: #494854;
 }

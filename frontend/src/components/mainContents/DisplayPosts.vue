@@ -277,7 +277,7 @@
   margin-left: 10px;
   z-index: auto;
   position: relative;
-  font-family: "Yasashisa Gothic Tegaki";
+  font-family: "M PLUS Rounded 1c", sans-serif;
 }
 .v-responsive-text {
   font-size: 16px;
@@ -343,7 +343,7 @@ export default {
       ap: 0,
       displayAddBtn: true,
       responsiveTxtStyle: {
-        fontSize: "22px",
+        fontSize: "24px",
       },
     };
   },
@@ -429,7 +429,7 @@ export default {
   },
   mounted() {
     if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-      this.responsiveTxtStyle.fontSize = "18px";
+      this.responsiveTxtStyle.fontSize = "22px";
     }
     let size = parseInt(this.responsiveTxtStyle.fontSize);
     let height = this.$refs.responsiveTxt.getBoundingClientRect().height;
