@@ -51,7 +51,7 @@
                 </v-card>
                 <div
                   :style="active ? 'color:#2196f3' : 'color:#494854'"
-                  style="font-size: 12px; text-align: center"
+                  style="font-size: 13px; text-align: center; margin-top: 8px"
                 >
                   {{ title[n - 1] }}
                 </div>
@@ -114,7 +114,7 @@
   border: solid 1px rgba(135, 143, 255, 0.5);
 }
 .aboutTitleTxt {
-  margin-top: 10px;
+  margin-top: 8px;
   color: #494854;
 }
 .aboutText {
