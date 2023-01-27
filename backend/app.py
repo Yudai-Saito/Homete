@@ -25,7 +25,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False #警告の無効化
 
 db = SQLAlchemy(app)
 db.init_app(app)
-Migrate(app, db)
+Migrate(app, db, compare_type=True)
 
 session = scoped_session(db.session)
 
@@ -42,5 +42,7 @@ app.register_blueprint(account)
 import gevent.monkey; gevent.monkey.patch_thread()
 import threading
 from util.check_new_posts import task
+
 t1 = threading.Thread(target=task)
 t1.start()
+
