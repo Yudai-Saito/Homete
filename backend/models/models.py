@@ -18,7 +18,7 @@ class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, ForeignKey("users.id", name="fk_posts_user_id"))
     private = db.Column(db.Boolean, default=True)
-    contents = db.Column(db.String(400))
+    contents = db.Column(db.String(140))
     first_name = db.Column(db.Integer, ForeignKey("posts_name.id", name="fk_posts_posts_first_name_id"))
     last_name = db.Column(db.Integer, ForeignKey("posts_name.id", name="fk_posts_posts_second_name_id"))
     head = db.Column(db.String(15))
