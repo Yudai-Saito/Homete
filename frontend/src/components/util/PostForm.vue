@@ -29,7 +29,7 @@
         hide-details="auto"
         v-model="formTxt"
         @input="inputText"
-        counter="400"
+        counter="140"
         :rules="forms.inputRules"
       ></v-textarea>
       <v-divider class="mx-4"></v-divider>
@@ -197,7 +197,7 @@ export default {
     forms() {
       const required = (v) => !!v || "";
       const inputFormat = (v) =>
-        v.length <= 400 || "400文字以下で入力してください!";
+        v.length <= 140 || "140文字以下で入力してください!";
       const noSpaceOnly = (v) => !/^\s*$/.test(v) || "";
 
       const inputRules = [required, inputFormat, noSpaceOnly];
