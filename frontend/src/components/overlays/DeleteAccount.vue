@@ -34,7 +34,6 @@ export default {
   methods: {
     deleteAccount() {
       const auth = getAuth();
-
       auth.signOut().then(() => {
         axios
           .delete("/account/delete", {
@@ -42,13 +41,9 @@ export default {
           })
           .then(() => {
             this.$store.dispatch("loggedOut");
-            this.$store.dispatch("toTimeLine");
-            this.$store.dispatch("invisibleAlert");
-            this.$store.commit("updateAlertState", "deleteAccount");
-            this.$router.push("/");
-            setTimeout(() => {
-              this.$store.dispatch("alertDeleteAccount");
-            }, 500);
+            this.$store.dispatch("toTimeLine").then(() => {
+              this.$router.push("/");
+            });
           });
       });
     },
