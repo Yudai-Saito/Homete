@@ -34,8 +34,8 @@ def post_receive():
 
 		user_email = get_email_from_cookie(jwt)
 
-		# TODO_名前DBから取得するようにする
-		random_name_numbers = random.sample(range(1, 3584), 2)
+		# TODO_単語数をハードコーディングするのではなくテーブルから取ってくる
+		random_name_numbers = random.sample(range(1, 2538), 2)
 
 		icon = open_peeps_icon()
 
