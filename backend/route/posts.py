@@ -145,7 +145,9 @@ def reaction():
 		reaction = request.json["reaction"]
 		
 		user_email = get_email_from_cookie(jwt)
-		
+
+		posts_reaction_count_validate(post_id)
+
 		if db.session.query(Posts.query.filter(Posts.id == post_id, Posts.deleted_at == None).exists()).scalar() == True:
 			user_id = db.session.query(User.id).filter(User.email == user_email).first()[0]
 			reaction_id = db.session.query(Reactions.id).filter(Reactions.reaction == reaction).first()[0]
