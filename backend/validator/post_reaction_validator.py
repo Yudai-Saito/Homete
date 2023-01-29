@@ -5,5 +5,6 @@ from models.models import PostReactions
 
 def posts_reaction_count_validate(post_id):
     posts_reaction_count = db.session.query(func.count(PostReactions.post_id)).filter(PostReactions.post_id == post_id).all()
-    if posts_reaction_count[0][0] >= 20:
+    print(posts_reaction_count)
+    if posts_reaction_count[0][0] >= 15:
         raise ValueError("over reaction")
