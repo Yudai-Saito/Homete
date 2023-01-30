@@ -23,14 +23,15 @@
       <v-textarea
         ref="postForm"
         id="mdPostForm"
-        label="なにを褒めてもらう？"
+        :label="isSample ? sampleLabel : labelText"
         solo
         flat
         hide-details="auto"
         v-model="formTxt"
         @input="inputText"
-        counter="400"
+        counter="140"
         :rules="forms.inputRules"
+        :disabled="isSample"
       ></v-textarea>
       <v-divider class="mx-4"></v-divider>
       <label id="ECM_CheckboxInput"
@@ -39,6 +40,7 @@
           type="checkbox"
           value="true"
           v-model="private_posts"
+          :disabled="isSample"
         /><span id="ECM_CheckboxInput-DummyInput"></span
         ><span id="ECM_CheckboxInput-LabelText"
           >リアクションを見せない</span
@@ -133,14 +135,6 @@
   width: 0;
   opacity: 0;
 }
-#ECM_CheckboxInput:hover > #ECM_CheckboxInput-DummyInput {
-  background: #dddddd !important;
-  border: solid 1px rgba(0, 0, 0, 0.5);
-}
-#ECM_CheckboxInput-Input:focus + #ECM_CheckboxInput-DummyInput {
-  background: #dddddd !important;
-  border: solid 1px rgba(0, 0, 0, 0.5);
-}
 #ECM_CheckboxInput-Input:checked + #ECM_CheckboxInput-DummyInput {
   border: solid 1px rgba(0, 0, 0, 0.25);
   background: #ffffff;
@@ -191,13 +185,16 @@ export default {
       formTxt: "",
       detectInput: false,
       private_posts: false,
+      labelText: "なにをほめてもらう？",
+      isSample: false,
     };
   },
+  props: ["sampleLabel"],
   computed: {
     forms() {
       const required = (v) => !!v || "";
       const inputFormat = (v) =>
-        v.length <= 400 || "400文字以下で入力してください!";
+        v.length <= 140 || "140文字以下で入力してください!";
       const noSpaceOnly = (v) => !/^\s*$/.test(v) || "";
 
       const inputRules = [required, inputFormat, noSpaceOnly];
@@ -258,6 +255,11 @@ export default {
     plzLogin: function () {
       this.$store.dispatch("visiblePlzLoginOverlay");
     },
+  },
+  mounted() {
+    if (this.sampleLabel != null) {
+      this.isSample = true;
+    }
   },
 };
 </script>
