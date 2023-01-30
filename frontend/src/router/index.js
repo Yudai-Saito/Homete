@@ -30,6 +30,13 @@ const routes = [
     path: "/",
     name: "SmLandingPage",
     component: SmLandingPage,
+    beforeEnter: (to, from, next) => {
+      if (window.innerWidth >= gridBreakpoints.sm) {
+        next({ name: "LandingPage" });
+      } else {
+        next();
+      }
+    },
   },
   {
     path: "/top",
