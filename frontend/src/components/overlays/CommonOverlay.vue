@@ -136,7 +136,7 @@
 #closeOverlayBtn {
   justify-content: center;
   position: absolute !important;
-  left: 350px !important;
+  right: 20px !important;
 }
 #overlayBtnTxt {
   margin-right: 8px;
