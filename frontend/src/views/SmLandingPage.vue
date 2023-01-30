@@ -56,24 +56,23 @@
         ></div>
         <div
           id="smLpBubble"
-          style="top: 19%; left: 20%"
+          style="top: -30%; left: 10%"
           v-text="smLpTxt2_1"
         ></div>
         <div
           id="smLpBubble"
-          style="top: 35%; right: 25%"
+          style="top: -29%; right: 9%"
           v-text="smLpTxt2_2"
         ></div>
         <div
           id="smLpBubble"
-          style="top: 52%; right: 23%"
+          style="top: -28%; right: 5%"
           v-text="smLpTxt2_3"
         ></div>
         <div id="smLpSmallBubble"></div>
-        <div id="smLpSmallBubble"></div>
         <img
           src="/assets/HOMETE_LP2.png"
-          style="bottom: 3%; width: 75%; position: absolute; right: -5%"
+          style="bottom: 3%; width: 230px; position: absolute; right: -5%"
         />
       </div>
     </div>
@@ -111,7 +110,7 @@
                 かわいい絵を描けた
                 <img
                   src="/assets/HOMETE_LP3.png"
-                  style="width: 60%; margin-top: 10px"
+                  style="width: 180px; margin-top: 10px"
                 />
               </div>
             </v-carousel-item>
@@ -120,7 +119,7 @@
                 ほしかったものが買えた
                 <img
                   src="/assets/HOMETE_LP4.png"
-                  style="width: 60%; margin-top: 10px"
+                  style="width: 180px; margin-top: 10px"
                 />
               </div>
             </v-carousel-item>
@@ -129,7 +128,7 @@
                 今日も自炊してえらい！
                 <img
                   src="/assets/HOMETE_LP5.png"
-                  style="width: 60%; margin-top: 10px"
+                  style="width: 180px; margin-top: 10px"
                 />
               </div>
             </v-carousel-item>
@@ -144,8 +143,9 @@
         style="
           display: flex;
           flex-flow: column;
-          justify-content: center;
+          justify-content: space-evenly;
           align-items: center;
+          padding: 5% 0;
         "
       >
         <DisplayPosts
@@ -155,6 +155,75 @@
           :postList="samplePost"
           :isSample="true"
         />
+        <div
+          v-if="displayPostForm"
+          @click="closeLPPostForm"
+          style="
+            z-index: 2;
+            position: absolute;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            margin: auto 0;
+            border-radius: 50px;
+            padding: 5%;
+          "
+        ></div>
+
+        <transition name="fade">
+          <div
+            v-show="displayPostForm"
+            style="
+              background-color: rgba(0, 0, 0, 0.25);
+              z-index: 1;
+              position: absolute;
+              top: 0px;
+              width: 100%;
+              height: 100%;
+              margin: auto 0;
+              border-radius: 50px;
+              padding: 5%;
+            "
+          >
+            <transition name="slide-y-reverse">
+              <PostForm
+                v-show="displayPostForm"
+                id="smLpPostFormSample"
+                :sampleLabel="`いろんなことを投稿しよう！`"
+              />
+            </transition>
+            <div
+              v-if="displayPostForm"
+              id="arrow_box1sm"
+              v-text="h2uTxt1"
+            ></div>
+          </div>
+        </transition>
+        <div id="arrow_box2sm" v-text="h2uTxt2"></div>
+        <div
+          id="postBtnFloat"
+          ref="postBtn"
+          style="
+            position: relative;
+            transition: all 0.4s !important;
+            transform: translateX(0px);
+            z-index: 0;
+            bottom: 3%;
+            right: -32%;
+          "
+        >
+          <v-btn
+            class="d-md-none"
+            style="background-color: rgb(225 255 255)"
+            elevation="3"
+            fab
+            icon
+            rounded
+            @click="onClickLPPostBtn"
+          >
+            <v-icon color="rgb(73,72,84)"> mdi-pen-plus </v-icon>
+          </v-btn>
+        </div>
       </div>
     </div>
     <div id="smLpBoard">
@@ -168,11 +237,17 @@
           align-items: center;
         "
       >
-        <div
-          v-text="smLpTxt4"
-          style="font-size: 30px; text-align: center; font-weight: 600"
-        ></div>
-        <img src="/assets/HOMETE_LP6.png" style="width: 60%" />
+        <div style="width: 50%; transform: scale(1.2)">
+          <div
+            v-text="smLpTxt4"
+            style="font-size: 20px; text-align: center; font-weight: 600"
+            id="smLpSpeechBubble"
+          ></div>
+        </div>
+        <img
+          src="/assets/HOMETE_LP6.png"
+          style="width: 300px; position: relative; right: -17%"
+        />
       </div>
     </div>
     <div id="smLpBoard">
@@ -192,20 +267,19 @@
             font-size: 30px;
             text-align: center;
             font-weight: 600;
-            transform: translateX(-50px);
           "
         >
-          <div style="transform: translateX(45px)">ちょっとの喜びを</div>
-          <div style="transform: translateX(85px)">HOMETEと一緒に</div>
+          <div style="transform: translateX(-10px)">ちょっとの喜びを</div>
+          <div style="transform: translateX(35px)">HOMETEと一緒に</div>
         </div>
-        <img src="/assets/HOMETE_LP7.png" style="width: 70%" />
+        <img src="/assets/HOMETE_LP7.png" style="width: 230px" />
         <button
           id="smLpBtnSignup"
           style="
             right: 3%;
             bottom: 20%;
             padding: 5px 15px;
-            transform: scale(1.5) translateX(40px);
+            transform: scale(1.35) translateX(35px);
           "
           @click="login"
         >
@@ -260,7 +334,7 @@
 <style>
 #smLpHeader {
   z-index: 2;
-  padding: 20px;
+  padding: 20px 0;
   transition: transform 0.5s;
 }
 #smLpHeader .v-toolbar__content {
@@ -273,6 +347,7 @@
   margin: 0;
   padding: 0;
   color: #494854;
+  margin-left: 20px;
 }
 #smLpBtns {
   margin-left: auto;
@@ -313,13 +388,18 @@
 #smLpPostSample {
   margin: 0;
   padding: 0;
-  transform: scale(0.9);
+  transform: scale(0.85);
+  width: 110%;
+  max-width: 110%;
 }
 #smLpPostFormSample {
   margin: 0 auto;
   padding: 0;
-  width: 70%;
-  top: 30%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  z-index: 5;
+  right: 0;
 }
 #smLpPostFormSample #formArea .v-input {
   border-radius: 24px;
@@ -349,15 +429,16 @@
   font-size: 20px;
   font-weight: 500;
   text-align: center;
+  width: 240px;
 }
 
 #smLpBubble {
-  position: absolute;
+  position: relative;
   background-color: floralwhite;
   padding: 25px;
   border-radius: 50%;
-  height: 110px;
-  width: 270px;
+  height: 14%;
+  width: 90%;
   display: flex;
   justify-content: center;
   flex-flow: column;
@@ -366,20 +447,20 @@
   font-weight: 500;
 }
 #smLpSmallBubble {
-  position: absolute;
+  position: relative;
   background-color: floralwhite;
   padding: 25px;
   border-radius: 50%;
-  height: 25px;
-  width: 100px;
+  height: 5%;
+  width: 25%;
   display: flex;
   justify-content: center;
   flex-flow: column;
   text-align: center;
   font-size: 20px;
   font-weight: 500;
-  bottom: 25%;
-  left: 30%;
+  bottom: 27%;
+  left: -10%;
 }
 #smLpSpeechBubble {
   position: relative;
@@ -390,10 +471,10 @@
   justify-content: center;
   flex-flow: column;
   text-align: center;
-  height: 200px;
-  width: 400px;
-  right: -10%;
-  top: -75px;
+  height: 150px;
+  width: 250px;
+  right: 28%;
+  top: 10%;
   margin-left: auto;
   margin-right: 5%;
 }
@@ -403,10 +484,10 @@
   display: block;
   border-radius: 50%;
   background-color: #f6b167;
-  right: 5%;
-  bottom: 5%;
-  width: 45px;
-  height: 45px;
+  right: 69%;
+  bottom: -30%;
+  width: 25px;
+  height: 25px;
 }
 #smLpSpeechBubble::after {
   content: "";
@@ -414,15 +495,15 @@
   display: block;
   border-radius: 50%;
   background-color: #f6b167;
-  right: 2%;
-  bottom: 1%;
-  width: 25px;
-  height: 25px;
+  right: 66%;
+  bottom: -58%;
+  width: 15px;
+  height: 15px;
 }
-#arrow_box1 {
+#arrow_box1sm {
   position: absolute;
-  width: 270px;
-  height: 110px;
+  width: 285px;
+  height: 120px;
   background: floralwhite;
   text-align: center;
   border: 1px solid #f6b167;
@@ -435,15 +516,15 @@
   display: flex;
   justify-content: center;
   flex-flow: column;
-  top: 13%;
+  bottom: 330px;
   right: 13%;
-  -webkit-filter: drop-shadow(5px 5px 5px #7f483a);
   -moz-filter: drop-shadow(5px 5px 5px #7f483a);
   -ms-filter: drop-shadow(5px 5px 5px #7f483a);
   filter: drop-shadow(5px 5px 5px #7f483a);
+  z-index: 5;
 }
-#arrow_box1:after,
-#arrow_box1:before {
+#arrow_box1sm:after,
+#arrow_box1sm:before {
   border: solid transparent;
   content: "";
   height: 0;
@@ -453,7 +534,7 @@
   top: 100%;
   left: 71%;
 }
-#arrow_box1:after {
+#arrow_box1sm:after {
   border-color: rgba(0, 153, 255, 0);
   border-top-width: 19px;
   border-bottom-width: 19px;
@@ -462,7 +543,7 @@
   margin-left: -15px;
   border-top-color: floralwhite;
 }
-#arrow_box1:before {
+#arrow_box1sm:before {
   border-top-width: 20px;
   border-bottom-width: 20px;
   border-left-width: 16px;
@@ -471,7 +552,7 @@
   border-top-color: #f6b167;
 }
 
-#arrow_box2 {
+#arrow_box2sm {
   position: absolute;
   width: 250px;
   height: 110px;
@@ -487,15 +568,16 @@
   display: flex;
   justify-content: center;
   flex-flow: column;
-  top: 32%;
-  right: 42%;
+  top: 25%;
+  right: -8%;
   -webkit-filter: drop-shadow(5px 5px 5px #7f483a);
   -moz-filter: drop-shadow(5px 5px 5px #7f483a);
   -ms-filter: drop-shadow(5px 5px 5px #7f483a);
   filter: drop-shadow(5px 5px 5px #7f483a);
+  transform: scale(0.9);
 }
-#arrow_box2:after,
-#arrow_box2:before {
+#arrow_box2sm:after,
+#arrow_box2sm:before {
   border: solid transparent;
   content: "";
   height: 0;
@@ -506,7 +588,7 @@
   left: 98%;
   transform: rotate(12deg);
 }
-#arrow_box2:after {
+#arrow_box2sm:after {
   border-color: rgba(0, 153, 255, 0);
   margin-left: -256px;
   border-top-color: floralwhite;
@@ -515,7 +597,7 @@
   border-left-width: 14px;
   border-right-width: 10px;
 }
-#arrow_box2:before {
+#arrow_box2sm:before {
   border-top-width: 20px;
   border-bottom-width: 10px;
   border-left-width: 14px;
@@ -531,16 +613,15 @@
   background-color: transparent;
   justify-content: center;
   width: 100vw;
-  min-width: 1114px;
 }
 #smLpFooterBtns {
   display: flex;
-  justify-content: space-around;
-  width: 75%;
+  width: 100%;
   margin: 20px 0;
+  flex-wrap: wrap;
 }
 #smLpFooterBtn {
-  width: 25%;
+  width: 50%;
   font-size: 15px;
 }
 </style>
@@ -549,16 +630,19 @@
 
 <script>
 import DisplayPosts from "@/components/mainContents/DisplayPosts.vue";
+import PostForm from "@/components/util/PostForm.vue";
 import Login from "@/components/overlays/Login.vue";
 
 export default {
   name: "LandingPage",
   components: {
     DisplayPosts,
+    PostForm,
     Login,
   },
   data() {
     return {
+      displayPostForm: false,
       scrollY: 0,
       visibleStartY: 0,
       smLpTxt1: `誰かにほめてもらえる
@@ -576,7 +660,8 @@ export default {
       smLpTxt4: `匿名で投稿できて
       誰も傷つかない優しいSNS`,
       h2uTxt1: `ここにほめてもらいたい
-      ことを書いて投稿しよう！`,
+      ことを書いて投稿しよう！
+      ※ここでは投稿はできないよ！`,
       h2uTxt2: `ログインしていれば
       誰でもリアクションが
       つけられるよ！`,
@@ -738,6 +823,12 @@ export default {
       this.$store.dispatch("toPrivacyPolicy").then(() => {
         this.$router.push("/about");
       });
+    },
+    onClickLPPostBtn: function () {
+      this.displayPostForm = true;
+    },
+    closeLPPostForm: function () {
+      this.displayPostForm = false;
     },
   },
 };
