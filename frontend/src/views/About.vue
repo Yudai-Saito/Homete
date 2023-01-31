@@ -318,9 +318,9 @@ export default {
     currentDisplay(newState) {
       if (newState === 0) {
         if (window.innerWidth < gridBreakpoints.sm) {
-          this.$router.push({ name: "SmLandingPage", query: { type: "new" } });
+          this.$router.push({ name: "SmLandingPage" });
         } else {
-          this.$router.push({ name: "LandingPage", query: { type: "new" } });
+          this.$router.push({ name: "LandingPage" });
         }
       }
     },
