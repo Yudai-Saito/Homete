@@ -103,15 +103,13 @@
     width: 28px;
     min-width: 28px !important;
   }
-  #divider {
-    margin: 0 auto;
-  }
   #cardMainText {
     font-size: 16px;
     padding-top: 8px;
     margin: 0 auto;
     padding-left: 0px;
     padding-right: 0px;
+    width: 75%;
   }
   #cardTitle {
     padding-left: 12px;
@@ -138,9 +136,6 @@
     font-size: 14px;
     margin-top: 20px;
   }
-  #cardMainText {
-    width: 75%;
-  }
 }
 @media (max-width: map-get($grid-breakpoints, sm)) {
   // sm 以下のブレークポイントでのスタイル定義
@@ -152,15 +147,13 @@
   #addReactionBtn span div i {
     font-size: 20px !important;
   }
-  #divider {
-    margin: 0 auto;
-  }
   #cardMainText {
     font-size: 14px;
     padding: 8px;
     margin: 0 auto;
     padding-left: 0px;
     padding-right: 0px;
+    width: 70%;
   }
   #cardTitle {
     padding-left: 0px;
@@ -192,9 +185,6 @@
     width: 70%;
     margin: 0 auto;
   }
-  #cardMainText {
-    width: 70%;
-  }
 }
 
 @keyframes fadein {
@@ -209,6 +199,9 @@
   white-space: pre-wrap;
 }
 
+#divider {
+  margin: 0 auto;
+}
 #postsCard {
   margin: 0;
   width: 100%;
