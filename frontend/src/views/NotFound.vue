@@ -11,27 +11,30 @@
       <div id="notFoundTxt">
         <h1>404</h1>
       </div>
-      <div id="notFoundCard">
-        <v-card id="hometeCard" class="rounded-xl" :elevation="3">
-          <h3 class="ml-4 mt-2">あどみん</h3>
-          <v-card-text id="cardText" class="black--text font-weight-light">
-            このページはすでに削除されているか、URLが間違っているよ
-          </v-card-text>
-          <v-card-actions>
-            <div id="btnDiv">
-              <v-btn
-                id="reactBtn"
-                class="grey--text text--darken-3"
-                @click="toTopPage"
-                elevation="0"
-                outlined
-              >
-                <v-icon>mdi-arrow-up-bold-box-outline</v-icon>
-                <h4>Topへ戻る</h4>
-              </v-btn>
-            </div>
-          </v-card-actions>
-        </v-card>
+      <div id="nfContainer">
+        ページが見つかりませんでした
+        <img
+          src="/assets/HOMETE_LP6.png"
+          style="
+            width: 30%;
+            display: block;
+            margin: 0 auto;
+            top: -35px;
+            position: relative;
+          "
+        />
+        <div style="position: relative; top: -60px">
+          <v-btn
+            id="nfReactBtn"
+            class="grey--text text--darken-3"
+            @click="toTopPage"
+            elevation="0"
+            outlined
+          >
+            <v-icon>mdi-arrow-up-bold-box-outline</v-icon>
+            <h4>トップへ戻る</h4>
+          </v-btn>
+        </div>
       </div>
     </v-col>
     <Footer />
@@ -48,36 +51,22 @@
   margin-left: auto;
   margin-right: auto;
 }
-#notFoundCard {
-  margin-bottom: auto;
-  padding: 10px;
+#nfContainer {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 500;
 }
-#hometeCard {
-  margin: 0;
-  width: 100%;
-  max-width: 520px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 20px;
-  z-index: 0;
-}
-#cardText {
-  font-size: 18px;
-  line-height: 26px;
-}
-#btnDiv {
-  margin: 0;
-  padding: 0;
-  margin-right: 6px;
-}
-#reactBtn {
+#nfReactBtn {
   background-color: rgb(225 255 255);
 }
 #slideNotFoundX {
   transition: all 0.4s !important;
   z-index: 0;
   position: relative;
-  top: 10vh;
+  top: 6vh;
   min-height: 100vh;
 }
 .slideNotFoundXActive {
