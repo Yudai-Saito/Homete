@@ -6,7 +6,7 @@
     fixed
     padless
   >
-    <v-col id="ftTxt" class="text-center" cols="12"> ©2022 by HOMETE </v-col>
+    <v-col id="ftTxt" class="text-center" cols="12"> ©2023 by HOMETE </v-col>
     <FooterBtn
       usage="toTimeLine"
       ftBtnIcon="mdi-home"

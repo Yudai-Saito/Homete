@@ -104,14 +104,22 @@
   }
 }
 .aboutContainer {
+  padding: 0% 5%;
   width: 95%;
-  height: 30%;
-  text-align: center;
+  height: fit-content;
   background-color: #ffffff;
   border-radius: 30px;
   margin: 0 auto;
   margin-bottom: 8vh;
   border: solid 1px rgba(135, 143, 255, 0.5);
+}
+.aboutTitle {
+  width: 20px;
+  margin-right: 5px;
+  margin-top: 12px;
+}
+.divider {
+  margin: 10px;
 }
 .aboutTitleTxt {
   margin-top: 8px;
@@ -162,7 +170,7 @@
   transition: all 0.4s !important;
   z-index: 0;
   position: relative;
-  top: 10vh;
+  margin-top: 10vh;
   min-height: 100vh;
 }
 .slideAboutXActive {

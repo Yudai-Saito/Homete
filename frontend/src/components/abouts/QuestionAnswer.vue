@@ -4,10 +4,10 @@
       <div v-twemoji style="width: 20px; margin-right: 5px; margin-top: 12px">
         💡
       </div>
-      <h3 v-twemoji class="aboutTitleTxt">よくある質問</h3>
+      <h3 v-twemoji class="aboutTitleTxt" style="margin: 10px">よくある質問</h3>
     </div>
-    <v-divider />
-    <p class="aboutText">Q：質問</p>
+    <v-divider style="margin: 10px" />
+    <p class="aboutText">準備中...</p>
   </div>
 </template>
 
