@@ -69,7 +69,10 @@
         ></div>
       </transition>
       <v-col id="title" class="md-none text-h5 font-weight-bold" cols="3">
-        homete…
+        <img
+          src="/assets/homete.png"
+          style="width: 155px; position: relative; top: -3px; left: -15px"
+        />
       </v-col>
       <v-col id="contentTitle" cols="6" lg="5">
         {{ contentName }}

@@ -8,11 +8,13 @@
       flat
       fixed
       floating
-      hide-on-scroll
       color="transparent"
     >
       <div id="smLpTitle" class="text-h5 font-weight-bold" @click="toTop">
-        homete…
+        <img
+          src="/assets/homete.png"
+          style="width: 150px; position: relative; top: -3px; left: -15px"
+        />
       </div>
       <button id="smLpBtnSignup" @click="login">Googleで登録する</button>
     </v-app-bar>
@@ -361,7 +363,7 @@
   margin-left: auto;
 }
 #smLpBtnSignup {
-  font-size: 15px;
+  font-size: 13px;
   color: floralwhite;
   border-radius: 28px;
   padding: 5px 15px;
@@ -369,6 +371,8 @@
   background-color: rgb(139 143 210);
   border: 3px solid rgb(139 143 210);
   transition: background-color 0.2s, color 0.2s;
+  top: -6px;
+  position: relative;
 }
 #smLpBtnSignup:hover {
   background-color: rgba(139, 143, 210, 0.25);
@@ -841,6 +845,26 @@ export default {
     },
     closeLPPostForm: function () {
       this.displayPostForm = false;
+    },
+    handleScroll() {
+      this.scrollY = window.scrollY;
+    },
+  },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  watch: {
+    scrollY(newY, oldY) {
+      if (newY - oldY > 0) {
+        if (newY - this.visibleStartY > 400) {
+          document.getElementById("smLpHeader").style.transform =
+            "translateY(-100px)";
+        }
+      } else {
+        document.getElementById("smLpHeader").style.transform =
+          "translateY(0px)";
+        this.visibleStartY = newY;
+      }
     },
   },
 };

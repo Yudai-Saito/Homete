@@ -7,7 +7,6 @@
   >
     <CommonOverlay
       usage="login"
-      titleTxt="HOMETE"
       :firstMsg="
         overlayState == 'login'
           ? `HOMETEは誰かに褒めてもらえるやさしいSNSだよ

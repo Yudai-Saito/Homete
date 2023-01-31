@@ -9,11 +9,13 @@
         flat
         fixed
         floating
-        hide-on-scroll
         color="transparent"
       >
         <div id="lpTitle" class="text-h4 font-weight-bold" @click="toTop">
-          homete…
+          <img
+            src="/assets/homete.png"
+            style="width: 200px; position: relative; top: 0px"
+          />
         </div>
         <div id="lpBtns">
           <button id="lpBtnSignup" @click="login">Googleで登録する</button>
@@ -735,6 +737,25 @@ export default {
       this.$store.dispatch("toPrivacyPolicy").then(() => {
         this.$router.push("/about");
       });
+    },
+    handleScroll() {
+      this.scrollY = window.scrollY;
+    },
+  },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  watch: {
+    scrollY(newY, oldY) {
+      if (newY - oldY > 0) {
+        if (newY - this.visibleStartY > 400) {
+          document.getElementById("lpHeader").style.transform =
+            "translateY(-100px)";
+        }
+      } else {
+        document.getElementById("lpHeader").style.transform = "translateY(0px)";
+        this.visibleStartY = newY;
+      }
     },
   },
 };

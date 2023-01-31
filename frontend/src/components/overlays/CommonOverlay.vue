@@ -16,7 +16,19 @@
       >
         <v-icon color="#23282F">mdi-close</v-icon>
       </v-btn>
-      <v-card-title class="justify-center" style="font-weight: 600">
+
+      <img
+        v-if="usage === 'login'"
+        src="/assets/homete.png"
+        style="
+          width: 60%;
+          position: relative;
+          top: 0px;
+          display: block;
+          margin: 35px auto 5px;
+        "
+      />
+      <v-card-title v-else class="justify-center" style="font-weight: 600">
         {{ titleTxt }}
       </v-card-title>
       <v-card-text v-if="usage == 'deleteAccount'">
@@ -134,13 +146,14 @@
 @media (max-width: map-get($grid-breakpoints, sm)) {
   // sm 以下のブレークポイントでのスタイル定義
   #overlayCard {
-    width: 80%;
+    width: 83%;
   }
 }
 #closeOverlayBtn {
   justify-content: center;
   position: absolute !important;
-  right: 20px !important;
+  right: 15px !important;
+  top: 10px;
 }
 #overlayBtnTxt {
   margin-right: 8px;
