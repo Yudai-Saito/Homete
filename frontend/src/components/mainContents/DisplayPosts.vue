@@ -6,7 +6,7 @@
           id="circle"
           :style="
             postList.user_post == true
-              ? 'border: solid rgb(135,143,255) 2px !important;'
+              ? 'border: solid rgb(2 14 182) 2px !important;'
               : 'border: solid transparent 2px !important;'
           "
         >
@@ -428,6 +428,9 @@ export default {
     });
   },
   mounted() {
+    if (this.reactions.length >= 20) {
+      this.displayAddBtn = false;
+    }
     if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
       this.responsiveTxtStyle.fontSize = "22px";
     }

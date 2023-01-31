@@ -16,7 +16,19 @@
       >
         <v-icon color="#23282F">mdi-close</v-icon>
       </v-btn>
-      <v-card-title class="justify-center" style="font-weight: 600">
+
+      <img
+        v-if="usage === 'login'"
+        src="/assets/homete.png"
+        style="
+          width: 60%;
+          position: relative;
+          top: 0px;
+          display: block;
+          margin: 35px auto 5px;
+        "
+      />
+      <v-card-title v-else class="justify-center" style="font-weight: 600">
         {{ titleTxt }}
       </v-card-title>
       <v-card-text v-if="usage == 'deleteAccount'">
@@ -103,7 +115,11 @@
       </v-card-actions>
 
       <v-card-text v-if="usage == 'login'">
-        <div>{{ descriptionTxt }}</div>
+        <p>
+          <a @click="toUserPolicy">利用規約</a>、
+          <a @click="toPrivacyPolicy">プライバシーポリシー</a>
+          に同意したうえでログインしてください
+        </p>
       </v-card-text>
       <v-card-actions v-else class="justify-center">
         <v-btn
@@ -130,13 +146,14 @@
 @media (max-width: map-get($grid-breakpoints, sm)) {
   // sm 以下のブレークポイントでのスタイル定義
   #overlayCard {
-    width: 80%;
+    width: 83%;
   }
 }
 #closeOverlayBtn {
   justify-content: center;
   position: absolute !important;
-  left: 350px !important;
+  right: 15px !important;
+  top: 10px;
 }
 #overlayBtnTxt {
   margin-right: 8px;
@@ -172,6 +189,22 @@ export default {
       if (this.usage == "deleteAccount") {
         this.checked = [];
       }
+    },
+    toUserPolicy: function () {
+      this.$store.dispatch("invisibleCommonOverlay");
+      this.$store.dispatch("toUserPolicy").then(() => {
+        if (this.$route.path != "/about") {
+          this.$router.push("/about");
+        }
+      });
+    },
+    toPrivacyPolicy: function () {
+      this.$store.dispatch("invisibleCommonOverlay");
+      this.$store.dispatch("toPrivacyPolicy").then(() => {
+        if (this.$route.path != "/about") {
+          this.$router.push("/about");
+        }
+      });
     },
   },
   updated() {

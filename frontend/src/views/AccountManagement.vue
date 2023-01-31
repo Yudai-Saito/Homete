@@ -75,7 +75,7 @@
                 color="error"
                 x-large
                 :elevation="3"
-                @click="deleteAccount"
+                @click="displayDeleteAccount"
               >
                 <div class="btnTxt">
                   <div v-twemoji style="width: 18px; margin-right: 5px">⚠️</div>
@@ -181,20 +181,8 @@ export default {
     },
   },
   methods: {
-    deleteAccount() {
-      const auth = getAuth();
-      auth.signOut().then(() => {
-        axios
-          .delete("/account/delete", {
-            withCredentials: true,
-          })
-          .then(() => {
-            this.$store.dispatch("loggedOut");
-            this.$store.dispatch("toTimeLine").then(() => {
-              this.$router.push("/");
-            });
-          });
-      });
+    displayDeleteAccount() {
+      this.$store.dispatch("visibleDeleteAccountOverlay");
     },
     logout() {
       const auth = getAuth();
