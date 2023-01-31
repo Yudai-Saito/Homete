@@ -8,6 +8,7 @@
       flat
       fixed
       floating
+      hide-on-scroll
       color="transparent"
     >
       <div id="smLpTitle" class="text-h5 font-weight-bold" @click="toTop">
@@ -44,36 +45,21 @@
           align-items: center;
         "
       >
-        <div
-          v-text="smLpTxt2"
-          style="
-            font-size: 30px;
-            text-align: center;
-            font-weight: 600;
-            margin-bottom: auto;
-            margin-top: 5%;
-          "
-        ></div>
-        <div
-          id="smLpBubble"
-          style="top: -30%; left: 10%"
-          v-text="smLpTxt2_1"
-        ></div>
-        <div
-          id="smLpBubble"
-          style="top: -29%; right: 9%"
-          v-text="smLpTxt2_2"
-        ></div>
-        <div
-          id="smLpBubble"
-          style="top: -28%; right: 5%"
-          v-text="smLpTxt2_3"
-        ></div>
-        <div id="smLpSmallBubble"></div>
-        <img
-          src="/assets/HOMETE_LP2.png"
-          style="bottom: 3%; width: 230px; position: absolute; right: -5%"
-        />
+        <div id="smLPSubTitle">SOCIAL</div>
+        <div id="smLPContentInner">
+          <div
+            v-text="smLpTxt2"
+            style="font-size: 25px; font-weight: 600; margin: 5% 0"
+          ></div>
+          <div id="smLpBubble" style="left: 15%" v-text="smLpTxt2_1"></div>
+          <div id="smLpBubble" style="right: 0%" v-text="smLpTxt2_2"></div>
+          <div id="smLpBubble" style="right: -5%" v-text="smLpTxt2_3"></div>
+          <div id="smLpSmallBubble"></div>
+          <img
+            src="/assets/HOMETE_LP2.png"
+            style="width: 215px; position: relative; left: 40%; bottom: 8%"
+          />
+        </div>
       </div>
     </div>
     <div id="smLpBoard">
@@ -87,57 +73,61 @@
           align-items: center;
         "
       >
-        <div
-          v-text="smLpTxt3"
-          style="font-size: 30px; text-align: center; font-weight: 600"
-        ></div>
-        <div
-          style="
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-          "
-        >
-          <v-carousel
-            cycle
-            interval="10000"
-            height="400"
-            hide-delimiter-background
-            show-arrows-on-hover
+        <div id="smLPSubTitle">WHEN TO USE</div>
+        <div id="smLPContentInner">
+          <div
+            v-text="smLpTxt3"
+            style="font-size: 25px; font-weight: 600; margin: 5% 0"
+          ></div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-around;
+              align-items: center;
+            "
           >
-            <v-carousel-item>
-              <div id="smLpShape3">
-                かわいい絵を描けた
-                <img
-                  src="/assets/HOMETE_LP3.png"
-                  style="width: 180px; margin-top: 10px"
-                />
-              </div>
-            </v-carousel-item>
-            <v-carousel-item>
-              <div id="smLpShape3">
-                ほしかったものが買えた
-                <img
-                  src="/assets/HOMETE_LP4.png"
-                  style="width: 180px; margin-top: 10px"
-                />
-              </div>
-            </v-carousel-item>
-            <v-carousel-item>
-              <div id="smLpShape3">
-                今日も自炊してえらい！
-                <img
-                  src="/assets/HOMETE_LP5.png"
-                  style="width: 180px; margin-top: 10px"
-                />
-              </div>
-            </v-carousel-item>
-          </v-carousel>
+            <v-carousel
+              cycle
+              interval="10000"
+              height="400"
+              hide-delimiter-background
+              show-arrows-on-hover
+            >
+              <v-carousel-item>
+                <div id="smLpShape3">
+                  かわいい絵を描けた
+                  <img
+                    src="/assets/HOMETE_LP3.png"
+                    style="width: 180px; margin-top: 10px"
+                  />
+                </div>
+              </v-carousel-item>
+              <v-carousel-item>
+                <div id="smLpShape3">
+                  ほしかったものが買えた
+                  <img
+                    src="/assets/HOMETE_LP4.png"
+                    style="width: 180px; margin-top: 10px"
+                  />
+                </div>
+              </v-carousel-item>
+              <v-carousel-item>
+                <div id="smLpShape3">
+                  今日も自炊してえらい！
+                  <img
+                    src="/assets/HOMETE_LP5.png"
+                    style="width: 180px; margin-top: 10px"
+                  />
+                </div>
+              </v-carousel-item>
+            </v-carousel>
+          </div>
         </div>
       </div>
     </div>
     <div id="smLpBoard">
       <div
+        ref="sampleContent"
         id="smLpContent"
         class="amber lighten-4"
         style="
@@ -148,34 +138,22 @@
           padding: 5% 0;
         "
       >
-        <DisplayPosts
-          id="smLpPostSample"
-          v-for="samplePost in samplePosts"
-          :key="samplePost.post_id"
-          :postList="samplePost"
-          :isSample="true"
-        />
-        <div
-          v-if="displayPostForm"
-          @click="closeLPPostForm"
-          style="
-            z-index: 2;
-            position: absolute;
-            top: 0px;
-            width: 100%;
-            height: 100%;
-            margin: auto 0;
-            border-radius: 50px;
-            padding: 5%;
-          "
-        ></div>
-
-        <transition name="fade">
+        <div id="smLPSubTitle" style="margin-left: 5%; margin-bottom: 10px">
+          HOW TO USE
+        </div>
+        <div id="smLPContentInner" style="margin-top: 0" ref="samplePost">
+          <DisplayPosts
+            id="smLpPostSample"
+            v-for="samplePost in samplePosts"
+            :key="samplePost.post_id"
+            :postList="samplePost"
+            :isSample="true"
+          />
           <div
-            v-show="displayPostForm"
+            v-if="displayPostForm"
+            @click="closeLPPostForm"
             style="
-              background-color: rgba(0, 0, 0, 0.25);
-              z-index: 1;
+              z-index: 2;
               position: absolute;
               top: 0px;
               width: 100%;
@@ -184,45 +162,63 @@
               border-radius: 50px;
               padding: 5%;
             "
-          >
-            <transition name="slide-y-reverse">
-              <PostForm
-                v-show="displayPostForm"
-                id="smLpPostFormSample"
-                :sampleLabel="`いろんなことを投稿しよう！`"
-              />
-            </transition>
+          ></div>
+
+          <transition name="fade">
             <div
-              v-if="displayPostForm"
-              id="arrow_box1sm"
-              v-text="h2uTxt1"
-            ></div>
-          </div>
-        </transition>
-        <div id="arrow_box2sm" v-text="h2uTxt2"></div>
-        <div
-          id="postBtnFloat"
-          ref="postBtn"
-          style="
-            position: relative;
-            transition: all 0.4s !important;
-            transform: translateX(0px);
-            z-index: 0;
-            bottom: 3%;
-            right: -32%;
-          "
-        >
-          <v-btn
-            class="d-md-none"
-            style="background-color: rgb(225 255 255)"
-            elevation="3"
-            fab
-            icon
-            rounded
-            @click="onClickLPPostBtn"
+              v-show="displayPostForm"
+              style="
+                background-color: rgba(0, 0, 0, 0.25);
+                z-index: 1;
+                position: absolute;
+                top: 0px;
+                width: 100%;
+                height: 100%;
+                margin: auto 0;
+                border-radius: 50px;
+                padding: 5%;
+              "
+            >
+              <transition name="slide-y-reverse">
+                <PostForm
+                  v-show="displayPostForm"
+                  id="smLpPostFormSample"
+                  :sampleLabel="`いろんなことを投稿しよう！`"
+                />
+              </transition>
+              <div
+                v-if="displayPostForm"
+                id="arrow_box1sm"
+                v-text="h2uTxt1"
+              ></div>
+            </div>
+          </transition>
+          <div id="arrow_box2sm" v-text="h2uTxt2"></div>
+          <div
+            id="postBtnFloat"
+            ref="postBtn"
+            style="
+              position: relative;
+              transition: all 0.4s ease 0s !important;
+              transform: translateX(0px);
+              z-index: 0;
+              bottom: 15%;
+              margin-left: auto;
+              width: fit-content;
+            "
           >
-            <v-icon color="rgb(73,72,84)"> mdi-pen-plus </v-icon>
-          </v-btn>
+            <v-btn
+              class="d-md-none"
+              style="background-color: rgb(225 255 255)"
+              elevation="3"
+              fab
+              icon
+              rounded
+              @click="onClickLPPostBtn"
+            >
+              <v-icon color="rgb(73,72,84)"> mdi-pen-plus </v-icon>
+            </v-btn>
+          </div>
         </div>
       </div>
     </div>
@@ -237,17 +233,20 @@
           align-items: center;
         "
       >
-        <div style="width: 50%; transform: scale(1.2)">
-          <div
-            v-text="smLpTxt4"
-            style="font-size: 20px; text-align: center; font-weight: 600"
-            id="smLpSpeechBubble"
-          ></div>
+        <div id="smLPSubTitle">FRIENDRY</div>
+        <div id="smLPContentInner">
+          <div style="width: 50%; bottom: -30px; position: relative">
+            <div
+              v-text="smLpTxt4"
+              style="font-size: 20px; text-align: center; font-weight: 600"
+              id="smLpSpeechBubble"
+            ></div>
+          </div>
+          <img
+            src="/assets/HOMETE_LP6.png"
+            style="width: 300px; position: relative; right: -17%"
+          />
         </div>
-        <img
-          src="/assets/HOMETE_LP6.png"
-          style="width: 300px; position: relative; right: -17%"
-        />
       </div>
     </div>
     <div id="smLpBoard">
@@ -269,7 +268,7 @@
             font-weight: 600;
           "
         >
-          <div style="transform: translateX(-10px)">ちょっとの喜びを</div>
+          <div style="transform: translateX(-20px)">ちょっとの喜びを</div>
           <div style="transform: translateX(35px)">HOMETEと一緒に</div>
         </div>
         <img src="/assets/HOMETE_LP7.png" style="width: 230px" />
@@ -349,6 +348,15 @@
   color: #494854;
   margin-left: 20px;
 }
+#smLPSubTitle {
+  position: relative;
+  border-left: black solid 5px;
+  font-size: 35px;
+  font-weight: 700;
+  padding: 0 15px;
+  margin-top: 10%;
+  margin-right: auto;
+}
 #smLpBtns {
   margin-left: auto;
 }
@@ -384,13 +392,20 @@
 #smLpContent div {
   white-space: pre-line;
 }
-
+#smLPContentInner {
+  margin: auto 0;
+  width: 100%;
+  max-height: 85%;
+}
 #smLpPostSample {
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
   transform: scale(0.85);
   width: 110%;
+  height: 34%;
   max-width: 110%;
+  right: 5%;
+  position: relative;
 }
 #smLpPostFormSample {
   margin: 0 auto;
@@ -421,7 +436,7 @@
   height: 333px;
   border-radius: 30px;
   background-color: floralwhite;
-  margin: 20px;
+  margin: 20px auto;
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -429,29 +444,28 @@
   font-size: 20px;
   font-weight: 500;
   text-align: center;
-  width: 240px;
+  width: 260px;
 }
 
 #smLpBubble {
   position: relative;
   background-color: floralwhite;
-  padding: 25px;
   border-radius: 50%;
-  height: 14%;
-  width: 90%;
+  height: 12%;
+  width: 260px;
   display: flex;
   justify-content: center;
   flex-flow: column;
   text-align: center;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
+  margin-bottom: 5px;
 }
 #smLpSmallBubble {
   position: relative;
   background-color: floralwhite;
-  padding: 25px;
   border-radius: 50%;
-  height: 5%;
+  height: 40px;
   width: 25%;
   display: flex;
   justify-content: center;
@@ -459,8 +473,7 @@
   text-align: center;
   font-size: 20px;
   font-weight: 500;
-  bottom: 27%;
-  left: -10%;
+  left: 35%;
 }
 #smLpSpeechBubble {
   position: relative;
@@ -471,10 +484,9 @@
   justify-content: center;
   flex-flow: column;
   text-align: center;
-  height: 150px;
-  width: 250px;
-  right: 28%;
-  top: 10%;
+  height: 180px;
+  width: 300px;
+  right: -5%;
   margin-left: auto;
   margin-right: 5%;
 }
@@ -485,9 +497,9 @@
   border-radius: 50%;
   background-color: #f6b167;
   right: 69%;
-  bottom: -30%;
-  width: 25px;
-  height: 25px;
+  bottom: -25%;
+  width: 30px;
+  height: 30px;
 }
 #smLpSpeechBubble::after {
   content: "";
@@ -496,9 +508,9 @@
   border-radius: 50%;
   background-color: #f6b167;
   right: 66%;
-  bottom: -58%;
-  width: 15px;
-  height: 15px;
+  bottom: -55%;
+  width: 18px;
+  height: 18px;
 }
 #arrow_box1sm {
   position: absolute;
@@ -568,7 +580,7 @@
   display: flex;
   justify-content: center;
   flex-flow: column;
-  top: 25%;
+  top: 235px;
   right: -8%;
   -webkit-filter: drop-shadow(5px 5px 5px #7f483a);
   -moz-filter: drop-shadow(5px 5px 5px #7f483a);

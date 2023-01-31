@@ -9,6 +9,7 @@
         flat
         fixed
         floating
+        hide-on-scroll
         color="transparent"
       >
         <div id="lpTitle" class="text-h4 font-weight-bold" @click="toTop">
@@ -79,19 +80,7 @@
             style="top: 75%; right: 10%"
             v-text="lpTxt2_6"
           ></div>
-          <div
-            style="
-              top: 8%;
-              right: 3%;
-              position: absolute;
-              writing-mode: vertical-rl;
-              border-left: black solid 5px;
-              font-size: 40px;
-              font-weight: 700;
-            "
-          >
-            SOCIAL
-          </div>
+          <div style="top: 8%; right: 3%" id="lpSubTitle">SOCIAL</div>
         </div>
       </div>
 
@@ -147,19 +136,7 @@
               />
             </div>
           </div>
-          <div
-            style="
-              top: 8%;
-              left: 3%;
-              position: absolute;
-              writing-mode: vertical-rl;
-              border-left: black solid 5px;
-              font-size: 40px;
-              font-weight: 700;
-            "
-          >
-            WHEN TO USE
-          </div>
+          <div style="top: 8%; left: 3%" id="lpSubTitle">WHEN TO USE</div>
         </div>
       </div>
 
@@ -186,19 +163,7 @@
           </v-col>
           <div id="arrow_box1" v-text="h2uTxt1"></div>
           <div id="arrow_box2" v-text="h2uTxt2"></div>
-          <div
-            style="
-              top: 8%;
-              right: 3%;
-              position: absolute;
-              writing-mode: vertical-rl;
-              border-left: black solid 5px;
-              font-size: 40px;
-              font-weight: 700;
-            "
-          >
-            HOW TO USE
-          </div>
+          <div style="top: 8%; right: 3%" id="lpSubTitle">HOW TO USE</div>
         </div>
       </div>
 
@@ -216,19 +181,7 @@
             ></div>
           </div>
           <img src="/assets/HOMETE_LP6.png" style="width: 40%" />
-          <div
-            style="
-              top: 8%;
-              left: 3%;
-              position: absolute;
-              writing-mode: vertical-rl;
-              border-left: black solid 5px;
-              font-size: 40px;
-              font-weight: 700;
-            "
-          >
-            FRIENDRY
-          </div>
+          <div style="top: 8%; left: 3%" id="lpSubTitle">FRIENDRY</div>
         </div>
       </div>
 
@@ -319,6 +272,13 @@
   margin: 0;
   padding: 0;
   color: #494854;
+}
+#lpSubTitle {
+  position: absolute;
+  writing-mode: vertical-rl;
+  border-left: black solid 5px;
+  font-size: 40px;
+  font-weight: 700;
 }
 #lpBtns {
   margin-left: auto;
