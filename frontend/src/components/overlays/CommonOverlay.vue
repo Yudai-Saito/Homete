@@ -103,7 +103,11 @@
       </v-card-actions>
 
       <v-card-text v-if="usage == 'login'">
-        <div>{{ descriptionTxt }}</div>
+        <p>
+          <a @click="toUserPolicy">利用規約</a>、
+          <a @click="toPrivacyPolicy">プライバシーポリシー</a>
+          に同意したうえでログインしてください
+        </p>
       </v-card-text>
       <v-card-actions v-else class="justify-center">
         <v-btn
@@ -172,6 +176,22 @@ export default {
       if (this.usage == "deleteAccount") {
         this.checked = [];
       }
+    },
+    toUserPolicy: function () {
+      this.$store.dispatch("invisibleCommonOverlay");
+      this.$store.dispatch("toUserPolicy").then(() => {
+        if (this.$route.path != "/about") {
+          this.$router.push("/about");
+        }
+      });
+    },
+    toPrivacyPolicy: function () {
+      this.$store.dispatch("invisibleCommonOverlay");
+      this.$store.dispatch("toPrivacyPolicy").then(() => {
+        if (this.$route.path != "/about") {
+          this.$router.push("/about");
+        }
+      });
     },
   },
   updated() {

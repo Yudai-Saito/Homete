@@ -10,11 +10,11 @@
       titleTxt="HOMETE"
       :firstMsg="
         overlayState == 'login'
-          ? 'ここに適当なサービスの説明とようこそ的な文章'
+          ? `HOMETEは誰かに褒めてもらえるやさしいSNSだよ
+日常のどんなことでも投稿しちゃおう！`
           : '過去投稿の閲覧やリアクション、投稿はログインしないとできないよ！'
       "
       btnTxt="Googleでログイン"
-      descriptionTxt="ここに注意事項的な文章"
       :onClick="logIn"
     />
   </v-overlay>
