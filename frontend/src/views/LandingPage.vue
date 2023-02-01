@@ -538,6 +538,64 @@
   width: 25%;
   font-size: 15px;
 }
+
+#lpPostSample #addReactionBtn {
+  height: 28px !important;
+  width: 28px;
+  min-width: 28px !important;
+}
+#lpPostSample #cardMainText {
+  font-size: 16px;
+  width: 70%;
+  padding: 8px;
+  margin: 0 auto;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+#lpPostSample #cardTitle {
+  padding-left: 12px;
+  padding-bottom: 8px;
+}
+#lpPostSample #circle {
+  height: 50px;
+  width: 50px;
+}
+#lpPostSample #avater {
+  width: 50px !important;
+  min-width: 50px !important;
+  height: 48px !important;
+}
+#lpPostSample #postsCard {
+  padding: 20px;
+  max-width: 550px;
+}
+#lpPostSample #nameTxt {
+  font-size: 22px;
+  margin-top: 10px;
+  max-width: 300px;
+}
+#lpPostSample #timeTxt {
+  font-size: 14px;
+  margin-top: 20px;
+}
+#lpPostSample #btns {
+  width: 100%;
+}
+#lpPostSample #btnIcon {
+  width: 16px;
+  height: 16px;
+}
+#lpPostSample #countNum {
+  font-size: 14px;
+}
+#lpPostSample #pushedBtn {
+  width: 45px !important;
+  height: auto;
+}
+#lpPostSample #reactionBtn {
+  width: 45px !important;
+  height: auto;
+}
 </style>
 
 

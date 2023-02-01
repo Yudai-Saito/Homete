@@ -640,6 +640,68 @@
   width: 50%;
   font-size: 15px;
 }
+
+#smLpPostSample #addReactionBtn {
+  height: 20px !important;
+  width: 20px;
+  min-width: 20px !important;
+}
+#smLpPostSample #addReactionBtn span div i {
+  font-size: 20px !important;
+}
+#smLpPostSample #cardMainText {
+  font-size: 14px;
+  padding: 8px;
+  margin: 0 auto;
+  padding-left: 0px;
+  padding-right: 0px;
+  width: 70%;
+}
+#smLpPostSample #cardTitle {
+  padding-left: 0px;
+  padding-bottom: 0px;
+}
+#smLpPostSample #circle {
+  height: 40px;
+  width: 40px;
+}
+#smLpPostSample #avater {
+  height: 38px !important;
+  width: 38px !important;
+  min-width: 38px !important;
+}
+#smLpPostSample #postsCard {
+  padding: 12px;
+  max-width: 350px;
+}
+#smLpPostSample #nameTxt {
+  font-size: 16px;
+  margin-top: 8px;
+  max-width: 150px;
+}
+#smLpPostSample #timeTxt {
+  font-size: 10px;
+  margin-top: 18px;
+}
+#smLpPostSample #btns {
+  width: 70%;
+  margin: 0 auto;
+}
+#smLpPostSample #btnIcon {
+  width: 12px;
+  height: 12px;
+}
+#smLpPostSample #countNum {
+  font-size: 12px;
+}
+#smLpPostSample #pushedBtn {
+  width: 35px !important;
+  height: 20px;
+}
+#smLpPostSample #reactionBtn {
+  width: 35px !important;
+  height: 20px;
+}
 </style>
 
 
