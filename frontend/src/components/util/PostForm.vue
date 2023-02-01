@@ -253,7 +253,9 @@ export default {
       this.$store.dispatch("invisiblePostForm");
     },
     plzLogin: function () {
-      this.$store.dispatch("visiblePlzLoginOverlay");
+      if (!this.isSample) {
+        this.$store.dispatch("visiblePlzLoginOverlay");
+      }
     },
   },
   mounted() {
