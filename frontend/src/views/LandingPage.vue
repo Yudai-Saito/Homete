@@ -208,7 +208,8 @@
             "
             @click="login"
           >
-            Googleで登録する
+            <div v-if="!logged">Googleで登録する</div>
+            <div v-else>Topへ戻る</div>
           </button>
         </div>
       </div>
@@ -711,7 +712,11 @@ export default {
   },
   methods: {
     login: function () {
-      this.$store.dispatch("visibleLoginOverlay");
+      if (!this.logged) {
+        this.$store.dispatch("visibleLoginOverlay");
+      } else {
+        this.toTop();
+      }
     },
     toTop: function () {
       this.$store.dispatch("invisibleMenu");
