@@ -67,6 +67,9 @@ const actions = {
       resolve();
     });
   },
+  setAboutState({ commit }, state) {
+    commit("updateAboutState", state);
+  },
 };
 
 const mutations = {
