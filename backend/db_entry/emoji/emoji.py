@@ -30,9 +30,15 @@ class Reactions(Base):
 emoji = open("emoji.csv", encoding="utf-8")
 
 f = csv.reader(emoji, delimiter=",", doublequote=True, lineterminator="\r\n", quotechar='"', skipinitialspace=True)
-header = next(f)
 
 for row in f:
-  db_session.add(Reactions(reaction=row[0]))
+  if not db_session.query(Reactions).filter(Reactions.reaction == row[0]).first():
+    db_session.add(Reactions(reaction=row[0]))
+db_session.commit()
+
+if not db_session.query(Reactions).filter(Reactions.reaction == "👍").first():
+  db_session.add(Reactions(reaction="👍"))
+if not db_session.query(Reactions).filter(Reactions.reaction == "😀").first():
+  db_session.add(Reactions(reaction="😀"))
 
 db_session.commit()

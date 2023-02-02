@@ -146,11 +146,12 @@ def reaction():
 		
 		user_email = get_email_from_cookie(jwt)
 
-		posts_reaction_count_validate(post_id)
+		reaction_id = db.session.query(Reactions.id).filter(Reactions.reaction == reaction).first()[0]
+
+		posts_reaction_count_validate(post_id, reaction_id)
 
 		if db.session.query(Posts.query.filter(Posts.id == post_id, Posts.deleted_at == None).exists()).scalar() == True:
 			user_id = db.session.query(User.id).filter(User.email == user_email).first()[0]
-			reaction_id = db.session.query(Reactions.id).filter(Reactions.reaction == reaction).first()[0]
 
 			db.session.add(PostReactions(post_id = post_id, user_id = user_id, reaction_id = reaction_id))
 
