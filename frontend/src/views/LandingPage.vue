@@ -17,7 +17,7 @@
             style="width: 200px; position: relative; top: 0px"
           />
         </div>
-        <div id="lpBtns">
+        <div v-if="!logged" id="lpBtns">
           <button id="lpBtnSignup" @click="login">Googleで登録する</button>
         </div>
       </v-app-bar>
@@ -552,6 +552,11 @@ export default {
     DisplayPosts,
     PostForm,
     Login,
+  },
+  computed: {
+    logged() {
+      return this.$store.getters.logged;
+    },
   },
   data() {
     return {
