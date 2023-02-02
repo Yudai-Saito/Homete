@@ -36,7 +36,8 @@
                   id="aboutGroups"
                   height="60"
                   width="60"
-                  @click="toggle()"
+                  @click="active ? void 0 : toggle()"
+                  :style="{ pointerEvents: active ? 'none' : 'auto' }"
                 >
                   <div v-twemoji id="groupImg">
                     {{ icon[n - 1] }}
@@ -331,6 +332,7 @@ export default {
           this.$router.push({ name: "LandingPage" });
         }
       }
+      this.$store.dispatch("setAboutState", newState);
     },
   },
 };

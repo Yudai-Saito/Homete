@@ -17,7 +17,7 @@
             style="width: 200px; position: relative; top: 0px"
           />
         </div>
-        <div id="lpBtns">
+        <div v-if="!logged" id="lpBtns">
           <button id="lpBtnSignup" @click="login">Googleで登録する</button>
         </div>
       </v-app-bar>
@@ -208,7 +208,8 @@
             "
             @click="login"
           >
-            Googleで登録する
+            <div v-if="!logged">Googleで登録する</div>
+            <div v-else>Topへ戻る</div>
           </button>
         </div>
       </div>
@@ -553,6 +554,11 @@ export default {
     PostForm,
     Login,
   },
+  computed: {
+    logged() {
+      return this.$store.getters.logged;
+    },
+  },
   data() {
     return {
       scrollY: 0,
@@ -706,7 +712,11 @@ export default {
   },
   methods: {
     login: function () {
-      this.$store.dispatch("visibleLoginOverlay");
+      if (!this.logged) {
+        this.$store.dispatch("visibleLoginOverlay");
+      } else {
+        this.toTop();
+      }
     },
     toTop: function () {
       this.$store.dispatch("invisibleMenu");
