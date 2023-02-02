@@ -1,0 +1,18 @@
+{
+  "name": "Homete",
+  "short_name": "Homete",
+  "description": "誰かに褒めてもらえる優しいSNS",
+  "icons": [
+    {
+      "src": "./assets/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "https://homete.jp/top",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "categories": ["social"],
+  "lang": "ja"
+}
