@@ -643,6 +643,68 @@
   width: 50%;
   font-size: 15px;
 }
+
+#smLpPostSample #addReactionBtn {
+  height: 20px !important;
+  width: 20px;
+  min-width: 20px !important;
+}
+#smLpPostSample #addReactionBtn span div i {
+  font-size: 20px !important;
+}
+#smLpPostSample #cardMainText {
+  font-size: 14px;
+  padding: 8px;
+  margin: 0 auto;
+  padding-left: 0px;
+  padding-right: 0px;
+  width: 70%;
+}
+#smLpPostSample #cardTitle {
+  padding-left: 0px;
+  padding-bottom: 0px;
+}
+#smLpPostSample #circle {
+  height: 40px;
+  width: 40px;
+}
+#smLpPostSample #avater {
+  height: 38px !important;
+  width: 38px !important;
+  min-width: 38px !important;
+}
+#smLpPostSample #postsCard {
+  padding: 12px;
+  max-width: 350px;
+}
+#smLpPostSample #nameTxt {
+  font-size: 16px;
+  margin-top: 8px;
+  max-width: 150px;
+}
+#smLpPostSample #timeTxt {
+  font-size: 10px;
+  margin-top: 18px;
+}
+#smLpPostSample #btns {
+  width: 70%;
+  margin: 0 auto;
+}
+#smLpPostSample #btnIcon {
+  width: 12px;
+  height: 12px;
+}
+#smLpPostSample #countNum {
+  font-size: 12px;
+}
+#smLpPostSample #pushedBtn {
+  width: 35px !important;
+  height: 20px;
+}
+#smLpPostSample #reactionBtn {
+  width: 35px !important;
+  height: 20px;
+}
 </style>
 
 
@@ -695,15 +757,15 @@ export default {
           contents: "いろんなリアクションをつけてみよう！",
           created_at: "",
           icon: {
-            accessories: "glasses",
-            clothing_color: "orange01",
-            face: "driven",
-            facial_hair: "chin",
-            hair_color: "variant01",
-            head: "grayMedium",
-            skin_color: "variant01",
+            accessories: "sunglasses",
+            clothing_color: "orange03",
+            face: "calm",
+            facial_hair: "",
+            hair_color: "variant03",
+            head: "longAfro",
+            skin_color: "variant03",
           },
-          name: "ほめてもんすたー",
+          name: "ほめて モンスター",
           post_id: 0,
           post_reactions: [
             {
@@ -736,80 +798,80 @@ export default {
           created_at: "",
           icon: {
             accessories: "glasses",
-            clothing_color: "orange01",
-            face: "driven",
-            facial_hair: "chin",
+            clothing_color: "blue03",
+            face: "smile",
+            facial_hair: "",
             hair_color: "variant01",
-            head: "grayMedium",
+            head: "longCurly",
             skin_color: "variant01",
           },
-          name: "ほめてもんすたー",
+          name: "とんかつ かいはつ",
           post_id: 1,
           post_reactions: [
             {
-              count: 11,
+              count: 18,
               reaction: "👍",
             },
             {
-              count: 5,
+              count: 1,
               reaction: "👀",
             },
             {
-              count: 10,
+              count: 2,
               reaction: "💯",
             },
             {
-              count: 3,
+              count: 9,
               reaction: "🥰",
             },
             {
-              count: 7,
+              count: 4,
               reaction: "🎉",
             },
           ],
-          private: 0,
+          private: 1,
           user_post: 0,
-          user_reaction: ["👍", "🥰"],
+          user_reaction: ["👍"],
         },
         {
           contents: "あなたの日常を投稿しよう！",
           created_at: "",
           icon: {
-            accessories: "glasses",
-            clothing_color: "orange01",
-            face: "driven",
-            facial_hair: "chin",
+            accessories: "",
+            clothing_color: "red01",
+            face: "contempt",
+            facial_hair: "",
             hair_color: "variant01",
-            head: "grayMedium",
-            skin_color: "variant01",
+            head: "medium3",
+            skin_color: "variant02",
           },
-          name: "ほめてもんすたー",
+          name: "あかいろ ツバキ",
           post_id: 2,
           post_reactions: [
             {
-              count: 11,
+              count: 14,
               reaction: "👍",
             },
             {
-              count: 5,
+              count: 2,
               reaction: "👀",
             },
             {
-              count: 10,
+              count: 4,
               reaction: "💯",
             },
             {
-              count: 3,
+              count: 2,
               reaction: "🥰",
             },
             {
-              count: 7,
+              count: 4,
               reaction: "🎉",
             },
           ],
           private: 0,
           user_post: 0,
-          user_reaction: ["👍", "🥰"],
+          user_reaction: ["👀", "💯", "🥰"],
         },
       ],
     };
