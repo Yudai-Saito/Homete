@@ -10,6 +10,7 @@
     :pickerWidth="520"
     :pickerHeight="400"
     :recentEmojisFeat="true"
+    :recentEmojiLimit="100"
     :randomEmojiArray="['']"
     :pickerAutoFlip="false"
     :pickerCloseOnClickaway="false"
