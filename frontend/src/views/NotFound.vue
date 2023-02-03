@@ -1,12 +1,17 @@
 <template>
   <div id="artBoard" style="background-color: rgb(255, 248, 225)">
-    <Header />
+    <Header ref="header" />
     <Login />
     <v-col
       ref="notFound"
       cols="12"
       id="slideNotFoundX"
       :class="{ slideAboutXActive: displayMenu }"
+      v-touch="{
+        right: function () {
+          swipeNotFoundObserve();
+        },
+      }"
     >
       <div id="notFoundTxt">
         <h1>404</h1>
@@ -82,9 +87,6 @@ import Header from "@/components/header/Header.vue";
 import Footer from "@/components/footer/Footer.vue";
 import Login from "@/components/overlays/Login.vue";
 
-// $grid-breakpoints を JavaScript のオブジェクトとして取得
-const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
-
 export default {
   name: "NotFound",
   components: {
@@ -97,73 +99,42 @@ export default {
       return this.$store.getters.displayMenu;
     },
   },
-  data() {
-    return {
-      dragStartX: 0, // タッチ操作開始時のX座標
-      dragCurrentX: 0, // 現在のX座標
-    };
-  },
-
   methods: {
     toTopPage: function () {
       this.$store.dispatch("toTimeLine");
       this.$router.push("/top");
     },
-
-    //スワイプ開始
-    postsTouchStart(event) {
-      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-        this.dragStartX = event.touches[0].clientX;
-      }
+    openMenu() {
+      this.$store.dispatch("visibleMenu");
+      this.$refs.notFound.style.transform = `translateX(250px)`;
+      this.$refs.header.$refs.slideBoard.style.transform = `translateX(0px)`;
+      this.$refs.notFound.style.opacity = `0.85`;
+      this.$refs.header.$refs.slideBoard.style.opacity = `1`;
     },
-    //スワイプ中
-    postsTouchMove(event) {
-      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-        this.dragCurrentX = event.touches[0].clientX;
-        // スライドさせたい要素のスタイルを変更する
-        if (this.dragCurrentX - this.dragStartX >= 0) {
-          this.$refs.notFound.style.transform = `translateX(${
-            this.dragCurrentX - this.dragStartX
-          }px)`;
-          this.$refs.notFound.style.opacity = `${
-            this.$refs.notFound.style.opacity + 1 - 0.005
-          }`;
-        }
-      }
+    closeMenu() {
+      this.$store.dispatch("invisibleMenu");
+      this.$refs.notFound.style.transform = `translateX(0px)`;
+      this.$refs.header.$refs.slideBoard.style.transform = `translateX(-250px)`;
+      this.$refs.notFound.style.opacity = `1`;
+      this.$refs.header.$refs.slideBoard.style.opacity = `0`;
     },
-    //スワイプ終了
-    postsTouchEnd() {
-      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-        if (this.dragCurrentX - this.dragStartX >= 50) {
-          this.$store.dispatch("visibleMenu");
-          this.dragStartX = 0;
-          this.dragCurrentX = 0;
-        } else {
-          this.$refs.notFound.style.transform = "";
-          this.$refs.notFound.style.opacity = "";
-          this.dragStartX = 0;
-          this.dragCurrentX = 0;
-        }
-      }
+    swipeNotFoundObserve() {
+      this.openMenu();
     },
   },
-  mounted() {
-    //画面中央
-    // touchstartイベントを監視する
-    this.$refs.notFound.addEventListener("touchstart", this.postsTouchStart);
-    // touchmoveイベントを監視する
-    this.$refs.notFound.addEventListener("touchmove", this.postsTouchMove);
-    // touchendイベントを監視する
-    this.$refs.notFound.addEventListener("touchend", this.postsTouchEnd);
-  },
-  beforeDestroy() {
-    // イベントの監視を解除する
-    this.$refs.notFound.removeEventListener(
-      "touchstart",
-      this.overlayTouchStart
-    );
-    this.$refs.notFound.removeEventListener("touchmove", this.overlayTouchMove);
-    this.$refs.notFound.removeEventListener("touchend", this.overlayTouchEnd);
+  watch: {
+    displayMenu(newBool) {
+      if (newBool) {
+        this.currentScrollPosition = window.scrollY;
+        document.body.style.touchAction = "none";
+        this.openMenu();
+      } else {
+        document.body.style.touchAction = "";
+        this.$refs.notFound.style.transform = "";
+        this.$refs.notFound.style.opacity = "";
+        this.closeMenu();
+      }
+    },
   },
 };
 </script>

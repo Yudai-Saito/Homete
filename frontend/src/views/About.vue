@@ -1,6 +1,6 @@
 <template>
   <v-app id="artBoard" style="background-color: rgb(255, 248, 225)">
-    <Header @isActive="toggleContents" />
+    <Header @isActive="toggleContents" ref="header" />
     <Login />
 
     <div>
@@ -22,6 +22,11 @@
           lg="5"
           id="slideAboutX"
           :class="{ slideAboutXActive: displayMenu }"
+          v-touch="{
+            right: function () {
+              swipeAboutMenuObserve();
+            },
+          }"
         >
           <v-slide-group
             id="flexSlide"
@@ -230,8 +235,6 @@ export default {
       currentDisplay: this.aboutState,
       icon: ["🔍", "🔰", "💡", "📑", "🔒"],
       title: ["HOMETEとは", "使い方", "Q & A", "利用規約", "プライバシー"],
-      dragStartX: 0, // タッチ操作開始時のX座標
-      dragCurrentX: 0, // 現在のX座標
     };
   },
   directives: {
@@ -249,66 +252,26 @@ export default {
     toggleContents(bool) {
       this.isActiveContents = bool;
     },
-
-    //スワイプ開始
-    postsTouchStart(event) {
-      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-        this.dragStartX = event.touches[0].clientX;
-      }
+    openMenu() {
+      this.$store.dispatch("visibleMenu");
+      this.$refs.aboutMenu.style.transform = `translateX(250px)`;
+      this.$refs.header.$refs.slideBoard.style.transform = `translateX(0px)`;
+      this.$refs.aboutMenu.style.opacity = `0.85`;
+      this.$refs.header.$refs.slideBoard.style.opacity = `1`;
     },
-    //スワイプ中
-    postsTouchMove(event) {
-      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-        this.dragCurrentX = event.touches[0].clientX;
-        // スライドさせたい要素のスタイルを変更する
-        if (this.dragCurrentX - this.dragStartX >= 0) {
-          this.$refs.aboutMenu.style.transform = `translateX(${
-            this.dragCurrentX - this.dragStartX
-          }px)`;
-          this.$refs.aboutMenu.style.opacity = `${
-            this.$refs.aboutMenu.style.opacity + 1 - 0.005
-          }`;
-        }
-      }
+    closeMenu() {
+      this.$store.dispatch("invisibleMenu");
+      this.$refs.aboutMenu.style.transform = `translateX(0px)`;
+      this.$refs.header.$refs.slideBoard.style.transform = `translateX(-250px)`;
+      this.$refs.aboutMenu.style.opacity = `1`;
+      this.$refs.header.$refs.slideBoard.style.opacity = `0`;
     },
-    //スワイプ終了
-    postsTouchEnd() {
-      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-        if (this.dragCurrentX - this.dragStartX >= 50) {
-          this.$store.dispatch("visibleMenu");
-          this.dragStartX = 0;
-          this.dragCurrentX = 0;
-        } else {
-          this.$refs.aboutMenu.style.transform = "";
-          this.$refs.aboutMenu.style.opacity = "";
-          this.dragStartX = 0;
-          this.dragCurrentX = 0;
-        }
-      }
+    swipeAboutMenuObserve() {
+      this.openMenu();
     },
   },
   mounted() {
-    //画面中央
-    // touchstartイベントを監視する
-    this.$refs.aboutMenu.addEventListener("touchstart", this.postsTouchStart);
-    // touchmoveイベントを監視する
-    this.$refs.aboutMenu.addEventListener("touchmove", this.postsTouchMove);
-    // touchendイベントを監視する
-    this.$refs.aboutMenu.addEventListener("touchend", this.postsTouchEnd);
-
     this.currentDisplay = this.aboutState;
-  },
-  beforeDestroy() {
-    // イベントの監視を解除する
-    this.$refs.aboutMenu.removeEventListener(
-      "touchstart",
-      this.overlayTouchStart
-    );
-    this.$refs.aboutMenu.removeEventListener(
-      "touchmove",
-      this.overlayTouchMove
-    );
-    this.$refs.aboutMenu.removeEventListener("touchend", this.overlayTouchEnd);
   },
   watch: {
     aboutState(newState) {
@@ -318,10 +281,12 @@ export default {
       if (newBool) {
         this.currentScrollPosition = window.scrollY;
         document.body.style.touchAction = "none";
+        this.openMenu();
       } else {
         document.body.style.touchAction = "";
         this.$refs.aboutMenu.style.transform = "";
         this.$refs.aboutMenu.style.opacity = "";
+        this.closeMenu();
       }
     },
     currentDisplay(newState) {
