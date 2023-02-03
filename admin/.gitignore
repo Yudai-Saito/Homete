@@ -1,5 +1,5 @@
 .env*
 
-firebase_account_key.json
+firebase_account_key.*
 
 __pycache__
