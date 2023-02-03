@@ -4,7 +4,7 @@ services:
   python:
     container_name: "admin"
     networks:
-      - homete_network
+      - develop_homete_network
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -25,5 +25,5 @@ services:
     entrypoint: python run.py
 
 networks:
-  homete_network:
+  develop_homete_network:
     external: true
