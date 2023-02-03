@@ -1,6 +1,6 @@
 <template>
   <v-app id="artBoard" style="background-color: rgb(255, 248, 225)">
-    <Header @isActive="toggleContents" />
+    <Header @isActive="toggleContents" ref="header" />
     <Login />
     <DeleteAccount />
     <div>
@@ -21,6 +21,11 @@
           lg="5"
           id="slideAccountX"
           :class="{ slideAccountXActive: displayMenu }"
+          v-touch="{
+            right: function () {
+              swipeAccountMenuObserve();
+            },
+          }"
         >
           <div v-if="switchPosts" class="loader">
             <div class="loader-inner ball-pulse-sync">
@@ -141,9 +146,6 @@ import twemoji from "twemoji";
 import { getAuth } from "firebase/auth";
 import axios from "axios";
 
-// $grid-breakpoints を JavaScript のオブジェクトとして取得
-const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
-
 export default {
   name: "AccountManagement",
   components: {
@@ -164,8 +166,6 @@ export default {
   data() {
     return {
       isActiveContents: false,
-      dragStartX: 0, // タッチ操作開始時のX座標
-      dragCurrentX: 0, // 現在のX座標
       switchPosts: false,
     };
   },
@@ -204,42 +204,22 @@ export default {
     toggleContents(bool) {
       this.isActiveContents = bool;
     },
-
-    //スワイプ開始
-    postsTouchStart(event) {
-      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-        this.dragStartX = event.touches[0].clientX;
-      }
+    openMenu() {
+      this.$store.dispatch("visibleMenu");
+      this.$refs.accountMenu.style.transform = `translateX(250px)`;
+      this.$refs.header.$refs.slideBoard.style.transform = `translateX(0px)`;
+      this.$refs.accountMenu.style.opacity = `0.85`;
+      this.$refs.header.$refs.slideBoard.style.opacity = `1`;
     },
-    //スワイプ中
-    postsTouchMove(event) {
-      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-        this.dragCurrentX = event.touches[0].clientX;
-        // スライドさせたい要素のスタイルを変更する
-        if (this.dragCurrentX - this.dragStartX >= 0) {
-          this.$refs.accountMenu.style.transform = `translateX(${
-            this.dragCurrentX - this.dragStartX
-          }px)`;
-          this.$refs.accountMenu.style.opacity = `${
-            this.$refs.accountMenu.style.opacity + 1 - 0.005
-          }`;
-        }
-      }
+    closeMenu() {
+      this.$store.dispatch("invisibleMenu");
+      this.$refs.accountMenu.style.transform = `translateX(0px)`;
+      this.$refs.header.$refs.slideBoard.style.transform = `translateX(-250px)`;
+      this.$refs.accountMenu.style.opacity = `1`;
+      this.$refs.header.$refs.slideBoard.style.opacity = `0`;
     },
-    //スワイプ終了
-    postsTouchEnd() {
-      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-        if (this.dragCurrentX - this.dragStartX >= 50) {
-          this.$store.dispatch("visibleMenu");
-          this.dragStartX = 0;
-          this.dragCurrentX = 0;
-        } else {
-          this.$refs.accountMenu.style.transform = "";
-          this.$refs.accountMenu.style.opacity = "";
-          this.dragStartX = 0;
-          this.dragCurrentX = 0;
-        }
-      }
+    swipeAccountMenuObserve() {
+      this.openMenu();
     },
   },
   created() {
@@ -247,39 +227,17 @@ export default {
       this.$router.push("/");
     }
   },
-  mounted() {
-    //画面中央
-    // touchstartイベントを監視する
-    this.$refs.accountMenu.addEventListener("touchstart", this.postsTouchStart);
-    // touchmoveイベントを監視する
-    this.$refs.accountMenu.addEventListener("touchmove", this.postsTouchMove);
-    // touchendイベントを監視する
-    this.$refs.accountMenu.addEventListener("touchend", this.postsTouchEnd);
-  },
-  beforeDestroy() {
-    // イベントの監視を解除する
-    this.$refs.accountMenu.removeEventListener(
-      "touchstart",
-      this.overlayTouchStart
-    );
-    this.$refs.accountMenu.removeEventListener(
-      "touchmove",
-      this.overlayTouchMove
-    );
-    this.$refs.accountMenu.removeEventListener(
-      "touchend",
-      this.overlayTouchEnd
-    );
-  },
   watch: {
     displayMenu(newBool) {
       if (newBool) {
         this.currentScrollPosition = window.scrollY;
         document.body.style.touchAction = "none";
+        this.openMenu();
       } else {
         document.body.style.touchAction = "";
         this.$refs.accountMenu.style.transform = "";
         this.$refs.accountMenu.style.opacity = "";
+        this.closeMenu();
       }
     },
   },
