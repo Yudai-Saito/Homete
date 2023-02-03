@@ -1,6 +1,6 @@
 <template>
   <v-app id="artBoard" style="background-color: rgb(255, 248, 225)">
-    <Header />
+    <Header ref="header" />
     <Login />
     <DeletePost />
     <ReportPost />
@@ -13,7 +13,16 @@
             v-show="displayPostForm"
             @click.stop
           >
-            <div ref="postFormDraggable" id="draggableShape" @click="closeForm">
+            <div
+              ref="postFormDraggable"
+              id="draggableShape"
+              @click="closeForm"
+              v-touch="{
+                down: function () {
+                  swipeOverlayObserve();
+                },
+              }"
+            >
               <div id="draggableInner"></div>
             </div>
             <PostForm />
@@ -35,11 +44,20 @@
             v-show="displayTwemojiPicker"
             @click.stop
           >
-            <div ref="pickerDraggable" id="draggableShape">
+            <div
+              ref="pickerDraggable"
+              id="draggableShape"
+              @click="closePicker"
+              v-touch="{
+                down: function () {
+                  swipeOverlayObserve();
+                },
+              }"
+            >
               <div id="draggableInner"></div>
             </div>
             <TwemojiPicker
-              v-click-outside="closePicker"
+              v-click-outside="closePickerOutSide"
               @addReaction="addPickerReaction"
             />
           </div>
@@ -68,6 +86,11 @@
           sm="9"
           md="6"
           lg="5"
+          v-touch="{
+            right: function () {
+              swipePostObserve();
+            },
+          }"
         >
           <PostContents
             v-if="contentsKey == 'timeline'"
@@ -327,10 +350,6 @@ export default {
     return {
       updatePost: null,
       currentScrollPosition: 0,
-      dragStartY: 0, // タッチ操作開始時のY座標
-      dragCurrentY: 0, // 現在のY座標
-      dragStartX: 0, // タッチ操作開始時のX座標
-      dragCurrentX: 0, // 現在のX座標
     };
   },
   directives: {
@@ -357,106 +376,45 @@ export default {
       this.updatePost = updatePost;
     },
     closePicker() {
-      if (this.clickOutSide) {
-        this.$store.commit("invisibleTwemojiPicker");
-      } else {
-        this.$store.commit("clickingOutSide", true);
-      }
-    },
-
-    // スワイプ開始
-    overlayTouchStart(event) {
-      this.dragStartY = event.touches[0].clientY;
-    },
-    // スワイプ中
-    overlayTouchMove(event) {
-      this.dragCurrentY = event.touches[0].clientY;
-      // スライドさせたい要素のスタイルを変更する
-      //下方向へのスワイプのみ
-      if (this.dragCurrentY - this.dragStartY >= 0) {
-        this.$refs.postFormCard.style.transform = `translateY(${
-          this.dragCurrentY - this.dragStartY
-        }px)`;
-        this.$refs.postFormCard.style.opacity = `${
-          this.$refs.postFormCard.style.opacity + 1 - 0.005
-        }`;
-
-        this.$refs.pickerCard.style.transform = `translateY(${
-          this.dragCurrentY - this.dragStartY
-        }px)`;
-        this.$refs.pickerCard.style.opacity = `${
-          this.$refs.pickerCard.style.opacity + 1 - 0.005
-        }`;
-      }
-    },
-    // スワイプ終了
-    overlayTouchEnd() {
-      if (this.dragCurrentY - this.dragStartY >= 50) {
-        this.closeForm();
-        this.$refs.postFormCard.style.transform = "";
-        this.$refs.postFormCard.style.opacity = "";
-        this.closePicker();
-        this.$refs.pickerCard.style.transform = "";
-        this.$refs.pickerCard.style.opacity = "";
-        this.dragStartY = 0;
-        this.dragCurrentY = 0;
-      } else {
-        this.$refs.postFormCard.style.transform = "";
-        this.$refs.postFormCard.style.opacity = "";
-
-        this.$refs.pickerCard.style.transform = "";
-        this.$refs.pickerCard.style.opacity = "";
-
-        this.dragStartY = 0;
-        this.dragCurrentY = 0;
-      }
-    },
-
-    // スワイプ開始
-    postsTouchStart(event) {
-      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-        this.dragStartX = event.touches[0].clientX;
-      }
-    },
-    // スワイプ中
-    postsTouchMove(event) {
-      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-        this.dragCurrentX = event.touches[0].clientX;
-        // スライドさせたい要素のスタイルを変更する
-        //右方向へのスワイプのみ
-        if (this.dragCurrentX - this.dragStartX >= 0) {
-          this.$refs.scrollPosts.style.transform = `translateX(${
-            this.dragCurrentX - this.dragStartX
-          }px)`;
-          this.$refs.postBtn.style.transform = `translateX(${
-            this.dragCurrentX - this.dragStartX
-          }px)`;
-          this.$refs.scrollPosts.style.opacity = `${
-            this.$refs.scrollPosts.style.opacity + 1 - 0.005
-          }`;
-          this.$refs.postBtn.style.opacity = `${
-            this.$refs.postFormCard.style.opacity + 1 - 0.005
-          }`;
-        }
-      }
-    },
-    // スワイプ終了
-    postsTouchEnd() {
-      if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-        if (this.dragCurrentX - this.dragStartX >= 50) {
-          //投稿一覧はメニューが開いている間ずっと右にずれているため、位置の初期化はしない
-          this.$store.dispatch("visibleMenu");
-          this.dragStartX = 0;
-          this.dragCurrentX = 0;
+      if (window.matchMedia(`(min-width: ${gridBreakpoints.md}px)`).matches) {
+        if (this.clickOutSide) {
+          this.$store.commit("invisibleTwemojiPicker");
         } else {
-          this.$refs.scrollPosts.style.transform = "";
-          this.$refs.scrollPosts.style.opacity = "";
-          this.$refs.postBtn.style.transform = "";
-          this.$refs.postBtn.style.opacity = "";
-          this.dragStartX = 0;
-          this.dragCurrentX = 0;
+          this.$store.commit("clickingOutSide", true);
         }
+      } else {
+        this.$store.commit("invisibleTwemojiPicker");
       }
+    },
+    closePickerOutSide() {
+      if (window.matchMedia(`(min-width: ${gridBreakpoints.md}px)`).matches) {
+        this.closePicker();
+      }
+    },
+    openMenu() {
+      this.$store.dispatch("visibleMenu");
+      this.$refs.scrollPosts.style.transform = `translateX(250px)`;
+      this.$refs.postBtn.style.transform = `translateX(250px)`;
+      this.$refs.header.$refs.slideBoard.style.transform = `translateX(0px)`;
+      this.$refs.scrollPosts.style.opacity = `0.85`;
+      this.$refs.postBtn.style.opacity = `0.85`;
+      this.$refs.header.$refs.slideBoard.style.opacity = `1`;
+    },
+    closeMenu() {
+      this.$store.dispatch("invisibleMenu");
+      this.$refs.scrollPosts.style.transform = `translateX(0px)`;
+      this.$refs.postBtn.style.transform = `translateX(0px)`;
+      this.$refs.header.$refs.slideBoard.style.transform = `translateX(-250px)`;
+      this.$refs.scrollPosts.style.opacity = `1`;
+      this.$refs.postBtn.style.opacity = `1`;
+      this.$refs.header.$refs.slideBoard.style.opacity = `0`;
+    },
+    swipePostObserve() {
+      this.openMenu();
+    },
+    swipeOverlayObserve() {
+      this.closeForm();
+      this.closePicker();
     },
   },
   mounted() {
@@ -467,104 +425,6 @@ export default {
 
     //WS接続
     ws.ws_connect(this);
-
-    //投稿フォーム
-    // touchstartイベントを監視する
-    this.$refs.postFormDraggable.addEventListener(
-      "touchstart",
-      this.overlayTouchStart
-    );
-    // touchmoveイベントを監視する
-    this.$refs.postFormDraggable.addEventListener(
-      "touchmove",
-      this.overlayTouchMove
-    );
-    // touchendイベントを監視する
-    this.$refs.postFormDraggable.addEventListener(
-      "touchend",
-      this.overlayTouchEnd
-    );
-
-    //絵文字ピッカー
-    // touchstartイベントを監視する
-    this.$refs.pickerDraggable.addEventListener(
-      "touchstart",
-      this.overlayTouchStart
-    );
-    // touchmoveイベントを監視する
-    this.$refs.pickerDraggable.addEventListener(
-      "touchmove",
-      this.overlayTouchMove
-    );
-    // touchendイベントを監視する
-    this.$refs.pickerDraggable.addEventListener(
-      "touchend",
-      this.overlayTouchEnd
-    );
-
-    //投稿一覧全体
-    // touchstartイベントを監視する
-    this.$refs.scrollPosts.addEventListener("touchstart", this.postsTouchStart);
-    // touchmoveイベントを監視する
-    this.$refs.scrollPosts.addEventListener("touchmove", this.postsTouchMove);
-    // touchendイベントを監視する
-    this.$refs.scrollPosts.addEventListener("touchend", this.postsTouchEnd);
-
-    //投稿ボタン
-    // touchstartイベントを監視する
-    this.$refs.postBtn.addEventListener("touchstart", this.postsTouchStart);
-    // touchmoveイベントを監視する
-    this.$refs.postBtn.addEventListener("touchmove", this.postsTouchMove);
-    // touchendイベントを監視する
-    this.$refs.postBtn.addEventListener("touchend", this.postsTouchEnd);
-  },
-  beforeDestroy() {
-    // イベントの監視を解除する
-    this.$refs.postFormDraggable.removeEventListener(
-      "touchstart",
-      this.overlayTouchStart
-    );
-    this.$refs.postFormDraggable.removeEventListener(
-      "touchmove",
-      this.overlayTouchMove
-    );
-    this.$refs.postFormDraggable.removeEventListener(
-      "touchend",
-      this.overlayTouchEnd
-    );
-
-    this.$refs.pickerDraggable.removeEventListener(
-      "touchstart",
-      this.overlayTouchStart
-    );
-    this.$refs.pickerDraggable.removeEventListener(
-      "touchmove",
-      this.overlayTouchMove
-    );
-    this.$refs.pickerDraggable.removeEventListener(
-      "touchend",
-      this.overlayTouchEnd
-    );
-
-    this.$refs.scrollPosts.removeEventListener(
-      "touchstart",
-      this.overlayTouchStart
-    );
-    this.$refs.scrollPosts.removeEventListener(
-      "touchmove",
-      this.overlayTouchMove
-    );
-    this.$refs.scrollPosts.removeEventListener(
-      "touchend",
-      this.overlayTouchEnd
-    );
-
-    this.$refs.postBtn.removeEventListener(
-      "touchstart",
-      this.overlayTouchStart
-    );
-    this.$refs.postBtn.removeEventListener("touchmove", this.overlayTouchMove);
-    this.$refs.postBtn.removeEventListener("touchend", this.overlayTouchEnd);
   },
   watch: {
     //それぞれ開く際にタッチアクションを無効化
@@ -585,12 +445,10 @@ export default {
     displayMenu(newBool) {
       if (newBool) {
         document.body.style.touchAction = "none";
+        this.openMenu();
       } else {
         document.body.style.touchAction = "";
-        this.$refs.scrollPosts.style.transform = "";
-        this.$refs.scrollPosts.style.opacity = "";
-        this.$refs.postBtn.style.transform = "";
-        this.$refs.postBtn.style.opacity = "";
+        this.closeMenu();
       }
     },
   },
