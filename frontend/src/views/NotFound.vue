@@ -20,13 +20,7 @@
         ページが見つかりませんでした
         <img
           src="/assets/HOMETE_LP6.png"
-          style="
-            width: 30%;
-            display: block;
-            margin: 0 auto;
-            top: -35px;
-            position: relative;
-          "
+          style="display: block; margin: 0 auto; top: -35px; position: relative"
         />
         <div style="position: relative; top: -60px">
           <v-btn
@@ -46,7 +40,25 @@
   </div>
 </template>
 
-<style>
+<style lang="scss">
+@media (min-width: map-get($grid-breakpoints, md)) {
+  // md 以上のブレークポイントでのスタイル定義
+  #nfContainer img {
+    width: 30%;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, md)) {
+  // sm 以上 md 以下のブレークポイントでのスタイル定義
+  #nfContainer img {
+    width: 50%;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  // sm 以下のブレークポイントでのスタイル定義
+  #nfContainer img {
+    width: 80%;
+  }
+}
 #notFoundTxt {
   font-size: 50px;
   text-align: center;
