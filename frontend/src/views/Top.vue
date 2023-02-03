@@ -229,10 +229,10 @@ body {
 }
 #draggableShape {
   width: 100%;
-  height: 50px;
+  height: 250px;
   position: absolute;
   z-index: 9999;
-  top: -35px;
+  top: -235px;
   display: flex;
   justify-content: center;
 }
@@ -242,7 +242,7 @@ body {
   border-radius: 10px;
   background-color: rgba(230, 230, 230, 0.75);
   margin-top: auto;
-  margin-bottom: auto;
+  margin-bottom: 20px;
 }
 
 .fade-enter-active,
