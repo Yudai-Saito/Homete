@@ -37,7 +37,9 @@ function ws_connect(vm) {
     if (posts.length > 0) {
       vm.$store.commit("setUpdatePosts", posts);
 
-      vm.$store.dispatch("alertNewPost");
+      if (vm.$store.getters.contentsKey == "timeline") {
+        vm.$store.dispatch("alertNewPost");
+      }
     }
   });
 }
