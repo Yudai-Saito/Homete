@@ -424,7 +424,7 @@ export default {
     this.$store.commit("deleteUpdatePosts");
 
     //WS接続
-    ws.ws_connect(this);
+    ws.connect(this);
   },
   watch: {
     //それぞれ開く際にタッチアクションを無効化
@@ -451,6 +451,9 @@ export default {
         this.closeMenu();
       }
     },
+  },
+  beforeDestroy() {
+    ws.disconnect();
   },
 };
 </script>
