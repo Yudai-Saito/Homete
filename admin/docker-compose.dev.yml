@@ -4,7 +4,7 @@ services:
   python:
     container_name: "admin"
     networks:
-      - homete_network
+      - develop_homete_network
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -15,6 +15,7 @@ services:
     working_dir: "/usr/src/app"
     tty: true
     environment:
+      FIREBASE_CONFIG: ${FIREBASE_CONFIG}
       FIREBASE_KEY: ${FIREBASE_KEY}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}
@@ -25,5 +26,5 @@ services:
     entrypoint: python run.py
 
 networks:
-  homete_network:
+  develop_homete_network:
     external: true

@@ -17,7 +17,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 db.init_app(app)
 
-cred = credentials.Certificate("firebase_account_key.json")
+cred = credentials.Certificate(environ["FIREBASE_KEY"])
 firebase_app = initialize_app(cred)
 
 from routes.error import error

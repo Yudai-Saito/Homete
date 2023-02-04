@@ -29,7 +29,7 @@ Migrate(app, db, compare_type=True)
 
 session = scoped_session(db.session)
 
-cred = credentials.Certificate("firebase_account_key.json")
+cred = credentials.Certificate(environ["FIREBASE_KEY"])
 firebase_app = initialize_app(cred)
 
 #各種APIをappに登録

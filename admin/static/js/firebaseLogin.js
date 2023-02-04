@@ -1,15 +1,9 @@
-class Index {
-  static init() {
-    const config = {
-      apiKey: "AIzaSyDO1OsQp21pKGqR24lvAzdh3hA1P9yTn6U",
-      authDomain: "teamnakayoshi.firebaseapp.com",
-      projectId: "teamnakayoshi",
-      storageBucket: "teamnakayoshi.appspot.com",
-      messagingSenderId: "211099684937",
-      appId: "1:211099684937:web:efa22e75696df663952f98",
-    };
+const modulePath = process.env.FIREBASE_CONFIG;
+eval(`import firebaseConfig from './${modulePath}';`);
 
-    firebase.initializeApp(config);
+export class Index {
+  static init() {
+    firebase.initializeApp(firebaseConfig);
 
     var ui = new firebaseui.auth.AuthUI(firebase.auth());
 

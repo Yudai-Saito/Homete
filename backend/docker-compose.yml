@@ -33,6 +33,7 @@ services:
     working_dir: "/usr/src/app"
     tty: true
     environment:
+      FIREBASE_KEY: ${FIREBASE_KEY}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
