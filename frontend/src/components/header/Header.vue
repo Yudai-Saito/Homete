@@ -118,6 +118,12 @@
     display: none;
   }
 }
+@media (max-width: map-get($grid-breakpoints, md)) {
+  // md 以下 sm 以上のブレークポイントでのスタイル定義
+  #contentTitle {
+    max-width: 33%;
+  }
+}
 @media (max-width: map-get($grid-breakpoints, sm)) {
   // sm 以下のブレークポイントでのスタイル定義
   #title,
@@ -126,6 +132,9 @@
   }
   #hamburgerMenu {
     display: block;
+  }
+  #contentTitle {
+    max-width: 100%;
   }
 }
 #header {
