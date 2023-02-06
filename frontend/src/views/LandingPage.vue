@@ -11,7 +11,7 @@
         floating
         color="transparent"
       >
-        <div id="lpTitle" class="text-h4 font-weight-bold" @click="toTop">
+        <div id="lpTitle" class="text-h4 font-weight-bold" @click="toHome">
           <img
             alt="HOMETE_logo"
             src="/assets/homete.webp"
@@ -793,13 +793,13 @@ export default {
       if (!this.logged) {
         this.$store.dispatch("visibleLoginOverlay");
       } else {
-        this.toTop();
+        this.toHome();
       }
     },
-    toTop: function () {
+    toHome: function () {
       this.$store.dispatch("invisibleMenu");
       this.$store.dispatch("toTimeLine").then(() => {
-        this.$router.push("/top");
+        this.$router.push("/home");
       });
     },
     toExplanation: function () {

@@ -55,8 +55,8 @@ export default {
           });
         } else {
           this.$store.dispatch(this.usage).then(() => {
-            if (this.$route.path != "/top") {
-              this.$router.push("/top");
+            if (this.$route.path != "/home") {
+              this.$router.push("/home");
             }
           });
         }

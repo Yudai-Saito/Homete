@@ -212,7 +212,7 @@ export default {
   },
   updated() {
     if (this.logged && !this.isError) {
-      this.$router.push("/top");
+      this.$router.push("/home");
       setTimeout(() => {
         this.$store.dispatch("alertLogin");
       }, 500);
@@ -227,7 +227,7 @@ export default {
       signInWithRedirect(auth, provider);
     } else {
       setTimeout(() => {
-        this.$router.push("/top");
+        this.$router.push("/home");
         setTimeout(() => {
           this.$store.dispatch("alertError");
         }, 500);
