@@ -81,7 +81,7 @@
       </transition>
       <v-col id="title" class="md-none text-h5 font-weight-bold" cols="3">
         <img
-          src="/assets/homete.png"
+          src="/assets/homete.webp"
           style="width: 155px; position: relative; top: -3px; left: -15px"
         />
       </v-col>

@@ -13,7 +13,7 @@
       <div id="smLpTitle" class="text-h5 font-weight-bold" @click="toTop">
         <img
           alt="HOMETE_logo"
-          src="/assets/homete.png"
+          src="/assets/homete.webp"
           style="
             width: 150px;
             height: 36.34px;
@@ -42,7 +42,11 @@
           v-text="smLpTxt1"
           style="font-size: 30px; text-align: center; font-weight: 600"
         ></div>
-        <img alt="HOMETE_LP1" src="/assets/HOMETE_LP1.png" style="width: 75%" />
+        <img
+          alt="HOMETE_LP1"
+          src="/assets/HOMETE_LP1.webp"
+          style="width: 75%"
+        />
       </div>
     </div>
     <div id="smLpBoard">
@@ -68,7 +72,7 @@
           <div id="smLpSmallBubble"></div>
           <img
             alt="HOMETE_LP2"
-            src="/assets/HOMETE_LP2.png"
+            src="/assets/HOMETE_LP2.webp"
             style="width: 215px; position: relative; left: 40%; bottom: 8%"
           />
         </div>
@@ -110,7 +114,7 @@
                   かわいい絵を描けた
                   <img
                     alt="HOMETE_LP3"
-                    src="/assets/HOMETE_LP3.png"
+                    src="/assets/HOMETE_LP3.webp"
                     style="width: 180px; margin-top: 10px"
                   />
                 </div>
@@ -120,7 +124,7 @@
                   ほしかったものが買えた
                   <img
                     alt="HOMETE_LP4"
-                    src="/assets/HOMETE_LP4.png"
+                    src="/assets/HOMETE_LP4.webp"
                     style="width: 180px; margin-top: 10px"
                   />
                 </div>
@@ -130,7 +134,7 @@
                   今日も自炊してえらい！
                   <img
                     alt="HOMETE_LP5"
-                    src="/assets/HOMETE_LP5.png"
+                    src="/assets/HOMETE_LP5.webp"
                     style="width: 180px; margin-top: 10px"
                   />
                 </div>
@@ -259,7 +263,7 @@
           </div>
           <img
             alt="HOMETE_LP6"
-            src="/assets/HOMETE_LP6.png"
+            src="/assets/HOMETE_LP6.webp"
             style="width: 300px; position: relative; right: -17%"
           />
         </div>
@@ -289,7 +293,7 @@
         </div>
         <img
           alt="HOMETE_LP7"
-          src="/assets/HOMETE_LP7.png"
+          src="/assets/HOMETE_LP7.webp"
           style="width: 230px"
         />
         <button

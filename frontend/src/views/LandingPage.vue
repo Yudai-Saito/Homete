@@ -14,7 +14,7 @@
         <div id="lpTitle" class="text-h4 font-weight-bold" @click="toTop">
           <img
             alt="HOMETE_logo"
-            src="/assets/homete.png"
+            src="/assets/homete.webp"
             style="width: 200px; height: 48.45px; position: relative; top: 0px"
           />
         </div>
@@ -39,7 +39,7 @@
           ></div>
           <img
             alt="HOMETE_LP1"
-            src="/assets/HOMETE_LP1.png"
+            src="/assets/HOMETE_LP1.webp"
             style="width: 40%"
           />
         </div>
@@ -62,7 +62,7 @@
           ></div>
           <img
             alt="HOMETE_LP2"
-            src="/assets/HOMETE_LP2.png"
+            src="/assets/HOMETE_LP2.webp"
             style="width: 40%"
           />
           <div
@@ -129,7 +129,7 @@
               かわいい絵を描けた
               <img
                 alt="HOMETE_LP3"
-                src="/assets/HOMETE_LP3.png"
+                src="/assets/HOMETE_LP3.webp"
                 style="width: 100%; margin-top: 20px"
               />
             </div>
@@ -137,7 +137,7 @@
               ほしかったものが買えた
               <img
                 alt="HOMETE_LP4"
-                src="/assets/HOMETE_LP4.png"
+                src="/assets/HOMETE_LP4.webp"
                 style="width: 100%; margin-top: 20px"
               />
             </div>
@@ -145,7 +145,7 @@
               今日も自炊してえらい！
               <img
                 alt="HOMETE_LP5"
-                src="/assets/HOMETE_LP5.png"
+                src="/assets/HOMETE_LP5.webp"
                 style="width: 100%; margin-top: 20px"
               />
             </div>
@@ -196,7 +196,7 @@
           </div>
           <img
             alt="HOMETE_LP6"
-            src="/assets/HOMETE_LP6.png"
+            src="/assets/HOMETE_LP6.webp"
             style="width: 40%"
           />
           <div style="top: 8%; left: 3%" id="lpSubTitle">FRIENDRY</div>
@@ -211,7 +211,7 @@
         >
           <img
             alt="HOMETE_LP7"
-            src="/assets/HOMETE_LP7.png"
+            src="/assets/HOMETE_LP7.webp"
             style="width: 50%"
           />
           <div style="width: 38%; font-size: 30px; font-weight: 600">

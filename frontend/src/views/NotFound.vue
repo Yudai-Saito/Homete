@@ -19,7 +19,7 @@
       <div id="nfContainer">
         ページが見つかりませんでした
         <img
-          src="/assets/HOMETE_LP6.png"
+          src="/assets/HOMETE_LP6.webp"
           style="display: block; margin: 0 auto; top: -35px; position: relative"
         />
         <div style="position: relative; top: -60px">

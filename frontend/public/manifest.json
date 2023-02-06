@@ -4,7 +4,7 @@
   "description": "誰かに褒めてもらえる優しいSNS",
   "icons": [
     {
-      "src": "./assets/favicon.png",
+      "src": "./assets/favicon.webp",
       "sizes": "512x512",
       "type": "image/png"
     }
