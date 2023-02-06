@@ -31,7 +31,7 @@
       <v-card-title v-else class="justify-center" style="font-weight: 600">
         {{ titleTxt }}
       </v-card-title>
-      <v-card-text v-if="usage == 'deleteAccount'">
+      <v-card-text style="padding: 0 16px" v-if="usage == 'deleteAccount'">
         <div
           style="
             text-align: left;
@@ -40,7 +40,7 @@
             font-weight: 600;
           "
         >
-          <div>
+          <div id="deleteAccountTxt">
             <input
               type="checkbox"
               id="check1"
@@ -49,7 +49,7 @@
             />
             <label for="check1">自分の投稿は全て消えてしまいます。</label>
           </div>
-          <div>
+          <div id="deleteAccountTxt">
             <input
               type="checkbox"
               id="check2"
@@ -60,7 +60,7 @@
               >あげたリアクションは全て消えてしまいます。</label
             >
           </div>
-          <div>
+          <div id="deleteAccountTxt">
             <input
               type="checkbox"
               id="check3"
@@ -71,7 +71,7 @@
           </div>
         </div>
       </v-card-text>
-      <v-card-text>
+      <v-card-text style="padding: 8px 16px">
         <div
           style="width: fit-content; margin: 0 auto"
           :style="
@@ -163,6 +163,11 @@
 }
 #googleSvg {
   background-image: url("/assets/google-login-btn.svg");
+}
+#deleteAccountTxt label {
+  font-size: 0.8rem;
+  position: relative;
+  top: -2px;
 }
 </style>
 
