@@ -39,10 +39,10 @@ const routes = [
     },
   },
   {
-    path: "/top",
-    name: "Top",
+    path: "/home",
+    name: "Home",
     component: Top,
-    meta: { title: "トップ" },
+    meta: { title: "ホーム" },
   },
   {
     path: "/about",

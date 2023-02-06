@@ -26,12 +26,12 @@
           <v-btn
             id="nfReactBtn"
             class="grey--text text--darken-3"
-            @click="toTopPage"
+            @click="toHome"
             elevation="0"
             outlined
           >
             <v-icon>mdi-arrow-up-bold-box-outline</v-icon>
-            <h4>トップへ戻る</h4>
+            <h4>戻る</h4>
           </v-btn>
         </div>
       </div>
@@ -112,9 +112,9 @@ export default {
     },
   },
   methods: {
-    toTopPage: function () {
+    toHome: function () {
       this.$store.dispatch("toTimeLine");
-      this.$router.push("/top");
+      this.$router.push("/home");
     },
     openMenu() {
       this.$store.dispatch("visibleMenu");
