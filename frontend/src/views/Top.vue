@@ -198,11 +198,6 @@ body {
   top: 10vh;
   min-height: 100vh;
 }
-.slideTopXActive {
-  transform: translateX(250px) !important;
-  z-index: 0;
-  opacity: 0.85;
-}
 
 #postBtnFloat {
   position: fixed;
@@ -393,8 +388,6 @@ export default {
     },
     openMenu() {
       this.$store.dispatch("visibleMenu");
-      this.$refs.scrollPosts.style.transform = `translateX(250px)`;
-      this.$refs.postBtn.style.transform = `translateX(250px)`;
       this.$refs.header.$refs.slideBoard.style.transform = `translateX(0px)`;
       this.$refs.scrollPosts.style.opacity = `0.85`;
       this.$refs.postBtn.style.opacity = `0.85`;
@@ -402,8 +395,6 @@ export default {
     },
     closeMenu() {
       this.$store.dispatch("invisibleMenu");
-      this.$refs.scrollPosts.style.transform = `translateX(0px)`;
-      this.$refs.postBtn.style.transform = `translateX(0px)`;
       this.$refs.header.$refs.slideBoard.style.transform = `translateX(-250px)`;
       this.$refs.scrollPosts.style.opacity = `1`;
       this.$refs.postBtn.style.opacity = `1`;
