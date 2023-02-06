@@ -1,5 +1,6 @@
 <template>
   <v-overlay
+    id="deletePost"
     :value="overlayState == 'deletePost'"
     :light="true"
     :dark="false"
@@ -16,7 +17,7 @@
 </template>
 
 <style>
-#reportPost .v-overlay__content {
+#deletePost .v-overlay__content {
   width: 100%;
 }
 </style>
