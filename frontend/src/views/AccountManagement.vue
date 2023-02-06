@@ -128,11 +128,6 @@
   top: 10vh;
   min-height: 100vh;
 }
-.slideAccountXActive {
-  transform: translateX(250px) !important;
-  z-index: 0;
-  opacity: 0.85;
-}
 </style>
 
 
@@ -206,14 +201,12 @@ export default {
     },
     openMenu() {
       this.$store.dispatch("visibleMenu");
-      this.$refs.accountMenu.style.transform = `translateX(250px)`;
       this.$refs.header.$refs.slideBoard.style.transform = `translateX(0px)`;
       this.$refs.accountMenu.style.opacity = `0.85`;
       this.$refs.header.$refs.slideBoard.style.opacity = `1`;
     },
     closeMenu() {
       this.$store.dispatch("invisibleMenu");
-      this.$refs.accountMenu.style.transform = `translateX(0px)`;
       this.$refs.header.$refs.slideBoard.style.transform = `translateX(-250px)`;
       this.$refs.accountMenu.style.opacity = `1`;
       this.$refs.header.$refs.slideBoard.style.opacity = `0`;
