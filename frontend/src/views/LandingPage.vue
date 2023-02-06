@@ -13,8 +13,9 @@
       >
         <div id="lpTitle" class="text-h4 font-weight-bold" @click="toTop">
           <img
-            src="/assets/homete.png"
-            style="width: 200px; position: relative; top: 0px"
+            alt="HOMETE_logo"
+            src="/assets/homete.webp"
+            style="width: 200px; height: 48.45px; position: relative; top: 0px"
           />
         </div>
         <div v-if="!logged" id="lpBtns">
@@ -36,7 +37,11 @@
             v-text="lpTxt1"
             style="font-size: 40px; text-align: center; font-weight: 600"
           ></div>
-          <img src="/assets/HOMETE_LP1.png" style="width: 40%" />
+          <img
+            alt="HOMETE_LP1"
+            src="/assets/HOMETE_LP1.webp"
+            style="width: 40%"
+          />
         </div>
       </div>
 
@@ -55,7 +60,11 @@
             v-text="lpTxt2"
             style="font-size: 30px; text-align: center; font-weight: 600"
           ></div>
-          <img src="/assets/HOMETE_LP2.png" style="width: 40%" />
+          <img
+            alt="HOMETE_LP2"
+            src="/assets/HOMETE_LP2.webp"
+            style="width: 40%"
+          />
           <div
             id="lpBubble"
             style="top: 25%; left: 10%"
@@ -119,21 +128,24 @@
             <div id="lpShape3">
               かわいい絵を描けた
               <img
-                src="/assets/HOMETE_LP3.png"
+                alt="HOMETE_LP3"
+                src="/assets/HOMETE_LP3.webp"
                 style="width: 100%; margin-top: 20px"
               />
             </div>
             <div id="lpShape3">
               ほしかったものが買えた
               <img
-                src="/assets/HOMETE_LP4.png"
+                alt="HOMETE_LP4"
+                src="/assets/HOMETE_LP4.webp"
                 style="width: 100%; margin-top: 20px"
               />
             </div>
             <div id="lpShape3">
               今日も自炊してえらい！
               <img
-                src="/assets/HOMETE_LP5.png"
+                alt="HOMETE_LP5"
+                src="/assets/HOMETE_LP5.webp"
                 style="width: 100%; margin-top: 20px"
               />
             </div>
@@ -182,7 +194,11 @@
               id="lpSpeechBubble"
             ></div>
           </div>
-          <img src="/assets/HOMETE_LP6.png" style="width: 40%" />
+          <img
+            alt="HOMETE_LP6"
+            src="/assets/HOMETE_LP6.webp"
+            style="width: 40%"
+          />
           <div style="top: 8%; left: 3%" id="lpSubTitle">FRIENDRY</div>
         </div>
       </div>
@@ -193,7 +209,11 @@
           class="amber lighten-4"
           style="display: flex; justify-content: center; align-items: center"
         >
-          <img src="/assets/HOMETE_LP7.png" style="width: 50%" />
+          <img
+            alt="HOMETE_LP7"
+            src="/assets/HOMETE_LP7.webp"
+            style="width: 50%"
+          />
           <div style="width: 38%; font-size: 30px; font-weight: 600">
             <div>ちょっとの喜びを</div>
             <div style="transform: translateX(35%)">HOMETEと一緒に</div>

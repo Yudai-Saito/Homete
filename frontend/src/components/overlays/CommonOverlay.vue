@@ -19,7 +19,7 @@
 
       <img
         v-if="usage === 'login'"
-        src="/assets/homete.png"
+        src="/assets/homete.webp"
         style="
           width: 60%;
           position: relative;

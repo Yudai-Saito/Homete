@@ -12,8 +12,15 @@
     >
       <div id="smLpTitle" class="text-h5 font-weight-bold" @click="toTop">
         <img
-          src="/assets/homete.png"
-          style="width: 150px; position: relative; top: -3px; left: -15px"
+          alt="HOMETE_logo"
+          src="/assets/homete.webp"
+          style="
+            width: 150px;
+            height: 36.34px;
+            position: relative;
+            top: -3px;
+            left: -15px;
+          "
         />
       </div>
       <button v-if="!logged" id="smLpBtnSignup" @click="login">
@@ -35,7 +42,11 @@
           v-text="smLpTxt1"
           style="font-size: 30px; text-align: center; font-weight: 600"
         ></div>
-        <img src="/assets/HOMETE_LP1.png" style="width: 75%" />
+        <img
+          alt="HOMETE_LP1"
+          src="/assets/HOMETE_LP1.webp"
+          style="width: 75%"
+        />
       </div>
     </div>
     <div id="smLpBoard">
@@ -60,7 +71,8 @@
           <div id="smLpBubble" style="right: -5%" v-text="smLpTxt2_3"></div>
           <div id="smLpSmallBubble"></div>
           <img
-            src="/assets/HOMETE_LP2.png"
+            alt="HOMETE_LP2"
+            src="/assets/HOMETE_LP2.webp"
             style="width: 215px; position: relative; left: 40%; bottom: 8%"
           />
         </div>
@@ -101,7 +113,8 @@
                 <div id="smLpShape3">
                   かわいい絵を描けた
                   <img
-                    src="/assets/HOMETE_LP3.png"
+                    alt="HOMETE_LP3"
+                    src="/assets/HOMETE_LP3.webp"
                     style="width: 180px; margin-top: 10px"
                   />
                 </div>
@@ -110,7 +123,8 @@
                 <div id="smLpShape3">
                   ほしかったものが買えた
                   <img
-                    src="/assets/HOMETE_LP4.png"
+                    alt="HOMETE_LP4"
+                    src="/assets/HOMETE_LP4.webp"
                     style="width: 180px; margin-top: 10px"
                   />
                 </div>
@@ -119,7 +133,8 @@
                 <div id="smLpShape3">
                   今日も自炊してえらい！
                   <img
-                    src="/assets/HOMETE_LP5.png"
+                    alt="HOMETE_LP5"
+                    src="/assets/HOMETE_LP5.webp"
                     style="width: 180px; margin-top: 10px"
                   />
                 </div>
@@ -247,7 +262,8 @@
             ></div>
           </div>
           <img
-            src="/assets/HOMETE_LP6.png"
+            alt="HOMETE_LP6"
+            src="/assets/HOMETE_LP6.webp"
             style="width: 300px; position: relative; right: -17%"
           />
         </div>
@@ -275,7 +291,11 @@
           <div style="transform: translateX(-20px)">ちょっとの喜びを</div>
           <div style="transform: translateX(35px)">HOMETEと一緒に</div>
         </div>
-        <img src="/assets/HOMETE_LP7.png" style="width: 230px" />
+        <img
+          alt="HOMETE_LP7"
+          src="/assets/HOMETE_LP7.webp"
+          style="width: 230px"
+        />
         <button
           id="smLpBtnSignup"
           style="
