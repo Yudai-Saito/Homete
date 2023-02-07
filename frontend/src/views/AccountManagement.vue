@@ -228,8 +228,6 @@ export default {
         this.openMenu();
       } else {
         document.body.style.touchAction = "";
-        this.$refs.accountMenu.style.transform = "";
-        this.$refs.accountMenu.style.opacity = "";
         this.closeMenu();
       }
     },

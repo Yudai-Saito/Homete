@@ -15,6 +15,9 @@
       <div
         id="hamburgerMenu"
         :class="{ active: displayMenu }"
+        :style="{
+          'will-change': displayMenu ? 'transform, filter' : 'auto',
+        }"
         @click="toggleMenu"
       >
         <span></span><span>Menu</span><span></span>
@@ -22,6 +25,11 @@
       <div
         ref="slideBoard"
         id="springBoard"
+        :style="
+          displayMenu
+            ? 'will-change:transform, filter;transform:translateX(0px);'
+            : 'will-change:auto;transform:translateX(-250px);'
+        "
         v-touch="{
           left: function () {
             swipeBoardObserve();
@@ -70,6 +78,11 @@
         <div
           ref="slideMenuOverlay"
           id="menuOverlay"
+          :style="
+            displayMenu
+              ? 'will-change:opacity, filter;opacity(1);'
+              : 'will-change:auto;opacity(0);'
+          "
           v-show="displayMenu"
           @click="closeMenu"
           v-touch="{
@@ -139,6 +152,7 @@
 }
 #header {
   z-index: 2;
+  transform: translate3d(0px, 0px, 0px);
 }
 #header div {
   padding: 0 !important;
@@ -189,6 +203,7 @@
   display: inline-block;
   transition: all 0.4s; /*アニメーションの設定*/
   position: absolute;
+  will-change: width, transform, left, top, filter;
 }
 
 #hamburgerMenu span:nth-of-type(1),
@@ -244,6 +259,8 @@
   z-index: 5;
   transition: all 0.4s !important;
   transform: translateX(-250px);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 #springBoardMenu {
   left: 0px;

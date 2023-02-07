@@ -130,7 +130,7 @@
   #nameTxt {
     font-size: 22px;
     margin-top: 10px;
-    max-width: 250px;
+    max-width: 200px;
   }
   #timeTxt {
     font-size: 14px;

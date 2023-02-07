@@ -80,8 +80,6 @@
         <v-col
           id="slideTopX"
           ref="scrollPosts"
-          :style="fixedScroll"
-          :class="{ slideTopXActive: displayMenu }"
           cols="12"
           sm="9"
           md="6"
@@ -108,7 +106,6 @@
           <v-btn
             class="d-md-none"
             style="background-color: rgb(225 255 255)"
-            :class="{ slideTopXActive: displayMenu }"
             elevation="3"
             fab
             icon
@@ -166,6 +163,7 @@
 }
 body {
   padding: 0;
+  touch-action: auto;
 }
 .v-menu__content {
   font-family: "M PLUS Rounded 1c", sans-serif;
@@ -203,7 +201,6 @@ body {
   position: fixed;
   inset: auto 30px 60px auto;
   transition: all 0.4s !important;
-  transform: translateX(0px);
   z-index: 0;
 }
 #postBtnFloat span i {
@@ -246,6 +243,7 @@ body {
 }
 .fade-enter,
 .fade-leave-to {
+  will-change: opacity;
   opacity: 0;
 }
 .slide-y-reverse-enter-active {
@@ -256,10 +254,12 @@ body {
 }
 .slide-y-reverse-enter,
 .slide-y-reverse-leave-to {
+  will-change: auto;
   transform: translateY(100%);
 }
 .slide-y-reverse-leave,
 .slide-y-reverse-enter-to {
+  will-change: transform;
   transform: translateY(0%);
 }
 </style>
@@ -388,17 +388,9 @@ export default {
     },
     openMenu() {
       this.$store.dispatch("visibleMenu");
-      this.$refs.header.$refs.slideBoard.style.transform = `translateX(0px)`;
-      this.$refs.scrollPosts.style.opacity = `0.85`;
-      this.$refs.postBtn.style.opacity = `0.85`;
-      this.$refs.header.$refs.slideBoard.style.opacity = `1`;
     },
     closeMenu() {
       this.$store.dispatch("invisibleMenu");
-      this.$refs.header.$refs.slideBoard.style.transform = `translateX(-250px)`;
-      this.$refs.scrollPosts.style.opacity = `1`;
-      this.$refs.postBtn.style.opacity = `1`;
-      this.$refs.header.$refs.slideBoard.style.opacity = `0`;
     },
     swipePostObserve() {
       this.openMenu();
@@ -422,14 +414,14 @@ export default {
       if (newBool) {
         document.body.style.touchAction = "none";
       } else {
-        document.body.style.touchAction = "";
+        document.body.style.touchAction = "auto";
       }
     },
     displayPostForm(newBool) {
       if (newBool) {
         document.body.style.touchAction = "none";
       } else {
-        document.body.style.touchAction = "";
+        document.body.style.touchAction = "auto";
       }
     },
     displayMenu(newBool) {
@@ -437,7 +429,7 @@ export default {
         document.body.style.touchAction = "none";
         this.openMenu();
       } else {
-        document.body.style.touchAction = "";
+        document.body.style.touchAction = "auto";
         this.closeMenu();
       }
     },
