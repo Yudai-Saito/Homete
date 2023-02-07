@@ -113,15 +113,9 @@ export default {
     },
     openMenu() {
       this.$store.dispatch("visibleMenu");
-      this.$refs.header.$refs.slideBoard.style.transform = `translateX(0px)`;
-      this.$refs.notFound.style.opacity = `0.85`;
-      this.$refs.header.$refs.slideBoard.style.opacity = `1`;
     },
     closeMenu() {
       this.$store.dispatch("invisibleMenu");
-      this.$refs.header.$refs.slideBoard.style.transform = `translateX(-250px)`;
-      this.$refs.notFound.style.opacity = `1`;
-      this.$refs.header.$refs.slideBoard.style.opacity = `0`;
     },
     swipeNotFoundObserve() {
       this.openMenu();
@@ -135,8 +129,6 @@ export default {
         this.openMenu();
       } else {
         document.body.style.touchAction = "";
-        this.$refs.notFound.style.transform = "";
-        this.$refs.notFound.style.opacity = "";
         this.closeMenu();
       }
     },

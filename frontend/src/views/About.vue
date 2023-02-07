@@ -277,8 +277,6 @@ export default {
         this.openMenu();
       } else {
         document.body.style.touchAction = "";
-        this.$refs.aboutMenu.style.transform = "";
-        this.$refs.aboutMenu.style.opacity = "";
         this.closeMenu();
       }
     },
