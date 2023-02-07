@@ -907,7 +907,7 @@ export default {
     toTop: function () {
       this.$store.dispatch("invisibleMenu");
       this.$store.dispatch("toTimeLine").then(() => {
-        this.$router.push("/top");
+        this.$router.push("/home");
       });
     },
     toExplanation: function () {
