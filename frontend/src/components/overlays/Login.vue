@@ -1,5 +1,6 @@
 <template>
   <v-overlay
+    style="height: 100vh"
     :value="overlayState == 'login' || overlayState == 'plzLogin'"
     :light="true"
     :dark="false"
