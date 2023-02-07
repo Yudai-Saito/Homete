@@ -312,9 +312,6 @@ export default {
     contentsKey() {
       return this.$store.getters.contentsKey;
     },
-    displayMenu() {
-      return this.$store.getters.displayMenu;
-    },
     displayPostForm() {
       return this.$store.getters.displayPostForm;
     },
@@ -407,32 +404,6 @@ export default {
 
     //WS接続
     ws.connect(this);
-  },
-  watch: {
-    //それぞれ開く際にタッチアクションを無効化
-    displayTwemojiPicker(newBool) {
-      if (newBool) {
-        document.body.style.touchAction = "none";
-      } else {
-        document.body.style.touchAction = "auto";
-      }
-    },
-    displayPostForm(newBool) {
-      if (newBool) {
-        document.body.style.touchAction = "none";
-      } else {
-        document.body.style.touchAction = "auto";
-      }
-    },
-    displayMenu(newBool) {
-      if (newBool) {
-        document.body.style.touchAction = "none";
-        this.openMenu();
-      } else {
-        document.body.style.touchAction = "auto";
-        this.closeMenu();
-      }
-    },
   },
   beforeDestroy() {
     ws.disconnect();
