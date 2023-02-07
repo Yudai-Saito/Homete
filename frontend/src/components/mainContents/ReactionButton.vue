@@ -148,7 +148,6 @@ export default {
   },
   methods: {
     count: function () {
-      console.log("hoge");
       //カウントダウン
       if (this.reactionFlag) {
         this.reactionCount -= 1;
