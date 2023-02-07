@@ -220,17 +220,5 @@ export default {
       this.$router.push("/");
     }
   },
-  watch: {
-    displayMenu(newBool) {
-      if (newBool) {
-        this.currentScrollPosition = window.scrollY;
-        document.body.style.touchAction = "none";
-        this.openMenu();
-      } else {
-        document.body.style.touchAction = "";
-        this.closeMenu();
-      }
-    },
-  },
 };
 </script>

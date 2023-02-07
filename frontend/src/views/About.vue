@@ -270,16 +270,6 @@ export default {
     aboutState(newState) {
       this.currentDisplay = newState;
     },
-    displayMenu(newBool) {
-      if (newBool) {
-        this.currentScrollPosition = window.scrollY;
-        document.body.style.touchAction = "none";
-        this.openMenu();
-      } else {
-        document.body.style.touchAction = "";
-        this.closeMenu();
-      }
-    },
     currentDisplay(newState) {
       if (newState === 0) {
         if (window.innerWidth < gridBreakpoints.sm) {
