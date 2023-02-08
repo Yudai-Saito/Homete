@@ -14,7 +14,7 @@
             <svg v-html="this.avatorSvg"></svg>
           </v-avatar>
         </div>
-        <div id="nameTxt" ref="responsiveTxt" :style="responsiveTxtStyle">
+        <div id="nameTxt" ref="responsiveTxt">
           {{ userName }}
         </div>
         <div id="timeTxt">{{ postTime }}</div>
@@ -307,9 +307,6 @@ import ReactionButton from "./ReactionButton.vue";
 import { createAvatar } from "@dicebear/avatars";
 import * as style from "@dicebear/open-peeps";
 
-// $grid-breakpoints を JavaScript のオブジェクトとして取得
-const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
-
 export default {
   name: "DisplayPosts",
   components: {
@@ -319,9 +316,6 @@ export default {
   computed: {
     logged() {
       return this.$store.getters.logged;
-    },
-    responsiveTxtHeight() {
-      return this.$refs.responsiveTxt.scrollHeight;
     },
   },
   data() {
@@ -335,9 +329,6 @@ export default {
       fhp: 0,
       ap: 0,
       displayAddBtn: true,
-      responsiveTxtStyle: {
-        fontSize: "24px",
-      },
     };
   },
   props: ["postList", "isSample"],
@@ -367,21 +358,6 @@ export default {
         postList: this.postList,
         postId: this.postList.post_id,
       });
-    },
-    resizeTxt(size, height) {
-      if (
-        window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches &&
-        height > 33 &&
-        size > 1
-      ) {
-        this.responsiveTxtStyle.fontSize = size - 1 + "px";
-      } else if (
-        window.matchMedia(`(min-width: ${gridBreakpoints.sm}px)`).matches &&
-        height > 40 &&
-        size > 1
-      ) {
-        this.responsiveTxtStyle.fontSize = size - 1 + "px";
-      }
     },
   },
   created() {
@@ -424,12 +400,6 @@ export default {
     if (this.reactions.length >= 20) {
       this.displayAddBtn = false;
     }
-    if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-      this.responsiveTxtStyle.fontSize = "22px";
-    }
-    let size = parseInt(this.responsiveTxtStyle.fontSize);
-    let height = this.$refs.responsiveTxt.getBoundingClientRect().height;
-    this.resizeTxt(size, height);
   },
   watch: {
     postList() {
@@ -444,11 +414,6 @@ export default {
         }
       });
     },
-  },
-  updated() {
-    let size = parseInt(this.responsiveTxtStyle.fontSize);
-    let height = this.$refs.responsiveTxt.getBoundingClientRect().height;
-    this.resizeTxt(size, height);
   },
 };
 </script>
