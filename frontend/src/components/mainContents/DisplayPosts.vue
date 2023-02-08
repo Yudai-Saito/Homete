@@ -114,6 +114,7 @@
   #cardTitle {
     padding-left: 12px;
     padding-bottom: 8px;
+    height: 25px;
   }
   #circle {
     height: 50px;
@@ -128,13 +129,15 @@
     max-width: 550px;
   }
   #nameTxt {
-    font-size: 22px;
-    margin-top: 10px;
-    max-width: 200px;
+    max-width: 36vw !important;
+    font-size: 12px !important;
   }
   #timeTxt {
-    font-size: 14px;
-    margin-top: 20px;
+    margin-left: 4px;
+    transform: scale(0.85) !important;
+  }
+  #divider {
+    width: 75%;
   }
 }
 @media (max-width: map-get($grid-breakpoints, sm)) {
@@ -158,6 +161,7 @@
   #cardTitle {
     padding-left: 0px;
     padding-bottom: 0px;
+    height: 20px;
   }
   #circle {
     height: 40px;
@@ -172,18 +176,19 @@
     padding: 12px;
     max-width: 350px;
   }
-  #nameTxt {
-    font-size: 16px;
-    margin-top: 8px;
-    max-width: 150px;
-  }
-  #timeTxt {
-    font-size: 10px;
-    margin-top: 18px;
-  }
   #btns {
     width: 70%;
     margin: 0 auto;
+  }
+  #nameTxt {
+    max-width: 53vw;
+    font-size: 12px;
+  }
+  #timeTxt {
+    transform: scale(0.7);
+  }
+  #divider {
+    width: 70%;
   }
 }
 
@@ -267,32 +272,31 @@
 #nameTxt {
   font-weight: 600;
   padding: 0;
-  margin-left: 10px;
   z-index: auto;
   position: relative;
   font-family: "M PLUS Rounded 1c", sans-serif;
-}
-.v-responsive-text {
-  font-size: 16px;
+  margin-left: 10px;
 }
 #timeTxt {
   color: #6b7280;
   padding: 0;
-  margin-left: 15px;
   z-index: auto;
   position: relative;
+  font-size: 10px;
+  left: -5px;
 }
 #cardMenu {
   margin: 0;
   padding: 0;
-  margin-left: auto;
   z-index: auto;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  right: 10px;
 }
 #cardMenu * {
   z-index: auto;
-}
-#divider {
-  width: 75%;
 }
 #cardMainText {
   line-height: 26px;
