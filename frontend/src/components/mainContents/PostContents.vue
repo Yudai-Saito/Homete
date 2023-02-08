@@ -14,7 +14,7 @@
         :postList="post"
       />
     </div>
-    <div style="display: none" ref="observe_element"></div>
+    <div style="display: block; height: 1px" ref="observe_element"></div>
   </v-col>
 </template>
 
@@ -128,12 +128,13 @@ export default {
   },
   data() {
     return {
-      scrollBottomHeight: 0,
       posts: [],
       postsLength: 0,
       switchPosts: false,
-      isScrollBottom: false,
+      isUnshifted: false,
       isPushed: false,
+      scrollHeight: 0,
+      isFirstRendering: true,
     };
   },
   props: ["channel", "updatePost"],
@@ -164,6 +165,7 @@ export default {
     },
     get_posts: function (axios_params = {}) {
       this.switchPosts = true;
+      this.isPushed = true;
       axios
         .get("/posts", { params: axios_params, withCredentials: true })
         .then((res) => {
@@ -186,7 +188,6 @@ export default {
   mounted() {
     this.observer = new IntersectionObserver((entries) => {
       this.$refs.observe_element.style.display = `none`;
-      this.isScrollBottom = true;
       const entry = entries[0];
       if (entry && entry.isIntersecting) {
         this.get_posts({
@@ -194,27 +195,32 @@ export default {
           update: "old",
           channel: this.channel,
         });
-        this.isPushed = true;
       }
-
-      this.isScrollBottom = false;
-      this.$refs.observe_element.style.display = `block`;
     });
     const observe_element = this.$refs.observe_element;
     this.observer.observe(observe_element);
   },
   watch: {
-    scrollBottomHeight: function (newHeight, oldHeight) {
-      if (oldHeight != 0 && this.isPushed == false) {
-        var beforeViewHeight = newHeight - oldHeight + window.scrollY;
-        console.log("result:", beforeViewHeight);
-        console.log("new:", newHeight);
-        console.log("old:", oldHeight);
-        console.log("postHeight:", newHeight - oldHeight);
-        console.log("currentScroll:", window.scrollY);
-        window.scrollTo(0, beforeViewHeight);
-      } else {
-        this.isPushed = false;
+    scrollHeight(newHeight, oldHeight) {
+      if (
+        oldHeight != 0 &&
+        this.isPushed == false &&
+        this.isUnshifted == true
+      ) {
+        var newPostHeight = newHeight - oldHeight;
+        var scrollToHeight = newPostHeight + window.scrollY;
+        window.scrollTo(0, scrollToHeight);
+        console.log("newH:", newHeight);
+        console.log("oldH:", oldHeight);
+        console.log("newPostH:", newPostHeight);
+        console.log("scrollToH:", scrollToHeight);
+      } else if (this.isPushed == true) {
+        setTimeout(() => {
+          this.isPushed = false;
+          this.$refs.observe_element.style.display = `block`;
+        }, "5000");
+      } else if (this.isUnshifted == true) {
+        this.isUnshifted = false;
       }
     },
     postsProcess(newProcessFlag) {
@@ -266,6 +272,7 @@ export default {
         }
 
         this.posts.unshift(...updatePosts);
+        this.isUnshifted = true;
 
         this.postsLength = this.posts.length;
 
@@ -284,6 +291,7 @@ export default {
         updatePosts = this.replaceUserReactionNull(updatePosts);
 
         this.posts.unshift(...updatePosts);
+        this.isUnshifted = true;
 
         this.postsLength = this.posts.length;
 
@@ -293,13 +301,12 @@ export default {
     },
   },
   updated() {
-    if (this.$refs.observe_element.style.display != `block`) {
-      this.$refs.observe_element.style.display = `block`;
-      this.scrollBottomHeight =
-        this.$refs.dispPs.getBoundingClientRect().height;
-    } else {
-      this.scrollBottomHeight =
-        this.$refs.dispPs.getBoundingClientRect().height;
+    if (
+      this.isFirstRendering == true ||
+      this.isUnshifted == true ||
+      this.isPushed == true
+    ) {
+      this.scrollHeight = this.$refs.dispPs.getBoundingClientRect().height;
     }
   },
 };
