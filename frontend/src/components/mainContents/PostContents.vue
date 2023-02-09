@@ -7,7 +7,7 @@
         :postList="post"
       />
     </div>
-    <div style="display: block; height: 1px" ref="observe_element"></div>
+    <div style="display: none" ref="observe_element"></div>
   </v-col>
 </template>
 
@@ -36,6 +36,9 @@
 import DisplayPosts from "./DisplayPosts.vue";
 import axios from "axios";
 
+// $grid-breakpoints を JavaScript のオブジェクトとして取得
+//const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
+
 export default {
   name: "TimeLine",
   components: {
@@ -56,10 +59,11 @@ export default {
     return {
       posts: [],
       postsLength: 0,
+      isFirstRendering: true,
+      isLastRendering: false,
       isUnshifted: false,
       isPushed: false,
       scrollHeight: 0,
-      isFirstRendering: true,
     };
   },
   props: ["channel", "updatePost"],
@@ -89,16 +93,19 @@ export default {
       }
     },
     get_posts: function (axios_params = {}) {
-      this.$emit("switchingPosts", true);
-      this.isPushed = true;
       axios
         .get("/posts", { params: axios_params, withCredentials: true })
         .then((res) => {
-          this.$emit("switchingPosts", false);
           this.set_posts(res);
+          if (res.data.posts.length < 15) {
+            //todo:ここに最後の投稿表示時に何か処理が書ける
+            this.isLastRendering = true;
+            this.$refs.observe_element.style.display = `none`;
+          } else {
+            this.isPushed = true;
+          }
         })
         .catch((err) => {
-          this.$emit("switchingPosts", false);
           console.log(err);
         });
     },
@@ -112,14 +119,25 @@ export default {
   },
   mounted() {
     this.observer = new IntersectionObserver((entries) => {
-      this.$refs.observe_element.style.display = `none`;
-      const entry = entries[0];
-      if (entry && entry.isIntersecting) {
-        this.get_posts({
-          created_at: this.posts[this.posts.length - 1].created_at,
-          update: "old",
-          channel: this.channel,
-        });
+      if (this.isFirstRendering == true) {
+        this.isFirstRendering = false;
+        this.isPushed = false;
+        this.$refs.observe_element.style.display = `block`;
+        this.$emit("switchingPosts", false);
+      } else if (this.isLastRendering == false) {
+        if (this.isPushed == false) {
+          this.$refs.observe_element.style.display = `none`;
+          this.$emit("switchingPosts", true);
+          this.isPushed = true;
+          const entry = entries[0];
+          if (entry && entry.isIntersecting) {
+            this.get_posts({
+              created_at: this.posts[this.posts.length - 1].created_at,
+              update: "old",
+              channel: this.channel,
+            });
+          }
+        }
       }
     });
     const observe_element = this.$refs.observe_element;
@@ -127,24 +145,18 @@ export default {
   },
   watch: {
     scrollHeight(newHeight, oldHeight) {
-      if (
-        oldHeight != 0 &&
-        this.isPushed == false &&
-        this.isUnshifted == true
-      ) {
+      if (oldHeight != 0 && this.isUnshifted == true) {
         var newPostHeight = newHeight - oldHeight;
         var scrollToHeight = newPostHeight + window.scrollY;
+
+        console.log("bs:", window.scrollY);
         window.scrollTo(0, scrollToHeight);
+        console.log("as:", window.scrollY);
+
         console.log("newH:", newHeight);
         console.log("oldH:", oldHeight);
         console.log("newPostH:", newPostHeight);
         console.log("scrollToH:", scrollToHeight);
-      } else if (this.isPushed == true) {
-        setTimeout(() => {
-          this.isPushed = false;
-          this.$refs.observe_element.style.display = `block`;
-        }, "5000");
-      } else if (this.isUnshifted == true) {
         this.isUnshifted = false;
       }
     },
@@ -226,12 +238,15 @@ export default {
     },
   },
   updated() {
-    if (
-      this.isFirstRendering == true ||
-      this.isUnshifted == true ||
-      this.isPushed == true
-    ) {
+    if (this.isUnshifted == true || this.isPushed == true) {
       this.scrollHeight = this.$refs.dispPs.getBoundingClientRect().height;
+    }
+    if (this.isPushed == true) {
+      this.$emit("switchingPosts", false);
+      setTimeout(() => {
+        this.isPushed = false;
+        this.$refs.observe_element.style.display = `block`;
+      }, "1000");
     }
   },
 };
