@@ -106,10 +106,11 @@
   #cardMainText {
     font-size: 16px;
     padding-top: 8px;
-    margin: 0 auto;
+    margin: 0;
     padding-left: 0px;
     padding-right: 0px;
-    width: 75%;
+    width: 80%;
+    margin-left: 60px;
   }
   #cardTitle {
     padding-left: 12px;
@@ -129,12 +130,13 @@
     max-width: 550px;
   }
   #nameTxt {
-    max-width: 36vw !important;
-    font-size: 12px !important;
+    max-width: 42vw !important;
+    font-size: 15px !important;
   }
   #timeTxt {
-    margin-left: 4px;
-    transform: scale(0.85) !important;
+    margin-left: 5px;
+    top: 5px;
+    transform: scale(0.9) !important;
   }
   #divider {
     width: 75%;
