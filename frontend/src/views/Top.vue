@@ -397,6 +397,11 @@ export default {
       this.closePicker();
     },
   },
+  created() {
+    if (this.logged == false) {
+      this.$store.dispatch("toTimeLine");
+    }
+  },
   mounted() {
     //投稿管理系ステートを全てリセットかける
     this.$store.commit("deleteUserUpdatePosts");

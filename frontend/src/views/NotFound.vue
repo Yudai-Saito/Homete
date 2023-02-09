@@ -31,7 +31,7 @@
             outlined
           >
             <v-icon>mdi-arrow-up-bold-box-outline</v-icon>
-            <h4>戻る</h4>
+            <h4>Homeへ戻る</h4>
           </v-btn>
         </div>
       </div>
@@ -108,8 +108,9 @@ export default {
   },
   methods: {
     toHome: function () {
-      this.$store.dispatch("toTimeLine");
-      this.$router.push("/home");
+      this.$store.dispatch("toTimeLine").then(() => {
+        this.$router.push("/home");
+      });
     },
     openMenu() {
       this.$store.dispatch("visibleMenu");

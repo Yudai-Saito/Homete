@@ -307,7 +307,7 @@
           @click="login"
         >
           <div v-if="!logged">Googleで登録する</div>
-          <div v-else>Topへ戻る</div>
+          <div v-else>Homeへ戻る</div>
         </button>
       </div>
     </div>
