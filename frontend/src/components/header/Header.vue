@@ -8,7 +8,7 @@
   >
     <v-row
       justify="center"
-      style="width: 100%"
+      style="width: 100%; justify-content: space-evenly !important"
       class="contentsFlex mx-auto my-auto"
       no-gutters
     >

@@ -1,12 +1,5 @@
 <template>
   <v-col ref="dispPs" id="postContents" class="virtualScrollBar" cols="12">
-    <div v-show="switchPosts" class="loader">
-      <div class="loader-inner ball-pulse-sync">
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-    </div>
     <div>
       <DisplayPosts
         v-for="post in posts"
@@ -26,6 +19,7 @@
   width: 100%;
 }
 .virtualScrollBar {
+  will-change: transform;
   overflow: auto;
   /* IE, Edge 対応 */
   -ms-overflow-style: none;
@@ -36,79 +30,14 @@
 .virtualScrollBar::-webkit-scrollbar {
   display: none;
 }
-
-.loader {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.loader-inner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-@-webkit-keyframes ball-pulse-sync {
-  33% {
-    -webkit-transform: translateY(10px);
-    transform: translateY(10px);
-  }
-  66% {
-    -webkit-transform: translateY(-10px);
-    transform: translateY(-10px);
-  }
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-  }
-}
-
-@keyframes ball-pulse-sync {
-  33% {
-    -webkit-transform: translateY(10px);
-    transform: translateY(10px);
-  }
-  66% {
-    -webkit-transform: translateY(-10px);
-    transform: translateY(-10px);
-  }
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-  }
-}
-
-.ball-pulse-sync > div:nth-child(1) {
-  -webkit-animation: ball-pulse-sync 0.6s -0.14s infinite ease-in-out;
-  animation: ball-pulse-sync 0.6s -0.14s infinite ease-in-out;
-}
-
-.ball-pulse-sync > div:nth-child(2) {
-  -webkit-animation: ball-pulse-sync 0.6s -0.07s infinite ease-in-out;
-  animation: ball-pulse-sync 0.6s -0.07s infinite ease-in-out;
-}
-
-.ball-pulse-sync > div:nth-child(3) {
-  -webkit-animation: ball-pulse-sync 0.6s 0s infinite ease-in-out;
-  animation: ball-pulse-sync 0.6s 0s infinite ease-in-out;
-}
-
-.ball-pulse-sync > div {
-  background-color: rgb(154, 159, 229);
-  width: 25px;
-  height: 25px;
-  border-radius: 100%;
-  margin: 0 5px;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-  display: inline-block;
-}
 </style>
 
 <script>
 import DisplayPosts from "./DisplayPosts.vue";
 import axios from "axios";
+
+// $grid-breakpoints を JavaScript のオブジェクトとして取得
+//const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
 
 export default {
   name: "TimeLine",
@@ -128,12 +57,13 @@ export default {
   },
   data() {
     return {
-      scrollBottomHeight: 0,
       posts: [],
       postsLength: 0,
-      switchPosts: false,
-      isScrollBottom: false,
+      isFirstRendering: true,
+      isLastRendering: false,
+      isUnshifted: false,
       isPushed: false,
+      scrollHeight: 0,
     };
   },
   props: ["channel", "updatePost"],
@@ -163,15 +93,19 @@ export default {
       }
     },
     get_posts: function (axios_params = {}) {
-      this.switchPosts = true;
       axios
         .get("/posts", { params: axios_params, withCredentials: true })
         .then((res) => {
-          this.switchPosts = false;
           this.set_posts(res);
+          if (res.data.posts.length < 15) {
+            //todo:ここに最後の投稿表示時に何か処理が書ける
+            this.isLastRendering = true;
+            this.$refs.observe_element.style.display = `none`;
+          } else {
+            this.isPushed = true;
+          }
         })
         .catch((err) => {
-          this.switchPosts = false;
           console.log(err);
         });
     },
@@ -185,36 +119,45 @@ export default {
   },
   mounted() {
     this.observer = new IntersectionObserver((entries) => {
-      this.$refs.observe_element.style.display = `none`;
-      this.isScrollBottom = true;
-      const entry = entries[0];
-      if (entry && entry.isIntersecting) {
-        this.get_posts({
-          created_at: this.posts[this.posts.length - 1].created_at,
-          update: "old",
-          channel: this.channel,
-        });
-        this.isPushed = true;
+      if (this.isFirstRendering == true) {
+        this.isFirstRendering = false;
+        this.isPushed = false;
+        this.$refs.observe_element.style.display = `block`;
+        this.$emit("switchingPosts", false);
+      } else if (this.isLastRendering == false) {
+        if (this.isPushed == false) {
+          this.$refs.observe_element.style.display = `none`;
+          this.$emit("switchingPosts", true);
+          this.isPushed = true;
+          const entry = entries[0];
+          if (entry && entry.isIntersecting) {
+            this.get_posts({
+              created_at: this.posts[this.posts.length - 1].created_at,
+              update: "old",
+              channel: this.channel,
+            });
+          }
+        }
       }
-
-      this.isScrollBottom = false;
-      this.$refs.observe_element.style.display = `block`;
     });
     const observe_element = this.$refs.observe_element;
     this.observer.observe(observe_element);
   },
   watch: {
-    scrollBottomHeight: function (newHeight, oldHeight) {
-      if (oldHeight != 0 && this.isPushed == false) {
-        var beforeViewHeight = newHeight - oldHeight + window.scrollY;
-        console.log("result:", beforeViewHeight);
-        console.log("new:", newHeight);
-        console.log("old:", oldHeight);
-        console.log("postHeight:", newHeight - oldHeight);
-        console.log("currentScroll:", window.scrollY);
-        window.scrollTo(0, beforeViewHeight);
-      } else {
-        this.isPushed = false;
+    scrollHeight(newHeight, oldHeight) {
+      if (oldHeight != 0 && this.isUnshifted == true) {
+        var newPostHeight = newHeight - oldHeight;
+        var scrollToHeight = newPostHeight + window.scrollY;
+
+        console.log("bs:", window.scrollY);
+        window.scrollTo(0, scrollToHeight);
+        console.log("as:", window.scrollY);
+
+        console.log("newH:", newHeight);
+        console.log("oldH:", oldHeight);
+        console.log("newPostH:", newPostHeight);
+        console.log("scrollToH:", scrollToHeight);
+        this.isUnshifted = false;
       }
     },
     postsProcess(newProcessFlag) {
@@ -266,6 +209,7 @@ export default {
         }
 
         this.posts.unshift(...updatePosts);
+        this.isUnshifted = true;
 
         this.postsLength = this.posts.length;
 
@@ -284,6 +228,7 @@ export default {
         updatePosts = this.replaceUserReactionNull(updatePosts);
 
         this.posts.unshift(...updatePosts);
+        this.isUnshifted = true;
 
         this.postsLength = this.posts.length;
 
@@ -293,13 +238,15 @@ export default {
     },
   },
   updated() {
-    if (this.$refs.observe_element.style.display != `block`) {
-      this.$refs.observe_element.style.display = `block`;
-      this.scrollBottomHeight =
-        this.$refs.dispPs.getBoundingClientRect().height;
-    } else {
-      this.scrollBottomHeight =
-        this.$refs.dispPs.getBoundingClientRect().height;
+    if (this.isUnshifted == true || this.isPushed == true) {
+      this.scrollHeight = this.$refs.dispPs.getBoundingClientRect().height;
+    }
+    if (this.isPushed == true) {
+      this.$emit("switchingPosts", false);
+      setTimeout(() => {
+        this.isPushed = false;
+        this.$refs.observe_element.style.display = `block`;
+      }, "1000");
     }
   },
 };

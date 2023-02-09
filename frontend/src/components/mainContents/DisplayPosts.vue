@@ -14,7 +14,7 @@
             <svg v-html="this.avatorSvg"></svg>
           </v-avatar>
         </div>
-        <div id="nameTxt" ref="responsiveTxt" :style="responsiveTxtStyle">
+        <div id="nameTxt" ref="responsiveTxt">
           {{ userName }}
         </div>
         <div id="timeTxt">{{ postTime }}</div>
@@ -106,14 +106,16 @@
   #cardMainText {
     font-size: 16px;
     padding-top: 8px;
-    margin: 0 auto;
+    margin: 0;
     padding-left: 0px;
     padding-right: 0px;
-    width: 75%;
+    width: 80%;
+    margin-left: 60px;
   }
   #cardTitle {
     padding-left: 12px;
     padding-bottom: 8px;
+    height: 25px;
   }
   #circle {
     height: 50px;
@@ -128,13 +130,16 @@
     max-width: 550px;
   }
   #nameTxt {
-    font-size: 22px;
-    margin-top: 10px;
-    max-width: 200px;
+    max-width: 42vw !important;
+    font-size: 15px !important;
   }
   #timeTxt {
-    font-size: 14px;
-    margin-top: 20px;
+    margin-left: 5px;
+    top: 5px;
+    transform: scale(0.9) !important;
+  }
+  #divider {
+    width: 75%;
   }
 }
 @media (max-width: map-get($grid-breakpoints, sm)) {
@@ -158,6 +163,7 @@
   #cardTitle {
     padding-left: 0px;
     padding-bottom: 0px;
+    height: 20px;
   }
   #circle {
     height: 40px;
@@ -172,18 +178,19 @@
     padding: 12px;
     max-width: 350px;
   }
-  #nameTxt {
-    font-size: 16px;
-    margin-top: 8px;
-    max-width: 150px;
-  }
-  #timeTxt {
-    font-size: 10px;
-    margin-top: 18px;
-  }
   #btns {
     width: 70%;
     margin: 0 auto;
+  }
+  #nameTxt {
+    max-width: 53vw;
+    font-size: 12px;
+  }
+  #timeTxt {
+    transform: scale(0.7);
+  }
+  #divider {
+    width: 70%;
   }
 }
 
@@ -267,32 +274,31 @@
 #nameTxt {
   font-weight: 600;
   padding: 0;
-  margin-left: 10px;
   z-index: auto;
   position: relative;
   font-family: "M PLUS Rounded 1c", sans-serif;
-}
-.v-responsive-text {
-  font-size: 16px;
+  margin-left: 10px;
 }
 #timeTxt {
   color: #6b7280;
   padding: 0;
-  margin-left: 15px;
   z-index: auto;
   position: relative;
+  font-size: 10px;
+  left: -5px;
 }
 #cardMenu {
   margin: 0;
   padding: 0;
-  margin-left: auto;
   z-index: auto;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  right: 10px;
 }
 #cardMenu * {
   z-index: auto;
-}
-#divider {
-  width: 75%;
 }
 #cardMainText {
   line-height: 26px;
@@ -307,9 +313,6 @@ import ReactionButton from "./ReactionButton.vue";
 import { createAvatar } from "@dicebear/avatars";
 import * as style from "@dicebear/open-peeps";
 
-// $grid-breakpoints を JavaScript のオブジェクトとして取得
-const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
-
 export default {
   name: "DisplayPosts",
   components: {
@@ -319,9 +322,6 @@ export default {
   computed: {
     logged() {
       return this.$store.getters.logged;
-    },
-    responsiveTxtHeight() {
-      return this.$refs.responsiveTxt.scrollHeight;
     },
   },
   data() {
@@ -335,9 +335,6 @@ export default {
       fhp: 0,
       ap: 0,
       displayAddBtn: true,
-      responsiveTxtStyle: {
-        fontSize: "24px",
-      },
     };
   },
   props: ["postList", "isSample"],
@@ -367,21 +364,6 @@ export default {
         postList: this.postList,
         postId: this.postList.post_id,
       });
-    },
-    resizeTxt(size, height) {
-      if (
-        window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches &&
-        height > 33 &&
-        size > 1
-      ) {
-        this.responsiveTxtStyle.fontSize = size - 1 + "px";
-      } else if (
-        window.matchMedia(`(min-width: ${gridBreakpoints.sm}px)`).matches &&
-        height > 40 &&
-        size > 1
-      ) {
-        this.responsiveTxtStyle.fontSize = size - 1 + "px";
-      }
     },
   },
   created() {
@@ -424,12 +406,6 @@ export default {
     if (this.reactions.length >= 20) {
       this.displayAddBtn = false;
     }
-    if (window.matchMedia(`(max-width: ${gridBreakpoints.sm}px)`).matches) {
-      this.responsiveTxtStyle.fontSize = "22px";
-    }
-    let size = parseInt(this.responsiveTxtStyle.fontSize);
-    let height = this.$refs.responsiveTxt.getBoundingClientRect().height;
-    this.resizeTxt(size, height);
   },
   watch: {
     postList() {
@@ -444,11 +420,6 @@ export default {
         }
       });
     },
-  },
-  updated() {
-    let size = parseInt(this.responsiveTxtStyle.fontSize);
-    let height = this.$refs.responsiveTxt.getBoundingClientRect().height;
-    this.resizeTxt(size, height);
   },
 };
 </script>
