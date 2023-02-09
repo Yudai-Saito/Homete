@@ -1,4 +1,3 @@
-
 import datetime
 import random
 from traceback import format_exc
@@ -20,6 +19,7 @@ from util.icon_generator import open_peeps_icon
 from util.get_posts import get_posts
 from util.posts_template import user_posts_template
 from util.ban_check import ban_check
+from util.get_random_name import random_name
 
 posts = Blueprint("posts", __name__, url_prefix="/posts")
 
@@ -34,9 +34,8 @@ def post_receive():
 
 		user_email = get_email_from_cookie(jwt)
 
-		# TODO_単語数をハードコーディングするのではなくテーブルから取ってくる
-		random_name_numbers = random.sample(range(1, 2538), 2)
-
+		random_name_numbers, name = random_name()
+  
 		icon = open_peeps_icon()
 
 		user_id = db.session.query(User.id).filter(User.email == user_email).first()[0]
@@ -48,8 +47,6 @@ def post_receive():
 
 		added_posts_id = db.session.query(Posts.id).filter(Posts.user_id == user_id).order_by(desc(Posts.id)).first()[0]
 		added_posts = db.session.query(Posts).filter(Posts.id == added_posts_id).first()
-
-		name = db.session.query(PostsName.name).filter(PostsName.id.in_(random_name_numbers)).order_by(desc(PostsName.name)).all()
 
 		user_posts = user_posts_template
 
