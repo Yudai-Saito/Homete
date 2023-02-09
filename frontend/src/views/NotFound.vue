@@ -108,8 +108,9 @@ export default {
   },
   methods: {
     toHome: function () {
-      this.$store.dispatch("toTimeLine");
-      this.$router.push("/home");
+      this.$store.dispatch("toTimeLine").then(() => {
+        this.$router.push("/home");
+      });
     },
     openMenu() {
       this.$store.dispatch("visibleMenu");
