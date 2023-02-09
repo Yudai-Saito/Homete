@@ -90,10 +90,18 @@
             },
           }"
         >
+          <div v-show="switchPosts" class="loader">
+            <div class="loader-inner ball-pulse-sync">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
           <PostContents
             v-if="contentsKey == 'timeline'"
             :key="contentsKey"
             :updatePost="updatePost"
+            @switchingPosts="switchPosts = $event"
           />
           <PostContents
             v-if="contentsKey == 'history'"
@@ -262,6 +270,75 @@ body {
   will-change: transform;
   transform: translateY(0%);
 }
+
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+}
+.loader-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@-webkit-keyframes ball-pulse-sync {
+  33% {
+    -webkit-transform: translateY(10px);
+    transform: translateY(10px);
+  }
+  66% {
+    -webkit-transform: translateY(-10px);
+    transform: translateY(-10px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes ball-pulse-sync {
+  33% {
+    -webkit-transform: translateY(10px);
+    transform: translateY(10px);
+  }
+  66% {
+    -webkit-transform: translateY(-10px);
+    transform: translateY(-10px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+.ball-pulse-sync > div:nth-child(1) {
+  -webkit-animation: ball-pulse-sync 0.6s -0.14s infinite ease-in-out;
+  animation: ball-pulse-sync 0.6s -0.14s infinite ease-in-out;
+}
+
+.ball-pulse-sync > div:nth-child(2) {
+  -webkit-animation: ball-pulse-sync 0.6s -0.07s infinite ease-in-out;
+  animation: ball-pulse-sync 0.6s -0.07s infinite ease-in-out;
+}
+
+.ball-pulse-sync > div:nth-child(3) {
+  -webkit-animation: ball-pulse-sync 0.6s 0s infinite ease-in-out;
+  animation: ball-pulse-sync 0.6s 0s infinite ease-in-out;
+}
+
+.ball-pulse-sync > div {
+  background-color: rgb(154, 159, 229);
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  margin: 0 5px;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  display: inline-block;
+}
 </style>
 
 
@@ -342,6 +419,7 @@ export default {
     return {
       updatePost: null,
       currentScrollPosition: 0,
+      switchPosts: false,
     };
   },
   directives: {
