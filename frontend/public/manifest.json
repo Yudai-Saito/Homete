@@ -9,12 +9,10 @@
       "type": "image/png"
     }
   ],
-  "start_url": "https://homete.jp/home",
+  "start_url": "http://127.0.0.1:8080/home",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
-  "categories": [
-    "social"
-  ],
+  "categories": ["social"],
   "lang": "ja"
 }

@@ -18,8 +18,27 @@
     <link rel="manifest" href="/manifest.json" />
     <script>
       if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function () {
-          navigator.serviceWorker.register("./sw.js");
+        navigator.serviceWorker.getRegistration().then((registration) => {
+          // 登録中の SW がなければ、これが初回登録である
+          const firstRegistration = registration === undefined;
+          // SW を登録する
+          navigator.serviceWorker.register("sw.js").then((registration) => {
+            // 初回登録でなければ更新が見つかったかチェックする
+            if (!firstRegistration) {
+              registration.addEventListener("updatefound", () => {
+                const installingWorker = registration.installing;
+                if (installingWorker != null) {
+                  installingWorker.onstatechange = (e) => {
+                    if (e.target.state == "installed") {
+                      alert(
+                        "更新がインストールされました。アプリを再起動してください。"
+                      );
+                    }
+                  };
+                }
+              });
+            }
+          });
         });
       }
     </script>
