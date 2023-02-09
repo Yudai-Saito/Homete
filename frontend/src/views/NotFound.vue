@@ -31,7 +31,7 @@
             outlined
           >
             <v-icon>mdi-arrow-up-bold-box-outline</v-icon>
-            <h4>戻る</h4>
+            <h4>Homeへ戻る</h4>
           </v-btn>
         </div>
       </div>
