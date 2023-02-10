@@ -51,6 +51,6 @@ def get_posts(user_id, update, created_at, channel, update_time_start="", update
   if update == "new":
     posts = posts_query.all()
   else:
-    posts = posts_query.limit(30).all()
+    posts = posts_query.limit(15).all()
 
   return posts
