@@ -503,7 +503,7 @@
   display: flex;
   justify-content: center;
   flex-flow: column;
-  top: 32%;
+  top: 27%;
   right: 42%;
   -webkit-filter: drop-shadow(5px 5px 5px #7f483a);
   -moz-filter: drop-shadow(5px 5px 5px #7f483a);
@@ -567,15 +567,18 @@
 }
 #lpPostSample #cardMainText {
   font-size: 16px;
-  width: 70%;
-  padding: 8px;
-  margin: 0 auto;
+  margin: 0;
+  padding-top: 8px;
   padding-left: 0px;
   padding-right: 0px;
+  padding-bottom: 16px;
+  width: 80%;
+  margin-left: 70px;
 }
 #lpPostSample #cardTitle {
   padding-left: 12px;
   padding-bottom: 8px;
+  height: 25px;
 }
 #lpPostSample #circle {
   height: 50px;
@@ -591,13 +594,13 @@
   max-width: 550px;
 }
 #lpPostSample #nameTxt {
-  font-size: 22px;
-  margin-top: 10px;
-  max-width: 300px;
+  max-width: 42vw !important;
+  font-size: 15px !important;
 }
 #lpPostSample #timeTxt {
-  font-size: 14px;
-  margin-top: 20px;
+  margin-left: 5px;
+  top: 5px;
+  transform: scale(0.9) !important;
 }
 #lpPostSample #btns {
   width: 100%;

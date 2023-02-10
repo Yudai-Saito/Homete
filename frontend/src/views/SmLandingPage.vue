@@ -607,7 +607,7 @@
   display: flex;
   justify-content: center;
   flex-flow: column;
-  top: 235px;
+  top: 210px;
   right: -8%;
   -webkit-filter: drop-shadow(5px 5px 5px #7f483a);
   -moz-filter: drop-shadow(5px 5px 5px #7f483a);
@@ -683,6 +683,7 @@
 #smLpPostSample #cardTitle {
   padding-left: 0px;
   padding-bottom: 0px;
+  height: 20px;
 }
 #smLpPostSample #circle {
   height: 40px;
@@ -698,13 +699,11 @@
   max-width: 350px;
 }
 #smLpPostSample #nameTxt {
-  font-size: 16px;
-  margin-top: 8px;
-  max-width: 150px;
+  max-width: 53vw !important;
+  font-size: 12px !important;
 }
 #smLpPostSample #timeTxt {
-  font-size: 10px;
-  margin-top: 18px;
+  transform: scale(0.7);
 }
 #smLpPostSample #btns {
   width: 70%;
