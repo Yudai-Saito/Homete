@@ -235,7 +235,7 @@
               rounded
               @click="onClickLPPostBtn"
             >
-              <v-icon color="rgb(73,72,84)"> mdi-pen-plus </v-icon>
+              <v-icon color="rgb(73,72,84)"> {{ mdiPenPlus }}</v-icon>
             </v-btn>
           </div>
         </div>
@@ -734,6 +734,8 @@ import DisplayPosts from "@/components/mainContents/DisplayPosts.vue";
 import PostForm from "@/components/util/PostForm.vue";
 import Login from "@/components/overlays/Login.vue";
 
+import { mdiPenPlus } from "@mdi/js";
+
 export default {
   name: "LandingPage",
   components: {
@@ -748,6 +750,7 @@ export default {
   },
   data() {
     return {
+      mdiPenPlus,
       displayPostForm: false,
       scrollY: 0,
       visibleStartY: 0,

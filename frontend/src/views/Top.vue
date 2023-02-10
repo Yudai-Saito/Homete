@@ -115,7 +115,7 @@
             rounded
             @click="onClickPostBtn"
           >
-            <v-icon color="rgb(73,72,84)"> mdi-pen-plus </v-icon>
+            <v-icon color="rgb(73,72,84)"> {{ mdiPenPlus }} </v-icon>
           </v-btn>
         </div>
         <v-col cols="3" class="d-none d-md-block">
@@ -355,6 +355,8 @@ import ClickOutside from "vue-click-outside";
 
 import ws from "@/ws-client";
 
+import { mdiPenPlus } from "@mdi/js";
+
 // $grid-breakpoints を JavaScript のオブジェクトとして取得
 const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
 
@@ -416,6 +418,7 @@ export default {
       currentScrollPosition: 0,
       switchPosts: false,
       breakpoint: "",
+      mdiPenPlus,
     };
   },
   directives: {

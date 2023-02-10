@@ -7,14 +7,10 @@
     padless
   >
     <v-col id="ftTxt" class="text-center" cols="12"> ©2023 by HOMETE </v-col>
-    <FooterBtn
-      usage="toTimeLine"
-      ftBtnIcon="mdi-home"
-      ftBtnTxt="タイムライン"
-    />
+    <FooterBtn usage="toTimeLine" ftBtnIcon="mdiHome" ftBtnTxt="タイムライン" />
     <FooterBtn
       usage="toHistory"
-      ftBtnIcon="mdi-clock-outline"
+      ftBtnIcon="mdiClockOutline"
       ftBtnTxt="ヒストリー"
     />
   </v-footer>

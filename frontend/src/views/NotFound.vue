@@ -30,7 +30,7 @@
             elevation="0"
             outlined
           >
-            <v-icon>mdi-arrow-up-bold-box-outline</v-icon>
+            <v-icon>{{ mdiArrowUpBoldBoxOutline }}</v-icon>
             <h4>Homeへ戻る</h4>
           </v-btn>
         </div>
@@ -63,7 +63,7 @@
   font-size: 50px;
   text-align: center;
   z-index: 0;
-  margin-top: 30px;
+  margin-top: auto;
   max-width: 520px;
   margin-left: auto;
   margin-right: auto;
@@ -75,6 +75,7 @@
   text-align: center;
   font-size: 20px;
   font-weight: 500;
+  margin-bottom: auto;
 }
 #nfReactBtn {
   background-color: rgb(225 255 255);
@@ -83,8 +84,10 @@
   transition: all 0.4s !important;
   z-index: 0;
   position: relative;
-  top: 6vh;
   min-height: 100vh;
+  transform: scale(0.95);
+  display: flex;
+  flex-flow: column;
 }
 </style>
 
@@ -94,12 +97,19 @@ import Header from "@/components/header/Header.vue";
 import Footer from "@/components/footer/Footer.vue";
 import Login from "@/components/overlays/Login.vue";
 
+import { mdiArrowUpBoldBoxOutline } from "@mdi/js";
+
 export default {
   name: "NotFound",
   components: {
     Login,
     Footer,
     Header,
+  },
+  data() {
+    return {
+      mdiArrowUpBoldBoxOutline,
+    };
   },
   computed: {
     displayMenu() {

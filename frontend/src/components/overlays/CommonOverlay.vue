@@ -14,7 +14,7 @@
         id="closeOverlayBtn"
         @click="closeOverlayCard"
       >
-        <v-icon color="#23282F">mdi-close</v-icon>
+        <v-icon color="#23282F">{{ mdiClose }}</v-icon>
       </v-btn>
 
       <img
@@ -172,12 +172,15 @@
 </style>
 
 <script>
+import { mdiClose } from "@mdi/js";
+
 export default {
   name: "CommonOverlay",
   data() {
     return {
       checked: [],
       btnDisable: true,
+      mdiClose,
     };
   },
   props: [
