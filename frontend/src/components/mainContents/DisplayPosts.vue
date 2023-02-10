@@ -36,7 +36,7 @@
                 v-on="on"
                 :disabled="!(logged && !isSample)"
               >
-                <v-icon>mdi-dots-horizontal</v-icon>
+                <v-icon>{{ mdiDotsHorizontal }}</v-icon>
               </v-btn>
             </template>
             <v-list class="ma-0 pa-0">
@@ -87,7 +87,7 @@
             :disabled="!logged && !isSample"
           >
             <div ref="addBtn">
-              <v-icon>mdi-plus</v-icon>
+              <v-icon>{{ mdiPlus }}</v-icon>
             </div>
           </v-btn>
         </v-card-actions>
@@ -313,6 +313,9 @@ import ReactionButton from "./ReactionButton.vue";
 import { createAvatar } from "@dicebear/avatars";
 import * as style from "@dicebear/open-peeps";
 
+import { mdiDotsHorizontal } from "@mdi/js";
+import { mdiPlus } from "@mdi/js";
+
 export default {
   name: "DisplayPosts",
   components: {
@@ -335,6 +338,8 @@ export default {
       fhp: 0,
       ap: 0,
       displayAddBtn: true,
+      mdiDotsHorizontal,
+      mdiPlus,
     };
   },
   props: ["postList", "isSample"],

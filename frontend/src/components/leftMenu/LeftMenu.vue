@@ -4,12 +4,12 @@
       <LeftMenuButton
         usage="toTimeLine"
         btnText="タイムライン"
-        btnIcon="mdi-home"
+        btnIcon="mdiHome"
       />
       <LeftMenuButton
         usage="toHistory"
         btnText="ヒストリー"
-        btnIcon="mdi-history"
+        btnIcon="mdiHistory"
       />
       <v-btn
         id="aboutBtn"

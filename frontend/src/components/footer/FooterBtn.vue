@@ -8,7 +8,8 @@
     @click="onClick"
   >
     <div id="ftBtnIcon">
-      <v-icon>{{ ftBtnIcon }}</v-icon>
+      <v-icon v-if="ftBtnIcon == 'mdiHome'">{{ mdiHome }}</v-icon>
+      <v-icon v-else>{{ mdiClockOutline }}</v-icon>
     </div>
     <div id="ftBtnTxt">{{ ftBtnTxt }}</div>
   </v-btn>
@@ -49,6 +50,9 @@
 </style>
 
 <script>
+import { mdiHome } from "@mdi/js";
+import { mdiClockOutline } from "@mdi/js";
+
 export default {
   name: "FooterBtn",
   computed: {
@@ -61,6 +65,12 @@ export default {
     contentsKey() {
       return this.$store.getters.contentsKey;
     },
+  },
+  data() {
+    return {
+      mdiHome,
+      mdiClockOutline,
+    };
   },
   props: ["usage", "ftBtnIcon", "ftBtnTxt"],
   methods: {

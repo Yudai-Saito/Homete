@@ -40,35 +40,35 @@
           <v-list-item>
             <SpringBoardMenu
               :labelTxt="logged ? 'アカウント' : 'ログイン'"
-              :icon="logged ? 'mdi-account-cog' : 'mdi-login-variant'"
+              :icon="logged ? 'mdiAccountCog' : 'mdiLoginVariant'"
               :onClickSpringBoardMenu="logged ? toAccountManagement : login"
             />
           </v-list-item>
           <v-list-item>
             <SpringBoardMenu
               labelTxt="HOMETEについて"
-              icon="mdi-information-variant"
+              icon="mdiInformationVariant"
               :onClickSpringBoardMenu="toExplanation"
             />
           </v-list-item>
           <v-list-item>
             <SpringBoardMenu
               labelTxt="Q & A"
-              icon="mdi-chat-question-outline"
+              icon="mdiChatQuestionOutline"
               :onClickSpringBoardMenu="toQuestionAnswer"
             />
           </v-list-item>
           <v-list-item>
             <SpringBoardMenu
               labelTxt="利用規約"
-              icon="mdi-shield-check"
+              icon="mdiShieldCheck"
               :onClickSpringBoardMenu="toUserPolicy"
             />
           </v-list-item>
           <v-list-item>
             <SpringBoardMenu
               labelTxt="プライバシー"
-              icon="mdi-shield-key-outline"
+              icon="mdiShieldKeyOutline"
               :onClickSpringBoardMenu="toPrivacyPolicy"
             />
           </v-list-item>
@@ -108,11 +108,11 @@
           @click="toAccountManagement"
           v-if="logged"
         >
-          <v-icon>mdi-account-cog</v-icon>
+          <v-icon>{{ mdiAccountCog }}</v-icon>
           <div>アカウント</div>
         </v-btn>
         <v-btn color="rgb(225 255 255)" rounded @click="login" v-else>
-          <v-icon>mdi-login-variant</v-icon>
+          <v-icon>{{ mdiLoginVariant }}</v-icon>
           <div>ログイン</div>
         </v-btn>
       </v-col>
@@ -328,6 +328,9 @@ a {
 <script>
 import SpringBoardMenu from "./SpringBoardMenu.vue";
 
+import { mdiLoginVariant } from "@mdi/js";
+import { mdiAccountCog } from "@mdi/js";
+
 export default {
   name: "Header",
   components: {
@@ -345,7 +348,7 @@ export default {
     },
   },
   data() {
-    return {};
+    return { mdiLoginVariant, mdiAccountCog };
   },
   methods: {
     login: function () {

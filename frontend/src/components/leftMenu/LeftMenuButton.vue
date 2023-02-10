@@ -8,7 +8,8 @@
     :elevation="3"
     @click="onClick"
   >
-    <v-icon> {{ btnIcon }} </v-icon>
+    <v-icon v-if="btnIcon == 'mdiHome'"> {{ mdiHome }} </v-icon>
+    <v-icon v-else> {{ mdiClockOutline }} </v-icon>
     {{ btnText }}
   </v-btn>
 </template>
@@ -31,6 +32,9 @@
 </style>
 
 <script>
+import { mdiHome } from "@mdi/js";
+import { mdiClockOutline } from "@mdi/js";
+
 export default {
   name: "LeftMenuButton",
   computed: {
@@ -40,6 +44,12 @@ export default {
     contentsKey() {
       return this.$store.getters.contentsKey;
     },
+  },
+  data() {
+    return {
+      mdiHome,
+      mdiClockOutline,
+    };
   },
   props: ["usage", "btnText", "btnIcon"],
   methods: {
