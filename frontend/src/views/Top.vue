@@ -31,12 +31,7 @@
       </div>
     </transition>
     <transition name="fade">
-      <div
-        id="formOverlay"
-        style="z-index: 2"
-        v-show="displayTwemojiPicker"
-        @click="closePicker"
-      >
+      <div id="formOverlay" v-show="displayTwemojiPicker" @click="closePicker">
         <transition :name="transitionName">
           <div
             ref="pickerCard"

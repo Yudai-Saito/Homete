@@ -66,6 +66,8 @@ export default {
   methods: {
     onClick: function () {
       if (this.logged || this.usage == "toTimeLine") {
+        this.$store.dispatch("invisiblePostForm");
+        this.$store.commit("invisibleTwemojiPicker");
         if (
           (this.usage == "toTimeLine" && this.contentsKey == "timeline") ||
           (this.usage == "toHistory" && this.contentsKey == "history")
