@@ -395,6 +395,8 @@ export default {
       });
     },
     toggleMenu() {
+      this.$store.dispatch("invisiblePostForm");
+      this.$store.commit("invisibleTwemojiPicker");
       if (this.displayMenu) {
         this.closeMenu();
       } else {

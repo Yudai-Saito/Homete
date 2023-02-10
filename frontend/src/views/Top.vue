@@ -31,12 +31,7 @@
       </div>
     </transition>
     <transition name="fade">
-      <div
-        id="formOverlay"
-        style="z-index: 2"
-        v-show="displayTwemojiPicker"
-        @click="closePicker"
-      >
+      <div id="formOverlay" v-show="displayTwemojiPicker" @click="closePicker">
         <transition :name="transitionName">
           <div
             ref="pickerCard"
@@ -420,6 +415,7 @@ export default {
       updatePost: null,
       currentScrollPosition: 0,
       switchPosts: false,
+      breakpoint: "",
     };
   },
   directives: {
@@ -474,22 +470,43 @@ export default {
       this.closeForm();
       this.closePicker();
     },
+    closeOverlay() {
+      window.requestAnimationFrame(() => {
+        var currentBreakpoint = this.getCurrentBreakpoint();
+        if (currentBreakpoint !== this.breakpoint) {
+          this.breakpoint = currentBreakpoint;
+          this.closeForm();
+          this.closePicker();
+        }
+      });
+    },
+    getCurrentBreakpoint() {
+      if (window.matchMedia(`(min-width: ${gridBreakpoints.md}px)`).matches) {
+        return "lg";
+      } else {
+        return "md";
+      }
+    },
   },
   created() {
     if (this.logged == false) {
       this.$store.dispatch("toTimeLine");
     }
+    this.breakpoint = this.getCurrentBreakpoint();
   },
   mounted() {
     //投稿管理系ステートを全てリセットかける
     this.$store.commit("deleteUserUpdatePosts");
     this.$store.commit("deleteUpdatePosts");
 
+    window.addEventListener("resize", this.closeOverlay);
+
     //WS接続
     ws.connect(this);
   },
   beforeDestroy() {
     ws.disconnect();
+    window.removeEventListener("resize", this.closeOverlay);
   },
 };
 </script>
