@@ -30,9 +30,18 @@
                 if (installingWorker != null) {
                   installingWorker.onstatechange = (e) => {
                     if (e.target.state == "installed") {
-                      alert(
-                        "更新がインストールされました。アプリを再起動してください。"
-                      );
+                      if (
+                        !alert(
+                          "更新があります。OKからアプリを再起動してください。"
+                        )
+                      ) {
+                        navigator.serviceWorker.controller.postMessage(
+                          "updateCache"
+                        );
+                        setTimeout(function () {
+                          location.reload();
+                        });
+                      }
                     }
                   };
                 }
