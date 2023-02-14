@@ -152,6 +152,11 @@
     overflow: hidden;
   }
 }
+@media (min-width: map-get($grid-breakpoints, md)) {
+  #formOverlay {
+    z-index: 5;
+  }
+}
 @media (min-width: map-get($grid-breakpoints, sm)) {
   // sm 以上のブレークポイントでのスタイル定義
   #postFormOverlayCard {
