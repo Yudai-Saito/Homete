@@ -93,6 +93,7 @@ export default {
       }
     },
     get_posts: function (axios_params = {}) {
+      this.$emit("switchingPosts", true);
       axios
         .get("/posts", { params: axios_params, withCredentials: true })
         .then((res) => {
@@ -100,6 +101,7 @@ export default {
           if (res.data.posts.length < 15) {
             //todo:ここに最後の投稿表示時に何か処理が書ける
             this.isLastRendering = true;
+            this.$emit("switchingPosts", false);
             this.$refs.observe_element.style.display = `none`;
           } else {
             this.isPushed = true;
@@ -123,7 +125,6 @@ export default {
         this.isFirstRendering = false;
         this.isPushed = false;
         this.$refs.observe_element.style.display = `block`;
-        this.$emit("switchingPosts", false);
       } else if (this.isLastRendering == false) {
         if (this.isPushed == false) {
           this.$refs.observe_element.style.display = `none`;
@@ -242,9 +243,9 @@ export default {
       this.scrollHeight = this.$refs.dispPs.getBoundingClientRect().height;
     }
     if (this.isPushed == true) {
-      this.$emit("switchingPosts", false);
       setTimeout(() => {
         this.isPushed = false;
+        this.$emit("switchingPosts", false);
         this.$refs.observe_element.style.display = `block`;
       }, "1000");
     }

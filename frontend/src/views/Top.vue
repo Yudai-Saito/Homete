@@ -103,6 +103,7 @@
             :channel="contentsKey"
             :key="contentsKey"
             :updatePost="updatePost"
+            @switchingPosts="switchPosts = $event"
           />
         </v-col>
         <div id="postBtnFloat" ref="postBtn">
@@ -150,6 +151,11 @@
     bottom: 0;
     background: rgba(33, 33, 33, 0.46);
     overflow: hidden;
+  }
+}
+@media (min-width: map-get($grid-breakpoints, md)) {
+  #formOverlay {
+    z-index: 5;
   }
 }
 @media (min-width: map-get($grid-breakpoints, sm)) {
