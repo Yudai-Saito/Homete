@@ -125,7 +125,6 @@ export default {
         this.isFirstRendering = false;
         this.isPushed = false;
         this.$refs.observe_element.style.display = `block`;
-        this.$emit("switchingPosts", false);
       } else if (this.isLastRendering == false) {
         if (this.isPushed == false) {
           this.$refs.observe_element.style.display = `none`;
@@ -244,9 +243,9 @@ export default {
       this.scrollHeight = this.$refs.dispPs.getBoundingClientRect().height;
     }
     if (this.isPushed == true) {
-      this.$emit("switchingPosts", false);
       setTimeout(() => {
         this.isPushed = false;
+        this.$emit("switchingPosts", false);
         this.$refs.observe_element.style.display = `block`;
       }, "1000");
     }
