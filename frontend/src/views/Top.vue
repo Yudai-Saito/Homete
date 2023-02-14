@@ -103,6 +103,7 @@
             :channel="contentsKey"
             :key="contentsKey"
             :updatePost="updatePost"
+            @switchingPosts="switchPosts = $event"
           />
         </v-col>
         <div id="postBtnFloat" ref="postBtn">

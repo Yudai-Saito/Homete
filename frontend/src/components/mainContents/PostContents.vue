@@ -93,6 +93,7 @@ export default {
       }
     },
     get_posts: function (axios_params = {}) {
+      this.$emit("switchingPosts", true);
       axios
         .get("/posts", { params: axios_params, withCredentials: true })
         .then((res) => {
