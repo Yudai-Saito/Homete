@@ -18,8 +18,11 @@
             style="width: 200px; height: 48.45px; position: relative; top: 0px"
           />
         </div>
-        <div v-if="!logged" id="lpBtns">
-          <button id="lpBtnSignup" @click="login">Googleで登録する</button>
+        <div id="lpBtns">
+          <button id="lpBtnSignup" @click="login">
+            <div v-if="!logged">Googleで登録する</div>
+            <div v-else>Homeへ戻る</div>
+          </button>
         </div>
       </v-app-bar>
       <div id="lpBoard">

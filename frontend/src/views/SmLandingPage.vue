@@ -23,8 +23,9 @@
           "
         />
       </div>
-      <button v-if="!logged" id="smLpBtnSignup" @click="login">
-        Googleで登録する
+      <button id="smLpBtnSignup" @click="login">
+        <div v-if="!logged">Googleで登録する</div>
+        <div v-else>Homeへ戻る</div>
       </button>
     </v-app-bar>
     <div id="smLpBoard">
