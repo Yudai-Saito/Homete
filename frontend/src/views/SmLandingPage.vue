@@ -73,7 +73,7 @@
           <img
             alt="HOMETE_LP2"
             src="/assets/HOMETE_LP2.webp"
-            style="width: 215px; position: relative; left: 40%; bottom: 8%"
+            style="width: 215px; position: relative; left: 40%; bottom: 50px"
           />
         </div>
       </div>
@@ -379,7 +379,7 @@
   font-size: 35px;
   font-weight: 700;
   padding: 0 15px;
-  margin-top: 10%;
+  margin-top: 5%;
   margin-right: auto;
 }
 #smLpBtns {
@@ -472,6 +472,10 @@
   font-weight: 500;
   text-align: center;
   width: 260px;
+  margin-top: 0;
+}
+#smLPContentInner .v-carousel__controls {
+  bottom: 25px;
 }
 
 #smLpBubble {
