@@ -1,15 +1,28 @@
 <template>
-  <div class="aboutContainer">
+  <div style="font-family: auto" class="aboutContainer">
     <div class="aboutGroupTitle">
-      <div v-twemoji style="width: 20px; margin-right: 5px; margin-top: 12px">
-        📑
-      </div>
+      <div v-twemoji class="aboutGroupTitleIcon">📑</div>
       <h3 v-twemoji class="aboutTitleTxt" style="margin: 10px">利用規約</h3>
     </div>
     <v-divider style="margin: 10px" />
-    <div v-html="markedContent"></div>
+    <div id="upContent" v-html="markedContent"></div>
   </div>
 </template>
+
+<style>
+#upContent h2 {
+  font-size: 18px;
+}
+#upContent p,
+ol {
+  font-size: 15px;
+  margin-bottom: 20px;
+  margin-top: 5px;
+}
+#upContent ol li {
+  margin-bottom: 10px;
+}
+</style>
 
 <script>
 import twemoji from "twemoji";
