@@ -141,6 +141,10 @@
   display: flex;
   justify-content: center;
 }
+.aboutGroupTitleIcon {
+  width: 20px;
+  margin-top: 14px;
+}
 #flexSlide .v-slide-group__wrapper .v-slide-group__content {
   justify-content: center;
 }

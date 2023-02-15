@@ -1,9 +1,7 @@
 <template>
-  <div class="aboutContainer">
+  <div style="font-family: auto" class="aboutContainer">
     <div class="aboutGroupTitle">
-      <div v-twemoji style="width: 20px; margin-right: 5px; margin-top: 12px">
-        📑
-      </div>
+      <div v-twemoji class="aboutGroupTitleIcon">📑</div>
       <h3 v-twemoji class="aboutTitleTxt" style="margin: 10px">利用規約</h3>
     </div>
     <v-divider style="margin: 10px" />
