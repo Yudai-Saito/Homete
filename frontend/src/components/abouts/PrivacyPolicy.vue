@@ -9,9 +9,24 @@
       </h3>
     </div>
     <v-divider style="margin: 10px" />
-    <div v-html="markedContent"></div>
+    <div id="ppContent" v-html="markedContent"></div>
   </div>
 </template>
+
+<style>
+#ppContent h2 {
+  font-size: 18px;
+}
+#ppContent p,
+ol {
+  font-size: 15px;
+  margin-bottom: 15px;
+  margin-top: 3px;
+}
+#ppContent ol li {
+  margin-bottom: 3px;
+}
+</style>
 
 <script>
 import twemoji from "twemoji";

@@ -7,9 +7,24 @@
       <h3 v-twemoji class="aboutTitleTxt" style="margin: 10px">利用規約</h3>
     </div>
     <v-divider style="margin: 10px" />
-    <div v-html="markedContent"></div>
+    <div id="upContent" v-html="markedContent"></div>
   </div>
 </template>
+
+<style>
+#upContent h2 {
+  font-size: 18px;
+}
+#upContent p,
+ol {
+  font-size: 15px;
+  margin-bottom: 15px;
+  margin-top: 3px;
+}
+#upContent ol li {
+  margin-bottom: 3px;
+}
+</style>
 
 <script>
 import twemoji from "twemoji";
