@@ -20,11 +20,11 @@
 #ppContent p,
 ol {
   font-size: 15px;
-  margin-bottom: 15px;
-  margin-top: 3px;
+  margin-bottom: 20px;
+  margin-top: 5px;
 }
 #ppContent ol li {
-  margin-bottom: 3px;
+  margin-bottom: 10px;
 }
 </style>
 
