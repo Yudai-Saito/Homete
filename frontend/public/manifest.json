@@ -4,9 +4,14 @@
   "description": "誰かに褒めてもらえる優しいSNS",
   "icons": [
     {
-      "src": "./assets/favicon.webp",
+      "src": "./assets/android-chrome-192x192.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "./assets/android-chrome-512x512.webp",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/webp"
     }
   ],
   "start_url": "https://homete.jp/home",
