@@ -68,7 +68,10 @@ const actions = {
     });
   },
   setAboutState({ commit }, state) {
-    commit("updateAboutState", state);
+    return new Promise((resolve) => {
+      commit("updateAboutState", state);
+      resolve();
+    });
   },
 };
 

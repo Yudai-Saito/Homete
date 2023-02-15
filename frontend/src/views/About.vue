@@ -270,15 +270,18 @@ export default {
     aboutState(newState) {
       this.currentDisplay = newState;
     },
-    currentDisplay(newState) {
+    currentDisplay(newState, oldState) {
       if (newState === 0) {
-        if (window.innerWidth < gridBreakpoints.sm) {
-          this.$router.push({ name: "SmLandingPage" });
-        } else {
-          this.$router.push({ name: "LandingPage" });
-        }
+        this.$store.dispatch("setAboutState", oldState).then(() => {
+          if (window.innerWidth < gridBreakpoints.sm) {
+            this.$router.push({ name: "SmLandingPage" });
+          } else {
+            this.$router.push({ name: "LandingPage" });
+          }
+        });
+      } else {
+        this.$store.dispatch("setAboutState", newState);
       }
-      this.$store.dispatch("setAboutState", newState);
     },
   },
 };
