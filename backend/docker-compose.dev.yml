@@ -23,7 +23,7 @@ services:
       - develop_homete_network
     build:
       context: .
-      dockerfile: ../../Dockerfile
+      dockerfile: Dockerfile
     ports:
       - 8000:8000
     volumes:
