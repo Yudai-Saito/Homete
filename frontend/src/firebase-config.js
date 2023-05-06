@@ -1,9 +1,9 @@
 export const firebaseConfig = {
-  apiKey: "AIzaSyB0PmFyQzvhTFtao0UDPJud47GcAeF6QGo",
-  authDomain: "homete.firebaseapp.com",
-  projectId: "homete",
-  storageBucket: "homete.appspot.com",
-  messagingSenderId: "606642471989",
-  appId: "1:606642471989:web:30e0d961d25ef58b92dd7c",
-  measurementId: "G-5BT14JQXPQ",
+  apiKey: process.env.VUE_APP_FIRE_BASE_API_KEY,
+  authDomain: process.env.VUE_APP_FIRE_BASE_AUTH_DOMAIN,
+  projectId: process.env.VUE_APP_FIRE_BASE_PROJECT_ID,
+  storageBucket: process.env.VUE_APP_FIRE_BASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.VUE_APP_FIRE_BASE_MESSAGING_SENDER_ID,
+  appId: process.env.VUE_APP_FIRE_BASE_API_ID,
+  measurementId: process.env.VUE_APP_FIRE_BASE_MEASUREMENT_ID,
 };
