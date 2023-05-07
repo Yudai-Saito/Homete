@@ -17,3 +17,6 @@ build:
 
 exec:
 	docker-compose exec vue sh
+
+down:
+	docker-compose --env-file .env.dev -f docker-compose.yml down
