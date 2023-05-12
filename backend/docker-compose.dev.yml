@@ -1,40 +1,29 @@
-
 version: "3.8"
 
 services:
-  redis:
-    container_name: "redis"
-    networks:
-      - homete_network
-    image: "redis"
-    volumes:
-      - redis_volume:/data
-    command:
-      redis-server --requirepass ${REDIS_PASSWORD}
-
   mysql:
     container_name: "mysql"
     networks:
-      - homete_network
-    image: mysql
+      - develop_homete_network
+    image: mysql:8.0.27
     volumes:
-      - mysql_volume:/var/lib/mysql
+      - develop_mysql_volume:/var/lib/mysql
       - ./mysql.conf:/etc/mysql/conf.d/mysql.conf
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      TZ: 'Asia/Tokyo'
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin 
+      TZ: "Asia/Tokyo"
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
 
   python:
     container_name: "python3"
     networks:
-      - homete_network
+      - develop_homete_network
     build:
       context: .
-      dockerfile: ../../Dockerfile
+      dockerfile: Dockerfile
     ports:
       - 8000:8000
     volumes:
@@ -42,24 +31,19 @@ services:
     working_dir: "/usr/src/app"
     tty: true
     environment:
+      FIREBASE_KEY: ${FIREBASE_KEY}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       FLASK_APP: run.py
-      MAIL_SERVER: ${MAIL_SERVER}
-      MAIL_USERNAME: ${MAIL_USERNAME}
-      MAIL_PASSWORD: ${MAIL_PASSWORD}
-      MAIL_DEFAULT_SENDER: ${MAIL_DEFAULT_SENDER}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
       FRONTEND_URL: ${FRONTEND_URL}
-      SALT: ${SALT}
+      SECRET_KEY: ${SECRET_KEY}
       DOMAIN: ${DOMAIN}
     entrypoint: python run.py
 
 networks:
-  homete_network:
+  develop_homete_network:
+    external: true
 
 volumes:
-  mysql_volume:
-  redis_volume:
+  develop_mysql_volume:

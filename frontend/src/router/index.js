@@ -1,64 +1,82 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Top from '../views/Top.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Top from "@/views/Top.vue";
+import About from "@/views/About.vue";
+import Loginloading from "@/views/LoginLoading.vue";
+import NotFound from "@/views/NotFound.vue";
+import AccountManagement from "@/views/AccountManagement.vue";
+import LandingPage from "@/views/LandingPage.vue";
+import SmLandingPage from "@/views/SmLandingPage.vue";
 
-Vue.use(VueRouter)
+// $grid-breakpoints を JavaScript のオブジェクトとして取得
+const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
+
+Vue.use(VueRouter);
 
 const routes = [
-	{
-		path: '/',
-		name: 'Top',
-		component: Top,
-		meta: {title: 'トップ'}
-	},
-	{
-		path: '/about',
-		name: 'About',
-		// route level code-splitting
-		// this generates a separate chunk (about.[hash].js) for this route
-		// which is lazy-loaded when the route is visited.
-		component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
-		meta: {title: 'HOMETEとは？'}
-	},
-	{
-		path: '/login',
-		name: 'Login',
-		component: () => import('../views/Login.vue'),
-		meta: {title: 'ログイン'}
-	},
-	{
-		path: '/signup',
-		name: 'Signup',
-		component: () => import('../views/Signup.vue'),
-		meta: {title: '新規登録'}
-	},
-	{
-		path: '/signup/mail',
-		name: 'SignupReqmail',
-		component: () => import('../views/SignupReqmail.vue'),
-		meta: {title: '新規登録'}
-	},
-	{
-		path: '/passreset',
-		name: 'Passreset',
-		component: () => import('../views/Passreset.vue'),
-		meta : {title: 'パスワード再設定'}
-	},
-	{
-		path: '/passreset/mail',
-		name: 'PassresetReqmail',
-		component: () => import('../views/PassresetReqmail.vue'),
-		meta : {title: 'パスワード再設定用'}
-	},
-]
+  {
+    path: "/",
+    name: "LandingPage",
+    component: LandingPage,
+    beforeEnter: (to, from, next) => {
+      if (window.innerWidth < gridBreakpoints.sm) {
+        next({ name: "SmLandingPage" });
+      } else {
+        next();
+      }
+    },
+  },
+  {
+    path: "/",
+    name: "SmLandingPage",
+    component: SmLandingPage,
+    beforeEnter: (to, from, next) => {
+      if (window.innerWidth >= gridBreakpoints.sm) {
+        next({ name: "LandingPage" });
+      } else {
+        next();
+      }
+    },
+  },
+  {
+    path: "/home",
+    name: "Home",
+    component: Top,
+    meta: { title: "ホーム" },
+  },
+  {
+    path: "/about",
+    name: "About",
+    component: About,
+    meta: { title: "HOMETEとは？" },
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Loginloading,
+    meta: { title: "HOMETEとは？" },
+  },
+  {
+    path: "/account",
+    name: "Account",
+    component: AccountManagement,
+    meta: { title: "アカウント管理" },
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "NotFound",
+    component: NotFound,
+    meta: { title: "404NotFound" },
+  },
+];
 
 const router = new VueRouter({
-	mode: 'history',
-	base: process.env.BASE_URL,
-	routes,
-    scrollBehavior () {
-		return { x: 0, y: 0 }
-	}
-})
+  mode: "history",
+  base: process.env.BASE_URL,
+  routes,
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  },
+});
 
-export default router
+export default router;

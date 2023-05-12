@@ -1,314 +1,521 @@
 <template>
-	<v-app>
-		<v-overlay
-			:value="overlay"
-			:dark=false
-			:light=true
-			:z-index="999"
-		>
-			<PostHomete
-				v-on:overlay='noticeVisible'
-				v-on:postAlert='alertPostVisible'
-			/>
-		</v-overlay>
-		<v-container fluid class="mainContainer mx-auto">
-			<v-expand-transition>
-				<v-alert
-					v-show="alertPost"
-					color="primary"
-					text
-					type="success"
-					class="alertSucess"
-				>
-					投稿しました!
-				</v-alert>
-			</v-expand-transition>
-			<v-expand-transition>
-				<v-alert
-					v-show="alertLogin"
-					color="green lighten-2"
-					text
-					type="success"
-					class="alertSucess"
-				>
-					おかえりなさい
-				</v-alert>
-			</v-expand-transition>
-			<v-expand-transition>
-				<v-alert
-					v-show="alertLogout"
-					color="red accent-2"
-					text
-					type="success"
-					class="alertSucess"
-				>
-					ログアウトが完了しました
-				</v-alert>
-			</v-expand-transition>
-			<v-row justify="center" class="mx-auto">
-				<v-col
-					cols="2"
-					class="d-none d-sm-block ma-0 pa-0 leftMenu"
-				>
-					<SideMenu
-						class="leftMenuContent"
-						v-on:overlay='overlayCard'
-						v-on:logout="distinctLoginCheck"
-						v-if="distinctLogin"
-					/>
-					<NoLoginSideMenu
-						class="leftMenuContent"
-						v-else
-					/>
-				</v-col>
-
-				<v-app-bar
-					elevation=0
-					color=rgba(255,255,255,0.9)
-					dense
-					app
-					class="topMenu"
-					v-if="this.$vuetify.breakpoint.width < 500"
-				>
-					<v-app-bar-nav-icon
-						@click="drawer = true"
-						x-large
-						class="navButton"
-					></v-app-bar-nav-icon>
-
-					<v-btn
-						elevation=3
-						fab
-						color="white"
-						icon
-						class="postButton"
-						@click="overlay = true"
-					>
-						<v-icon>
-							mdi-pen-plus
-						</v-icon>
-					</v-btn>
-				</v-app-bar>
-				<v-navigation-drawer
-					v-model="drawer"
-					app
-					touchless
-					v-bind:width="150"
-					v-if="this.$vuetify.breakpoint.width < 500"
-
-				>
-					<SideMenu
-						class="leftMenuContent"
-						v-on:overlay='overlayCard'
-						v-on:logout="distinctLoginCheck"
-						v-if="distinctLogin"
-					/>
-					<NoLoginSideMenu
-						class="leftMenuContent"
-						v-else
-					/>
-				</v-navigation-drawer>
-
-				<v-divider vertical class="d-none d-sm-block"></v-divider>
-
-				<v-col
-					cols="12"
-					sm="8"
-					md="8"
-					class="subContainer virtualScrollBar"
-					v-scroll="onScroll"
-				>
-					<DisplayHomete 
-						v-for="post in posts"
-						:key="post.post_id"
-						:postList="post"
-						:distinctLogin="distinctLogin"
-					/>
-				</v-col>
-
-				<v-divider vertical class="d-none d-sm-block"></v-divider>
-        
-				<v-col md="2" class="hidden-sm-and-down ma-0 pa-0 mt-auto mr-1 rightMenu">
-					
-				</v-col>
-			</v-row>
-		</v-container>
-	</v-app>
+  <v-app id="artBoard" style="background-color: rgb(255, 248, 225)">
+    <Header ref="header" />
+    <Login />
+    <DeletePost />
+    <ReportPost />
+    <transition name="fade">
+      <div id="formOverlay" v-show="displayPostForm" @click="closeForm">
+        <transition name="slide-y-reverse">
+          <div
+            ref="postFormCard"
+            id="postFormOverlayCard"
+            v-show="displayPostForm"
+            @click.stop
+          >
+            <div
+              ref="postFormDraggable"
+              id="draggableShape"
+              @click="closeForm"
+              v-touch="{
+                down: function () {
+                  swipeOverlayObserve();
+                },
+              }"
+            >
+              <div id="draggableInner"></div>
+            </div>
+            <PostForm />
+          </div>
+        </transition>
+      </div>
+    </transition>
+    <transition name="fade">
+      <div id="formOverlay" v-show="displayTwemojiPicker" @click="closePicker">
+        <transition :name="transitionName">
+          <div
+            ref="pickerCard"
+            id="pickerOverlay"
+            v-show="displayTwemojiPicker"
+            @click.stop
+          >
+            <div
+              ref="pickerDraggable"
+              id="draggableShape"
+              @click="closePicker"
+              v-touch="{
+                down: function () {
+                  swipeOverlayObserve();
+                },
+              }"
+            >
+              <div id="draggableInner"></div>
+            </div>
+            <TwemojiPicker
+              v-click-outside="closePickerOutSide"
+              @addReaction="addPickerReaction"
+            />
+          </div>
+        </transition>
+      </div>
+    </transition>
+    <div>
+      <TopAlert />
+      <BottomAlert />
+      <v-row
+        id="contentsFlex"
+        justify="center"
+        class="mx-auto my-auto"
+        no-gutters
+      >
+        <v-col cols="3" class="d-none d-sm-block">
+          <LeftMenu class="SideMenuFixed" />
+        </v-col>
+        <!-- メニューが表示されているときはslideTopXActiveクラスによってスライドする -->
+        <v-col
+          id="slideTopX"
+          ref="scrollPosts"
+          cols="12"
+          sm="9"
+          md="6"
+          lg="5"
+          v-touch="{
+            right: function () {
+              swipePostObserve();
+            },
+          }"
+        >
+          <div v-show="switchPosts" class="loader">
+            <div class="loader-inner ball-pulse-sync">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+          <PostContents
+            v-if="contentsKey == 'timeline'"
+            :key="contentsKey"
+            :updatePost="updatePost"
+            @switchingPosts="switchPosts = $event"
+          />
+          <PostContents
+            v-if="contentsKey == 'history'"
+            :channel="contentsKey"
+            :key="contentsKey"
+            :updatePost="updatePost"
+            @switchingPosts="switchPosts = $event"
+          />
+        </v-col>
+        <div id="postBtnFloat" ref="postBtn">
+          <v-btn
+            class="d-md-none"
+            style="background-color: rgb(225 255 255)"
+            elevation="3"
+            fab
+            icon
+            rounded
+            @click="onClickPostBtn"
+          >
+            <v-icon color="rgb(73,72,84)"> {{ mdiPenPlus }} </v-icon>
+          </v-btn>
+        </div>
+        <v-col cols="3" class="d-none d-md-block">
+          <RightMenu class="SideMenuFixed" />
+        </v-col>
+      </v-row>
+    </div>
+    <Footer />
+  </v-app>
 </template>
-<style>
-	.mainContainer{
-		max-width: 1200px;
-		width: 100%;
-		height: 100%;
-	}
-	.subContainer{
-		width: 100%;
-	}
-	.leftMenu{
-		width: 115pt;
-		min-width: 115pt;
-		max-width: 115pt;
-		flex: none;
-	}
-	.leftMenuContent{
-		position: sticky;
-		top: 0px;
-	}
-	.rightMenu{
-		min-width: 115pt;
-	}
-	.topMenu{
-		width: 100vw;
-		min-width: 100vw;
-		max-width: 100vw;
-		flex: none;
-		margin: 0;
-		padding: 0;
-	}
-	.postButton{
-		position: absolute;
-		margin-top: 170vh;
-		margin-left: 75vw;
-		background-color: #1DA1F2;
-	}
-	.navButton{
-		margin-right: auto;
-		margin-top: auto;
-		margin-bottom: auto;
-	}
-	.virtualScrollBar{
-		overflow: auto;
-		/* IE, Edge 対応 */
-		-ms-overflow-style: none;
-		/* Firefox 対応 */
-		scrollbar-width: none;
-	}
-	/* Chrome, Safari 対応 */
-	.virtualScrollBar::-webkit-scrollbar {
-		display:none;
-	}
-	.alertSucess{
-		width: 90%;
-		margin-right: auto;
-		margin-left: auto;
-	}
+<style lang="scss">
+@media (max-width: map-get($grid-breakpoints, md)) {
+  #pickerOverlay {
+    bottom: 30px;
+    width: 100vw;
+    position: relative;
+    z-index: 999;
+  }
+  #formOverlay {
+    align-items: flex-end;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    justify-content: center;
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(33, 33, 33, 0.46);
+    overflow: hidden;
+  }
+}
+@media (min-width: map-get($grid-breakpoints, md)) {
+  #formOverlay {
+    z-index: 5;
+  }
+}
+@media (min-width: map-get($grid-breakpoints, sm)) {
+  // sm 以上のブレークポイントでのスタイル定義
+  #postFormOverlayCard {
+    bottom: 30px;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  // sm 以下のブレークポイントでのスタイル定義
+  #postFormOverlayCard {
+    bottom: 50px;
+  }
+}
+body {
+  padding: 0;
+  touch-action: auto;
+}
+.v-menu__content {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+}
+#artBoard {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: "M PLUS Rounded 1c", sans-serif;
+}
+#contentsFlex {
+  width: 100%;
+  flex-wrap: nowrap;
+}
+.SideMenuFixed {
+  top: 0;
+  flex-wrap: nowrap;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  justify-content: center;
+}
+
+#slideTopX {
+  transition: all 0.4s !important;
+  z-index: 0;
+  position: relative;
+  top: 10vh;
+  min-height: 100vh;
+}
+
+#postBtnFloat {
+  position: fixed;
+  inset: auto 30px 60px auto;
+  transition: all 0.4s !important;
+  z-index: 0;
+}
+#postBtnFloat span i {
+  color: whitesmoke;
+}
+#postFormOverlayCard {
+  width: 100vw;
+  position: relative;
+  z-index: 999;
+}
+#postFormOverlayCard #formTxtCard {
+  margin: 0 !important;
+  padding: 0 !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
+}
+#draggableShape {
+  width: 100%;
+  height: 250px;
+  position: absolute;
+  z-index: 9999;
+  top: -235px;
+  display: flex;
+  justify-content: center;
+}
+#draggableInner {
+  width: 60px;
+  height: 5px;
+  border-radius: 10px;
+  background-color: rgba(230, 230, 230, 0.75);
+  margin-top: auto;
+  margin-bottom: 20px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter,
+.fade-leave-to {
+  will-change: opacity;
+  opacity: 0;
+}
+.slide-y-reverse-enter-active {
+  transition: all 0.2s;
+}
+.slide-y-reverse-leave-active {
+  transition: all 0.4s;
+}
+.slide-y-reverse-enter,
+.slide-y-reverse-leave-to {
+  will-change: auto;
+  transform: translateY(100%);
+}
+.slide-y-reverse-leave,
+.slide-y-reverse-enter-to {
+  will-change: transform;
+  transform: translateY(0%);
+}
+
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+}
+.loader-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@-webkit-keyframes ball-pulse-sync {
+  33% {
+    -webkit-transform: translateY(10px);
+    transform: translateY(10px);
+  }
+  66% {
+    -webkit-transform: translateY(-10px);
+    transform: translateY(-10px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes ball-pulse-sync {
+  33% {
+    -webkit-transform: translateY(10px);
+    transform: translateY(10px);
+  }
+  66% {
+    -webkit-transform: translateY(-10px);
+    transform: translateY(-10px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+.ball-pulse-sync > div:nth-child(1) {
+  -webkit-animation: ball-pulse-sync 0.6s -0.14s infinite ease-in-out;
+  animation: ball-pulse-sync 0.6s -0.14s infinite ease-in-out;
+}
+
+.ball-pulse-sync > div:nth-child(2) {
+  -webkit-animation: ball-pulse-sync 0.6s -0.07s infinite ease-in-out;
+  animation: ball-pulse-sync 0.6s -0.07s infinite ease-in-out;
+}
+
+.ball-pulse-sync > div:nth-child(3) {
+  -webkit-animation: ball-pulse-sync 0.6s 0s infinite ease-in-out;
+  animation: ball-pulse-sync 0.6s 0s infinite ease-in-out;
+}
+
+.ball-pulse-sync > div {
+  background-color: rgb(154, 159, 229);
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  margin: 0 5px;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  display: inline-block;
+}
 </style>
 
 
 <script>
-import PostHomete from '../components/PostHomete'
-import DisplayHomete from '../components/DisplayHomete'
-import SideMenu  from '../components/SideMenu'
-import NoLoginSideMenu from '../components/NoLoginSideMenu.vue'
-import axios from 'axios'
+import Header from "@/components/header/Header.vue";
+import Footer from "@/components/footer/Footer.vue";
+import TopAlert from "@/components/alerts/TopAlert.vue/";
+import BottomAlert from "@/components/alerts/BottomAlert.vue";
+import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
+import PostContents from "@/components/mainContents/PostContents.vue";
+import RightMenu from "@/components/rightMenu/RightMenu.vue";
+import Login from "@/components/overlays/Login.vue";
+import DeletePost from "@/components/overlays/DeletePost.vue";
+import ReportPost from "@/components/overlays/ReportPost.vue";
+import PostForm from "@/components/util/PostForm.vue";
+import TwemojiPicker from "@/components/util/TwemojiPicker.vue";
 
+import ClickOutside from "vue-click-outside";
+
+import ws from "@/ws-client";
+
+import { mdiPenPlus } from "@mdi/js";
+
+// $grid-breakpoints を JavaScript のオブジェクトとして取得
+const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
 
 export default {
-	name: "Top",
-	data(){
-		return{
-			overlay: false,
-			drawer: false,
-			alertPost: false,
-			alertLogin: false,
-			alertLogout: false,
-			alert: false,
-			distinctLogin: false,
-			posts:[],
-			scrolledBottom: false,
-	}
-	},
-	components: {
-		PostHomete,
-		DisplayHomete,
-		SideMenu,
-		NoLoginSideMenu,
-	},
-	methods: {
-		noticeVisible: function(childOverlay){
-			this.overlay = childOverlay
-		},
-		overlayCard: function(childOverlay){
-			this.overlay = childOverlay
-			this.drawer = false
-		},
-		alertPostVisible: function(childrenAlert){
-			this.alertPost = childrenAlert
-			setTimeout(() => {
-				this.alertPost = false}
-				,3000
-			)
-		},
-		distinctLoginCheck: function(){
-			this.distinctLogin = false
-			localStorage.clear('firstLogin')
-			setTimeout(() => {
-				this.alertLogout = true}
-				,500
-			)
-			setTimeout(() => {
-				this.alertLogout = false}
-				,3000
-			)
-		},
-		onScroll: function(event) {
-			if (this.isFullScrolled(event)) {
-				// 一番下までスクロールした際の処理
-				if(this.scrolledBottom == false){
-					this.scrolledBottom = true
+  name: "Top",
+  components: {
+    LeftMenu,
+    PostContents,
+    RightMenu,
+    Login,
+    DeletePost,
+    ReportPost,
+    TopAlert,
+    BottomAlert,
+    Footer,
+    Header,
+    PostForm,
+    TwemojiPicker,
+  },
+  computed: {
+    logged() {
+      return this.$store.getters.logged;
+    },
+    overlayState() {
+      return this.$store.getters.overlayState;
+    },
+    contentsKey() {
+      return this.$store.getters.contentsKey;
+    },
+    displayPostForm() {
+      return this.$store.getters.displayPostForm;
+    },
+    clickOutSide() {
+      return this.$store.getters.clickOutSide;
+    },
+    displayTwemojiPicker() {
+      return this.$store.getters.displayTwemojiPicker;
+    },
+    transitionName() {
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.md}px)`).matches) {
+        return "slide-y-reverse";
+      }
+      return "fade";
+    },
+    fixedScroll() {
+      if (window.matchMedia(`(max-width: ${gridBreakpoints.md}px)`).matches) {
+        //絵文字ピッカーか投稿フォームが表示されている時にスタイルを付与
+        if (this.displayTwemojiPicker || this.displayPostForm)
+          return {
+            "pointer-events": "none",
+          };
+      }
+      return {};
+    },
+  },
+  data() {
+    return {
+      updatePost: null,
+      currentScrollPosition: 0,
+      switchPosts: false,
+      breakpoint: "",
+      mdiPenPlus,
+    };
+  },
+  directives: {
+    ClickOutside,
+  },
+  methods: {
+    logIn: function () {
+      this.$router.push("/login");
+    },
+    onClickPostBtn() {
+      if (this.logged) {
+        this.$store.dispatch("visiblePostForm");
+      } else {
+        this.plzLogin();
+      }
+    },
+    plzLogin: function () {
+      this.$store.dispatch("visiblePlzLoginOverlay");
+    },
+    closeForm() {
+      this.$store.dispatch("invisiblePostForm");
+    },
+    addPickerReaction(updatePost) {
+      this.updatePost = updatePost;
+    },
+    closePicker() {
+      if (window.matchMedia(`(min-width: ${gridBreakpoints.md}px)`).matches) {
+        if (this.clickOutSide) {
+          this.$store.commit("invisibleTwemojiPicker");
+        } else {
+          this.$store.commit("clickingOutSide", true);
+        }
+      } else {
+        this.$store.commit("invisibleTwemojiPicker");
+      }
+    },
+    closePickerOutSide() {
+      if (window.matchMedia(`(min-width: ${gridBreakpoints.md}px)`).matches) {
+        this.closePicker();
+      }
+    },
+    openMenu() {
+      this.$store.dispatch("visibleMenu");
+    },
+    closeMenu() {
+      this.$store.dispatch("invisibleMenu");
+    },
+    swipePostObserve() {
+      this.openMenu();
+    },
+    swipeOverlayObserve() {
+      this.closeForm();
+      this.closePicker();
+    },
+    closeOverlay() {
+      window.requestAnimationFrame(() => {
+        var currentBreakpoint = this.getCurrentBreakpoint();
+        if (currentBreakpoint !== this.breakpoint) {
+          this.breakpoint = currentBreakpoint;
+          this.closeForm();
+          this.closePicker();
+        }
+      });
+    },
+    getCurrentBreakpoint() {
+      if (window.matchMedia(`(min-width: ${gridBreakpoints.md}px)`).matches) {
+        return "lg";
+      } else {
+        return "md";
+      }
+    },
+  },
+  created() {
+    if (this.logged == false) {
+      this.$store.dispatch("toTimeLine");
+    }
+    this.breakpoint = this.getCurrentBreakpoint();
+  },
+  mounted() {
+    //投稿管理系ステートを全てリセットかける
+    this.$store.commit("deleteUserUpdatePosts");
+    this.$store.commit("deleteUpdatePosts");
 
-					//最終投稿の投稿時間をパラメーターに投稿取得APIを叩く
-					axios.get('/post', {
-							params:{
-								created_at: this.posts[this.posts.length -1].created_at
-							}
-						},{
-							withCredentials: true
-						}
-					).then((res) => {
-						//投稿の追記
-						this.posts = this.posts.concat(res.data)
-						this.scrolledBottom = false
-					}).catch((err) => {
-						console.log(err)
-					})
-				}
-			}
-		},
-		isFullScrolled(event){
-			const adjustmentValue = (event.target.scrollingElement.clientHeight * 1.5)
-			const positionWithAdjustmentValue = event.target.scrollingElement.clientHeight + event.target.scrollingElement.scrollTop + adjustmentValue
-			return positionWithAdjustmentValue >= event.target.scrollingElement.scrollHeight
-		}
-	},
-	created(){
-		if(this.$cookies.isKey("expire") == true){
-			this.distinctLogin = true
-			if(!localStorage.getItem('firstLogin')){
-				setTimeout(() => {
-					this.alertLogin = true}
-					,1500
-				)
-				setTimeout(() => {
-					this.alertLogin = false}
-					,3000
-				)
-			}
-			localStorage.setItem('firstLogin',true)
-		}
-		else{
-			this.distinctLogin = false
-		}
+    window.addEventListener("resize", this.closeOverlay);
 
-		axios.get('/post',{
-				withCredentials: true
-			}
-		).then((res) => {
-			this.posts = res.data
-		}).catch((err) => {
-			console.log(err)
-			}
-		)
-	}
+    //WS接続
+    ws.connect(this);
+  },
+  beforeDestroy() {
+    ws.disconnect();
+    window.removeEventListener("resize", this.closeOverlay);
+  },
 };
 </script>

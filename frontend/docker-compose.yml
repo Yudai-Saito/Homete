@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   vue:
@@ -10,8 +10,16 @@ services:
       - 8080:8080
     volumes:
       - .:/app
+      - /app/node_modules
     working_dir: "/app"
     tty: true
     environment:
-      VUE_APP_API_ENDPOINT: ${VUE_APP_API_ENDPOINT} 
+      VUE_APP_API_ENDPOINT: ${VUE_APP_API_ENDPOINT}
+      VUE_APP_FIRE_BASE_API_KEY: ${VUE_APP_FIRE_BASE_API_KEY}
+      VUE_APP_FIRE_BASE_AUTH_DOMAIN: ${VUE_APP_FIRE_BASE_AUTH_DOMAIN}
+      VUE_APP_FIRE_BASE_PROJECT_ID: ${VUE_APP_FIRE_BASE_PROJECT_ID}
+      VUE_APP_FIRE_BASE_STORAGE_BUCKET: ${VUE_APP_FIRE_BASE_STORAGE_BUCKET}
+      VUE_APP_FIRE_BASE_MESSAGING_SENDER_ID: ${VUE_APP_FIRE_BASE_MESSAGING_SENDER_ID}
+      VUE_APP_FIRE_BASE_APP_ID: ${VUE_APP_FIRE_BASE_APP_ID}
+      VUE_APP_FIRE_BASE_MEASUREMENT_ID: ${VUE_APP_FIRE_BASE_MEASUREMENT_ID}
     entrypoint: npm run serve
