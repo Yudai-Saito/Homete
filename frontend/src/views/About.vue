@@ -34,7 +34,11 @@
             show-arrows
             :mandatory="false"
           >
-            <v-slide-item v-for="n in 5" :key="n" v-slot="{ active, toggle }">
+            <v-slide-item
+              v-for="n in title.length"
+              :key="n"
+              v-slot="{ active, toggle }"
+            >
               <div style="margin-bottom: 17px">
                 <v-card
                   :class="active ? 'activeGroupCard' : 'groupCard'"
@@ -66,19 +70,15 @@
           </v-slide-group>
 
           <v-fade-transition :hide-on-leave="true" mode="in-out">
-            <Explanation v-if="currentDisplay == 1" />
+            <QuestionAnswer v-if="currentDisplay == 1" />
           </v-fade-transition>
 
           <v-fade-transition :hide-on-leave="true" mode="in-out">
-            <QuestionAnswer v-if="currentDisplay == 2" />
+            <UserPolicy v-if="currentDisplay == 2" />
           </v-fade-transition>
 
           <v-fade-transition :hide-on-leave="true" mode="in-out">
-            <UserPolicy v-if="currentDisplay == 3" />
-          </v-fade-transition>
-
-          <v-fade-transition :hide-on-leave="true" mode="in-out">
-            <PrivacyPolicy v-if="currentDisplay == 4" />
+            <PrivacyPolicy v-if="currentDisplay == 3" />
           </v-fade-transition>
         </v-col>
         <v-col cols="3" class="d-none d-md-block"> </v-col>
@@ -191,7 +191,6 @@ import Header from "@/components/header/Header.vue";
 import Footer from "@/components/footer/Footer.vue";
 import LeftMenu from "@/components/leftMenu/LeftMenu.vue";
 import Login from "@/components/overlays/Login.vue";
-import Explanation from "@/components/abouts/Explanation.vue";
 import PrivacyPolicy from "@/components/abouts/PrivacyPolicy.vue";
 import QuestionAnswer from "@/components/abouts/QuestionAnswer.vue";
 import UserPolicy from "@/components/abouts/UserPolicy.vue";
@@ -203,7 +202,6 @@ const gridBreakpoints = { xs: 0, sm: 600, md: 960, lg: 1495, xl: 1904 };
 export default {
   name: "About",
   components: {
-    Explanation,
     PrivacyPolicy,
     QuestionAnswer,
     UserPolicy,
@@ -232,8 +230,8 @@ export default {
       checked: [],
       btnDisable: true,
       currentDisplay: this.aboutState,
-      icon: ["🔍", "🔰", "💡", "📑", "🔒"],
-      title: ["HOMETEとは", "使い方", "Q & A", "利用規約", "プライバシー"],
+      icon: ["🔍", "💡", "📑", "🔒"],
+      title: ["HOMETEとは", "Q & A", "利用規約", "プライバシー"],
     };
   },
   directives: {
